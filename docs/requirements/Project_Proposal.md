@@ -127,5 +127,5 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 
 #### Functional Group 9: Request Management
 * **Process Student Requests:** A centralized dashboard where administrators receive academic petitions, review the attached documents, and update processing statuses (e.g., Approve, Reject, or Under Review). This creates a structured and traceable workflow to resolve student issues quickly without losing any paperwork.
-* #### Functional Group 10: Student Data Administration
+#### Functional Group 10: Student Data Administration
 * **View Student Records:** Administrators have privileged access to search and view detailed student profiles, including personal information, contact details, and academic standing. This is crucial for verifying student identities, contacting families during emergencies, and providing direct support when students encounter system issues.
