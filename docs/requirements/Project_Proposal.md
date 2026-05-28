@@ -3,7 +3,7 @@
 
 ### 3.1. System Use Case Diagram
 
-```
+```mermaid
 flowchart LR
     classDef actor fill:#1f497d,stroke:#0f243e,stroke-width:2px,color:#fff,font-weight:bold,rx:5
     classDef usecase fill:#f2f2f2,stroke:#7f7f7f,stroke-width:1px,color:#000
