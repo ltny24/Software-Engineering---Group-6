@@ -1,6 +1,84 @@
 ## 3. Key Features and Functional Groups
 *Performed by: Lê Thị Như Ý | Reviewed by: Hoàng Trung Kiên | Edited by: Lê Thị Như Ý*
 
+```mermaid
+flowchart LR
+    classDef actor fill:#1f497d,stroke:#0f243e,stroke-width:2px,color:#fff,font-weight:bold,rx:5
+    classDef usecase fill:#f2f2f2,stroke:#7f7f7f,stroke-width:1px,color:#000
+    classDef sysBound fill:none,stroke:#000000,stroke-width:2px,stroke-dasharray: 5 5
+    classDef module fill:#e8eef7,stroke:#1f497d,stroke-width:1px,color:#1f497d,stroke-dasharray: 3 3
+    classDef hiddenCol fill:none,stroke:none
+
+    %% Khai báo Actors
+    ST[" Student"]:::actor
+    TC[" Teaching Staff"]:::actor
+    AD[" Administrator"]:::actor
+
+    %% Khai báo Hệ thống
+    subgraph LMS["University Portal System"]
+        direction LR
+        
+        subgraph Col1[" "]
+            direction TB
+            subgraph M1["User Account"]
+                UC1([Update Profile]):::usecase
+            end
+
+            subgraph M2["Request Processing"]
+                UC2([Submit Academic Requests]):::usecase
+                UC2_1([View Pending Requests]):::usecase
+                UC3([Draft Request via AI]):::usecase
+            end
+
+            subgraph M3["Course Enrollment"]
+                UC4([Register Courses]):::usecase
+                UC5([Get AI Schedule Suggestion]):::usecase
+            end
+
+            subgraph M4["Tracking & Dashboard"]
+                UC6([View Grades & GPA]):::usecase
+                UC7([View Timetable]):::usecase
+                UC8([Track Tuition Fee]):::usecase
+            end
+        end
+
+       
+        subgraph Col2[" "]
+            direction TB
+            subgraph M5["Feedback & Evaluation"]
+                UC9([Submit Survey & Wishlist]):::usecase
+            end
+
+            subgraph M6["Support & FAQ"]
+                UC10([Access FAQs]):::usecase
+            end
+
+            subgraph M7["Staff Operations"]
+                UC11([Register Teaching Availability]):::usecase
+                UC12([View Teaching Schedule]):::usecase
+            end
+
+            subgraph M8["Administration"]
+                UC13([Upload Master Schedule]):::usecase
+                UC14([Manage Class Transfers]):::usecase
+                UC15([Manage Dynamic Forms]):::usecase
+            end
+        end
+    end
+    
+    class LMS sysBound
+    class M1,M2,M3,M4,M5,M6,M7,M8 module
+    class Col1,Col2 hiddenCol
+
+    %% Liên kết Sinh viên
+    ST --> UC1 & UC2 & UC2_1 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9 & UC10
+
+    %% Liên kết Giáo viên
+    TC --> UC1 & UC11 & UC12 & UC10
+
+    %% Liên kết Admin
+    AD --> UC1 & UC13 & UC14 & UC15
+```
 The application is designed to serve three distinct actors: Students, Teaching Staff (CBVC), and Administrators. The system is organized into 9 functional groups to comprehensively streamline academic operations.
 
 ### ACTOR 1: STUDENT 
