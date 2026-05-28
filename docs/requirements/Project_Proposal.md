@@ -3,7 +3,7 @@
 
 ### 3.1. System Use Case Diagram
 
-```mermaid
+```
 flowchart LR
     classDef actor fill:#1f497d,stroke:#0f243e,stroke-width:2px,color:#fff,font-weight:bold,rx:5
     classDef usecase fill:#f2f2f2,stroke:#7f7f7f,stroke-width:1px,color:#000
@@ -55,14 +55,10 @@ flowchart LR
     class LMS sysBound
     class M1,M2,M3,M4,M5,M6,M7,M8,M9 module
 
-    ST --> UC2 & UC2_1 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9
-    ST --> UC1 & UC10
-
-    UC10 <-- TC
-    UC11 & UC12 <-- TC
-
-    UC1 <-- AD
-    UC13 & UC14 & UC15 <-- AD
+    %% Standard links to fix GitHub Lexical Error
+    ST --> UC1 & UC2 & UC2_1 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9 & UC10
+    TC --> UC10 & UC11 & UC12
+    AD --> UC13 & UC14 & UC15
 ```
 
 The system is designed for three main users: Students, Teaching Staff, and Administrators. It is divided into 9 functional groups to make university operations easier to manage.
@@ -70,73 +66,41 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 ### ACTOR 1: STUDENT 
 
 #### Functional Group 1: Profile & Account Management
-* **Student Profile Update:** 
-  * *Functionality:* Allows students to view and update their personal and contact information.
-  * *Value:* Ensures the university always has the correct data to contact students quickly.
+* **Student Profile Update:** This feature allows students to independently manage and update their personal information, contact details, and emergency contacts. Keeping this data current ensures seamless communication between the university and the student, preventing missed announcements or administrative errors.
 
 #### Functional Group 2: Request & Certificate Processing
-* **Application Submission:** 
-  * *Functionality:* Allows students to submit online forms (like transcript requests or leave of absence).
-  * *Value:* Saves time and removes the need for paper forms.
-* **View Pending Requests:** 
-  * *Functionality:* Lets students track the status of their submitted forms (e.g., Pending, Approved, Rejected).
-  * *Value:* Helps students know exactly where their request is without needing to ask the staff.
-* **AI-Assisted Request Drafting:** 
-  * *Functionality:* Uses AI to generate formal request templates based on student keywords.
-  * *Value:* Helps students create professional forms easily and avoids mistakes.
+* **Application Submission:** Students can digitally submit academic petitions (such as transcript requests, grade appeals, or leave of absence) and attach necessary documents directly through the portal. This eliminates the need for physical paperwork and significantly reduces waiting times at the administrative office.
+* **View Pending Requests:** This tracking feature provides a visual dashboard where students can monitor the real-time processing status of their submitted documents (e.g., Pending, Under Review, Approved). It promotes administrative transparency and reduces the need to contact staff for updates.
+* **AI-Assisted Request Drafting:** Using AI, this tool automatically generates formal, properly formatted request letters based on simple keywords or short sentences provided by the student. It helps students express their needs professionally and avoids application rejections due to incorrect formatting.
 
 #### Functional Group 3: Course Enrollment System
-* **Standard & Specialized Course Registration:** 
-  * *Functionality:* Allows students to choose and register for their subjects for the upcoming semester.
-  * *Value:* Gives students control over their own study plan and graduation timeline.
-* **AI-Powered Schedule Suggestion:** 
-  * *Functionality:* Suggests the best study schedule based on the courses the student needs to take.
-  * *Value:* Helps students avoid overlapping classes and saves a lot of planning time.
+* **Standard & Specialized Course Registration:** This core module enables students to browse available subjects, check prerequisite conditions, and self-enroll in classes for the upcoming semester. It gives students full control over their academic progression and graduation timeline.
+* **AI-Powered Schedule Suggestion:** The system analyzes the student's required courses and automatically recommends the most optimal weekly timetable. This smart feature helps students easily avoid overlapping classes, balances their workload, and saves significant time in manual planning.
 
 #### Functional Group 4: Academic & Financial Management
-* **Grade Viewing & GPA Calculation:** 
-  * *Functionality:* Shows detailed subject scores and automatically calculates the cumulative GPA.
-  * *Value:* Helps students easily track their learning progress.
-* **Timetable & Exam Scheduling:** 
-  * *Functionality:* Displays a personal calendar with class times, room numbers, and exam dates.
-  * *Value:* Keeps students organized so they don't miss any classes or exams.
-* **Tuition Fee Tracking:** 
-  * *Functionality:* Shows the tuition fee balance, payment history, and deadlines.
-  * *Value:* Helps students and parents plan their finances and pay on time.
+* **Grade Viewing & GPA Calculation:** Students can access a detailed breakdown of their academic performance, including midterms, assignments, and final scores. The system also displays an automatically updated cumulative GPA to help students closely track their learning progress.
+* **Timetable & Exam Scheduling:** This feature aggregates all registered courses and upcoming exams into a clear, personalized calendar. It displays exact class times and room locations, keeping students organized so they never go to the wrong room or miss an exam.
+* **Tuition Fee Tracking:** Users can view a comprehensive breakdown of their financial status, including tuition balances, applied scholarships, payment history, and impending deadlines. This financial transparency helps students and their families plan their payments effectively.
 
 #### Functional Group 5: Feedback & Evaluation
-* **Surveys & Course Wishlist:** 
-  * *Functionality:* Lets students evaluate courses and suggest subjects they want to study next.
-  * *Value:* Gives the university useful feedback to improve teaching quality and plan future classes.
+* **Surveys & Course Wishlist:** Students can evaluate their courses at the end of the semester and suggest specific elective subjects they wish to take in the future. This provides the university with valuable feedback to improve teaching quality and helps forecast class demand accurately.
 
 #### Functional Group 6: Support & FAQ
-* **Centralized FAQ Access:** 
-  * *Functionality:* Provides a list of common questions and answers about university rules.
-  * *Value:* Helps students find answers instantly without waiting for the support team.
+* **Centralized FAQ Access:** A comprehensive, searchable library containing common questions and answers about university policies, academic rules, and IT support. This allows students to find instant solutions independently without waiting for helpdesk responses.
 
 
 ### ACTOR 2: TEACHING STAFF 
 
 #### Functional Group 7: Staff Teaching Operations
-* **Teaching Availability Registration:** 
-  * *Functionality:* Allows teachers to register their free time and preferred teaching schedule.
-  * *Value:* Helps the school arrange schedules that fit the teachers' availability.
-* **Instructor Schedule Management:** 
-  * *Functionality:* Shows the teacher's final schedule, including class lists and room locations.
-  * *Value:* Helps teachers prepare well for their classes.
+* **Teaching Availability Registration:** Lecturers can securely log in to declare their free time, preferred teaching days, and campus preferences before the new semester begins. This helps the administration create a master schedule that respects the teachers' research and personal commitments.
+* **Instructor Schedule Management:** Teachers can access their finalized weekly timetables, complete with student class lists and assigned room locations. This ensures instructors have all the necessary logistical information to prepare well for their daily lectures.
 
 
 ### ACTOR 3: ADMINISTRATOR 
 
 #### Functional Group 8: Administrative Class Control
-* **Master Schedule Uploading:** 
-  * *Functionality:* Allows admins to upload the whole university's timetable and exam schedule.
-  * *Value:* Ensures all departments and users follow a synchronized academic schedule and avoids scheduling errors.
-* **Student Class Transfer Management:** 
-  * *Functionality:* Lets admins move students between classes to fix schedule conflicts.
-  * *Value:* Gives admins the flexibility to manage unexpected situations and balance class sizes.
+* **Master Schedule Uploading:** Administrators can upload and manage the global academic calendar, exam periods, and entire course offerings. This keeps all students and staff synchronized under one centralized timeline and prevents scheduling conflicts across departments.
+* **Student Class Transfer Management:** This tool gives administrators the flexibility to manually move students between different class sections. It is essential for resolving unexpected scheduling conflicts, handling special cases, and balancing class sizes effectively.
 
 #### Functional Group 9: Request Management
-* **Process Student Requests:** 
-  * *Functionality:* Provides a dashboard for admins to receive, review, and update the status of student requests (Approve, Reject, or Under Review).
-  * *Value:* Makes it easy for the staff to manage documents and resolve student issues quickly.
+* **Process Student Requests:** A centralized dashboard where administrators receive academic petitions, review the attached documents, and update processing statuses (e.g., Approve, Reject, or Under Review). This creates a structured and traceable workflow to resolve student issues quickly without losing any paperwork.
