@@ -42,6 +42,7 @@ flowchart LR
         subgraph M7["Staff Operations"]
             UC11([Register Teaching Availability]):::usecase
             UC12([View Teaching Schedule]):::usecase
+            UC16([View Salary Details]):::usecase
         end
         subgraph M8["Admin Class Control"]
             UC13([Upload Master Schedule]):::usecase
@@ -50,18 +51,40 @@ flowchart LR
         subgraph M9["Request Management"]
             UC15([Process Student Requests]):::usecase
         end
+        subgraph M10["Student Data Administration"]
+            UC17([View Student Records]):::usecase
+        end
     end
     
     class LMS sysBound
-    class M1,M2,M3,M4,M5,M6,M7,M8,M9 module
+    class M1,M2,M3,M4,M5,M6,M7,M8,M9,M10 module
 
-    %% Standard links to fix GitHub Lexical Error
-    ST --> UC1 & UC2 & UC2_1 & UC3 & UC4 & UC5 & UC6 & UC7 & UC8 & UC9 & UC10
-    TC --> UC10 & UC11 & UC12
-    AD --> UC13 & UC14 & UC15
+    %% Explicit Links for Student (Mũi tên xuôi)
+    ST --> UC1
+    ST --> UC2
+    ST --> UC2_1
+    ST --> UC3
+    ST --> UC4
+    ST --> UC5
+    ST --> UC6
+    ST --> UC7
+    ST --> UC8
+    ST --> UC9
+    ST --> UC10
+
+    %% Explicit Links for Teaching Staff (Mũi tên xuôi)
+    TC --> UC10
+    TC --> UC11
+    TC --> UC12
+    TC --> UC16
+
+    %% Explicit Links for Administrator (Mũi tên xuôi)
+    AD --> UC13
+    AD --> UC14
+    AD --> UC15
+    AD --> UC17
 ```
-
-The system is designed for three main users: Students, Teaching Staff, and Administrators. It is divided into 9 functional groups to make university operations easier to manage.
+The system is designed for three main users: Students, Teaching Staff, and Administrators. It is divided into 10 functional groups to make university operations easier to manage.
 
 ### ACTOR 1: STUDENT 
 
@@ -94,7 +117,7 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 #### Functional Group 7: Staff Teaching Operations
 * **Teaching Availability Registration:** Lecturers can securely log in to declare their free time, preferred teaching days, and campus preferences before the new semester begins. This helps the administration create a master schedule that respects the teachers' research and personal commitments.
 * **Instructor Schedule Management:** Teachers can access their finalized weekly timetables, complete with student class lists and assigned room locations. This ensures instructors have all the necessary logistical information to prepare well for their daily lectures.
-
+* **View Salary Details:** This feature allows teaching staff to securely access their monthly payroll information, including basic salary, extra teaching hours remuneration, and tax deductions. A transparent financial dashboard helps instructors track their income accurately without needing to contact the accounting department.
 
 ### ACTOR 3: ADMINISTRATOR 
 
@@ -104,3 +127,5 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 
 #### Functional Group 9: Request Management
 * **Process Student Requests:** A centralized dashboard where administrators receive academic petitions, review the attached documents, and update processing statuses (e.g., Approve, Reject, or Under Review). This creates a structured and traceable workflow to resolve student issues quickly without losing any paperwork.
+* #### Functional Group 10: Student Data Administration
+* **View Student Records:** Administrators have privileged access to search and view detailed student profiles, including personal information, contact details, and academic standing. This is crucial for verifying student identities, contacting families during emergencies, and providing direct support when students encounter system issues.
