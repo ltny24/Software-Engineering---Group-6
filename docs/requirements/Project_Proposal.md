@@ -129,3 +129,52 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 * **Process Student Requests:** A centralized dashboard where administrators receive academic petitions, review the attached documents, and update processing statuses (e.g., Approve, Reject, or Under Review). This creates a structured and traceable workflow to resolve student issues quickly without losing any paperwork.
 #### Functional Group 10: Student Data Administration
 * **View Student Records:** Administrators have privileged access to search and view detailed student profiles, including personal information, contact details, and academic standing. This is crucial for verifying student identities, contacting families during emergencies, and providing direct support when students encounter system issues.
+
+---
+
+# 4. AI-Powered Features
+To improve the overall academic experience, MyUS integrates AI-driven features that simplify administrative procedures and support smarter course registration for students.
+
+## 4.1. AI-Driven Academic Request & Form Assistant
+### 4.1.1. Description
+University administrative procedures are often confusing because students must manually search for forms, submission guidelines, and request formats.
+This feature integrates an NLP-based AI assistant directly into the Student Portal. The workflow includes:
+
+1. Students type a request such as *“appeal my Operating Systems grade”* or *“submit IELTS certificate for exemption”*.
+2. The AI analyzes the input and identifies the intended academic service.
+3. The system recommends the correct form, procedure, and required supporting documents.
+4. After the student selects the related course or request type, the AI retrieves available academic information such as Student ID, Course Name, Lecturer, and Class ID.
+5. A properly formatted draft request is automatically generated for the student to review, edit and submit.
+
+The generated request follows university formatting standards and administrative requirements, helping students complete procedures more efficiently.
+
+### 4.1.2. User Experience Enhancement
+Compared to traditional student portals where students must manually search for procedures, forms, or contact academic staff for support, this feature:
+
+* Provides instant AI-assisted guidance directly inside the portal.
+* Automatically recommends the correct forms and generates standardized request drafts.
+* Reduces submission errors and helps students complete procedures faster.
+* Reduces repetitive communication between students and administrative staff.
+---
+
+## 4.2. AI-Powered Smart Scheduling & Course Recommendation Engine
+### 4.2.1 Description
+Course registration is often stressful because students must manually combine class sections while avoiding schedule conflicts.
+
+This feature uses AI-based scheduling optimization to automatically generate suitable timetables through the following process:
+
+1. The system analyzes the student’s wishlist subjects, curriculum progress, and graduation requirements.
+2. The AI evaluates available class sections and detects scheduling conflicts.
+3. Multiple timetable combinations are optimized based on preferred schedules, class availability, and balanced workload distribution.
+4. Recommended schedules are displayed in a color-coded calendar interface:
+
+   * **Red:** Schedule conflict.
+   * **Yellow:** Valid alternative outside wishlist preferences.
+   * **Green:** Best matching and optimized schedule.
+
+### 4.2.2 User Experience Enhancement
+Compared to conventional course registration systems where students manually arrange schedules, this feature:
+
+* Automatically detects timetable conflicts and generates optimized schedule combinations.
+* Supports smarter class selection, including retaken courses and preferred schedules.
+* Reduces stress and saves time during course registration.
