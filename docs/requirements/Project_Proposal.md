@@ -11,7 +11,6 @@ flowchart LR
     classDef module fill:#e8eef7,stroke:#1f497d,stroke-width:1px,color:#1f497d,stroke-dasharray: 3 3
 
     ST[" Student"]:::actor
-    TC[" Teaching Staff"]:::actor
     AD[" Administrator"]:::actor
 
     subgraph LMS["University Portal System"]
@@ -19,14 +18,13 @@ flowchart LR
         subgraph M1["Profile & Account"]
             UC1([Update Profile]):::usecase
         end
-        subgraph M2["Request Processing"]
-            UC2([Submit Academic Requests]):::usecase
-            UC2_1([View Pending Requests]):::usecase
-            UC3([Draft Request via AI]):::usecase
+        subgraph M2["Grade Appeal System"]
+            UC2([Submit Grade Appeal]):::usecase
+            UC3([Track Appeal Status]):::usecase
         end
         subgraph M3["Course Enrollment"]
             UC4([Register Courses]):::usecase
-            UC5([Get AI Schedule Suggestion]):::usecase
+            UC5([AI Learning Path Chatbot]):::usecase
         end
         subgraph M4["Academic & Financial Mgt"]
             UC6([View Grades & GPA]):::usecase
@@ -34,35 +32,29 @@ flowchart LR
             UC8([Track Tuition Fee]):::usecase
         end
         subgraph M5["Feedback & Evaluation"]
-            UC9([Submit Survey & Wishlist]):::usecase
+            UC9([Submit Evaluation Surveys]):::usecase
         end
         subgraph M6["Support & FAQ"]
             UC10([Access FAQs]):::usecase
         end
-        subgraph M7["Staff Operations"]
-            UC11([Register Teaching Availability]):::usecase
-            UC12([View Teaching Schedule]):::usecase
-            UC16([View Salary Details]):::usecase
+        subgraph M7["Admin Data & Class Control"]
+            UC11([Bulk Import Data]):::usecase
+            UC12([Manage Class Transfers]):::usecase
         end
-        subgraph M8["Admin Class Control"]
-            UC13([Upload Master Schedule]):::usecase
-            UC14([Manage Class Transfers]):::usecase
+        subgraph M8["Appeal Management"]
+            UC13([Process Grade Appeals]):::usecase
         end
-        subgraph M9["Request Management"]
-            UC15([Process Student Requests]):::usecase
-        end
-        subgraph M10["Student Data Administration"]
-            UC17([View Student Records]):::usecase
+        subgraph M9["Student Data Administration"]
+            UC14([View Student Records]):::usecase
         end
     end
     
     class LMS sysBound
-    class M1,M2,M3,M4,M5,M6,M7,M8,M9,M10 module
+    class M1,M2,M3,M4,M5,M6,M7,M8,M9 module
 
-    %% Explicit Links for Student (Mũi tên xuôi)
+    %% Explicit Links for Student
     ST --> UC1
     ST --> UC2
-    ST --> UC2_1
     ST --> UC3
     ST --> UC4
     ST --> UC5
@@ -72,33 +64,26 @@ flowchart LR
     ST --> UC9
     ST --> UC10
 
-    %% Explicit Links for Teaching Staff (Mũi tên xuôi)
-    TC --> UC10
-    TC --> UC11
-    TC --> UC12
-    TC --> UC16
-
-    %% Explicit Links for Administrator (Mũi tên xuôi)
+    %% Explicit Links for Administrator
+    AD --> UC11
+    AD --> UC12
     AD --> UC13
     AD --> UC14
-    AD --> UC15
-    AD --> UC17
 ```
-The system is designed for three main users: Students, Teaching Staff, and Administrators. It is divided into 10 functional groups to make university operations easier to manage.
+The system is streamlined to serve two main actors: Students and Administrators. It is organized into 9 functional groups to ensure efficient university operations and data management.
 
 ### ACTOR 1: STUDENT 
 
 #### Functional Group 1: Profile & Account Management
 * **Student Profile Update:** This feature allows students to independently manage and update their personal information, contact details, and emergency contacts. Keeping this data current ensures seamless communication between the university and the student, preventing missed announcements or administrative errors.
 
-#### Functional Group 2: Request & Certificate Processing
-* **Application Submission:** Students can digitally submit academic petitions (such as transcript requests, grade appeals, or leave of absence) and attach necessary documents directly through the portal. This eliminates the need for physical paperwork and significantly reduces waiting times at the administrative office.
-* **View Pending Requests:** This tracking feature provides a visual dashboard where students can monitor the real-time processing status of their submitted documents (e.g., Pending, Under Review, Approved). It promotes administrative transparency and reduces the need to contact staff for updates.
-* **AI-Assisted Request Drafting:** Using AI, this tool automatically generates formal, properly formatted request letters based on simple keywords or short sentences provided by the student. It helps students express their needs professionally and avoids application rejections due to incorrect formatting.
+#### Functional Group 2: Grade Appeal System
+* **Submit Grade Appeal:** Students can digitally submit requests to review their exam grades directly through the portal. This replaces physical paperwork and ensures the request is immediately routed to the academic department.
+* **Track Appeal Status:** A visual dashboard where students can monitor the real-time processing status of their grade appeal (e.g., Pending, Processing, Resolved). The system also clearly displays the deadline for the student to visit the academic office to complete the appeal fee payment.
 
 #### Functional Group 3: Course Enrollment System
 * **Standard & Specialized Course Registration:** This core module enables students to browse available subjects, check prerequisite conditions, and self-enroll in classes for the upcoming semester. It gives students full control over their academic progression and graduation timeline.
-* **AI-Powered Schedule Suggestion:** The system analyzes the student's required courses and automatically recommends the most optimal weekly timetable. This smart feature helps students easily avoid overlapping classes, balances their workload, and saves significant time in manual planning.
+* **AI Learning Path Chatbot:** An intelligent virtual assistant designed to help students navigate their academic roadmap. Based on the student's major and completed credits, the chatbot suggests the most suitable courses to take next, keeping them on track for graduation.
 
 #### Functional Group 4: Academic & Financial Management
 * **Grade Viewing & GPA Calculation:** Students can access a detailed breakdown of their academic performance, including midterms, assignments, and final scores. The system also displays an automatically updated cumulative GPA to help students closely track their learning progress.
@@ -106,28 +91,21 @@ The system is designed for three main users: Students, Teaching Staff, and Admin
 * **Tuition Fee Tracking:** Users can view a comprehensive breakdown of their financial status, including tuition balances, applied scholarships, payment history, and impending deadlines. This financial transparency helps students and their families plan their payments effectively.
 
 #### Functional Group 5: Feedback & Evaluation
-* **Surveys & Course Wishlist:** Students can evaluate their courses at the end of the semester and suggest specific elective subjects they wish to take in the future. This provides the university with valuable feedback to improve teaching quality and helps forecast class demand accurately.
+* **Submit Evaluation Surveys:** At the end of each semester, students can complete structured surveys to evaluate course quality, lecturer performance, and campus facilities. This provides the university with essential data to improve the learning environment.
 
 #### Functional Group 6: Support & FAQ
 * **Centralized FAQ Access:** A comprehensive, searchable library containing common questions and answers about university policies, academic rules, and IT support. This allows students to find instant solutions independently without waiting for helpdesk responses.
 
+### ACTOR 2: ADMINISTRATOR 
 
-### ACTOR 2: TEACHING STAFF 
-
-#### Functional Group 7: Staff Teaching Operations
-* **Teaching Availability Registration:** Lecturers can securely log in to declare their free time, preferred teaching days, and campus preferences before the new semester begins. This helps the administration create a master schedule that respects the teachers' research and personal commitments.
-* **Instructor Schedule Management:** Teachers can access their finalized weekly timetables, complete with student class lists and assigned room locations. This ensures instructors have all the necessary logistical information to prepare well for their daily lectures.
-* **View Salary Details:** This feature allows teaching staff to securely access their monthly payroll information, including basic salary, extra teaching hours remuneration, and tax deductions. A transparent financial dashboard helps instructors track their income accurately without needing to contact the accounting department.
-
-### ACTOR 3: ADMINISTRATOR 
-
-#### Functional Group 8: Administrative Class Control
+#### Functional Group 7: Administrative Class Control
 * **Master Schedule Uploading:** Administrators can upload and manage the global academic calendar, exam periods, and entire course offerings. This keeps all students and staff synchronized under one centralized timeline and prevents scheduling conflicts across departments.
 * **Student Class Transfer Management:** This tool gives administrators the flexibility to manually move students between different class sections. It is essential for resolving unexpected scheduling conflicts, handling special cases, and balancing class sizes effectively.
 
-#### Functional Group 9: Request Management
-* **Process Student Requests:** A centralized dashboard where administrators receive academic petitions, review the attached documents, and update processing statuses (e.g., Approve, Reject, or Under Review). This creates a structured and traceable workflow to resolve student issues quickly without losing any paperwork.
-#### Functional Group 10: Student Data Administration
+#### Functional Group 8: Appeal Management
+* **Process Grade Appeals:** A centralized dashboard where administrators receive and review student grade appeal requests. Admins can update the processing status and input a specific deadline date, notifying the student of exactly when they need to visit the office to pay the required fee.
+
+#### Functional Group 9: Student Data Administration
 * **View Student Records:** Administrators have privileged access to search and view detailed student profiles, including personal information, contact details, and academic standing. This is crucial for verifying student identities, contacting families during emergencies, and providing direct support when students encounter system issues.
 
 ---
