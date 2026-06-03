@@ -70,4 +70,4 @@ Weekly Meeting 2 successfully addressed the required revisions, clearly defined 
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 02/06/2026.
 
-![Proposal Meeting Evidence](/images/0206_online.jpg)
+![Proposal Meeting Evidence](images/0206_online.jpg)
