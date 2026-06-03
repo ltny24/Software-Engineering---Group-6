@@ -2,7 +2,7 @@
 
 **Course:** CSC13002 - Introduction to Software Engineering
 
-**Project Assignment:** PA1
+**Project Assignment:** PA2-2026 (or PA1 Revision)
 
 **Group Name:** High5
 
@@ -26,7 +26,18 @@ This weekly meeting was held to review the instructor/TA feedback on the initial
 
 ### 3.1 Feedback Review & Proposal Editing
 
-The team reviewed the comments on the initial MyUS proposal. We identified areas lacking clarity. The team agreed on the necessary adjustments to ensure the project meets all course requirements.
+The team reviewed the comments on the initial MyUS proposal and agreed on the following specific adjustments to the system features:
+
+* **AI Features & FAQ:** Removed the AI smart scheduling and AI form assistant features. Replaced them with an integrated **AI Chatbot** handling two main functions:
+* **Learning Path:** Analyzes the student's major and completed credits to suggest the most suitable courses for graduation.
+* **FAQ Support:** Replaced the standard searchable FAQ library. The Chatbot will directly answer common questions about university policies, academic rules, and IT support. A static list of common questions will be displayed below the chatbot interface for quick selection.
+
+
+* **Scheduling:** Replaced standard schedule viewing with Google Calendar synchronization.
+* **Course Enrollment:** Removed the "wishlist" feature.
+* **Grade Appeal Workflow:** Updated the system to schedule an appointment date for students to receive their appeal results, removing the appeal fee payment notification. (Administrators upload the result file).
+* **Scope Reduction:** Removed all features and actors related to teaching/lecturers to strictly focus on Students and Administrators.
+* **Document Structure:** Agreed to maintain the structure of placing the Use Case diagram at the top, followed by the detailed functional list.
 
 ## 4. Task Assignment
 
@@ -42,7 +53,7 @@ The team reviewed the comments on the initial MyUS proposal. We identified areas
 
 ## 5. Decisions Made
 
-1. The proposal will be revised immediately based on feedback. Tasks are assigned to the members who originally worked on their respective proposal sections.
+1. The proposal will be revised immediately based on feedback, assigned to the members who originally worked on their respective sections.
 2. Lê Thị Như Ý will manage the SpecKit.
 3. Hồ Thị Như Ngọc will handle the Weekly Report.
 4. All team members must review their assigned sections and the overall documents.
@@ -53,10 +64,10 @@ Next week, the team will finalize the revised proposal, complete the survey desc
 
 ## 7. Conclusion
 
-Weekly Meeting 2 successfully addressed the required revisions and established a clear task assignment for the team.
+Weekly Meeting 2 successfully addressed the required revisions, clearly defined the feature changes, and established a clear task assignment for the team.
 
-##8 Appendix - Evidence
+## 8 Appendix - Evidence
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 02/06/2026.
 
-![Proposal Meeting Evidence](./images/0206_online.jpg)
+![Proposal Meeting Evidence](/images/0206_online.jpg)
