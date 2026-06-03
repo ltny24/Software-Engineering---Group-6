@@ -110,49 +110,28 @@ The system is streamlined to serve two main actors: Students and Administrators.
 
 ---
 
-# 4. AI-Powered Features
-To improve the overall academic experience, MyUS integrates AI-driven features that simplify administrative procedures and support smarter course registration for students.
+# 4. AI-Powered Feature - AI Learning Path Chatbot
+*Performed by: Trần Tường Vi | Reviewed by: Hồ Thị Như Ngọc | Edited by: Trần Tường Vi*
 
-## 4.1. AI-Driven Academic Request & Form Assistant
-### 4.1.1. Description
-University administrative procedures are often confusing because students must manually search for forms, submission guidelines, and request formats.
-This feature integrates an NLP-based AI assistant directly into the Student Portal. The workflow includes:
+To improve the overall academic experience, MyUS integrates an advanced AI-driven  assistant designed to help students navigate their academic roadmap and keep them on track for graduation.
 
-1. Students type a request such as *“appeal my Operating Systems grade”* or *“submit IELTS certificate for exemption”*.
-2. The AI analyzes the input and identifies the intended academic service.
-3. The system recommends the correct form, procedure, and required supporting documents.
-4. After the student selects the related course or request type, the AI retrieves available academic information such as Student ID, Course Name, Lecturer, and Class ID.
-5. A properly formatted draft request is automatically generated for the student to review, edit and submit.
+## 4.1. Feature Description
+Navigating a university curriculum can be overwhelming, especially when balancing prerequisites and graduation timelines. 
 
-The generated request follows university formatting standards and administrative requirements, helping students complete procedures more efficiently.
+This feature integrates an AI-driven chatbot directly into the system to dynamically guide students' academic journeys:
 
-### 4.1.2. User Experience Enhancement
-Compared to traditional student portals where students must manually search for procedures, forms, or contact academic staff for support, this feature:
+**1. Profile & Progress Analysis:** The chatbot automatically retrieves the student's academic transcript to analyze their current major, completed credits, and remaining degree requirements against the official university curriculum standards.
 
-* Provides instant AI-assisted guidance directly inside the portal.
-* Automatically recommends the correct forms and generates standardized request drafts.
-* Reduces submission errors and helps students complete procedures faster.
-* Reduces repetitive communication between students and administrative staff.
----
+**2. Smart Course Suggestion:** By mapping the prerequisite and corequisite constraints, the AI dynamically filters out locked subjects and suggests the most optimal courses to take next based on the student's academic standing.
 
-## 4.2. AI-Powered Smart Scheduling & Course Recommendation Engine
-### 4.2.1 Description
-Course registration is often stressful because students must manually combine class sections while avoiding schedule conflicts.
+**3. Graduation Tracking:** The chatbot continuously simulates different academic pathways and tracks credit accumulation, ensuring students clear milestone requirements and stay on a predictable, optimized timeline for on-time graduation.
 
-This feature uses AI-based scheduling optimization to automatically generate suitable timetables through the following process:
+## 4.2 User Experience Enhancement
 
-1. The system analyzes the student’s wishlist subjects, curriculum progress, and graduation requirements.
-2. The AI evaluates available class sections and detects scheduling conflicts.
-3. Multiple timetable combinations are optimized based on preferred schedules, class availability, and balanced workload distribution.
-4. Recommended schedules are displayed in a color-coded calendar interface:
+Compared to traditional methods where students must manually cross-check curriculum handbooks or wait for appointments with academic advisors, this feature:
 
-   * **Red:** Schedule conflict.
-   * **Yellow:** Valid alternative outside wishlist preferences.
-   * **Green:** Best matching and optimized schedule.
+* Provides 24/7 instant, personalized academic counseling tailored to each student's unique progress.
 
-### 4.2.2 User Experience Enhancement
-Compared to conventional course registration systems where students manually arrange schedules, this feature:
+* Simplifies long-term planning by visualizing clear academic milestones and next steps.
 
-* Automatically detects timetable conflicts and generates optimized schedule combinations.
-* Supports smarter class selection, including retaken courses and preferred schedules.
-* Reduces stress and saves time during course registration.
+* Minimizes the risk of delayed graduation due to missed prerequisite chains or miscalculated credit requirements.
