@@ -112,6 +112,6 @@ Weekly Meeting 1 helped the team divide work clearly for the following week. The
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 27/05/2026.
 
-![Proposal Meeting Evidence](./images/2705_online_1.jpg)
+![Proposal Meeting Evidence](image/2705_online_1.jpg)
 
-![Proposal Meeting Evidence](./images/2705_online.jpg)
+![Proposal Meeting Evidence](image/2705_online.jpg)
