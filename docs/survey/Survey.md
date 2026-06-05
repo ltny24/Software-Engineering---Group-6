@@ -242,31 +242,51 @@ The system provides a categorized catalog that allows users to browse available 
 * Role-based access control (student / staff / admin) — The same login system renders a different interface and feature set depending on the user's role — students see grades and schedules, lecturers see class rosters and grade-entry forms
 
 ## 2. Proposed Improvements in MyUS
-
 ### a. Features That MyUS Will Improve
 
-* <your writing here>
-* <your writing here>
-* <your writing here>
+* MyUS will improve the academic planning experience by helping students understand what courses they should take in each semester. Instead of only showing a list of available courses, the system provides guidance based on the student's current progress, completed subjects, remaining credits, and graduation requirements.
 
+* MyUS will improve the course registration process by reducing confusion when students choose subjects. Students can check prerequisite requirements, course status, credit workload, and possible study plans before making their final registration decisions.
+
+* MyUS will improve student support through an AI-powered chatbot. The chatbot can answer common academic questions, explain course requirements, and suggest a suitable learning path based on each student's academic situation. This helps students receive faster support without always needing to contact academic staff directly.
 ### b. Unique Features of MyUS
 
-* <your writing here>
-* <your writing here>
-* <your writing here>
+* The main unique feature of MyUS is an AI-powered chatbot that suggests personalized learning paths based on the actual course-opening rules of the university. Since the university only opens certain courses for each cohort in each semester, the chatbot can recommend suitable courses from the list of subjects that are realistically available instead of suggesting courses that students cannot register for.
+
+* The chatbot can also support students who need to retake or improve their grades in previous courses. For example, students from an earlier cohort may be allowed to study with a later cohort if the course is opened again. Based on this rule, the chatbot can help students identify which available courses they can retake, which courses should be prioritized, and how those choices affect their future study plan.
+
+* MyUS can help students build a semester plan that follows the maximum course limit. Because students can register for at most six courses in one semester, the chatbot will not suggest an overloaded plan. Instead, it can balance required courses, retake courses, prerequisite courses, and the student's expected graduation timeline to create a more realistic learning path.
+
+* The chatbot does not only give course suggestions, but also explains the reason behind each recommendation. For example, it can explain that a subject should be taken first because it is a prerequisite for later courses, or that a retake course should be prioritized because it may not be opened every semester. This makes the recommendation more transparent and easier for students to trust.
+
+* MyUS allows students to ask questions in a natural way, such as “Which courses should I take next semester?”, “Can I retake this subject with the next cohort?”, “How can I graduate on time?”, or “Which six courses should I choose this semester?”. This makes academic planning more flexible and more suitable for the real registration process at the university.
 
 ## 3. UI/UX Design Decisions
 
 ### a. Patterns to Adopt
 
-* <your writing here>
-* <your writing here>
+* The system should adopt a dashboard-style layout so students can quickly see their academic progress, completed credits, remaining courses, and suggested next actions. This helps students understand their current study situation immediately after logging in.
+
+* The AI chatbot should be easy to access from important pages such as the dashboard, course registration page, and academic progress page. Students should be able to ask for learning path suggestions without leaving their current workflow.
+
+* The chatbot interface should use a simple conversation layout with clear messages, suggested questions, and short explanations. This design helps students who do not know what to ask and makes the AI feature easier to use.
+
+* The system should display chatbot recommendations together with visual academic information, such as prerequisite chains, course groups, credit progress, and semester plans. This helps students verify the chatbot's suggestions instead of blindly following them.
 
 ### b. Patterns to Avoid
 
-* <your writing here>
-* <your writing here>
+* The system should avoid giving AI recommendations without explanations. If the chatbot only tells students what to study next without explaining why, users may not trust the suggestion or may misunderstand their academic plan.
+
+* The system should avoid making the chatbot the only way to access important information. Students should still be able to view course lists, prerequisites, and academic progress manually because not all users want to rely completely on AI.
+
+* The interface should avoid long and complicated chatbot responses. Students usually need quick and clear guidance, so the chatbot should answer in short paragraphs and provide step-by-step suggestions when necessary.
+
+* The system should avoid using too many technical terms in the chatbot. Academic rules such as prerequisites, credits, and graduation conditions should be explained in simple language so that students from all years can understand them.
 
 ## 4. Conclusion
 
-<your writing here>
+MyUS is proposed as an AI-powered academic planning and course registration system for university students, academic staff, and administrators. The system aims to improve the traditional course registration experience by helping students understand their academic progress and make better study decisions.
+
+After revising the original idea, the main AI feature of MyUS is an AI-powered chatbot that suggests personalized learning paths. This chatbot can support students by recommending suitable courses, explaining prerequisite relationships, and helping them plan future semesters based on their current academic situation.
+
+Overall, MyUS is not only a course registration platform but also a smart academic assistant. By combining course registration, academic progress tracking, and AI-based learning path suggestions, the system can provide real value to students and reduce the workload of academic support staff.
