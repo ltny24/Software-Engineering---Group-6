@@ -1,3 +1,59 @@
+# PROJECT PROPOSAL - MyUS 
+
+## 1. Introduction
+
+*Performed by: Hồ Thị Như Ngọc | Reviewed by: Dương Minh Huỳnh Khôi | Edited by: Dương Minh Huỳnh Khôi, Hồ Thị Như Ngọc*
+
+In a university environment, an integrated academic portal is essential for streamlining operations and connecting the institution with its learners. To meet this demand, MyUS is developed as an academic portal with AI integration that fully digitalizes daily administrative and academic activities, establishing a unified workspace for students and administrators. The platform handles comprehensive operations, from tracking grades and calculating GPA to course registration and resolving online grade appeals.
+
+MyUS combines administrative efficiency with a data-driven digital learning environment. Additionally, an integrated chatbot provides learning path recommendations to support students throughout their studies. The platform eliminates paperwork, saves time, and ensures the accuracy and security of educational data. 
+
+---
+
+## 2. Target Users and Environments
+*Performed by: Hoàng Trung Kiên | Reviewed by: Trần Tường Vi | Edited by:*
+
+MyUS is designed to serve three primary user groups within the university, including students and administrators. Each group interacts with the platform through role-specific functionalities suited to their academic or administrative needs.
+
+### 2.1. Target Users
+
+#### Students
+
+Students are the main users of the system. They use MyUS to manage academic activities such as course registration, viewing schedules, tracking grades, monitoring tuition fees, submitting academic requests, and accessing personalized course wishlists. The platform also supports AI-powered features, namely course schedule recommendations for undergraduates.
+
+#### Administrators
+
+Administrators are responsible for maintaining and operating the system. Their tasks include uploading academic schedules, managing forms and requests, handling class transfers, approving student submissions, and monitoring overall system operations.
+
+### 2.2. Operating Environments
+
+MyUS is developed as a web-based application to ensure accessibility and flexibility across multiple platforms and devices.
+
+#### Supported Devices
+
+* Desktop computers
+* Laptops
+* Tablets
+* Smartphones
+
+#### Supported Operating Systems
+
+* Windows
+* macOS
+* Linux
+* Android
+* iOS
+
+#### Supported Platforms and Technologies
+
+* Modern web browsers such as Google Chrome, Microsoft Edge, Mozilla Firefox, and Safari
+* Responsive web interface for both desktop and mobile environments
+* Cloud-based database and server infrastructure for centralized data management
+
+The system is designed to provide a consistent and user-friendly experience across different environments while ensuring data security, reliability, and scalability for future expansion.
+
+---
+
 ## 3. Key Features and Functional Groups
 *Performed by: Lê Thị Như Ý | Reviewed by: Hoàng Trung Kiên | Edited by: Lê Thị Như Ý*
 
