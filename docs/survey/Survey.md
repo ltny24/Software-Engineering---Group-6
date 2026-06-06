@@ -1,5 +1,5 @@
 # C. Existing App Survey
-
+Performed by: Hoàng Trung Kiên, Dương Minh Huỳnh Khôi, Hồ Thị Như Ngọc | Reviewed by: Dương Minh Huỳnh Khôi, Hoàng Trung Kiên | Edited by: Dương Minh Huỳnh Khôi, Hoàng Trung Kiên
 # I. Overview
 
 Our team conducted a survey of several existing university management applications in Vietnam. The purpose of this survey is to analyze their key functionalities, user interfaces, and user workflows; thereby identifying strengths, limitations, and potential opportunities for innovation.
@@ -218,7 +218,6 @@ The system provides a categorized catalog that allows users to browse available 
 ---
 
 # V. Comparison and Insights
-
 ## 1. Common Features
 
 ### a. Shared Functionalities
