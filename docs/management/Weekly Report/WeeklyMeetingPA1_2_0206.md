@@ -2,7 +2,7 @@
 
 **Course:** CSC13002 - Introduction to Software Engineering
 
-**Project Assignment:** PA2-2026 (or PA1 Revision)
+**Project Assignment:** PA1 - Weekly Meeting 2
 
 **Group Name:** High5
 
