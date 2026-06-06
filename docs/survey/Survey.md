@@ -64,7 +64,7 @@ The Course Registration feature allows students to enroll in available courses o
 </div>
 
 <br>
-After registering the desired courses or seminars, students check their enrollment details (including tuition fees and courses enrolled) by clicking "Tra cứu học phí" and "Kết quả ĐKHP" tabs:
+After registering the desired courses or seminars, students check their enrollment details (including tuition fees and courses enrolled) by clicking "Tra cứu học phí" and "Kết quả ĐKHP" tabs.
 
 <br>
 <div align="center">
@@ -87,7 +87,7 @@ To help students prepare for upcoming examinations, the "Xem lịch thi" item in
   <em>Figure 8. HCMUS Portal - Examination schedules.</em>
 </div>
 
-After the examination, results and overall scores will be updated in the "Tra cứu kết quả học tập" tab, which can be accessed and viewed by students:
+After the examination, results and overall scores will be updated in the "Tra cứu kết quả học tập" tab, which can be accessed and viewed by students.
 
 <br>
 <div align="center">
@@ -125,21 +125,21 @@ After successful verification, they can access various academic and administrati
 
 To manage academic aspects, click the "Các tiện ích dành cho người học" in the main dashboard, then a list of management functions will pop up.
 
-One of the functions is Course Demand Survey, which helps the university better understand students' academic needs and allows students to indicate their interest in upcoming courses before the official registration period. The collected responses are used to estimate course demand, support class planning, and optimize resource allocation for future semesters. Click "Ghi danh nhu cầu học" tab and the following page will pop up:
+One of the functions is Course Demand Survey, which helps the university better understand students' academic needs and allows students to indicate their interest in upcoming courses before the official registration period. The collected responses are used to estimate course demand, support class planning, and optimize resource allocation for future semesters. Click "Ghi danh nhu cầu học" tab and the following page will pop up.
 
 <div align="center">
   <img src="UEH/UEH_KhaoSatNhuCauMonHoc.jpg" width="1000"><br>
   <em>Figure 12. UEH Student - Course Demand Survey.</em>
 </div>
 
-Students can also view the timetable, to view the current week's timetable, click "Tra cứu thời khóa biểu" and the following page will appear, which includes the name of the courses and their corresponding schedules:
+Students can also view the timetable, to view the current week's timetable, click "Tra cứu thời khóa biểu" and the following page will appear, which includes the name of the courses and their corresponding schedules.
 
 <div align="center">
   <img src="UEH/UEH_LichHocChiTiet.jpg" width="1000"><br>
   <em>Figure 13. UEH Student - Detailed Timetable.</em>
 </div>
 
-After each semester, students can view the scholarship information in the "Tra cứu học bổng" tab, which shows the currently available scholarships, and the list of scholarship that students have applied for:
+After each semester, students can view the scholarship information in the "Tra cứu học bổng" tab, which shows the currently available scholarships, and the list of scholarship that students have applied for.
 
 <div align="center">
   <img src="UEH/UEH_HocBong.jpg" width="1000"><br>
