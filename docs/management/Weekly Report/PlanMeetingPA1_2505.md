@@ -10,7 +10,7 @@
 
 
 ## 1. Meeting Overview
-Members' Group
+Team members present:
 
 | Student ID | Full Name | Email |
 | --- | --- | --- |
