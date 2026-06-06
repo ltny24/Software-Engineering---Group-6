@@ -106,7 +106,7 @@ The team made the following decisions:
 
 The Sprint Planning Meeting helped the team establish a clear project direction for project. The team selected MyUS as the project topic, discussed advanced features, identified AI-powered functions, and assigned member roles. This meeting created the foundation for the next tasks, including writing the proposal, team contract, weekly report, and existing app survey.
 
-##8. Appendix - Evidence
+## 8. Appendix - Evidence
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 25/05/2026.
 
