@@ -1,11 +1,10 @@
 # Meeting Report 4 - Submission Review Meeting
-Performed by: Hoàng Trung Kiên | Reviewed by: | Edited by: 
 
 **Course:** CSC13002 - Introduction to Software Engineering\
 **Project Assignment:** PA1-2026\
 **Group Name:** High5\
 **Project Name:** MyUS\
-**Meeting Type:** Sprint Planning Meeting\
+**Meeting Type:** Submission Review Meeting\
 **Meeting Date:** 06/06/2026
 
 ## 1. Meeting Overview
@@ -31,8 +30,7 @@ The objectives of this meeting were:
 4. Review the weekly reports.
 5. Change the AI feature according to the teaching assistant's advice and feedback.
 5. Identify challenges in project management and team collaboration.
-6. Finalize documents required for PA1 submission.
-7. Review the PA2 requirements and discuss preparation for the next project milestone.
+6. Review the PA2 requirements and discuss preparation for the next project milestone.
 
 ---
 
