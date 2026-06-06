@@ -28,7 +28,6 @@ The objectives of this meeting were:
 2. Review the existing application survey report.
 3. Review and finalize the team contract.
 4. Review the weekly reports.
-5. Change the AI feature according to the teaching assistant's advice and feedback.
 5. Identify challenges in project management and team collaboration.
 6. Review the PA2 requirements and discuss preparation for the next project milestone.
 
@@ -42,20 +41,7 @@ The team reviewed all PA1 deliverables, including the project proposal, existing
 
 Members provided feedback on document structure, content completeness, and consistency among deliverables. Minor revisions were suggested before final submission.
 
-### 3.2 AI Feature Discussion
-
-The team reviewed the proposed AI-powered feature and decided to replace the previously discussed AI functionalities with an AI Chatbot for academic guidance.
-
-The discussion focused on:
-
-* Whether an AI chatbot is more practical and valuable than the previously proposed AI features.
-* The chatbot's ability to recommend suitable study plans based on a student's academic progress, completed courses, and learning goals.
-* The feasibility of implementing chatbot functionalities within the project timeline.
-* The potential benefits of providing personalized academic advice and improving the student experience.
-
-The team agreed that an AI Chatbot for study plan recommendations is more aligned with the project's objectives and provides a clearer value proposition for students. Therefore, the chatbot will become the primary AI-powered feature of MyUS.
-
-### 3.3 Project Management Challenges
+### 3.2 Project Management Challenges
 
 The team discussed difficulties encountered while using Jira for project management.
 
@@ -63,7 +49,7 @@ The main challenge identified was that several members were not yet familiar wit
 
 The team agreed to spend additional time learning Jira and establishing a consistent workflow for task management.
 
-### 3.4 PA2 Preparation Discussion
+### 3.3 PA2 Preparation Discussion
 
 The team reviewed the PA2 requirements released by the course instructors and discussed the expected deliverables for the next milestone.
 
@@ -79,9 +65,8 @@ The team made the following decisions:
 2. The existing application survey report was reviewed and approved.
 3. The team contract was finalized.
 4. The weekly progress report was reviewed and completed.
-5. The current AI features (Smart Scheduling and Demand Forecasting) will be changed to AI Chatbot for Course Progress Recommendation.
-6. Team members will improve their familiarity with Jira to support better project tracking.
-7. The team will hold a meeting on Sunday (07/06/2026) to discuss further on PA2.
+5. Team members will improve their familiarity with Jira to support better project tracking.
+6. The team will hold a meeting on Sunday (07/06/2026) to discuss further on PA2.
 
 ---
 
@@ -93,7 +78,6 @@ The team made the following decisions:
 | Finalize existing application survey      | All members       | Done        |
 | Finalize team contract                    | All members       | Done        |
 | Finalize weekly progress report           | All members       | Done        |
-| Review AI feature feasibility             | Team Leader       | In Progress |
 | Improve Jira workflow and task management | All members       | In Progress |
 | Prepare for next project milestone        | All members       | In Progress |
 
@@ -103,15 +87,14 @@ The team made the following decisions:
 The team plans to:
 1. Discuss the requirements and task distribution for PA2.
 2. Review PA2 requirements in detail and prepare the necessary materials for the next class session.
-3. Finalize all project features, including the AI chatbot functionality.
-4. Continue tracking project progress and managing tasks using Jira.
+3. Continue tracking project progress and managing tasks using Jira.
 
 ## 7. Conclusion
 
-The meeting focused on reviewing and finalizing the required PA1 deliverables, including the proposal, existing application survey, team contract, and weekly report. The team also discussed project features, AI functionality, and project management challenges. The meeting helped ensure that all submission documents were completed and that the team had a clearer understanding of the next development steps.
+The meeting focused on reviewing and finalizing the required PA1 deliverables, including the proposal, existing application survey, team contract, and weekly report. The team also discussed project management challenges. The meeting helped ensure that all submission documents were completed and that the team had a clearer understanding of the next development steps.
 
 ## 8. Appendix - Evidence
 
-The following screenshot shows evidence of the Sprint Planning Meeting on 25/05/2026.
+The following screenshot shows evidence of the Sprint Planning Meeting on 06/06/2026.
 
 ![Sprint Planning Meeting Evidence](./evidence/0606_online.png)
