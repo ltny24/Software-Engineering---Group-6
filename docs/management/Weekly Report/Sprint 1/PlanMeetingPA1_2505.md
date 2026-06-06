@@ -110,4 +110,4 @@ The Sprint Planning Meeting helped the team establish a clear project direction 
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 25/05/2026.
 
-![Sprint Planning Meeting Evidence](/evidence/2505_online.jpg)
+![Sprint Planning Meeting Evidence](evidence/2505_online.jpg)
