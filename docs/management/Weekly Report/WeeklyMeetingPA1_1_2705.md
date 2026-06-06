@@ -70,7 +70,6 @@ These features will be refined later in the project proposal.
 ## 4. Task Assignment
 
 ## Task Assignment
-## Task Assignment
 
 | For | Task Name | Task Description | Person in Charge | Reviewer | Requirement | Deadline |
 |---|---|---|---|---|---|---|
