@@ -9,6 +9,15 @@
 
 ## 1. Meeting Overview
 
+Team members present:
+
+| Student ID | Full Name | Email |
+| --- | --- | --- |
+| 24127089 | Hồ Thị Như Ngọc | htnngoc2418@clc.fitus.edu.vn |
+| 24127192 | Dương Minh Huỳnh Khôi | dmhkhoi2402@clc.fitus.edu.vn |
+| 24127194 | Hoàng Trung Kiên | htkien2415@clc.fitus.edu.vn |
+| 24127586 | Trần Tường Vi | ttvi2416@clc.fitus.edu.vn |
+| 24127595 | Lê Thị Như Ý | ltny2424@clc.fitus.edu.vn |
 
 This weekly meeting was held to review the initial project direction and divide the work for the following week. The team focused on assigning PA1 tasks, including the project proposal, team contract, weekly report, and feature definition for the MyUS portal.
 
