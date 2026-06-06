@@ -117,7 +117,7 @@ Next week, the team will complete all assigned PA1 tasks, review the documents, 
 
 Weekly Meeting 1 helped the team divide work clearly for the following week. The team confirmed the main documents required for PA1 and assigned tasks to each member. The team also identified the initial feature groups of MyUS, which will be used to complete the project proposal.
 
-##9 Appendix - Evidence
+## 9 Appendix - Evidence
 
 The following screenshot shows evidence of the Sprint Planning Meeting on 27/05/2026.
 
