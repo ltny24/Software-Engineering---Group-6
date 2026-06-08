@@ -1,0 +1,111 @@
+# API Contracts: MyUS University Portal System
+
+## Authentication
+
+- `POST /api/auth/login`
+  - request: `{ username, password }`
+  - response: `{ accessToken, tokenType, expiresIn, user: { id, role } }`
+
+- `POST /api/auth/logout`
+  - request: auth token
+  - response: `{ message }`
+
+## Student Profile
+
+- `GET /api/students/me`
+  - response: student profile data
+
+- `PUT /api/students/me`
+  - request: profile update fields
+  - response: updated profile
+
+## Grade Appeal
+
+- `POST /api/appeals`
+  - request: `{ gradeId, reason, supportingDocumentUrl }`
+  - response: created appeal
+
+- `GET /api/appeals/me`
+  - response: list of student appeals
+
+- `GET /api/appeals/{appealId}`
+  - response: appeal details and status
+
+- `PUT /api/appeals/{appealId}/process`
+  - request: `{ status, reviewerComments }`
+  - response: updated appeal
+
+## Course Enrollment
+
+- `GET /api/courses`
+  - response: available courses and offerings
+
+- `POST /api/registrations`
+  - request: `{ offeringId }`
+  - response: registration confirmation
+
+- `GET /api/registrations/me`
+  - response: student timetable and enrollment records
+
+## GPA & Academic Records
+
+- `GET /api/grades/me`
+  - response: grade summary and GPA
+
+- `GET /api/academic-records/me`
+  - response: transcript and cumulative records
+
+## Timetable
+
+- `GET /api/timetable/me`
+  - response: class schedule and exam schedule
+
+## Tuition Tracking
+
+- `GET /api/tuition/me`
+  - response: balance, payments, scholarship details
+
+## Survey System
+
+- `GET /api/surveys`
+  - response: available surveys
+
+- `POST /api/surveys/{surveyId}/responses`
+  - request: survey answers
+  - response: submission confirmation
+
+## FAQ System
+
+- `GET /api/faqs`
+  - response: FAQ articles and search results
+
+## Student Administration
+
+- `GET /api/admin/students`
+  - request: optional search filters
+  - response: list of student records
+
+- `POST /api/admin/import`
+  - request: bulk import file payload
+  - response: import job status and validation details
+
+## Class Management
+
+- `GET /api/admin/transfers`
+  - response: class transfer requests
+
+- `POST /api/admin/transfers/{transferId}`
+  - request: `{ status, reviewerComments }`
+  - response: updated transfer request
+
+## AI Learning Path Chatbot
+
+- `POST /api/chatbot/recommendations`
+  - request: `{ studentId, context }`
+  - response: recommended courses and progress guidance
+
+## Security Contract Notes
+
+- All protected endpoints require `Authorization: Bearer <token>`.
+- Role-based access is enforced on `/api/admin/*` and student-specific resources.
+- API responses must omit sensitive financial or academic details for unauthorized users.
