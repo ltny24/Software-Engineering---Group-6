@@ -1,11 +1,12 @@
 # AI Usage Log Report
+*Performed by: Trần Tường Vi | Reviewed by: Hoàng Trung Kiên | Edited by: Trần Tường Vi*
 
 **Course:** CSC13002 - Introduction to Software Engineering  
 **Project Assignment:** PA2-2026  
 **Group Name:** High5  
 **Project Name:** MyUS  
 **Document Type:** AI Usage Log\
-**Date:** 08/07/2026
+**Date:** 
 
 ---
 
