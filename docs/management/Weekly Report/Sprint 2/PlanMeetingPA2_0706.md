@@ -66,7 +66,7 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 | --- | --- | --- | --- | --- | --- | --- |
 | Spec Kit | Complete all | Complete `constitution.md` after review | Lê Thị Như Ý | Trần Tường Vi |  | 14/06/2026 |
 | Spec Kit | Summary and review  | Each member self-summarizes and reviews their Spec Kit section | Remaining members | Lê Thị Như Ý |  | 10/06/2026 |
-| AI Usage Report & Weekly Report | AI Usage & Weekly Report | Document AI tool usage log and conduct sprint meeting reports | Trần Tường Vi | Hoàng Trung Kiên | Put in Management | 14/06/2026 |
+| AI Usage Report (Draft) & Weekly Report | AI Usage & Weekly Report | Document AI tool usage log (draft) and conduct sprint meeting reports | Trần Tường Vi | Hoàng Trung Kiên | Put in Management | 14/06/2026 |
 | Project Plan | Sections 1, 2, 3 | Introduction, Project Overview, and Project Organization (team roles & risk management) | Trần Tường Vi | Hoàng Trung Kiên | Put in Management | 14/06/2026 |
 | Project Plan | Section 4 | Detailed 5-sprint roadmap, schedule, and build plan | Hồ Thị Như Ngọc | Lê Thị Như Ý | Put in Management | 14/06/2026 |
 | Vision Document | Sections 1, 2 | Introduction and Positioning (Problem Statement, Product Position Statement) | Trần Tường Vi | Hoàng Trung Kiên | Put in Requirement | 14/06/2026 |
