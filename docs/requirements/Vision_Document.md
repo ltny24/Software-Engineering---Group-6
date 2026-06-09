@@ -1,3 +1,51 @@
+# VISION DOCUMENT - MyUS
+
+## 1. Introduction
+*Performed by: Trần Tường Vi | Reviewed by: Hoàng Trung Kiên | Edited by: Trần Tường Vi*
+
+This Vision Document defines the purpose, scope, and direction of **MyUS** — an AI-integrated academic portal for university environments. 
+
+It covers the problem being solved and product positioning, , stakeholder and user descriptions including existing alternatives, product perspective and assumptions, detailed feature descriptions with workflow diagrams, and measurable non-functional requirements.
+
+### References
+
+| Document | Description |
+|---|---|
+| Project Proposal (PA1) | Initial feature overview, target users, and AI feature description |
+| PA1 Sprint Planning Meeting (25/05/2026) | Initial project direction, feature brainstorm, and role assignment |
+| Weekly Meeting 1 (27/05/2026) | Task division and initial feature list |
+| Weekly Meeting 2 (02/06/2026) | Proposal revisions based on TA feedback — scope reduction, chatbot redesign |
+| PA2 Sprint Planning Meeting (07/06/2026) | Technical stack decisions and PA2 task breakdown |
+
+---
+
+## 2. Positioning
+*Performed by: Trần Tường Vi | Reviewed by: Hoàng Trung Kiên | Edited by: Trần Tường Vi*
+
+### 2.1 Problem Statement
+
+| Field | Description |
+|---|---|
+| **The problem of** | Fragmented and paper-based academic management processes in universities, where students must manually track grades, submit physical forms for grade appeals, cross-check curriculum handbooks for course planning, and wait for in-person appointments with academic advisors. |
+| **Affects** | University students who struggle to manage their academic progress efficiently, and administrators who spend significant time processing manual requests, managing schedules, and maintaining student records across disconnected systems. |
+| **The impact of which is** | Wasted time and effort for both students and staff, a higher risk of administrative errors, delays in processing academic requests, and an increased likelihood of students missing prerequisites or misplanning their graduation timeline. |
+| **A successful solution would be** | A centralized, web-based academic portal that digitalizes all key student-facing and administrative workflows, including course registration, grade management, grade appeals, tuition tracking, and integrates an AI-powered chatbot that proactively guides students through their academic roadmap based on their individual progress. |
+
+### 2.2 Product Position Statement
+
+| Field | Description |
+|---|---|
+| **For** | Students and administrators at universities. |
+| **Who** | Need a unified, digital platform to manage academic and administrative tasks efficiently. |
+| **The product name** | MyUS |
+| **That** | Provides a centralized portal for course registration, grade tracking, tuition management, grade appeals, and AI-powered academic advising, all accessible from any device via a modern web browser. |
+| **Unlike** | Existing university portals, which provide core academic features but offer no personalized guidance, require physical paperwork for processes like grade appeals, and do not support AI-driven academic planning. |
+| **Our product** | Integrates all core academic workflows into a single platform with role-specific interfaces for students and administrators, and features an AI Learning Path Chatbot that recommends courses based on each student's completed credits and degree requirements. It helps reducing the risk of delayed graduation and eliminating reliance on manual advising. |
+
+---
+
+
+
 ## 5. Product Features
 *Performed by: Lê Thị Như Ý | Reviewed by: Trần Tường Vi | Edited by: Lê Thị Như Ý*
 
