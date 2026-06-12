@@ -16,7 +16,7 @@ My training focused on the initial technical scaffolding of the Spec Kit environ
 By executing the initialization commands within the VS Code terminal, I observed how the toolkit scaffolds the project workspace from scratch. My main takeaway was understanding the critical role of the initial setup phase before any AI generation occurs. The process generates a foundational `constitution.md` file, which acts as the ultimate rulebook for the AI agent. I learned that by strictly dictating coding conventions, technology stacks, and architectural boundaries in this file, we can prevent the AI from hallucinating incorrect frameworks (e.g., using Vue instead of React) during the later implementation phases.
 
 **Evidence:**
-*(Please insert screenshot showing the VS Code terminal running `uv tool` or the initialized `constitution.md`)*
+
 ![Summary evidence](evidence/Y_evidence_SK_1.png)
 
 ---
