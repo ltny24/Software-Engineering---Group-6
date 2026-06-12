@@ -9,11 +9,12 @@ Starting from an empty `/src` folder, I ran the Spec Kit init command in a VS Co
 - **`.github/prompts/`**: slash-command prompt files for each Spec Kit command.
 
 At this stage, only the structure and prompts existed — no real content yet.
+
 ![Summary evidence](evidence/Vi_evidence_SK_1.jpg)
 
 ## 2. Spec Kit Commands and Their Functions
 
-After switching Copilot Chat to Agent mode, I ran each command in order:
+Each Spec Kit command serves a distinct purpose in the workflow:
 
 - **`/speckit.constitution`**: Defines the project's core principles, coding conventions, and quality standards, and writes them into `constitution.md`.
 - **`/speckit.specify`**: Generates a feature specification from a plain-language description.
@@ -22,6 +23,7 @@ After switching Copilot Chat to Agent mode, I ran each command in order:
 - **`/speckit.tasks`**: Breaks the implementation plan into a checklist of specific, ordered development tasks.
 - **`/speckit.analyze`**: Checks consistency, flagging gaps or mismatches before implementation starts.
 - **`/speckit.implement`**: Begins generating actual code based on the tasks.
+  
 ![Summary evidence](evidence/Vi_evidence_SK_2.jpg)
 
 ## 3. Personal Takeaway
