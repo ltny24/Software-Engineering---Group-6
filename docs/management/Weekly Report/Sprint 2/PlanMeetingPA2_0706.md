@@ -79,15 +79,19 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 
 | For | Task Name | Task Description | Person in Charge | Reviewer | Requirement | Deadline |
 | --- | --- | --- | --- | --- | --- | --- |
-| Phase 1 | T001 | Create backend Spring Boot project skeleton in `backend/` | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 14/06/2026 |
-| Phase 1 | T002, T005 | Create React frontend skeleton and configure routing, protected route wrappers, and global layout | Hoàng Trung Kiên | Lê Thị Như Ý | Follow `tasks.md` | 14/06/2026 |
+| Phase 1 | T001 | Create backend Spring Boot project skeleton in `backend/` | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 11/06/2026 |
+| Phase 1 | T002, T005 | Create React frontend skeleton and configure routing, protected route wrappers, and global layout | Hoàng Trung Kiên | Lê Thị Như Ý | Follow `tasks.md` | 11/06/2026 |
 | Phase 1 | T003 | Configure repo-level linting, formatting, and environment variables (`.vscode/`) | Lê Thị Như Ý | Dương Minh Huỳnh Khôi | Follow `tasks.md` | 14/06/2026 |
 | Phase 1 | T004, T006 | Configure JWT authentication dependencies in `build.gradle` and add initial API documentation scaffolding | Hồ Thị Như Ngọc | Hoàng Trung Kiên | Follow `tasks.md` | 14/06/2026 |
-| Phase 2 | T007, T010, T014 | Setup SQL Server schema, migration scripts, create Student/Admin entities, and add baseline API documentation | Trần Tường Vi | Hoàng Trung Kiên | Follow `tasks.md` | 14/06/2026 |
-| Phase 2 | T008, T009 | Implement JWT authentication filter, security config, and role-based access control for Student & Admin | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 14/06/2026 |
-| Phase 2 | T011 | Add backend API exception handling and validation response middleware | Hồ Thị Như Ngọc | Lê Thị Như Ý | Follow `tasks.md` | 14/06/2026 |
-| Phase 2 | T012 | Implement frontend authentication state, login/logout flows, and protected route components | Hoàng Trung Kiên | Dương Minh Huỳnh Khôi | Follow `tasks.md` | 14/06/2026 |
-| Phase 2 | T013, T014 | Implement frontend shared data services for API calls and error handling, and add developer guide references | Lê Thị Như Ý | Trần Tường Vi | Follow `tasks.md` | 14/06/2026 |
+| Phase 2 | T007 | Setup SQL Server schema and migration scripts | Trần Tường Vi | Hoàng Trung Kiên | Follow `tasks.md` | 16/06/2026 |
+| Phase 2 | T010 | Create Student/Admin entities and repositories | Trần Tường Vi | Hoàng Trung Kiên | Follow `tasks.md` | 18/06/2026 |
+| Phase 2 | T014 (backend) | Add backend README and developer guide references | Trần Tường Vi | Hoàng Trung Kiên | Follow `tasks.md` | 20/06/2026 |
+| Phase 2 | T008 | Implement JWT authentication filter and security configuration | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 16/06/2026 |
+| Phase 2 | T009 | Implement role-based access control for Student & Admin | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 18/06/2026 |
+| Phase 2 | T011 | Add backend API exception handling and validation response middleware | Hồ Thị Như Ngọc | Lê Thị Như Ý | Follow `tasks.md` | 16/06/2026 |
+| Phase 2 | T012 | Implement frontend authentication state, login/logout flows, and protected route components | Hoàng Trung Kiên | Dương Minh Huỳnh Khôi | Follow `tasks.md` | 19/06/2026 |
+| Phase 2 | T013 | Implement frontend shared data services for API calls and error handling | Lê Thị Như Ý | Trần Tường Vi | Follow `tasks.md` | 17/06/2026 |
+| Phase 2 | T014 | Add baseline API documentation and developer guide references in README | --- | --- | Follow `tasks.md` | 20/06/2026 |
 
 > **Note:** T014 — Lê Thị Như Ý handles frontend README, Trần Tường Vi handles backend README. Both reviewed together.
 
@@ -97,7 +101,8 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 ## 5. Decisions Made
 
 1. The project will be developed using Java Spring Boot for the backend, React with TypeScript for the frontend, and Microsoft SQL Server as the database management system.
-2. All Phase 1 and Phase 2 tasks must be completed and cross-reviewed by 14/06/2026 to ensure a fully functional end-to-end login flow is ready for evaluation.
+2. All Phase 1 tasks (T001, T002, T005) must be completed by **11/06/2026**; remaining Phase 1 tasks (T003, T004, T006) by **14/06/2026**.
+3. Phase 2 tasks are assigned staggered deadlines from **16/06/2026 to 20/06/2026** to allow for sequential cross-review and integration.
 
 ---
 
@@ -112,7 +117,7 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 
 ## 7. Conclusion
 
-The Sprint 2 Planning Meeting was successfully completed. All five members have clear task assignments for both the technical and documentation tracks, with a firm deadline of **14/06/2026**. The team will follow Scrum practices, keep the Jira board updated, and enforce peer review on all tasks.
+The Sprint 2 Planning Meeting was successfully completed. All five members have clear task assignments for both the technical and documentation tracks. Phase 1 tasks are due by **11/06/2026** (T001, T002, T005) and **14/06/2026** (T003, T004, T006), while Phase 2 tasks are distributed across staggered deadlines from **16/06/2026 to 20/06/2026** to support incremental delivery and peer review. The team will follow Scrum practices, keep the Jira board updated, and enforce peer review on all tasks.
 
 ---
 
