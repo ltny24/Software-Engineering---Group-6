@@ -8,16 +8,17 @@ This document summarizes the detailed learnings and practical takeaways of each 
 ---
 
 ## 1. Lê Thị Như Ý
-**Focus:** Environment Setup, Initialization, and Core Configuration
+**Focus:** Full Workflow Execution and End-to-End Artifact Generation
 
 **Summary of Learnings:**
-My training focused on the initial technical scaffolding of the Spec Kit environment. I learned how to properly set up the local development environment using the `uv` Python package manager, which is significantly faster and more reliable for fetching the CLI tools. 
+My responsibility was to apply the GitHub Spec Kit across our entire University Portal project. I started by setting up the environment using the `uv` package manager and configuring the core `constitution.md` to strictly enforce our technology stack and architectural rules. 
 
-By executing the initialization commands within the VS Code terminal, I observed how the toolkit scaffolds the project workspace from scratch. My main takeaway was understanding the critical role of the initial setup phase before any AI generation occurs. The process generates a foundational `constitution.md` file, which acts as the ultimate rulebook for the AI agent. I learned that by strictly dictating coding conventions, technology stacks, and architectural boundaries in this file, we can prevent the AI from hallucinating incorrect frameworks (e.g., using Vue instead of React) during the later implementation phases.
+Beyond the initial setup, I successfully executed the complete Spec-Driven Development workflow for the project. By interacting with the AI agent using the slash commands, I generated the full suite of structured artifacts. This included creating comprehensive feature specifications (`spec.md`), detailing the technical implementation plans (`plan.md`), and breaking them down into actionable task checklists (`tasks.md`) and other different files. This hands-on experience taught me how to effectively manage the AI's context and transition from high-level project requirements down to granular, ready-to-implement coding tasks.
 
 **Evidence:**
 
 ![Summary evidence](evidence/Y_evidence_SK_1.png)
+![Summary evidence](evidence/Y_evidence_SK_2.png)
 
 ---
 
@@ -31,15 +32,15 @@ Starting from an empty `/src` folder, I ran the Spec Kit init command in a VS Co
 - **`.github/prompts/`**: slash-command prompt files for each Spec Kit command.
 
 I also learned the distinct purpose of each command in the workflow:
-- [cite_start]**`/speckit.constitution`**: Defines the project's core principles, coding conventions, and quality standards[cite: 7].
-- [cite_start]**`/speckit.specify`**: Generates a feature specification from a plain-language description[cite: 7].
-- [cite_start]**`/speckit.clarify`**: Asks follow-up questions to resolve ambiguous or missing details[cite: 7].
-- [cite_start]**`/speckit.plan`**: Creates a technical implementation plan based on the spec[cite: 7].
-- [cite_start]**`/speckit.tasks`**: Breaks the implementation plan into a checklist of specific, ordered development tasks[cite: 7].
-- [cite_start]**`/speckit.analyze`**: Checks consistency, flagging gaps or mismatches before implementation starts[cite: 7].
-- [cite_start]**`/speckit.implement`**: Begins generating actual code based on the tasks[cite: 7].
+- **`/speckit.constitution`**: Defines the project's core principles, coding conventions, and quality standards.
+- **`/speckit.specify`**: Generates a feature specification from a plain-language description.
+- **`/speckit.clarify`**: Asks follow-up questions to resolve ambiguous or missing details.
+- **`/speckit.plan`**: Creates a technical implementation plan based on the spec.
+- **`/speckit.tasks`**: Breaks the implementation plan into a checklist of specific, ordered development tasks.
+- **`/speckit.analyze`**: Checks consistency, flagging gaps or mismatches before implementation starts.
+- **`/speckit.implement`**: Begins generating actual code based on the tasks.
 
-**Personal Takeaway:** Init only sets up structure and prompts. Real documents come from running the full workflow. [cite_start]Agent mode is needed since each command must read context and generate/edit multiple files automatically[cite: 7].
+**Personal Takeaway:** Init only sets up structure and prompts. Real documents come from running the full workflow. Agent mode is needed since each command must read context and generate/edit multiple files automatically.
 
 **Evidence:**
 ![Summary evidence](evidence/Vi_evidence_SK_1.jpg)
@@ -51,16 +52,16 @@ I also learned the distinct purpose of each command in the workflow:
 **Focus:** Project Templates and Development Workflow
 
 **Summary of Learnings:**
-[cite_start]When a project is initialized, I learned that GitHub Spec Kit generates several predefined templates that standardize the development process[cite: 8]:
-* [cite_start]**`constitution-template.md`**: Defines project principles, coding standards, and development rules[cite: 8].
-* [cite_start]**`spec-template.md`**: Describes feature requirements, user stories, and acceptance criteria[cite: 8].
-* [cite_start]**`plan-template.md`**: Outlines the technical design and implementation strategy[cite: 8].
-* [cite_start]**`tasks-template.md`**: Breaks the implementation plan into actionable development tasks[cite: 8].
-[cite_start]These templates provide a consistent structure for both developers and AI assistants throughout the project lifecycle[cite: 8].
+When a project is initialized, I learned that GitHub Spec Kit generates several predefined templates that standardize the development process:
+* **`constitution-template.md`**: Defines project principles, coding standards, and development rules.
+* **`spec-template.md`**: Describes feature requirements, user stories, and acceptance criteria.
+* **`plan-template.md`**: Outlines the technical design and implementation strategy.
+* **`tasks-template.md`**: Breaks the implementation plan into actionable development tasks.
+These templates provide a consistent structure for both developers and AI assistants throughout the project lifecycle.
 
 I also learned that a typical GitHub Spec Kit workflow follows these exact steps:
-[cite_start]**Constitution → Specify → Clarify → Plan → Tasks → Analyze → Implement** [cite: 8]
-[cite_start]This workflow ensures that requirements, planning, and implementation remain aligned throughout development[cite: 8].
+**Constitution → Specify → Clarify → Plan → Tasks → Analyze → Implement**
+This workflow ensures that requirements, planning, and implementation remain aligned throughout development.
 
 **Evidence:**
 ![Summary evidence](evidence/Kien_evidence_SK_1.jpg)
@@ -72,14 +73,14 @@ I also learned that a typical GitHub Spec Kit workflow follows these exact steps
 **Focus:** Conceptual Framework: Spec-Driven Development vs. Vibe Coding
 
 **Summary of Learnings:**
-[cite_start]I learned that GitHub Spec Kit enables **Spec-Driven Development (SDD)** — a structured methodology where specifications are the authoritative source of truth, and code becomes a derived artifact[cite: 9]. [cite_start]The traditional AI coding approach ("vibe coding") often leads to **architectural drift** — code that "looks right" but fails to meet actual requirements[cite: 9]. 
+I learned that GitHub Spec Kit enables **Spec-Driven Development (SDD)** — a structured methodology where specifications are the authoritative source of truth, and code becomes a derived artifact. The traditional AI coding approach ("vibe coding") often leads to **architectural drift** — code that "looks right" but fails to meet actual requirements. 
 
 I learned the key benefits of this framework:
-* [cite_start]**Model Agnostic**: Works with multiple LLMs (Claude, GPT-4, Gemini, etc.) — no vendor lock-in[cite: 9].
-* [cite_start]**Scalable for Complex Projects**: Moves architectural decisions upstream, making it easier to manage large applications[cite: 9].
-* [cite_start]**Git Integration**: Leverages Git branching to manage parallel feature development[cite: 9].
+* **Model Agnostic**: Works with multiple LLMs (Claude, GPT-4, Gemini, etc.) — no vendor lock-in.
+* **Scalable for Complex Projects**: Moves architectural decisions upstream, making it easier to manage large applications.
+* **Git Integration**: Leverages Git branching to manage parallel feature development.
 
-[cite_start]**Comparison: Vibe Coding vs. Spec-Driven Development** [cite: 9]
+**Comparison: Vibe Coding vs. Spec-Driven Development**
 | Aspect | Vibe Coding | Spec-Driven Development |
 |--------|-------------|------------------------|
 | Starting point | Ad-hoc prompt | Structured specification |
@@ -100,15 +101,15 @@ I learned the key benefits of this framework:
 
 **Summary of Learnings:**
 I focused on the practical execution steps to run the tool:
-**Step 1:** Install `uv` via brew (Mac) or winget (Windows). [cite_start]Then use the CLI command `uvx` to run the specify tool in an existing project[cite: 10].
-[cite_start]**Step 2:** Type the setup commands sequentially: `/constitution`, `/specify`, `/plan`, `/tasks`, and finally `/implement`[cite: 10].
+**Step 1:** Install `uv` via brew (Mac) or winget (Windows). Then use the CLI command `uvx` to run the specify tool in an existing project.
+**Step 2:** Type the setup commands sequentially: `/constitution`, `/specify`, `/plan`, `/tasks`, and finally `/implement`.
 
 I also analyzed the generated files and directories. The `.specify` directory includes 3 subdirectories: 
 1. `memory/` containing the constitution file.
 2. `scripts/` containing code snippets for automation.
-3. [cite_start]`templates/` containing pre-formatted template files[cite: 10].
+3. `templates/` containing pre-formatted template files.
 
-[cite_start]Next are the documents and source code created during the development process, including: 1 new Git branch for the feature, 1 specification file providing an overview, 1 technical plan detailing tools and methods, 1 list of coding tasks, and the actual source code[cite: 10].
+Next are the documents and source code created during the development process, including: 1 new Git branch for the feature, 1 specification file providing an overview, 1 technical plan detailing tools and methods, 1 list of coding tasks, and the actual source code.
 
 **Evidence:**
 ![Brief summary evidence](evidence/Ngoc_evidence_SK_1.jpg)
