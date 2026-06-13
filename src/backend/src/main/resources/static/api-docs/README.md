@@ -6,7 +6,7 @@ Welcome to the **MyUS University Portal API Documentation**. This directory cont
 
 ---
 
-## 📚 Documentation Structure
+## Documentation Structure
 
 ### Core Documentation
 - **[Authentication](./authentication.md)** - JWT authentication setup and token management
@@ -24,7 +24,7 @@ Welcome to the **MyUS University Portal API Documentation**. This directory cont
 
 ---
 
-## 🚀 Quick Links
+## Quick Links
 
 ### Interactive Documentation
 - **Swagger UI**: [/swagger-ui.html](/swagger-ui.html)
@@ -43,7 +43,7 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-## 🔐 API Endpoints Categories
+## API Endpoints Categories
 
 ### Public Endpoints (No Authentication Required)
 - `POST /api/auth/login` - User login
@@ -57,7 +57,7 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-## 📋 API Specifications
+## API Specifications
 
 | Property | Value |
 |----------|-------|
@@ -69,7 +69,7 @@ Authorization: Bearer <your_jwt_token>
 
 ---
 
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 ### 1. Start the Backend Server
 ```bash
@@ -91,7 +91,7 @@ Use tools like:
 
 ---
 
-## 📝 Example: Authenticate and Call Protected Endpoint
+## Example: Authenticate and Call Protected Endpoint
 
 ### 1. Login
 ```bash
@@ -120,7 +120,7 @@ curl -X GET http://localhost:8080/api/user/profile \
 
 ---
 
-## 🔄 Refresh Token
+## Refresh Token
 
 When access token expires, use refresh token to get a new one:
 
@@ -134,7 +134,7 @@ curl -X POST http://localhost:8080/api/auth/refresh \
 
 ---
 
-## 📖 Common Use Cases
+## Common Use Cases
 
 ### Use Case 1: User Registration and Login
 1. Register new user: `POST /api/auth/register`
@@ -156,7 +156,7 @@ curl -X POST http://localhost:8080/api/auth/refresh \
 
 ---
 
-## ❌ Error Handling
+## Error Handling
 
 ### Common Error Responses
 
@@ -189,7 +189,7 @@ curl -X POST http://localhost:8080/api/auth/refresh \
 
 ---
 
-## 🔗 Related Resources
+## Related Resources
 
 - **Specification**: [SpecKit - University Portal](../../../../../../SpecKit/specs/001-university-portal/)
 - **Source Code**: [Backend Source](../../../)
@@ -199,7 +199,7 @@ curl -X POST http://localhost:8080/api/auth/refresh \
 
 ---
 
-## 📞 Support
+## Support
 
 For API documentation updates or issues:
 - Check the [OpenAPI spec](./openapi.json)
@@ -210,4 +210,4 @@ For API documentation updates or issues:
 
 **Last Updated**: 2026-06-12  
 **Version**: 1.0.0  
-**Status**: ✅ Initial Scaffolding Complete
+**Status**: Initial Scaffolding Complete
