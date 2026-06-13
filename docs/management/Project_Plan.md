@@ -138,7 +138,7 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 |**T001**|Create backend Spring Boot project skeleton|Khôi|Ngọc|11/06|None|Ngọc|
 |**T002**|Create React frontend project skeleton|Kiên|Ý|11/06|None|Ý|
 |**T003**|Configure linting, formatting, env variables|Ý|Khôi|14/06|T001, T002|Kiên|
-|**T004**|Configure JWT auth dependencies in backend|Ngọc|Kiên|14/06|T001|Khôi|
+|**T004**|Configure JWT auth dependencies in backend|Khôi|Kiên|14/06|T001|Ngọc|
 |**T005**|Configure frontend routing \& global layout|Kiên|Ý|14/06|T002|Ý|
 |**T006**|Add initial API docs scaffolding|Ngọc|Kiên|14/06|T001|Vi|
 
