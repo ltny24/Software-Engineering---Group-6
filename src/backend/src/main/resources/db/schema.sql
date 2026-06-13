@@ -12,6 +12,9 @@ GO
 -- Students
 CREATE TABLE myus.Student (
     studentId BIGINT IDENTITY(1,1) PRIMARY KEY,
+    username NVARCHAR(150) NOT NULL UNIQUE,
+    password NVARCHAR(255) NOT NULL,
+    role NVARCHAR(20) NOT NULL DEFAULT 'STUDENT',
     firstName NVARCHAR(100) NOT NULL,
     middleName NVARCHAR(100),
     lastName NVARCHAR(100) NOT NULL,
@@ -31,8 +34,9 @@ CREATE TABLE myus.Student (
 CREATE TABLE myus.Administrator (
     adminId BIGINT IDENTITY(1,1) PRIMARY KEY,
     username NVARCHAR(150) NOT NULL UNIQUE,
+    password NVARCHAR(255) NOT NULL,
+    role NVARCHAR(20) NOT NULL DEFAULT 'ADMINISTRATOR',
     email NVARCHAR(255) NOT NULL,
-    role NVARCHAR(100) NOT NULL,
     displayName NVARCHAR(255),
     department NVARCHAR(255),
     createdAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME()
