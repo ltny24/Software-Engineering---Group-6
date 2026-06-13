@@ -101,17 +101,23 @@ I learned the key benefits of this framework:
 
 **Summary of Learnings:**
 I focused on the practical execution steps to run the tool:
+
 **Step 1:** Install `uv` via brew (Mac) or winget (Windows). Then use the CLI command `uvx` to run the specify tool in an existing project.
+
 **Step 2:** Type the setup commands sequentially: `/constitution`, `/specify`, `/plan`, `/tasks`, and finally `/implement`.
 
 I also analyzed the generated files and directories. The `.specify` directory includes 3 subdirectories: 
+
 1. `memory/` containing the constitution file.
+
 2. `scripts/` containing code snippets for automation.
+
 3. `templates/` containing pre-formatted template files.
 
 Next are the documents and source code created during the development process, including: 1 new Git branch for the feature, 1 specification file providing an overview, 1 technical plan detailing tools and methods, 1 list of coding tasks, and the actual source code.
 
 **Evidence:**
+
 ![Brief summary evidence](evidence/Ngoc_evidence_SK_1.jpg)
 ![Brief summary evidence](evidence/Ngoc_evidence_SK_2.jpg)
 ![Brief summary evidence](evidence/Ngoc_evidence_SK_3.jpg)
