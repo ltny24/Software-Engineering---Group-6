@@ -44,7 +44,121 @@ It covers the problem being solved and product positioning, , stakeholder and us
 
 ---
 
+## 3. Stakeholder and User Descriptions
+*Performed by: Hoàng Trung Kiên | Reviewed by: Dương Minh Huỳnh Khôi | Edited by:*
 
+### 3.1 Stakeholder Summary
+
+| Stakeholder | Role | Interest in MyUS |
+|---|---|---|
+| Development Group (Group 6) | Product owner & builder | Deliver a functional portal that meets course requirements |
+| Students | Primary end users | Access all academic services in one unified platform |
+| Administrators | Secondary end users | Manage academic data, appeals, and class operations efficiently |
+| University Management *(implicit)* | Indirect beneficiary | Improved operational efficiency and data accuracy |
+
+### 3.2 User Summary
+
+| User | Technical Literacy | Primary Role |
+|---|---|---|
+| Students (undergraduates only) | Average | Register courses, view grades, submit appeals, use AI chatbot |
+| Administrators (single flat role) | Average | Manage schedules, process appeals, view student records |
+
+### 3.3 User Environment
+
+- **Platform:** Web application via modern browsers (Chrome, Edge, Firefox, Safari)
+- **Devices:** Desktop, laptop, tablet, smartphone — equal priority, fully responsive
+- **OS:** Windows, macOS, Linux, Android, iOS
+- **Language:** Vietnamese
+- **Authentication:** JWT
+- **External Integrations:** Google Calendar API, external LLM API
+
+### 3.4 Key User Needs
+
+| # | User | Need |
+|---|---|---|
+| 1 | Student | Single platform for all academic tasks |
+| 2 | Student | Real-time grade and GPA visibility |
+| 3 | Student | Transparent grade appeal status tracking |
+| 4 | Student | AI-guided course and graduation planning |
+| 5 | Student | Clear tuition and payment breakdown |
+| 6 | Admin | Centralized dashboard for appeals and class management |
+| 7 | Admin | Bulk schedule import |
+| 8 | Admin | Searchable student records |
+
+### 3.5 Alternatives and Competition
+
+Three portals were surveyed in PA1 as competitive references:
+
+| Portal | Weaknesses | Improvement Ideas |
+|---|---|---|
+| **HCMUS Portal** | Outdated and inconsistent UI; slow load during course registration; non-intuitive timetable | Personalized dashboard; global search; modern notification center |
+| **UEH Portal** | Fragmented ecosystem (portal, LMS, email, surveys are separate); hard to track curriculum progress; non-intuitive timetable and exam schedule | AI chatbot for curriculum tree visualization *(inspired MyUS's AI feature)*; Google Calendar integration |
+| **My Bach Khoa** | Hard to look up curriculum information; too many raw data tables, little visualization | Modern dashboard redesign with better data visualization |
+
+**How MyUS differentiates:**
+- Fully unified platform — no fragmented sub-systems
+- AI chatbot for curriculum planning — absent in all three competitors
+- Google Calendar integration for intuitive scheduling
+- Student-first UI design, not an admin tool repurposed for students
+
+> *Competitive understanding from PA1 remains largely unchanged — no significant new entrants identified.*
+
+---
+
+## 4. Product Overview
+*Performed by: Hoàng Trung Kiên | Reviewed by: Dương Minh Huỳnh Khôi | Edited by:*
+
+### 4.1 Product Perspective
+
+MyUS is a **greenfield, fully self-contained** web application — it does not extend or integrate with any existing university system. It owns its own database and all backend services.
+
+```mermaid
+graph TD
+    A[Academic Management] --> P[MyUS Portal]
+    B[Administrative Operations] --> P
+    C[AI-Assisted Advising] --> P
+    P --> S[Students]
+    P --> AD[Administrators]
+```
+
+**Tech stack:**
+
+| Layer | Technology |
+|---|---|
+| Frontend | React + Vite |
+| Backend | Spring Boot (Java) |
+| Auth | JWT |
+| AI Chatbot | External LLM API (Gemini / OpenAI) |
+| Scheduling | Google Calendar API |
+
+### 4.2 Assumptions and Dependencies
+
+**Assumptions**
+
+- All users have reliable internet access
+- Users are comfortable with a Vietnamese-language interface
+- Scope is limited to undergraduates only
+- Single flat admin role — no permission hierarchy required
+- Curriculum and prerequisite data is manually seeded; no external data feed
+- All academic data (grades, schedules, tuition) is managed entirely within MyUS
+
+**Dependencies**
+
+| # | Dependency | Purpose | Risk if Unavailable |
+|---|---|---|---|
+| D1 | JWT | Session management & route protection | Authenticated routes become insecure |
+| D2 | External LLM API | AI chatbot feature | AI feature entirely unavailable |
+| D3 | Google Calendar API | Timetable & exam schedule display | Scheduling feature degraded |
+| D4 | Cloud hosting | Backend availability & data persistence | Full system outage |
+
+```mermaid
+graph TD
+    MyUS
+    MyUS --> JWT[JWT Authentication]
+    MyUS --> LLM[LLM API]
+    MyUS --> CAL[Google Calendar API]
+    MyUS --> CLOUD[Cloud Infrastructure]
+```
 
 ## 5. Product Features
 *Performed by: Lê Thị Như Ý | Reviewed by: Trần Tường Vi | Edited by: Lê Thị Như Ý*
