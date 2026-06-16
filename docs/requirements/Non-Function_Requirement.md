@@ -2,7 +2,7 @@
 
 *Performed by: Dương Minh Huỳnh Khôi | Reviewed by: Hồ Thị Như Ngọc | Edited by: Dương Minh Huỳnh Khôi*
 
-This document defines the measurable **Non-Functional Requirements** (yêu cầu phi chức năng) for the **MyUS University Portal System**. Non-Functional Requirements specify **how** the system should behave — covering quality attributes such as performance, security, usability, reliability, compatibility, scalability, and maintainability — as opposed to Functional Requirements which define **what** the system should do.
+This document defines the measurable **Non-Functional Requirements** for the **MyUS University Portal System**. Non-Functional Requirements specify **how** the system should behave — covering quality attributes such as performance, security, usability, reliability, compatibility, scalability, and maintainability — as opposed to Functional Requirements which define **what** the system should do.
 
 ### References
 
