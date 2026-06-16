@@ -1,4 +1,4 @@
-# NON-FUNCTIONAL REQUIREMENTS (Yêu cầu phi chức năng) - MyUS
+# NON-FUNCTIONAL REQUIREMENTS - MyUS
 
 *Performed by: Dương Minh Huỳnh Khôi | Reviewed by: Hồ Thị Như Ngọc | Edited by: Dương Minh Huỳnh Khôi*
 
