@@ -79,7 +79,7 @@ It covers the problem being solved and product positioning, , stakeholder and us
 | 1 | Student | Single platform for all academic tasks |
 | 2 | Student | Real-time grade and GPA visibility |
 | 3 | Student | Transparent grade appeal status tracking |
-| 4 | Student | AI-guided course and graduation planning |
+| 4 | Student | AI-guided course registration and graduation planning |
 | 5 | Student | Clear tuition and payment breakdown |
 | 6 | Admin | Centralized dashboard for appeals and class management |
 | 7 | Admin | Bulk schedule import |
@@ -130,6 +130,7 @@ graph TD
 | Auth | JWT |
 | AI Chatbot | External LLM API (Gemini / OpenAI) |
 | Scheduling | Google Calendar API |
+| Database | SQL Server
 
 ### 4.2 Assumptions and Dependencies
 
