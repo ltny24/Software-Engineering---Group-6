@@ -90,64 +90,74 @@ http://localhost:8080/actuator/health
 You should see a JSON response indicating the service status.
 
 ## Project structure
-
-The main backend source tree is under `src/main/java/com/myus`.
-
-- `controller/` — REST controllers that expose API endpoints
-- `service/` — business logic and service layer implementations
-- `entity/` — JPA entity classes for the domain model
-- `dto/` — data transfer objects used for requests and responses
-- `repository/` — Spring Data JPA repositories
-- `security/` — JWT token handling and Spring Security configuration
-- `config/` — application and CORS configuration classes
-- `exception/` — global exception handling and API error models
-- `util/` — shared utilities and helper classes
-
+ 
+The main backend source tree is under `src/main/java/com/myus`:
+ 
+```
+src/main/java/com/myus/
+├── controller/    # REST controllers that expose API endpoints
+├── service/       # business logic and service layer implementations
+├── entity/        # JPA entity classes for the domain model
+├── dto/           # data transfer objects used for requests and responses
+├── repository/    # Spring Data JPA repositories
+├── security/      # JWT token handling and Spring Security configuration
+├── config/        # application and CORS configuration classes
+├── exception/     # global exception handling and API error models
+└── util/          # shared utilities and helper classes
+```
+ 
 Supporting resources:
-
-- `src/main/resources/application.properties` — application configuration and environment variable bindings
-- `src/main/resources/db/migration/` — Flyway SQL migration scripts
-- `src/main/resources/static/api-docs/` — scaffolded API documentation and OpenAPI artifacts
-
+ 
+```
+src/main/resources/
+├── application.properties   # application configuration and environment variable bindings
+├── db/migration/            # Flyway SQL migration scripts
+└── static/api-docs/         # scaffolded API documentation and OpenAPI artifacts
+```
+ 
 ## Authentication
-
+ 
 The backend uses JWT-based authentication with role-based access control for `Student` and `Administrator` roles.
-
-- Clients authenticate via the login endpoint and receive a JWT access token.
-- The token is sent on protected requests in the `Authorization` header:
-
+ 
+- Clients authenticate via the login endpoint and receive a JWT access token, sent on protected requests in the `Authorization` header:
 ```http
 Authorization: Bearer <token>
 ```
-
-- Security is enforced by Spring Security and custom JWT filters.
-- Endpoints are restricted based on user role, so student and administrator operations are separated by RBAC rules.
-
+ 
+- Security is enforced by Spring Security and custom JWT filters, with endpoints restricted by role so student and administrator operations stay separated.
 ## API documentation reference
-
-Scaffolded API documentation is available in `src/main/resources/static/api-docs/`.
-
-- OpenAPI spec: `src/main/resources/static/api-docs/openapi.json`
-- Markdown guide files: `authentication.md`, `endpoints.md`, `models.md`, `best-practices.md`, `getting-started.md`, `errors.md`
-
+ 
+Scaffolded API documentation is available under:
+ 
+```
+src/main/resources/static/api-docs/
+├── openapi.json          # OpenAPI spec
+├── authentication.md
+├── endpoints.md
+├── models.md
+├── best-practices.md
+├── getting-started.md
+└── errors.md
+```
+ 
 If the application is running, the Swagger UI path is configured at:
-
+ 
 ```text
 http://localhost:8080/swagger-ui.html
 ```
-
+ 
 And the OpenAPI JSON endpoint is typically available at:
-
+ 
 ```text
 http://localhost:8080/api-docs
 ```
-
+ 
 ## Test suite
-
+ 
 The test suite will be added starting in Phase 3 (T026). Currently, `src/test/java/com/myus/` contains only the default Spring Boot test scaffold (`UniversityPortalApplicationTests.java`).
-
+ 
 Once tests are implemented, run them with:
-
+ 
 ```bash
 cd src/backend
 mvn test
