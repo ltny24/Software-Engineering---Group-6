@@ -43,7 +43,12 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         body.put("status", HttpServletResponse.SC_UNAUTHORIZED);
         body.put("error", "Unauthorized");
         body.put("message", "Authentication is required to access this resource");
-        body.put("path", request.getRequestURI());
+
+        String path = (String) request.getAttribute("jakarta.servlet.forward.request_uri");
+        if (path == null) {
+            path = request.getRequestURI();
+        }
+        body.put("path", path);
         body.put("timestamp", Instant.now().toString());
 
         objectMapper.writeValue(response.getOutputStream(), body);
