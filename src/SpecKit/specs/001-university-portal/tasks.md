@@ -8,8 +8,8 @@
 
 **Purpose**: Project initialization and core scaffolding for frontend, backend, and shared configuration.
 
-- [ ] T001 Create backend Spring Boot project skeleton in backend/
-- [ ] T002 Create React frontend project skeleton in frontend/
+- [x] T001 Create backend Spring Boot project skeleton in backend/
+- [x] T002 Create React frontend project skeleton in frontend/
 - [ ] T003 Configure repository-level linting, formatting, and environment variables in `.vscode/`, `backend/`, and `frontend/`
 - [ ] T004 [P] Configure JWT authentication dependencies and environment settings in `backend/build.gradle` or `backend/pom.xml`
 - [ ] T005 [P] Configure frontend routing, protected route wrappers, and global layout in `frontend/src/`
