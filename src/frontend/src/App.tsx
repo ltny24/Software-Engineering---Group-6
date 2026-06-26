@@ -1,8 +1,7 @@
 import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider } from './hooks/useAuth';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import { AuthProvider, ProtectedRoute } from './auth';
 import Layout from './components/Layout/Layout';
 import { ROUTES, ROLES } from './utils/constants';
 

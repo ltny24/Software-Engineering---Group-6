@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useAuth } from '../../auth';
 import { ROUTES, ROLES } from '../../utils/constants';
 import './Sidebar.css';
 
