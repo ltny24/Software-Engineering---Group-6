@@ -158,6 +158,14 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 |**T014**|Add baseline API documentation and developer guide references in backend/README.md|Vi|Kiên|20/06|T006|Khôi|
 |**T014**|Add baseline API documentation and developer guide references in frontend/README.md|Ý|Vi|20/06|T006|Kiên|
 
+#### Sprint 3: Grade Appeal Process \& AI Virtual Assistant
+
+* **Duration:** 26/06/2026 - 17/07/2026
+* **Objectives:**
+
+  * Build an advanced student support system, including the grade appeal submission workflow and AI Chatbot consultation.
+  * Complete PA3 requirements.
+ 
 ##### Phase 3: MVP - Student Academic Self-Service
 
 **Goal:** Enable authenticated students to view and manage their profile, register for courses, view grades and timetable, and track tuition details independently.  
@@ -179,14 +187,6 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 |**T026**|Add backend unit tests for US1|Ngọc|Khôi|10/07|T016, T020, T022, T024|Vi|
 |**T027**|Add frontend integration tests for US1|Kiên|Ý|10/07|T017, T019, T021, T023, T025|Ý|
 
-#### Sprint 3: Grade Appeal Process \& AI Virtual Assistant
-
-* **Duration:** 29/06/2026 - 18/07/2026
-* **Objectives:**
-
-  * Build an advanced student support system, including the grade appeal submission workflow and AI Chatbot consultation.
-  * Complete PA3 requirements.
-
 ##### Phase 4: Grade Appeal and Support Workflow
 
 **Goal:** Enable students to submit grade appeals, track status, upload supporting documents, and access FAQ/support resources including an AI learning path chatbot.  
@@ -207,7 +207,7 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 
 #### Sprint 4: Administrator Operations Tools
 
-* **Duration:** 19/07/2026 - 03/08/2026
+* **Duration:** 18/07/2026 - 03/08/2026
 * **Objectives:**
 
   * Develop specialized business tools for Administrators (Admin) and conduct system-wide integration testing.
