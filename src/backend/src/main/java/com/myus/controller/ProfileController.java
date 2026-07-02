@@ -4,6 +4,7 @@ import com.myus.dto.StudentProfileResponse;
 import com.myus.dto.StudentProfileUpdateRequest;
 import com.myus.entity.Student;
 import com.myus.exception.ResourceNotFoundException;
+import com.myus.repository.StudentRepository;
 import com.myus.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
