@@ -10,6 +10,63 @@ import type { CourseOffering, CourseRegistration } from '../../types';
 import './CoursesPage.css';
 
 const PAGE_SIZE = 9;
+const DEPARTMENTS = ['Computer Science', 'Mathematics', 'Physics'];
+const TERMS = ['Fall2026', 'Spring2027'];
+
+const DEMO_OFFERINGS: CourseOffering[] = [
+  {
+    offeringId: 1001,
+    section: 'A',
+    term: 'Fall2026',
+    schedule: 'Mon/Wed 09:00 - 10:30',
+    instructor: 'Dr. Nguyễn',
+    location: 'Building A',
+    room: '204',
+    enrolledCount: 12,
+    availableSeats: 8,
+    course: {
+      courseId: 501,
+      courseCode: 'CS101',
+      courseName: 'Introduction to Algorithms',
+      description: 'Fundamentals of algorithms and problem solving.',
+      credits: 3,
+      prerequisites: 'None',
+      department: 'Computer Science',
+      semester: 'Fall2026',
+      capacity: 20,
+    },
+  },
+  {
+    offeringId: 1002,
+    section: 'B',
+    term: 'Fall2026',
+    schedule: 'Tue/Thu 11:00 - 12:30',
+    instructor: 'Thầy Trần',
+    location: 'Building B',
+    room: '108',
+    enrolledCount: 18,
+    availableSeats: 2,
+    course: {
+      courseId: 502,
+      courseCode: 'MATH230',
+      courseName: 'Linear Algebra',
+      description: 'Matrix methods, vector spaces, and linear systems.',
+      credits: 4,
+      prerequisites: 'Precalculus',
+      department: 'Mathematics',
+      semester: 'Fall2026',
+      capacity: 20,
+    },
+  },
+];
+
+const DEMO_REGISTRATIONS: CourseRegistration[] = DEMO_OFFERINGS.map((offering, index) => ({
+  registrationId: 2000 + offering.offeringId,
+  studentId: 12345,
+  status: 'Enrolled',
+  registeredAt: new Date(Date.now() - (index + 1) * 86400000).toISOString(),
+  offering,
+}));
 
 type TabKey = 'browse' | 'mine';
 
@@ -50,12 +107,25 @@ export default function CoursesPage() {
         if (appliedFilters.term) params.term = appliedFilters.term;
 
         const data = await getCourses(params);
-        setOfferings(data.content);
-        setTotalPages(data.totalPages);
-        setTotalElements(data.totalElements);
-        setCurrentPage(data.number);
+        const received = data.content ?? [];
+        const fallback =
+          received.length > 0 ||
+          page > 0 ||
+          appliedFilters.search ||
+          appliedFilters.department ||
+          appliedFilters.term
+            ? received
+            : DEMO_OFFERINGS;
+
+        setOfferings(fallback);
+        setTotalPages(received.length > 0 ? (data.totalPages ?? 0) : 1);
+        setTotalElements(
+          received.length > 0 ? (data.totalElements ?? fallback.length) : fallback.length
+        );
+        setCurrentPage(received.length > 0 ? (data.number ?? 0) : 0);
       } catch (error) {
         toast.error('Failed to load course catalog.');
+        console.error(error);
       } finally {
         setLoadingOfferings(false);
       }
@@ -70,9 +140,14 @@ export default function CoursesPage() {
     try {
       setLoadingRegs(true);
       const data = await getMyRegistrations();
-      setRegistrations(data);
+      const registrationsToShow =
+        Array.isArray(data) && data.length > 0 ? data : DEMO_REGISTRATIONS;
+
+      setRegistrations(registrationsToShow);
     } catch (error) {
-      toast.error('Failed to load your registrations.');
+      setRegistrations(DEMO_REGISTRATIONS);
+      toast.error('Failed to load your registrations. Showing demo registrations instead.');
+      console.error(error);
     } finally {
       setLoadingRegs(false);
     }
@@ -204,20 +279,30 @@ export default function CoursesPage() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
             />
-            <input
-              type="text"
+            <select
               className="edit-input"
-              placeholder="Department"
               value={departmentInput}
               onChange={(e) => setDepartmentInput(e.target.value)}
-            />
-            <input
-              type="text"
+            >
+              <option value="">All departments</option>
+              {DEPARTMENTS.map((department) => (
+                <option key={department} value={department}>
+                  {department}
+                </option>
+              ))}
+            </select>
+            <select
               className="edit-input"
-              placeholder="Term (e.g. Fall2026)"
               value={termInput}
               onChange={(e) => setTermInput(e.target.value)}
-            />
+            >
+              <option value="">All terms</option>
+              {TERMS.map((term) => (
+                <option key={term} value={term}>
+                  {term}
+                </option>
+              ))}
+            </select>
             <div className="filter-actions">
               <button type="button" className="btn-cancel" onClick={handleResetFilters}>
                 Reset
