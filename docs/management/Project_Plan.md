@@ -92,8 +92,8 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 
 ### 2. Build Plan Overview
 
-* **Build 1 (End of Sprint 2):** MVP Version – Authentication \& Student Academic Self-Service.
-* **Build 2 (End of Sprint 3):** Integration of Grade Appeal \& AI Support Workflow.
+* **Build 1 (End of Sprint 2):** Core Infrastructure & Security Baseline.
+* **Build 2 (End of Sprint 3):** Complete Student Self-Service Portal & Support System (MVP).
 * **Build 3 (End of Sprint 4):** Admin Academic Operations Update \& System Beta Release.
 * **Build 4 (Mid-Sprint 5):** Packaging the Final Release Candidate for UAT \& Demo.
 
@@ -113,8 +113,7 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 * **Objectives:**
 
   * Complete PA2 requirements.
-  * Focus on establishing the core technical infrastructure and completing the MVP version to allow students to self-service basic academic tasks.
-
+  * Focus on establishing the core technical infrastructure, database schema, and authentication/authorization mechanisms (RBAC) to prepare for MVP feature implementation in the next sprint.
 ##### Report Writing Task Schedule:
 
 |Task ID|Task Description|Assignee|Reviewer|Deadline|Prerequisites|Backup Member|
@@ -163,7 +162,8 @@ The project applies the **S**crum framework, divided into 5 Sprints, with each S
 * **Duration:** 26/06/2026 - 17/07/2026
 * **Objectives:**
 
-  * Build an advanced student support system, including the grade appeal submission workflow and AI Chatbot consultation.
+  * Deliver the Student Academic Self-Service MVP (Profile, Course Registration, Timetable, Grades, and Tuition).
+  * Implement the advanced student support system, including the Grade Appeal submission workflow and AI Chatbot consultation.
   * Complete PA3 requirements.
  
 ##### Phase 3: MVP - Student Academic Self-Service
