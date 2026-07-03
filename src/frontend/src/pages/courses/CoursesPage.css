@@ -274,29 +274,51 @@ button:disabled {
   font-weight: 500;
 }
 
-/* Danh sách "My Registrations" */
-.registration-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.registration-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
-  background-color: #ffffff;
+/* Danh sách "My Registrations" - dạng bảng theo hàng */
+.registration-table-wrapper {
+  overflow-x: auto;
   border: 1px solid #f0e6e6;
   border-radius: 14px;
-  padding: 1.2rem 1.4rem;
 }
 
-.registration-title-row {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0.2rem;
+.registration-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff;
+  font-size: 0.9rem;
+}
+
+.registration-table thead th {
+  background-color: #fff9f9;
+  color: #5c4b51;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  padding: 0.85rem 1rem;
+  white-space: nowrap;
+  border-bottom: 2px solid #f0e6e6;
+}
+
+.registration-table tbody td {
+  padding: 0.85rem 1rem;
+  color: #4a4a4a;
+  vertical-align: middle;
+  border-bottom: 1px solid #f5efef;
+}
+
+.registration-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.registration-table tbody tr.registration-row:hover {
+  background-color: #fff9f9;
+}
+
+.registration-course-name {
+  display: block;
+  font-weight: 600;
+  color: #4a4a4a;
 }
 
 .registration-sub {
@@ -306,12 +328,63 @@ button:disabled {
 }
 
 .registration-sub.muted {
+  display: block;
   color: #a39b9e;
-  font-size: 0.8rem;
+  font-size: 0.78rem;
+}
+
+.registration-action-cell {
+  text-align: center;
+}
+
+.registration-action-cell .register-btn {
+  width: auto;
+  margin-top: 0;
+  white-space: nowrap;
 }
 
 .drop-btn {
   flex-shrink: 0;
+}
+
+/* Responsive: chuyển bảng thành dạng thẻ xếp chồng trên màn hình nhỏ */
+@media (max-width: 720px) {
+  .registration-table thead {
+    display: none;
+  }
+
+  .registration-table,
+  .registration-table tbody,
+  .registration-table tr,
+  .registration-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .registration-table tr.registration-row {
+    border-bottom: 1px solid #f0e6e6;
+    padding: 0.8rem 1rem;
+  }
+
+  .registration-table td {
+    border: none;
+    padding: 0.3rem 0;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .registration-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #a39b9e;
+    font-size: 0.78rem;
+  }
+
+  .registration-action-cell {
+    text-align: left;
+    justify-content: flex-start !important;
+  }
 }
 
 /* Trạng thái rỗng / loading */
