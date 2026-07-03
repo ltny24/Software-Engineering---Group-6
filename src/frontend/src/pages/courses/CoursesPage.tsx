@@ -325,82 +325,66 @@ export default function CoursesPage() {
                 {totalElements} offering{totalElements !== 1 ? 's' : ''} found
               </p>
 
-              <div className="course-grid">
-                {offerings.map((offering) => {
-                  const registered = isActiveRegistration(offering.offeringId);
-                  const full = offering.availableSeats <= 0;
-                  return (
-                    <div className="course-card" key={offering.offeringId}>
-                      <div className="course-card-top">
-                        <div>
-                          <p className="course-code">{offering.course.courseCode}</p>
-                          <h4 className="course-name">{offering.course.courseName}</h4>
-                        </div>
-                        <span className={seatBadgeClass(offering)}>
-                          {offering.availableSeats > 0
-                            ? `${offering.availableSeats} seats left`
-                            : 'Full'}
-                        </span>
-                      </div>
-
-                      <p className="course-desc">{offering.course.description}</p>
-
-                      <div className="course-meta-grid">
-                        <div className="meta-item">
-                          <label>Section</label>
-                          <p>{offering.section}</p>
-                        </div>
-                        <div className="meta-item">
-                          <label>Term</label>
-                          <p>{offering.term}</p>
-                        </div>
-                        <div className="meta-item">
-                          <label>Credits</label>
-                          <p>{offering.course.credits}</p>
-                        </div>
-                        <div className="meta-item">
-                          <label>Department</label>
-                          <p>{offering.course.department}</p>
-                        </div>
-                        <div className="meta-item full-width">
-                          <label>Schedule</label>
-                          <p>{offering.schedule}</p>
-                        </div>
-                        <div className="meta-item full-width">
-                          <label>Instructor</label>
-                          <p>{offering.instructor}</p>
-                        </div>
-                        <div className="meta-item full-width">
-                          <label>Location</label>
-                          <p>
-                            {offering.location}
-                            {offering.room ? ` – Room ${offering.room}` : ''}
-                          </p>
-                        </div>
-                        {offering.course.prerequisites && (
-                          <div className="meta-item full-width">
-                            <label>Prerequisites</label>
-                            <p>{offering.course.prerequisites}</p>
-                          </div>
-                        )}
-                      </div>
-
-                      <button
-                        className="btn-edit register-btn"
-                        disabled={registered || full || registeringId === offering.offeringId}
-                        onClick={() => handleRegister(offering)}
-                      >
-                        {registered
-                          ? 'Registered ✓'
-                          : registeringId === offering.offeringId
-                            ? 'Registering...'
-                            : full
-                              ? 'Course Full'
-                              : 'Register'}
-                      </button>
-                    </div>
-                  );
-                })}
+              <div className="registration-table-wrapper">
+                <table className="registration-table">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Course Name</th>
+                      <th>Section</th>
+                      <th>Credits</th>
+                      <th>Department</th>
+                      <th>Schedule</th>
+                      <th>Seats</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {offerings.map((offering) => {
+                      const registered = isActiveRegistration(offering.offeringId);
+                      const full = offering.availableSeats <= 0;
+                      return (
+                        <tr className="registration-row" key={offering.offeringId}>
+                          <td data-label="Code">{offering.course.courseCode}</td>
+                          <td data-label="Course Name">
+                            <span className="registration-course-name">
+                              {offering.course.courseName}
+                            </span>
+                            <span className="registration-sub muted">
+                              {offering.course.description}
+                            </span>
+                          </td>
+                          <td data-label="Section">{offering.section}</td>
+                          <td data-label="Credits">{offering.course.credits}</td>
+                          <td data-label="Department">{offering.course.department}</td>
+                          <td data-label="Schedule">{offering.schedule}</td>
+                          <td data-label="Seats">
+                            <span className={seatBadgeClass(offering)}>
+                              {offering.availableSeats > 0
+                                ? `${offering.availableSeats} seats left`
+                                : 'Full'}
+                            </span>
+                          </td>
+                          <td data-label="Action" className="registration-action-cell">
+                            <button
+                              className="btn-edit register-btn"
+                              disabled={registered || full || registeringId === offering.offeringId}
+                              onClick={() => handleRegister(offering)}
+                            >
+                              {registered
+                                ? 'Registered ✓'
+                                : registeringId === offering.offeringId
+                                  ? 'Registering...'
+                                  : full
+                                    ? 'Full'
+                                    : 'Register'}
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
               </div>
 
               <div className="pagination">
@@ -437,33 +421,61 @@ export default function CoursesPage() {
           ) : registrations.length === 0 ? (
             <p className="empty-state">You haven't registered for any courses yet.</p>
           ) : (
-            <div className="registration-list">
-              {registrations.map((reg) => (
-                <div className="registration-row" key={reg.registrationId}>
-                  <div className="registration-main">
-                    <div className="registration-title-row">
-                      <p className="course-code">{reg.offering.course.courseCode}</p>
-                      <span className={statusBadgeClass(reg.status)}>{reg.status}</span>
-                    </div>
-                    <h4 className="course-name">{reg.offering.course.courseName}</h4>
-                    <p className="registration-sub">
-                      Section {reg.offering.section} · {reg.offering.term} · {reg.offering.schedule}
-                    </p>
-                    <p className="registration-sub muted">
-                      Registered at {formatDateTime(reg.registeredAt)}
-                    </p>
-                  </div>
-                  {reg.status !== 'Dropped' && (
-                    <button
-                      className="btn-cancel drop-btn"
-                      disabled={droppingId === reg.registrationId}
-                      onClick={() => handleDrop(reg)}
-                    >
-                      {droppingId === reg.registrationId ? 'Dropping...' : 'Drop'}
-                    </button>
-                  )}
-                </div>
-              ))}
+            <div className="registration-table-wrapper">
+              <table className="registration-table">
+                <thead>
+                  <tr>
+                    <th>Code</th>
+                    <th>Course Name</th>
+                    <th>Section</th>
+                    <th>Credits</th>
+                    <th>Capacity</th>
+                    <th>Enrolled</th>
+                    <th>Schedule</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {registrations.map((reg) => (
+                    <tr className="registration-row" key={reg.registrationId}>
+                      <td data-label="Code">{reg.offering.course.courseCode}</td>
+                      <td data-label="Course Name">
+                        <span className="registration-course-name">
+                          {reg.offering.course.courseName}
+                        </span>
+                        <span className="registration-sub muted">
+                          Registered at {formatDateTime(reg.registeredAt)}
+                        </span>
+                      </td>
+                      <td data-label="Section">{reg.offering.section}</td>
+                      <td data-label="Credits">{reg.offering.course.credits}</td>
+                      <td data-label="Capacity">{reg.offering.course.capacity}</td>
+                      <td data-label="Enrolled">{reg.offering.enrolledCount}</td>
+                      <td data-label="Schedule">{reg.offering.schedule}</td>
+                      <td data-label="Location">
+                        {reg.offering.location}
+                        {reg.offering.room ? ` – Room ${reg.offering.room}` : ''}
+                      </td>
+                      <td data-label="Status">
+                        <span className={statusBadgeClass(reg.status)}>{reg.status}</span>
+                      </td>
+                      <td data-label="Action" className="registration-action-cell">
+                        {reg.status !== 'Dropped' && (
+                          <button
+                            className="btn-cancel drop-btn"
+                            disabled={droppingId === reg.registrationId}
+                            onClick={() => handleDrop(reg)}
+                          >
+                            {droppingId === reg.registrationId ? 'Dropping...' : 'Drop'}
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
