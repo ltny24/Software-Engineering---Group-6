@@ -1,185 +1,158 @@
 import React, { useState, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import api from '../../services/api';
 
-interface CourseGrade {
-  courseCode: string;
-  courseName: string;
-  credits: number;
-  midtermScore: number;
-  finalScore: number;
-  overallScore: number;
-  letterGrade: string;
-  isPassed: boolean;
+interface TuitionPaymentDTO {
+  paymentId: number;
+  amount: number;
+  paymentDate: string;
+  paymentMethod: string;
+  referenceNumber: string;
+  status: string;
 }
 
-interface SemesterData {
-  semesterId: string;
-  semesterName: string;
-  gpa10: number;
-  gpa4: number;
-  creditsEarned: number;
-  totalCredits: number;
-  courses: CourseGrade[];
+interface TuitionBalanceResponse {
+  studentId: number;
+  term: string;
+  totalCharges: number;
+  payments: number;
+  scholarshipAmount: number;
+  balance: number;
+  financialHold: boolean;
+  paymentHistory: TuitionPaymentDTO[];
 }
 
-export const GradePage: React.FC = () => {
+export const TuitionPage: React.FC = () => {
+  const [finance, setFinance] = useState<TuitionBalanceResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [semesters, setSemesters] = useState<SemesterData[]>([]);
-  const [selectedSemId, setSelectedSemId] = useState<string>('');
 
   useEffect(() => {
-    // Giả lập gọi API lấy bảng điểm
-    setTimeout(() => {
-      const mockData: SemesterData[] = [
-        {
-          semesterId: "HK2_2024_2025",
-          semesterName: "Học kỳ 2 - Năm học 2024-2025",
-          gpa10: 8.55,
-          gpa4: 3.62,
-          creditsEarned: 18,
-          totalCredits: 18,
-          courses: [
-            { courseCode: "CSC10009", courseName: "Hệ thống máy tính", credits: 4, midtermScore: 8.5, finalScore: 8.5, overallScore: 8.5, letterGrade: "A", isPassed: true },
-            { courseCode: "CSC10004", courseName: "Cấu trúc dữ liệu và giải thuật", credits: 4, midtermScore: 9.0, finalScore: 8.5, overallScore: 8.7, letterGrade: "A", isPassed: true },
-            { courseCode: "CSC10006", courseName: "Cơ sở dữ liệu", credits: 4, midtermScore: 8.0, finalScore: 8.5, overallScore: 8.3, letterGrade: "B+", isPassed: true },
-            { courseCode: "MTH10003", courseName: "Xác suất thống kê", credits: 3, midtermScore: 8.5, finalScore: 9.0, overallScore: 8.8, letterGrade: "A", isPassed: true },
-            { courseCode: "ENG10002", courseName: "Tiếng Anh học thuật 2", credits: 3, midtermScore: 8.5, finalScore: 8.5, overallScore: 8.5, letterGrade: "A", isPassed: true },
-          ]
-        },
-        {
-          semesterId: "HK1_2024_2025",
-          semesterName: "Học kỳ 1 - Năm học 2024-2025",
-          gpa10: 8.40,
-          gpa4: 3.55,
-          creditsEarned: 16,
-          totalCredits: 16,
-          courses: [
-            { courseCode: "CSC10001", courseName: "Nhập môn lập trình", credits: 4, midtermScore: 8.5, finalScore: 9.0, overallScore: 8.8, letterGrade: "A", isPassed: true },
-            { courseCode: "MTH10001", courseName: "Vi tích phân 1B", credits: 4, midtermScore: 8.0, finalScore: 8.0, overallScore: 8.0, letterGrade: "B+", isPassed: true },
-            { courseCode: "PHY10001", courseName: "Vật lý đại cương", credits: 4, midtermScore: 8.5, finalScore: 8.0, overallScore: 8.2, letterGrade: "B+", isPassed: true },
-            { courseCode: "ENG10001", courseName: "Tiếng Anh học thuật 1", credits: 4, midtermScore: 8.5, finalScore: 8.5, overallScore: 8.5, letterGrade: "A", isPassed: true },
-          ]
-        }
-      ];
-      setSemesters(mockData);
-      setSelectedSemId(mockData[0].semesterId);
-      setLoading(false);
-    }, 300);
+    fetchTuitionData();
   }, []);
 
+  const fetchTuitionData = async () => {
+    try {
+      setLoading(true);
+      const res = await api.get<TuitionBalanceResponse>('/v1/finance/tuition-balance');
+      
+      // Bóc tách .data để tránh lỗi TypeScript AxiosResponse
+      setFinance(res.data || (res as unknown as TuitionBalanceResponse));
+    } catch (error) {
+      toast.error('Không thể tải dữ liệu tài chính từ máy chủ.');
+      console.error('Error fetching tuition data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading) {
-    return (
-      <div className="p-8 text-center text-slate-500 font-sans">
-        Đang tải kết quả học tập...
-      </div>
-    );
+    return <div style={{ padding: '40px', textAlign: 'center', color: '#64748b', fontFamily: 'sans-serif' }}>Đang tải thông tin tài chính...</div>;
   }
 
-  const currentSem = semesters.find(s => s.semesterId === selectedSemId) || semesters[0];
+  if (!finance) return <div style={{ padding: '40px', textAlign: 'center', color: '#94a3b8', fontFamily: 'sans-serif' }}>Không tìm thấy thông tin công nợ cho tài khoản này.</div>;
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4 sm:px-6 lg:px-8 font-sans text-slate-800">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div style={{ backgroundColor: '#f8fafc', minHeight: '100vh', padding: '32px 24px', fontFamily: 'system-ui, -apple-system, sans-serif', width: '100%' }}>
+      <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
         
-        {/* Tiêu đề trang & Thanh chọn học kỳ */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        {/* Header Section */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid #e2e8f0', paddingBottom: '20px', marginBottom: '32px', flexWrap: 'wrap', gap: '16px' }}>
           <div>
-            <h1 className="text-xl font-bold text-slate-900">Kết quả học tập</h1>
-            <p className="text-sm text-slate-500 mt-0.5">Theo dõi điểm số và tiến độ tích lũy tín chỉ</p>
+            <h1 style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', margin: '0 0 4px 0' }}>Quản Lý Học Phí & Tài Chính</h1>
+            <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
+              Học kỳ thu phí: <strong style={{ color: '#334155' }}>{finance.term || 'Học kỳ hiện tại'}</strong>
+            </p>
           </div>
-
-          <div className="flex items-center gap-2">
-            <label htmlFor="semester-select" className="text-sm font-medium text-slate-600 whitespace-nowrap">
-              Học kỳ:
-            </label>
-            <select
-              id="semester-select"
-              value={selectedSemId}
-              onChange={(e) => setSelectedSemId(e.target.value)}
-              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
-            >
-              {semesters.map((sem) => (
-                <option key={sem.semesterId} value={sem.semesterId}>
-                  {sem.semesterName}
-                </option>
-              ))}
-            </select>
+          
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {finance.financialHold ? (
+              <span style={{ display: 'inline-flex', alignItems: 'center', backgroundColor: '#fef2f2', border: '1px solid #fecaca', color: '#ef4444', padding: '6px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                Bị khóa tài chính
+              </span>
+            ) : (
+              <span style={{ display: 'inline-flex', alignItems: 'center', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0', color: '#22c55e', padding: '6px 12px', borderRadius: '6px', fontSize: '14px', fontWeight: '600', boxShadow: '0 1px 2px rgba(0,0,0,0.05)' }}>
+                Trạng thái bình thường
+              </span>
+            )}
           </div>
         </div>
 
-        {/* Thẻ tổng kết GPA - Thiết kế phẳng, trắng, viền gọn gàng */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
-            <div className="text-xs font-medium text-slate-500 uppercase">Điểm trung bình học kỳ (Hệ 10)</div>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-slate-900">{currentSem?.gpa10.toFixed(2)}</span>
-              <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">Giỏi</span>
+        {/* Thống kê Tổng quan (4 Thẻ Cards) */}
+        <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', flexWrap: 'wrap' }}>
+          <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#ffffff', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', borderTop: '4px solid #64748b', border: '1px solid #e2e8f0', borderTopWidth: '4px', borderTopColor: '#64748b' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Tổng Học Phí</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: '#1e293b' }}>
+              {(finance.totalCharges || 0).toLocaleString('vi-VN')} đ
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
-            <div className="text-xs font-medium text-slate-500 uppercase">Điểm trung bình học kỳ (Hệ 4)</div>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-slate-900">{currentSem?.gpa4.toFixed(2)}</span>
-              <span className="text-xs text-slate-400">/ 4.0</span>
+          <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#ffffff', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0', borderTop: '4px solid #10b981' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Học Bổng / Giảm Trừ</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: '#10b981' }}>
+              - {(finance.scholarshipAmount || 0).toLocaleString('vi-VN')} đ
             </div>
           </div>
 
-          <div className="bg-white p-5 rounded-lg border border-slate-200 shadow-sm">
-            <div className="text-xs font-medium text-slate-500 uppercase">Tín chỉ đạt / Tổng đăng ký</div>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-bold text-slate-900">{currentSem?.creditsEarned}</span>
-              <span className="text-sm text-slate-500">/ {currentSem?.totalCredits} tín chỉ</span>
+          <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#ffffff', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0', borderTop: '4px solid #0ea5e9' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Đã Thanh Toán</div>
+            <div style={{ fontSize: '24px', fontWeight: '700', color: '#0ea5e9' }}>
+              {(finance.payments || 0).toLocaleString('vi-VN')} đ
+            </div>
+          </div>
+
+          <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#ffffff', borderRadius: '8px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0', borderTop: '4px solid #f43f5e' }}>
+            <div style={{ fontSize: '12px', fontWeight: '600', color: '#f43f5e', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>Số Dư Còn Nợ</div>
+            <div style={{ fontSize: '28px', fontWeight: '700', color: (finance.balance || 0) > 0 ? '#f43f5e' : '#10b981' }}>
+              {(finance.balance || 0).toLocaleString('vi-VN')} đ
             </div>
           </div>
         </div>
 
-        {/* Bảng điểm chi tiết - Chuẩn layout trang quản lý */}
-        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-200 bg-slate-50/50">
-            <h2 className="text-sm font-semibold text-slate-700">Chi tiết bảng điểm môn học</h2>
+        {/* Bảng Lịch Sử Thanh Toán */}
+        <div style={{ backgroundColor: '#ffffff', borderRadius: '8px', boxShadow: '0 1px 3px rgba(0,0,0,0.08)', border: '1px solid #e2e8f0', overflow: 'hidden' }}>
+          <div style={{ padding: '16px 24px', borderBottom: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>
+            <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>Lịch Sử Giao Dịch</h2>
           </div>
-
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+          
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '14px' }}>
               <thead>
-                <tr className="border-b border-slate-200 text-xs font-semibold text-slate-600 bg-slate-50">
-                  <th className="py-3 px-4 w-28">Mã môn</th>
-                  <th className="py-3 px-4">Tên môn học</th>
-                  <th className="py-3 px-4 text-center w-20">TC</th>
-                  <th className="py-3 px-4 text-right w-24">Giữa kỳ</th>
-                  <th className="py-3 px-4 text-right w-24">Cuối kỳ</th>
-                  <th className="py-3 px-4 text-right w-24 font-bold">Tổng kết</th>
-                  <th className="py-3 px-4 text-center w-24">Điểm chữ</th>
-                  <th className="py-3 px-4 text-center w-24">Trạng thái</th>
+                <tr style={{ backgroundColor: '#ffffff', borderBottom: '2px solid #e2e8f0', color: '#64748b', fontSize: '12px', textTransform: 'uppercase' }}>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Mã Giao Dịch</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Ngày Thanh Toán</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Phương Thức</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'right' }}>Số Tiền</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'center' }}>Trạng Thái</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200 text-sm">
-                {currentSem?.courses.map((course) => (
-                  <tr key={course.courseCode} className="hover:bg-slate-50/70">
-                    <td className="py-3.5 px-4 font-mono text-xs text-slate-600">{course.courseCode}</td>
-                    <td className="py-3.5 px-4 font-medium text-slate-900">{course.courseName}</td>
-                    <td className="py-3.5 px-4 text-center text-slate-600">{course.credits}</td>
-                    <td className="py-3.5 px-4 text-right text-slate-600">{course.midtermScore.toFixed(1)}</td>
-                    <td className="py-3.5 px-4 text-right text-slate-600">{course.finalScore.toFixed(1)}</td>
-                    <td className="py-3.5 px-4 text-right font-semibold text-slate-900">{course.overallScore.toFixed(1)}</td>
-                    <td className="py-3.5 px-4 text-center">
-                      <span className="font-semibold text-slate-800">
-                        {course.letterGrade}
-                      </span>
-                    </td>
-                    <td className="py-3.5 px-4 text-center">
-                      {course.isPassed ? (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
-                          Đạt
+              <tbody>
+                {finance.paymentHistory && finance.paymentHistory.length > 0 ? (
+                  finance.paymentHistory.map((item, index) => (
+                    <tr key={item.paymentId} style={{ borderBottom: '1px solid #f1f5f9', backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd' }}>
+                      <td style={{ padding: '16px 24px', fontFamily: 'monospace', color: '#475569', fontWeight: '500' }}>{item.referenceNumber}</td>
+                      <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '500' }}>
+                        {item.paymentDate ? new Date(item.paymentDate).toLocaleDateString('vi-VN') : '-'}
+                      </td>
+                      <td style={{ padding: '16px 24px', color: '#475569' }}>
+                        {item.paymentMethod === 'BANK_TRANSFER' ? 'Chuyển khoản Ngân hàng' : item.paymentMethod}
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'right', fontWeight: '700', color: '#0f172a' }}>
+                        {(item.amount || 0).toLocaleString('vi-VN')} đ
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'center' }}>
+                        <span style={{ display: 'inline-block', padding: '4px 10px', borderRadius: '6px', fontWeight: '600', fontSize: '13px', backgroundColor: '#f0fdf4', color: '#16a34a', border: '1px solid #bbf7d0' }}>
+                          Thành công
                         </span>
-                      ) : (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-rose-50 text-rose-700 border border-rose-200">
-                          Học lại
-                        </span>
-                      )}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={5} style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}>
+                      Chưa ghi nhận giao dịch thanh toán nào từ máy chủ.
                     </td>
                   </tr>
-                ))}
+                )}
               </tbody>
             </table>
           </div>
@@ -190,4 +163,4 @@ export const GradePage: React.FC = () => {
   );
 };
 
-export default GradePage;
+export default TuitionPage;
