@@ -4,8 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { AuthProvider, ProtectedRoute } from './auth';
 import Layout from './components/Layout/Layout';
 import { ROUTES, ROLES } from './utils/constants';
-import { GradePage } from './pages/grades/GradePage';
-import { TuitionPage } from './pages/tuition/TuitionPage';
+
 // ============================================================
 // Lazy-loaded pages – code splitting for faster initial load
 // ============================================================
