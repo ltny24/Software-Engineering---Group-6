@@ -86,7 +86,7 @@ export default function ProfilePage() {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <h2>🧑‍🎓 Student Profile</h2>
+        <h2> Student Profile</h2>
         {!isEditing ? (
           <button className="btn-edit" onClick={() => setIsEditing(true)}>
             Edit Contact Info
