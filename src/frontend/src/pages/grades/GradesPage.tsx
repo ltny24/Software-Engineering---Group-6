@@ -27,30 +27,75 @@ export const GradePage: React.FC = () => {
   const [selectedTerm, setSelectedTerm] = useState<string>('2024-2025-HK2');
 
   useEffect(() => {
-    fetchAcademicData();
-  }, []);
+    // BƠM MOCK DATA HIỂN THỊ NGAY LẬP TỨC
+    const fakeGrades: GradeDTO[] = [
+      {
+        gradeId: 1,
+        term: '2024-2025-HK2',
+        gradeValue: 'A',
+        gradePoint: 4.0,
+        midtermScore: 8.5,
+        finalScore: 8.5,
+        overallScore: 8.5,
+        course: {
+          courseId: 101,
+          courseCode: 'CSC10009',
+          courseName: 'Hệ thống máy tính',
+          credits: 4,
+        },
+      },
+      {
+        gradeId: 2,
+        term: '2024-2025-HK2',
+        gradeValue: 'A',
+        gradePoint: 4.0,
+        midtermScore: 9.0,
+        finalScore: 8.5,
+        overallScore: 8.7,
+        course: {
+          courseId: 102,
+          courseCode: 'CSC10004',
+          courseName: 'Cấu trúc dữ liệu và giải thuật',
+          credits: 4,
+        },
+      },
+      {
+        gradeId: 3,
+        term: '2024-2025-HK2',
+        gradeValue: 'B+',
+        gradePoint: 3.5,
+        midtermScore: 8.0,
+        finalScore: 8.5,
+        overallScore: 8.3,
+        course: { courseId: 103, courseCode: 'CSC10006', courseName: 'Cơ sở dữ liệu', credits: 4 },
+      },
+      {
+        gradeId: 4,
+        term: '2024-2025-HK1',
+        gradeValue: 'A',
+        gradePoint: 4.0,
+        midtermScore: 8.5,
+        finalScore: 9.0,
+        overallScore: 8.8,
+        course: {
+          courseId: 104,
+          courseCode: 'CSC10001',
+          courseName: 'Nhập môn lập trình',
+          credits: 4,
+        },
+      },
+    ];
 
-  const fetchAcademicData = async () => {
-    try {
-      setLoading(true);
-      const [gradesResponse, gpaResponse] = await Promise.all([
-        api.get<GradeDTO[]>('/v1/academic/grades'),
-        api.get<number>('/v1/academic/gpa')
-      ]);
-      
-      setGrades(gradesResponse);
-      setGpa(gpaResponse);
-    } catch (error) {
-      toast.error('Không thể tải kết quả học tập từ máy chủ.');
-      console.error('Error fetching academic data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    setGrades(fakeGrades);
+    setGpa(8.55);
+    setLoading(false);
+  }, []);
 
   if (loading) {
     return (
-      <div className="min-h-[50vh] flex items-center justify-center text-slate-500 font-medium">
+      <div
+        style={{ padding: '40px', textAlign: 'center', color: '#64748b', fontFamily: 'sans-serif' }}
+      >
         Đang tải dữ liệu bảng điểm...
       </div>
     );
@@ -60,23 +105,70 @@ export const GradePage: React.FC = () => {
   const totalCredits = filteredGrades.reduce((sum, g) => sum + (g.course?.credits || 0), 0);
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] py-8 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-6xl mx-auto space-y-8">
-        
+    <div
+      style={{
+        backgroundColor: '#f8fafc',
+        minHeight: '100vh',
+        padding: '32px 24px',
+        fontFamily: 'system-ui, -apple-system, sans-serif',
+        width: '100%',
+      }}
+    >
+      <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
         {/* Header Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-slate-200 pb-5">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            borderBottom: '1px solid #e2e8f0',
+            paddingBottom: '20px',
+            marginBottom: '32px',
+            flexWrap: 'wrap',
+            gap: '16px',
+          }}
+        >
           <div>
-            <h1 className="text-2xl font-semibold text-slate-800 tracking-tight">Kết Quả Học Tập & GPA</h1>
-            <p className="text-sm text-slate-500 mt-1">Quản lý điểm số và tiến độ tích lũy tín chỉ</p>
+            <h1
+              style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', margin: '0 0 4px 0' }}
+            >
+              Kết Quả Học Tập & GPA
+            </h1>
+            <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
+              Quản lý điểm số và tiến độ tích lũy tín chỉ
+            </p>
           </div>
-          
-          <div className="mt-4 sm:mt-0 flex items-center bg-white border border-slate-200 rounded-md px-3 py-1.5 shadow-sm">
-            <label htmlFor="term-select" className="text-sm font-medium text-slate-600 mr-2">Học kỳ:</label>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              backgroundColor: '#ffffff',
+              border: '1px solid #cbd5e1',
+              borderRadius: '6px',
+              padding: '6px 12px',
+              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
+            }}
+          >
+            <label
+              htmlFor="term-select"
+              style={{ fontSize: '14px', fontWeight: '500', color: '#475569', marginRight: '8px' }}
+            >
+              Học kỳ:
+            </label>
             <select
               id="term-select"
               value={selectedTerm}
               onChange={(e) => setSelectedTerm(e.target.value)}
-              className="bg-transparent text-sm font-medium text-slate-800 focus:outline-none cursor-pointer"
+              style={{
+                border: 'none',
+                backgroundColor: 'transparent',
+                fontSize: '14px',
+                fontWeight: '500',
+                color: '#1e293b',
+                outline: 'none',
+                cursor: 'pointer',
+              }}
             >
               <option value="2024-2025-HK2">Học kỳ 2 (2024 - 2025)</option>
               <option value="2024-2025-HK1">Học kỳ 1 (2024 - 2025)</option>
@@ -84,64 +176,243 @@ export const GradePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Thống kê Tổng quan */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-lg p-6 shadow-sm border-t-4 border-indigo-500">
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Trung Bình Tích Lũy (Hệ 10)</h3>
-            <div className="flex items-end gap-3">
-              <span className="text-3xl font-bold text-slate-800">{gpa ? gpa.toFixed(2) : '0.00'}</span>
-              <span className="text-sm font-medium text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">Khá Giỏi</span>
+        {/* Thống kê Tổng quan (3 Thẻ Cards) */}
+        <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', flexWrap: 'wrap' }}>
+          {/* Card 1 */}
+          <div
+            style={{
+              flex: '1',
+              minWidth: '250px',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '24px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              borderTop: '4px solid #6366f1',
+              border: '1px solid #e2e8f0',
+              borderTopWidth: '4px',
+              borderTopColor: '#6366f1',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#64748b',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                marginBottom: '8px',
+              }}
+            >
+              Trung Bình Tích Lũy (Hệ 10)
+            </div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '12px' }}>
+              <span style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
+                {gpa ? gpa.toFixed(2) : '0.00'}
+              </span>
+              <span
+                style={{
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: '#4f46e5',
+                  backgroundColor: '#eef2ff',
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                }}
+              >
+                Khá Giỏi
+              </span>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm border-t-4 border-sky-500">
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Điểm Hệ 4 (Quy Đổi)</h3>
-            <div className="flex items-end gap-2">
-              <span className="text-3xl font-bold text-slate-800">{gpa ? (gpa * 0.4).toFixed(2) : '0.00'}</span>
-              <span className="text-sm font-medium text-slate-400 mb-1">/ 4.0</span>
+          {/* Card 2 */}
+          <div
+            style={{
+              flex: '1',
+              minWidth: '250px',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '24px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              border: '1px solid #e2e8f0',
+              borderTop: '4px solid #0ea5e9',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#64748b',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                marginBottom: '8px',
+              }}
+            >
+              Điểm Hệ 4 (Quy Đổi)
+            </div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+              <span style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
+                {gpa ? (gpa * 0.4).toFixed(2) : '0.00'}
+              </span>
+              <span style={{ fontSize: '14px', fontWeight: '500', color: '#94a3b8' }}>/ 4.0</span>
             </div>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-sm border-t-4 border-emerald-500">
-            <h3 className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Tín Chỉ Học Kỳ Này</h3>
-            <div className="flex items-end gap-2">
-              <span className="text-3xl font-bold text-slate-800">{totalCredits}</span>
-              <span className="text-sm font-medium text-slate-500 mb-1">tín chỉ</span>
+          {/* Card 3 */}
+          <div
+            style={{
+              flex: '1',
+              minWidth: '250px',
+              backgroundColor: '#ffffff',
+              borderRadius: '8px',
+              padding: '24px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+              border: '1px solid #e2e8f0',
+              borderTop: '4px solid #10b981',
+            }}
+          >
+            <div
+              style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: '#64748b',
+                textTransform: 'uppercase',
+                letterSpacing: '0.5px',
+                marginBottom: '8px',
+              }}
+            >
+              Tín Chỉ Học Kỳ Này
+            </div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+              <span style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
+                {totalCredits}
+              </span>
+              <span style={{ fontSize: '14px', fontWeight: '500', color: '#64748b' }}>tín chỉ</span>
             </div>
           </div>
         </div>
 
         {/* Bảng Chi Tiết Môn Học */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200">
-          <div className="px-6 py-4 border-b border-slate-100 bg-slate-50/50">
-            <h2 className="text-sm font-semibold text-slate-700">Chi Tiết Bảng Điểm Môn Học</h2>
+        <div
+          style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '8px',
+            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+            border: '1px solid #e2e8f0',
+            overflow: 'hidden',
+          }}
+        >
+          <div
+            style={{
+              padding: '16px 24px',
+              borderBottom: '1px solid #e2e8f0',
+              backgroundColor: '#f8fafc',
+            }}
+          >
+            <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
+              Chi Tiết Bảng Điểm Môn Học
+            </h2>
           </div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-sm">
+
+          <div style={{ overflowX: 'auto' }}>
+            <table
+              style={{
+                width: '100%',
+                borderCollapse: 'collapse',
+                textAlign: 'left',
+                fontSize: '14px',
+              }}
+            >
               <thead>
-                <tr className="bg-white text-slate-500 uppercase text-xs tracking-wider border-b border-slate-200">
-                  <th className="py-4 px-6 font-medium">Mã MH</th>
-                  <th className="py-4 px-6 font-medium">Tên Môn Học</th>
-                  <th className="py-4 px-6 font-medium text-center">STC</th>
-                  <th className="py-4 px-6 font-medium text-right">Giữa Kỳ</th>
-                  <th className="py-4 px-6 font-medium text-right">Cuối Kỳ</th>
-                  <th className="py-4 px-6 font-semibold text-slate-700 text-right">Tổng Kết</th>
-                  <th className="py-4 px-6 font-medium text-center">Điểm Chữ</th>
+                <tr
+                  style={{
+                    backgroundColor: '#ffffff',
+                    borderBottom: '2px solid #e2e8f0',
+                    color: '#64748b',
+                    fontSize: '12px',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Mã MH</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Tên Môn Học</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'center' }}>
+                    STC
+                  </th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'right' }}>
+                    Giữa Kỳ
+                  </th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'right' }}>
+                    Cuối Kỳ
+                  </th>
+                  <th
+                    style={{
+                      padding: '14px 24px',
+                      fontWeight: '600',
+                      textAlign: 'right',
+                      color: '#334155',
+                    }}
+                  >
+                    Tổng Kết
+                  </th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'center' }}>
+                    Điểm Chữ
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody>
                 {filteredGrades.length > 0 ? (
-                  filteredGrades.map((item) => (
-                    <tr key={item.gradeId} className="hover:bg-slate-50/60 transition-colors">
-                      <td className="py-4 px-6 font-mono text-slate-600">{item.course?.courseCode}</td>
-                      <td className="py-4 px-6 font-medium text-slate-800">{item.course?.courseName}</td>
-                      <td className="py-4 px-6 text-center text-slate-600">{item.course?.credits}</td>
-                      <td className="py-4 px-6 text-right text-slate-600">{item.midtermScore ? item.midtermScore.toFixed(1) : '-'}</td>
-                      <td className="py-4 px-6 text-right text-slate-600">{item.finalScore ? item.finalScore.toFixed(1) : '-'}</td>
-                      <td className="py-4 px-6 text-right font-semibold text-slate-800">{item.overallScore ? item.overallScore.toFixed(1) : '-'}</td>
-                      <td className="py-4 px-6 text-center">
-                        <span className="inline-flex justify-center items-center px-2.5 py-0.5 rounded-md font-medium text-slate-700 bg-slate-100 border border-slate-200 min-w-[2rem]">
+                  filteredGrades.map((item, index) => (
+                    <tr
+                      key={item.gradeId}
+                      style={{
+                        borderBottom: '1px solid #f1f5f9',
+                        backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
+                      }}
+                    >
+                      <td
+                        style={{
+                          padding: '16px 24px',
+                          fontFamily: 'monospace',
+                          color: '#475569',
+                          fontWeight: '500',
+                        }}
+                      >
+                        {item.course?.courseCode}
+                      </td>
+                      <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
+                        {item.course?.courseName}
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'center', color: '#475569' }}>
+                        {item.course?.credits}
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'right', color: '#475569' }}>
+                        {item.midtermScore ? item.midtermScore.toFixed(1) : '-'}
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'right', color: '#475569' }}>
+                        {item.finalScore ? item.finalScore.toFixed(1) : '-'}
+                      </td>
+                      <td
+                        style={{
+                          padding: '16px 24px',
+                          textAlign: 'right',
+                          fontWeight: '700',
+                          color: '#0f172a',
+                        }}
+                      >
+                        {item.overallScore ? item.overallScore.toFixed(1) : '-'}
+                      </td>
+                      <td style={{ padding: '16px 24px', textAlign: 'center' }}>
+                        <span
+                          style={{
+                            display: 'inline-block',
+                            padding: '4px 10px',
+                            borderRadius: '6px',
+                            fontWeight: '600',
+                            fontSize: '13px',
+                            backgroundColor: '#f1f5f9',
+                            color: '#334155',
+                            border: '1px solid #e2e8f0',
+                          }}
+                        >
                           {item.gradeValue}
                         </span>
                       </td>
@@ -149,7 +420,10 @@ export const GradePage: React.FC = () => {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={7} className="py-12 text-center text-slate-400">
+                    <td
+                      colSpan={7}
+                      style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}
+                    >
                       Chưa có dữ liệu môn học cho học kỳ này.
                     </td>
                   </tr>
@@ -158,7 +432,6 @@ export const GradePage: React.FC = () => {
             </table>
           </div>
         </div>
-
       </div>
     </div>
   );
