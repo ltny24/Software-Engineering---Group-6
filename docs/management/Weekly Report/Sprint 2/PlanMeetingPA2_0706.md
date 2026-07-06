@@ -110,7 +110,6 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 
 1. Complete peer reviews, address feedback, and finalize all documentation and implementation deliverables before the sprint deadline.
 2. Resolve identified issues from reviews and prepare the project for Phase 3 development activities.
-3. A scrum meeting will be held on **15/06/2026** to evaluate the outcomes of **Sprint 2 (PA2)** and confirm readiness for Phase 3.
 
 
 ---
