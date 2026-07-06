@@ -34,8 +34,10 @@
 | Hồ Thị Như Ngọc | Copilot (VSCode) | Assisted in adding initial API docs scaffolding in the backend (task T006) |
 | Dương Minh Huỳnh Khôi | Copilot (VSCode) | Assisted in creating the backend Spring Boot project skeleton (task T001) and configuring JWT auth dependencies in the backend (task T004) |
 | Hoàng Trung Kiên | Copilot (VSCode) | Assisted in creating the React frontend project skeleton (task T002) and configuring frontend routing & global layout (task T005) |
-| Trần Tường Vi | *No coding task assigned in Phase 1 — no AI usage to declare* |  |
+| Trần Tường Vi |  | *No coding task assigned in Phase 1 — no AI usage to declare* |
 | Lê Thị Như Ý | Copilot (VSCode) | Assisted in configuring linting, formatting, and environment variables (task T003) |
+
+### Code - Phase 2 
 
 | Full Name | AI Tool | Purpose of Usage |
 | :--- | :--- | :--- |
