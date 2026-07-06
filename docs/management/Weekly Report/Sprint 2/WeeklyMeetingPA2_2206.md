@@ -102,5 +102,5 @@ The Weekly Review & Phase 3 Planning Meeting successfully finalized all tasks as
 
 ## 8. Appendix - Evidence
 
-The following screenshot serves as proof of the weekly project alignment and review meeting held online on 22/06/2026.
-![Weekly Review & Phase 3 Planning Meeting Evidence](evidence/temp_2206_online.png)
+The following screenshot serves as proof of the weekly project alignment and review meeting held online on 11/06/2026.
+![Weekly Review & Phase 3 Planning Meeting Evidence](evidence/1106_online.png)
