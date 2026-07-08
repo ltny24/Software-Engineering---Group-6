@@ -65,7 +65,7 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 | For | Task Name | Task Description | Person in Charge | Reviewer | Requirement | Deadline |
 | --- | --- | --- | --- | --- | --- | --- |
 | Spec Kit | Complete all | Complete `constitution.md` after review | Lê Thị Như Ý | Trần Tường Vi |  | 14/06/2026 |
-| Spec Kit | Summary and review  | Each member self-summarizes and reviews their Spec Kit section | Remaining members | Lê Thị Như Ý |  | 10/06/2026 |
+| Spec Kit | Summary and review | Each member self-summarizes and reviews their Spec Kit section | Remaining members | Lê Thị Như Ý |  | 10/06/2026 |
 | AI Usage Report (Draft) & Weekly Report | AI Usage & Weekly Report | Document AI tool usage log (draft) and conduct sprint meeting reports | Trần Tường Vi | Hoàng Trung Kiên | Put in Management | 14/06/2026 |
 | Project Plan | Sections 1, 2, 3 | Introduction, Project Overview, and Project Organization (team roles & risk management) | Trần Tường Vi | Hoàng Trung Kiên | Put in Management | 14/06/2026 |
 | Project Plan | Section 4 | Detailed 5-sprint roadmap, schedule, and build plan | Hồ Thị Như Ngọc | Lê Thị Như Ý | Put in Management | 14/06/2026 |
@@ -80,7 +80,7 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 | For | Task Name | Task Description | Person in Charge | Reviewer | Requirement | Deadline |
 | --- | --- | --- | --- | --- | --- | --- |
 | Phase 1 | T001 | Create backend Spring Boot project skeleton in `backend/` | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | Follow `tasks.md` | 11/06/2026 |
-| Phase 1 | T002, T005 | Create React frontend skeleton and configure routing, protected route wrappers, and global layout | Hoàng Trung Kiên | Lê Thị Như Ý | Follow `tasks.md` | 11/06/2026 |
+| Phase 1 | T002, T005 | Create React frontend skeleton and configure routing, protected route wrappers, and global layout | Hoàng Trung Kiên | Lê Thị Như Ý | Follow `tasks.md` | 14/06/2026 |
 | Phase 1 | T003 | Configure repo-level linting, formatting, and environment variables (`.vscode/`) | Lê Thị Như Ý | Dương Minh Huỳnh Khôi | Follow `tasks.md` | 14/06/2026 |
 | Phase 1 | T004, T006 | Configure JWT authentication dependencies in `build.gradle` and add initial API documentation scaffolding | Hồ Thị Như Ngọc | Hoàng Trung Kiên | Follow `tasks.md` | 14/06/2026 |
 | Phase 2 | T007 | Setup SQL Server schema and migration scripts | Trần Tường Vi | Hoàng Trung Kiên | Follow `tasks.md` | 16/06/2026 |
@@ -95,28 +95,27 @@ The team outlined the implementation workflow to achieve a working end-to-end au
 
 > **Note:** T014 — Lê Thị Như Ý handles frontend README, Trần Tường Vi handles backend README. Both reviewed together.
 
-
 ---
 
 ## 5. Decisions Made
 
 1. The project will be developed using Java Spring Boot for the backend, React with TypeScript for the frontend, and Microsoft SQL Server as the database management system.
-2. All Phase 1 tasks (T001, T002, T005) must be completed by **11/06/2026**; remaining Phase 1 tasks (T003, T004, T006) by **14/06/2026**.
+2. Task T001 must be completed by **11/06/2026**; remaining Phase 1 tasks (T002, T003, T004, T005, T006) by **14/06/2026**.
 3. Phase 2 tasks are assigned staggered deadlines from **16/06/2026 to 20/06/2026** to allow for sequential cross-review and integration.
 
 ---
 
 ## 6. Next Steps
 
-1. Complete peer reviews, address feedback, and finalize all documentation and implementation deliverables before the sprint deadline.
-2. Resolve identified issues from reviews and prepare the project for Phase 3 development activities.
-
+1. Review the Spec Kit summary.
+2. Continue implementing Phase 1 technical tasks and drafting PA2 documentation.
+3. Complete and review Phase 1 deliverables, then prepare for Phase 2 development activities.
 
 ---
 
 ## 7. Conclusion
 
-The Sprint 2 Planning Meeting was successfully completed. All five members have clear task assignments for both the technical and documentation tracks. Phase 1 tasks are due by **11/06/2026** (T001, T002, T005) and **14/06/2026** (T003, T004, T006), while Phase 2 tasks are distributed across staggered deadlines from **16/06/2026 to 20/06/2026** to support incremental delivery and peer review. The team will follow Scrum practices, keep the Jira board updated, and enforce peer review on all tasks.
+The Sprint 2 Planning Meeting was successfully completed. All five members have clear task assignments for both the technical and documentation tracks. Phase 1 tasks are due by **11/06/2026** (T001) and **14/06/2026** (T002, T003, T004, T005, T006), while Phase 2 tasks are distributed across staggered deadlines from **16/06/2026 to 20/06/2026** to support incremental delivery and peer review. The team will follow Scrum practices, keep the Jira board updated, and enforce peer review on all tasks.
 
 ---
 
