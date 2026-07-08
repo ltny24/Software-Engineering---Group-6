@@ -1,4 +1,4 @@
-# Meeting Report 6 - Weekly Review & Spec Kit Review (Sprint 2 - PA2)
+# Meeting Report 6 - Weekly Review 1 (Sprint 2 - PA2)
 
 **Course:** CSC13002 - Introduction to Software Engineering\
 **Project Assignment:** PA2-2026\
