@@ -4,7 +4,7 @@
 **Project Assignment:** PA2-2026\
 **Group Name:** High5\
 **Project Name:** MyUS\
-**Meeting Type:** Weekly Review & Spec Kit Review\
+**Meeting Type:** Weekly Review 1\
 **Meeting Date:** 11/06/2026
 
 ---
