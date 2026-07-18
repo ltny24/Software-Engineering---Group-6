@@ -10,10 +10,10 @@
 
 - [x] T001 Create backend Spring Boot project skeleton in backend/
 - [x] T002 Create React frontend project skeleton in frontend/
-- [ ] T003 Configure repository-level linting, formatting, and environment variables in `.vscode/`, `backend/`, and `frontend/`
-- [ ] T004 [P] Configure JWT authentication dependencies and environment settings in `backend/build.gradle` or `backend/pom.xml`
-- [ ] T005 [P] Configure frontend routing, protected route wrappers, and global layout in `frontend/src/`
-- [ ] T006 [P] Add initial API documentation scaffolding in `backend/src/main/resources/static/api-docs/`
+- [x] T003 Configure repository-level linting, formatting, and environment variables in `.vscode/`, `backend/`, and `frontend/`
+- [x] T004 [P] Configure JWT authentication dependencies and environment settings in `backend/build.gradle` or `backend/pom.xml`
+- [x] T005 [P] Configure frontend routing, protected route wrappers, and global layout in `frontend/src/`
+- [x] T006 [P] Add initial API documentation scaffolding in `backend/src/main/resources/static/api-docs/`
 
 ---
 
@@ -21,14 +21,14 @@
 
 **Purpose**: Core backend and frontend infrastructure that must be complete before user story implementation begins.
 
-- [ ] T007 Setup SQL Server database schema, migration scripts, and entity definitions in `backend/src/main/resources/db/` and `backend/src/main/java/com/myus/entity/`
-- [ ] T008 [P] Implement JWT authentication filter and security configuration in `backend/src/main/java/com/myus/security/`
-- [ ] T009 [P] Implement role-based access control for Student and Administrator roles in `backend/src/main/java/com/myus/security/`
-- [ ] T010 [P] Create Student and Administrator identity, profile, and authorization entities in `backend/src/main/java/com/myus/entity/`
-- [ ] T011 [P] Add backend API exception handling and validation response middleware in `backend/src/main/java/com/myus/exception/`
-- [ ] T012 [P] Implement frontend authentication state, login/logout flows, and protected route components in `frontend/src/auth/`
-- [ ] T013 [P] Implement frontend shared data services for API calls and error handling in `frontend/src/services/`
-- [ ] T014 [P] Add baseline API documentation and developer guide references in `backend/README.md` and `frontend/README.md`
+- [x] T007 Setup SQL Server database schema, migration scripts, and entity definitions in `backend/src/main/resources/db/` and `backend/src/main/java/com/myus/entity/`
+- [x] T008 [P] Implement JWT authentication filter and security configuration in `backend/src/main/java/com/myus/security/`
+- [x] T009 [P] Implement role-based access control for Student and Administrator roles in `backend/src/main/java/com/myus/security/`
+- [x] T010 [P] Create Student and Administrator identity, profile, and authorization entities in `backend/src/main/java/com/myus/entity/`
+- [x] T011 [P] Add backend API exception handling and validation response middleware in `backend/src/main/java/com/myus/exception/`
+- [x] T012 [P] Implement frontend authentication state, login/logout flows, and protected route components in `frontend/src/auth/`
+- [x] T013 [P] Implement frontend shared data services for API calls and error handling in `frontend/src/services/`
+- [x] T014 [P] Add baseline API documentation and developer guide references in `backend/README.md` and `frontend/README.md`
 
 ---
 
