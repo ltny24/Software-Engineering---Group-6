@@ -1,4 +1,5 @@
-# PROJECT PLAN - MyUS
+# REVISED PROJECT PLAN - MyUS
+
 *Performed by: Hồ Thị Như Ngọc | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc*
 
 ## 1. Introduction
@@ -25,7 +26,7 @@ This document outlines the project's overview, team organization, risk managemen
 
 The system covers 9 functional groups spanning two user roles — Student and Administrator — delivered as a responsive web application. The platform supports all major browsers (Chrome, Edge, Firefox, Safari) and devices (desktop, laptop, tablet, smartphone) on Windows, macOS, Linux, Android, and iOS.
 
-**Out of scope:** native mobile applications, integration with third-party LMS platforms, and direct online payment processing for tuition fees.
+Out of scope: native mobile applications, integration with third-party LMS platforms, and direct online payment processing for tuition fees.
 
 ### 2.3 Deliverables
 
@@ -116,50 +117,68 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
  #### Sprint 3: Grade Appeal Process & AI Virtual Assistant
 * **Duration:** 26/06/2026 - 11/7/2026 & 17/7/2026 - 24/07/2026
 
-*Note: Off 12/7/2026 - 16/7/2026 for midterm exams*
+*Note:*
+*Off from 21/06/2026 to 05/06/2026 due to class off.*
+
+*Off from 12/7/2026 to 16/7/2026 for midterm exams.*
 
 * **Objectives:** 
 
-  * Deliver the Student Academic Self-Service MVP (Profile, Course Registration, Grades, and Tuition).
-  * Implement the Timetable feature and the core components of the Grade Appeal submission workflow (Submission, Upload, Status).
+  * Deliver the Student Academic Self-Service MVP (Profile, Course Registration, Grades, Tuition, and initial Timetable UI).
+  * Implement the complete Timetable integration (Data & Backend API) and the core components of the Grade Appeal submission workflow (Submission, Upload, Status).
   * Complete PA3 requirements.
+
+### PA3 Report Writing Task Schedule
+
+| Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
+| --- | --- | --- | --- | --- | --- | --- |
+| **R01** | A - Revised Project Plan | Ngọc | Ý | 23/07 | None | Vi |
+| **R02** | B - Detailed Vision Document | Ngọc | Khôi | 23/07 | None | Kiên |
+| **R03** | C - Use-Case Model | Ý | Ngọc | 23/07 | None | Khôi |
+| **R04** | D - Use-Case Specification (Student) | Ngọc | Vi | 23/07 | R03 | Ý |
+| **R05** | D - Use-Case Specification (Admin) | Kiên | Khôi | 23/07 | R03 | Vi |
+| **R06** | E - Implement 1 Functional Group using Spec Kit (Video) | Vi | Kiên | 24/07 | Phase 4 | Ngọc |
+| **R07** | AI Usage Report | Vi | Kiên | 24/07 | None | Ngọc |
+| **R8** | Weekly Report (Plan + Week 1) | Kiên | Khôi | 07/07 | None | Ý |
+| **R9** | Weekly Report (Week 2 + Review) | Khôi | Vi | 24/07 | None | Kiên |
 
 ### Phase 3: MVP - Student Academic Self-Service
 
-**Goal:** Enable authenticated students to view and manage their profile, register for courses, view grades, and track tuition details independently.
+**Goal:** Enable authenticated students to view and manage their profile, register for courses, view grades, access the initial timetable interface, and track tuition details independently.
 
-**Independent Test:** A student logs in, updates their profile, registers for a course, views grades, and reviews their tuition balance without administrator interaction.
+**Independent Test:** A student logs in, updates their profile, registers for a course, views grades, reviews tuition balance, and accesses the timetable UI without administrator interaction.
 
-| Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
-| --- | --- | --- | --- | --- | --- | --- |
-| **T015** | Implement student profile retrieval endpoint | Vi | Khôi | 26/06 | None | Ngọc |
-| **T016** | Implement student profile update service | Vi | Khôi | 27/06 | T015 | Khôi |
-| **T017** | Implement student profile view & edit UI | Ý | Kiên | 28/06 | T015, T016 | Kiên |
-| **T018** | Implement course catalog browsing endpoint | Khôi | Ngọc | 30/06 | None | Vi |
-| **T019** | Implement enrollment record service | Khôi | Ngọc | 01/07 | T018 | Ngọc |
-| **T020** | Implement frontend course browsing & registration | Kiên | Ý | 02/07 | T018, T019 | Ý |
-| **T021** | Implement grade retrieval & GPA calculation | Ngọc | Vi | 05/07 | None | Khôi |
-| **T022** | Implement tuition balance & payment APIs | Vi | Khôi | 06/07 | None | Ngọc |
-| **T023** | Implement frontend grade dashboard & GPA | Ý | Kiên | 07/07 | T021 | Kiên |
-| **T024** | Implement frontend tuition summary UI | Ý | Kiên | 08/07 | T022 | Kiên |
-| **T025** | Add backend unit tests for US1 | Ngọc | Khôi | 10/07 | T016, T019, T021, T022 | Vi |
-| **T026** | Add frontend integration tests for US1 | Kiên | Ý | 10/07 | T017, T020, T023, T024 | Ý |
+|Task ID|Task Description|Assignee|Reviewer|Deadline|Prerequisites|Backup Member|
+|-|-|-|-|-|-|-|
+|**T015**|Implement student profile retrieval endpoint|Vi|Khôi|26/06|None|Ngọc|
+|**T016**|Implement student profile update service|Vi|Khôi|27/06|T015|Khôi|
+|**T017**|Implement student profile view \& edit UI|Ý|Kiên|28/06|T015, T016|Kiên|
+|**T018**|Implement course catalog browsing endpoint|Khôi|Ngọc|30/06|None|Vi|
+|**T020**|Implement enrollment record service|Khôi|Ngọc|01/07|T018|Ngọc|
+|**T019**|Implement frontend course browsing \& registration|Kiên|Ý|02/07|T018, T020|Ý|
+|**T021**|Implement timetable \& course schedule UI|Kiên|Ý|03/07|T019|Ý|
+|**T022**|Implement grade retrieval \& GPA calculation|Ngọc|Vi|05/07|None|Khôi|
+|**T024**|Implement tuition balance \& payment APIs|Vi|Khôi|06/07|None|Ngọc|
+|**T023**|Implement frontend grade dashboard \& GPA|Ý|Kiên|07/07|T022|Kiên|
+|**T025**|Implement frontend tuition summary UI|Ý|Kiên|08/07|T024|Kiên|
+|**T026**|Add backend unit tests for US1|Ngọc|Khôi|10/07|T016, T020, T022, T024|Vi|
+|**T027**|Add frontend integration tests for US1|Kiên|Ý|10/07|T017, T019, T021, T023, T025|Ý|
 
 ### Phase 4: Timetable and Support Workflow (Part 1)
 
-**Goal:** Enable students to manage their course timetable and initiate the grade appeal process, including document uploads and status tracking.
+**Goal:** Complete the dynamic timetable integration (data modeling and backend API) and enable students to initiate the grade appeal process, including document uploads and status tracking.
 
-**Independent Test:** A student successfully accesses and interacts with their updated course timetable, submits a grade appeal with supporting documents, and checks the status of their appeal.
+**Independent Test:** A student successfully retrieves fully integrated timetable data, submits a grade appeal with supporting documents, and checks the status of their appeal.
 
 | Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
 | --- | --- | --- | --- | --- | --- | --- |
-| **T027** | Implement timetable data design & model | Vi | Khôi | 24/07 | None | Ngọc |
-| **T028** | Implement timetable backend API | Kiên | Ngọc | 24/07 | T027 | Vi |
-| **T029** | Implement timetable frontend UI | Ý | Kiên | 24/07 | T028 | Ý |
-| **T030** | Implement grade appeal submission endpoint | Khôi | Vi | 19/07 | None | Ngọc |
-| **T031** | Implement supporting document upload handling | Khôi | Vi | 20/07 | T030 | Kiên |
-| **T032** | Implement appeal status tracking endpoint | Ngọc | Khôi | 21/07 | T030 | Vi |
-| **T033** | Implement frontend grade appeal submission, status pages | Ý | Kiên | 22/07 | T030, T032 | Kiên |
+| **T028** | Mock data | Vi | Khôi | 20/07 | None | Ngọc |
+| **T029** | Implement timetable backend API | Kiên | Ngọc | 23/07 | T028 | Vi |
+| **T030** | Implement timetable frontend UI | Ý | Kiên | 23/07 | T029 | Ý |
+| **T031** | Implement grade appeal submission endpoint | Khôi | Vi | 19/07 | None | Ngọc |
+| **T032** | Implement supporting document upload handling | Khôi | Vi | 20/07 | T031 | Kiên |
+| **T033** | Implement appeal status tracking endpoint | Ngọc | Khôi | 21/07 | T031 | Vi |
+| **T034** | Implement frontend grade appeal submission, status pages | Ý | Kiên | 22/07 | T031, T033 | Kiên |
 
 ---
 
@@ -167,10 +186,10 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 * **Duration:** 25/07/2026 - 07/08/2026
 * **Objectives:**
+* Deliver the AI Learning Path Chatbot and finalize the Grade Appeal workflow configurations.
+* Implement Administrator Academic Operations (bulk data import, class transfer, grade appeal processing, and student records).
+* Complete PA4 requirements.
 
-    * Deliver the AI Learning Path Chatbot and finalize the Grade Appeal workflow configurations.
-    * Implement Administrator Academic Operations (bulk data import, class transfer, grade appeal processing, and student records).
-    * Complete PA4 requirements.
 
 
 #### Phase 4: Timetable and Support Workflow (Part 2)
@@ -181,11 +200,11 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 | Task ID | Task Description |
 | --- | --- |
-| **T034** | Implement appeal deadline config & validation |
-| **T035** | Implement AI chatbot backend adapter & recommendation service |
-| **T036** | Implement frontend chatbot experience & FAQ search UI |
-| **T037** | Add backend unit tests for appeal workflows & chatbot |
-| **T038** | Add frontend integration tests for US2 |
+| **T035** | Implement appeal deadline config & validation |
+| **T036** | Implement AI chatbot backend adapter & recommendation service |
+| **T037** | Implement frontend chatbot experience & FAQ search UI |
+| **T038** | Add backend unit tests for appeal workflows & chatbot |
+| **T039** | Add frontend integration tests for US2 |
 
 #### Phase 5: Administrator Academic Operations
 
@@ -195,13 +214,13 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 | Task ID | Task Description |
 | --- | --- |
-| **T039** | Implement bulk data import endpoint & validation |
-| **T040** | Implement class transfer request handling & management |
-| **T041** | Implement administrator grade appeal processing endpoint |
-| **T042** | Implement student record search & detailed endpoint |
-| **T043** | Implement admin UI for student records, bulk import & class transfer |
-| **T044** | Add backend tests for admin workflows |
-| **T045** | Add frontend acceptance tests for admin workflows |
+| **T040** | Implement bulk data import endpoint & validation |
+| **T041** | Implement class transfer request handling & management |
+| **T042** | Implement administrator grade appeal processing endpoint |
+| **T043** | Implement student record search & detailed endpoint |
+| **T044** | Implement admin UI for student records, bulk import & class transfer |
+| **T045** | Add backend tests for admin workflows |
+| **T046** | Add frontend acceptance tests for admin workflows |
 
 ---
 
@@ -209,9 +228,10 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 * **Duration:** 08/08/2026 - 22/08/2026
 * **Objectives:**
-    * Perform end-to-end User Acceptance Testing (UAT) and system-wide security reviews.
-    * Finalize system documentation, logging, and cross-cutting improvements.
-    * Complete PA5 requirements.
+* Perform end-to-end User Acceptance Testing (UAT) and system-wide security reviews.
+* Finalize system documentation, logging, and cross-cutting improvements.
+* Complete PA5 requirements.
+
 
 
 #### Phase 6: Polish & Cross-Cutting Concerns
@@ -222,9 +242,9 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 | Task ID | Task Description |
 | --- | --- |
-| **T046** | Document backend REST APIs & auth flows |
-| **T047** | Document frontend user guide, support pages |
-| **T048** | Document deployment & environment setup |
-| **T049** | Review application-wide security, privacy & sensitive data handling |
-| **T050** | Perform end-to-end User Acceptance Testing (UAT) |
-| **T051** | Implement final logging, error reporting & accessibility improvements |
+| **T047** | Document backend REST APIs & auth flows |
+| **T048** | Document frontend user guide, support pages |
+| **T049** | Document deployment & environment setup |
+| **T050** | Review application-wide security, privacy & sensitive data handling |
+| **T051** | Perform end-to-end User Acceptance Testing (UAT) |
+| **T052** | Implement final logging, error reporting & accessibility improvements |
