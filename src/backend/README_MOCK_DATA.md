@@ -40,8 +40,29 @@ The SQL script `mock_data_myus.sql` is ready for the SQL Server database of the 
 
 ---
 
-## 3. How to Import Data into SQL Server
+## 3. How to Run & Import Data
 
+### Option 1: Automatic Seeding via Spring Boot
+Add the following settings to `src/main/resources/application.properties`:
+
+```properties
+# Automatically execute SQL scripts on application startup
+spring.sql.init.mode=always
+
+# Specify locations for schema creation and mock data seeding
+spring.sql.init.schema-locations=classpath:db/schema.sql
+spring.sql.init.data-locations=classpath:db/mock_data_myus.sql
+
+# Continue on error if data already exists (prevents duplicate key crashes)
+spring.sql.init.continue-on-error=true
+
+# Disable Hibernate auto-ddl to let SQL scripts manage schema
+spring.jpa.hibernate.ddl-auto=none
+```
+
+---
+
+### Option 2: Manual SQL Import (via SSMS / Azure Data Studio / DataGrip)
 1. Ensure `schema.sql` has been executed to create all tables inside the `myus` schema.
 2. Open `mock_data_myus.sql` in SQL Server Management Studio (SSMS), Azure Data Studio, or IntelliJ Database Tool.
 3. Run/Execute the script (`Ctrl + Shift + E`).
