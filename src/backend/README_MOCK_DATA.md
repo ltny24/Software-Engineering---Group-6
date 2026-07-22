@@ -19,23 +19,21 @@ The SQL script `mock_data_myus.sql` is ready for the SQL Server database of the 
 
 ### Student Accounts (HCMUS)
 - **Quantity**: 2,000 students.
-- **Student ID (MSSV)**: Ranging from `24127001` to `24129000`
-- **Username**: Student ID (e.g., `24127001`)
-- **Password**: `<Student_ID>123` (e.g., `24127001123`)
+- **Student ID (MSSV)**: Ranging from `24120001` to `24120500`
+- **Username**: Student ID (e.g., `24120001`)
+- **Password**: `<Student_ID>123` (e.g., `24120001123`)
 - **Email Format**: `<Student_ID>@student.hcmus.edu.vn`
 - **Sample Credentials**:
-  - MSSV: `24127001` | Password: `24127001123` | Email: `24127001@student.hcmus.edu.vn`
-  - MSSV: `24127002` | Password: `24127002123` | Email: `24127002@student.hcmus.edu.vn`
-  - MSSV: `24127586` | Password: `24127586123` | Email: `24127586@student.hcmus.edu.vn`
-
+  - MSSV: `24120001` | Password: `24120001123` | Email: `24127001@student.hcmus.edu.vn`
+  - MSSV: `24127002` | Password: `24120002123` | Email: `24127002@student.hcmus.edu.vn`
 ---
 
 ## 2. Seeded Data Overview
 
 1. **Course**: Standard HCMUS curriculum courses (Calculus 1, Linear Algebra, Intro to Programming, Data Structures & Algorithms, Operating Systems, Computer Networks, Artificial Intelligence, Marxist-Leninist Philosophy, etc.).
-2. **CourseOffering**: Offered sections assigned to terms (`2024-2025-HK1`, `2024-2025-HK2`, `2025-2026-HK1`) at the 227 Nguyen Van Cu campus.
+2. **CourseOffering**: Offered sections assigned to terms at the 227 Nguyen Van Cu campus.
 3. **CourseRegistration & Grade**: Sample course enrollments and academic transcript records.
-4. **TuitionAccount & TuitionPayment**: Tuition fee structures (12,000,000 VND), scholarship details, and completed bank transfer transactions.
+4. **TuitionAccount & TuitionPayment**: Tuition fee structures, scholarship details, and completed bank transfer transactions.
 5. **FAQArticle**: FAQ articles covering online course registration, grade appeals, and tuition payment procedures.
 
 ---
