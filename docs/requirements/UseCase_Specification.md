@@ -782,16 +782,34 @@ A searchable library of questions and answers about university policies, academi
 ### 3.1 Basic Flow
 1. Student navigates to "Help & FAQ."
 2. System displays FAQ categories (Academic Policies, Registration, Grades & Appeals, Tuition, IT/Technical Support).
+
+![](Prototype_Req/student/UC10-category.jpg)
+
 3. Student searches a keyword or browses a category.
+
+![](Prototype_Req/student/UC10-SearchResult.jpg)
+
 4. System displays matching entries as an expandable list.
 5. Student selects a question to read the full answer.
 
+![](Prototype_Req/student/UC10-Question.jpg)
+
+![](Prototype_Req/student/UC10-FullAnswer.jpg)
+
+
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – No Matching Results (branches at step 3/4):** "No results found," with suggested popular topics or a "Contact Support" option.
-- **3.2.2 AF2 – Contact Support (branches at step 5):** If the FAQ doesn't resolve the issue, the student selects "Still need help?" to see helpdesk contact information or submit a ticket.
+
+![](Prototype_Req/student/UC10-NoResult.jpg)
+  
+- **3.2.2 AF2 – Contact Support (branches at step 5):** If the FAQ doesn't resolve the issue, the student selects "Still need help?" to see helpdesk contact information or submit a ticket.  
 - **3.2.3 AF3 – Rate an Answer (branches at step 5):** Student marks an answer "Helpful"/"Not Helpful" to help the university improve FAQ content.
+
+![](Prototype_Req/student/UC10-StillHelp.jpg)
+
 - **3.2.4 AF4 – Related Questions (branches at step 5):** After viewing one entry, related questions from the same category are suggested.
 - **3.2.5 AF5 – Bookmark an FAQ (branches at step 5):** Student saves a frequently referenced entry for quick future access.
+![](Prototype_Req/student/UC10-Bookmark.jpg)
 
 ## 4. Postconditions
 - FAQ content displayed; no core academic data modified; optional feedback/bookmark recorded.
