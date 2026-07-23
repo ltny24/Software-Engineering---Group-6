@@ -1,3 +1,6 @@
+# USE-CASE MODEL - MyUS 
+
+*Performed by: Lê Thị Như Ý | Reviewed by: Trần Tường Vi | Edited by: Lê Thị Như Ý*
 ## 1. Overall System & Actor Generalization
 This diagram illustrates the high-level actors interacting with the MyUS portal. Both Student and Administrator inherit from the generalized abstract User actor, allowing them to share foundational use cases such as Authentication. All 9 core functional groups are represented here.
 
