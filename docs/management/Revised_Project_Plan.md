@@ -125,7 +125,7 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 * **Objectives:** 
 
   * Deliver the Student Academic Self-Service MVP (Profile, Course Registration, Grades, Tuition, and initial Timetable UI).
-  * Implement the complete Timetable integration (Data & Backend API) and the core components of the Grade Appeal submission workflow (Submission, Upload, Status).
+  * Implement the complete Timetable integration (Data & Backend API).
   * Complete PA3 requirements.
 
 ### PA3 Report Writing Task Schedule
@@ -164,21 +164,17 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 |**T026**|Add backend unit tests for US1|Ngọc|Khôi|10/07|T016, T020, T022, T024|Vi|
 |**T027**|Add frontend integration tests for US1|Kiên|Ý|10/07|T017, T019, T021, T023, T025|Ý|
 
-### Phase 4: Timetable and Support Workflow (Part 1)
+### Phase 4: Timetable (Part 1)
 
-**Goal:** Complete the dynamic timetable integration (data modeling and backend API) and enable students to initiate the grade appeal process, including document uploads and status tracking.
+**Goal:** Complete the dynamic timetable integration (data modeling and backend API)
 
-**Independent Test:** A student successfully retrieves fully integrated timetable data, submits a grade appeal with supporting documents, and checks the status of their appeal.
+**Independent Test:** A student successfully retrieves fully integrated timetable data.
 
 | Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
 | --- | --- | --- | --- | --- | --- | --- |
 | **T028** | Mock data | Vi | Khôi | 20/07 | None | Ngọc |
-| **T029** | Implement timetable backend API | Kiên | Ngọc | 23/07 | T028 | Vi |
+| **T029** | Implement timetable backend API | Khôi | Ngọc | 23/07 | T028 | Vi |
 | **T030** | Implement timetable frontend UI | Ý | Kiên | 23/07 | T029 | Ý |
-| **T031** | Implement grade appeal submission endpoint | Khôi | Vi | 19/07 | None | Ngọc |
-| **T032** | Implement supporting document upload handling | Khôi | Vi | 20/07 | T031 | Kiên |
-| **T033** | Implement appeal status tracking endpoint | Ngọc | Khôi | 21/07 | T031 | Vi |
-| **T034** | Implement frontend grade appeal submission, status pages | Ý | Kiên | 22/07 | T031, T033 | Kiên |
 
 ---
 
@@ -187,19 +183,23 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 * **Duration:** 25/07/2026 - 07/08/2026
 * **Objectives:**
 * Deliver the AI Learning Path Chatbot and finalize the Grade Appeal workflow configurations.
-* Implement Administrator Academic Operations (bulk data import, class transfer, grade appeal processing, and student records).
+* Implement Administrator Academic Operations (bulk data import, class transfer, grade appeal processing, and student records) and the core components of the Grade Appeal submission workflow (Submission, Upload, Status).
 * Complete PA4 requirements.
 
 
 
 #### Phase 4: Timetable and Support Workflow (Part 2)
 
-**Goal:** Enable the AI chatbot consultation feature and finalize the grade appeal workflow with deadline configurations and system testing.
+**Goal:** Enable the AI chatbot consultation feature and finalize the grade appeal workflow with deadline configurations and system testing  and enable students to initiate the grade appeal process, including document uploads and status tracking.
 
-**Independent Test:** A student interacts with the AI chatbot for course recommendations and attempts to submit a grade appeal past the configured deadline to verify system validation.
+**Independent Test:** A student interacts with the AI chatbot for course recommendations and attempts to submit a grade appeal past the configured deadline to verify system validation, submits a grade appeal with supporting documents, and checks the status of their appeal.
 
 | Task ID | Task Description |
 | --- | --- |
+| **T031** | Implement grade appeal submission endpoint |
+| **T032** | Implement supporting document upload handling |
+| **T033** | Implement appeal status tracking endpoint |
+| **T034** | Implement frontend grade appeal submission, status pages |
 | **T035** | Implement appeal deadline config & validation |
 | **T036** | Implement AI chatbot backend adapter & recommendation service |
 | **T037** | Implement frontend chatbot experience & FAQ search UI |
