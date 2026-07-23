@@ -92,8 +92,8 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 ### 2. Build Plan Overview
 
 * **Build 1 (End of Sprint 2):** Core Infrastructure & Security Baseline.
-* **Build 2 (End of Sprint 3):** MVP Student Portal, Timetable & Grade Appeal Core.
-* **Build 3 (End of Sprint 4):** Complete Support System & Admin Academic Operations Beta.
+* **Build 2 (End of Sprint 3):** MVP Student Portal, Timetable.
+* **Build 3 (End of Sprint 4):** Complete Support System, Admin Academic Operations Beta & Grade Appeal Core.
 * **Build 4 (Mid-Sprint 5):** Packaging the Final Release Candidate for UAT & Demo.
 
 ### 3. Sprints Overview
