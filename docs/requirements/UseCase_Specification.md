@@ -51,20 +51,20 @@ Describes how a registered undergraduate student logs into the MyUS portal with 
 4. System validates the credentials against the user database.
 5. System issues a JWT access token and refresh token, and establishes an authenticated session.
 6. System redirects the student to their personalized Dashboard, showing quick-access widgets (upcoming classes, pending appeals, tuition due).
-![](Prototype_Req/student/UC-00 · Basic Flow — Login.jpg)
-![](Prototype_Req/student/UC-04 · Basic Flow — Dashboard.jpg)
+![](Prototype_Req/student/UC-00BasicFlowLogin.jpg)
+![](Prototype_Req/student/UC-04BasicFlow—Dashboard.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Invalid Credentials (branches at step 4):** If the Student ID or password is incorrect, the system shows an inline error ("Invalid Student ID or password") and returns to the form. After 5 consecutive failed attempts within 15 minutes, the account is temporarily locked for 30 minutes and a security-alert email is sent to the student's registered address.
-![](Prototype_Req/student/UC-00 · Alt 2.2.1 — Invalid Credentials.jpg)
+![](Prototype_Req/student/UC-00-2.2.1-InvalidCredentials.jpg)
 - **3.2.2 AF2 – Forgot Password (branches at step 3):** Student selects "Forgot Password" → enters registered email → system sends a one-time reset link (valid 15 minutes) → student sets a new password → returns to the login form.
-![](Prototype_Req/student/UC-00 · Alt 2.2.3 — Forgot Password.jpg)
+![](Prototype_Req/student/UC-00-2.2.3-ForgotPassword.jpg)
 - **3.2.3 AF3 – First-Time Login / Forced Password Change (branches at step 4):** If the student is logging in with a university-issued temporary password for the first time, the system forces a password change (meeting complexity rules) before granting portal access.
-![](Prototype_Req/student/UC-01 · Alt 2.2.2 — Change Password.jpg)
+![](Prototype_Req/student/UC-01-2.2.2—ChangePassword.jpg)
 - **3.2.4 AF4 – Session/Token Expiry (post-login):** If the JWT access token expires mid-session, the system attempts a silent refresh using the refresh token. If the refresh token is also expired or invalid, the system logs the student out and returns to the login page with a "Session expired, please log in again" message.
-![](Prototype_Req/student/UC-00 · Alt 2.2.4 — Session Timeout.jpg)
+![](Prototype_Req/student/UC-00-2.2.4—SessionTimeout.jpg)
 - **3.2.5 AF5 – Account Locked / Administrative Hold (branches at step 4):** If the account has been suspended (e.g., disciplinary or financial hold), the system denies login and displays a message directing the student to contact the Academic Office.
-![](Prototype_Req/student/UC-00 · Alt 2.2.2 — Account Lockout.jpg)
+![](Prototype_Req/student/UC-00-2.2.2—AccountLockout.jpg)
 
 ## 4. Postconditions
 - Success: an authenticated session (JWT access + refresh token) is established; the student lands on the Dashboard.
@@ -114,13 +114,17 @@ Allows a student to view and edit their own personal information, contact detail
 6. Student selects "Save Changes."
 7. System validates the input (required fields non-empty, valid phone/email format).
 8. System persists the changes, timestamps the update for audit purposes, and displays a "Profile updated successfully" confirmation.
-![](Prototype_Req/student/UC-01 · Basic Flow — Edit Profile.jpg)
+![](Prototype_Req/student/UC-01BasicFlow—EditProfile.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Validation Error (branches at step 7):** If a field fails validation, the system highlights it with an inline message and does not save; the student corrects and resubmits.
-![](Prototype_Req/student/UC-01 · Alt 2.2.1 — Invalid Data.jpg)
+
+![](Prototype_Req/student/UC-01-2.2.1—InvalidData.jpg)
+
 - **3.2.2 AF2 – Cancel Edit (branches at step 4/5):** Student selects "Cancel"; the system discards unsaved changes and reverts to the read-only view.
-![](Prototype_Req/student/UC-01 · Alt 2.2.3 — Cancel Edit Confirmation.jpg)
+
+![](Prototype_Req/student/UC-01-2.2.3—CancelEditConfirmation.jpg)
+
 - **3.2.3 AF3 – Attempt to Edit a Restricted Field (branches at step 5):** If the student attempts to change a university-locked field (legal name, Student ID, major/program), the system explains that such changes require a formal request to the Academic Office and does not allow inline editing.
 - **3.2.4 AF4 – No Changes Made (branches at step 6):** Student selects "Save" without changing anything; the system returns to view mode without writing to the database.
 - **3.2.5 AF5 – Contact-Info Change Confirmation:** If phone or email is changed, the system sends a confirmation notice to both the old and new contact point, as a fraud-prevention measure.
@@ -173,22 +177,30 @@ Lets a student browse the course catalog for the upcoming semester, verify eligi
 8. Student selects "Submit Registration."
 9. System finalizes enrollment, reserves seats in each section, and updates the tuition invoice accordingly.
 10. System displays a registration confirmation with the finalized schedule.
-![](Prototype_Req/student/UC-03 · Basic Flow — Course List.jpg)
+![](Prototype_Req/student/UC-03BasicFlow—CourseList.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Prerequisite Not Met (branches at step 4):** UC-03a returns a failure; the system blocks the section from being added, names the missing prerequisite(s), and suggests the correct earlier course.
-![](Prototype_Req/student/UC-03 · Alt 2.2.1 — Prerequisite Not Met.jpg)
+
+![](Prototype_Req/student/UC-03-2.2.1—PrerequisiteNotMet.jpg)
+
 - **3.2.2 AF2 – Section Full / Waitlist (branches at step 5):** If the section has no seats left, the system offers to waitlist the student instead; if accepted, the student is notified automatically if a seat opens.
-![](Prototype_Req/student/UC-03 · Alt 2.2.2 — Course Full Waitlist.jpg)
+
+![](Prototype_Req/student/UC-03-2.2.2—CourseFullWaitlist.jpg)
+
 - **3.2.3 AF3 – Schedule Conflict (branches at step 5):** If the section's meeting time overlaps an already-selected course, the system warns the student and blocks adding both unless one is removed.
-![](Prototype_Req/student/UC-03 · Alt 2.2.3 — Schedule Conflict.jpg)
+
+![](Prototype_Req/student/UC-03-2.2.3—ScheduleConflict.jpg)
+
 - **3.2.4 AF4 – Credit Limit Exceeded (branches at step 7/8):** If total selected credits exceed the university's per-semester maximum, the system blocks submission and directs the student to remove courses or request an Academic Office override.
 - **3.2.5 AF5 – Consult AI Course Recommendations (branches at step 2/3; invokes UC-03b):** At any point while building their load, the student may open the AI Learning Path Chatbot. It analyzes completed credits and major requirements and suggests courses; the student accepts or declines each suggestion, and accepted ones auto-fill the cart, rejoining the flow at step 4. If the subsequent prerequisite/schedule check finds a conflict, the student is returned to the chatbot for a revised suggestion.
 - **3.2.6 AF6 – Registration Window Closed (branches at step 1):** Outside the open registration period, the system shows a read-only view of the current schedule plus the add/drop deadline, with no editing allowed.
 - **3.2.7 AF7 – Administrative Hold (branches at step 1):** If the student has an unresolved hold, the system blocks registration and explains the reason and how to resolve it.
 - **3.2.8 AF8 – Draft Cart / Abandon Session:** The student may leave the cart unsubmitted; selections are retained as a draft, but seats are not reserved until final submission.
 - **3.2.9 AF9 – Drop a Registered Course (post-submission, within the add/drop window):** The student returns to this screen to drop a previously registered course; the system updates enrollment and recalculates the tuition invoice.
-![](Prototype_Req/student/UC-03 · Alt 2.2.4 — Drop Course.jpg)
+
+![](Prototype_Req/student/UC-03-2.2.4—DropCourse.jpg)
+
 
 ## 4. Postconditions
 - Success: student is enrolled in the selected sections; tuition invoice and timetable are updated.
@@ -237,7 +249,8 @@ A supporting use case invoked every time a student attempts to add a course, ver
 3. System retrieves the student's completed and in-progress course history.
 4. System compares the requirements against that history.
 5. System returns "Pass"; control returns to UC-03 at step 5.
-![](Prototype_Req/student/UC-03a · Basic Flow — Prerequisites Met.jpg)
+
+![](Prototype_Req/student/UC-03aBasicFlow—PrerequisitesMet.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Prerequisite Missing (branches at step 4):** One or more prerequisites are unmet; system returns "Fail" with the specific missing course code(s) (feeds UC-03's AF1).
@@ -245,7 +258,8 @@ A supporting use case invoked every time a student attempts to add a course, ver
 - **3.2.3 AF3 – Prerequisite Rule Undefined (branches at step 2):** If no rule is configured for the course (a data gap), the system defaults to allowing registration but flags the course for administrative review.
 - **3.2.4 AF4 – Transfer Credit / Waiver on File (branches at step 4):** If the student has an approved transfer-credit or waiver record substituting for a prerequisite, the system recognizes it and returns "Pass."
 - **3.2.5 AF5 – Transcript Data Unavailable:**
-![](Prototype_Req/student/UC-03a · Alt — Transcript Data Unavailable.jpg)
+
+![](Prototype_Req/student/UC-03a-TranscriptDataUnavailable.jpg)
 
 ## 4. Postconditions
 - Pass: the course proceeds to be added in UC-03.
@@ -290,16 +304,21 @@ An optional conversational assistant that reads the student's transcript and the
 7. Student asks a follow-up, e.g., "Am I on track to graduate on time?"
 8. AI Engine simulates the remaining pathway and returns a graduation timeline/milestone view (Graduation Tracking).
 9. Student ends the session; the conversation and recommendations are saved to chat history.
-![](Prototype_Req/student/UC-03b · Basic Flow — AI Recommendations.jpg)
+
+![](Prototype_Req/student/UC-03bBasicFlowAIRecommendations.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – AI Engine Unavailable (branches at step 2/4):** If the external LLM API can't be reached, the system shows "The AI Advisor is temporarily unavailable, please try again later" and points the student to the curriculum handbook or an academic advisor. All other portal features remain unaffected (NFR ID18).
-![](Prototype_Req/student/UC-03b · Alt — AI Engine Unavailable.jpg)
+
+![](Prototype_Req/student/UC-03bAIEngineUnavailable.jpg)
+
 - **3.2.2 AF2 – Incomplete Transcript Data (branches at step 2):** If transcript data is incomplete (e.g., unprocessed transfer credits), the system flags that recommendations may be incomplete and suggests verifying with the Academic Office.
 - **3.2.3 AF3 – No Eligible Courses Found (branches at step 4):** If the student is near graduation, the chatbot says so and lists only the remaining required courses or electives.
 - **3.2.4 AF4 – Unclear Question (branches at step 3):** If the input can't be parsed into an actionable request, the chatbot asks a clarifying question or offers example prompts.
 - **3.2.5 AF5 – Recommendation Rejected at Registration / Dismissed (branches at step 6):** If a recommended course later fails UC-03a's prerequisite check (e.g., curriculum data changed since the recommendation was made), the system informs the student of the discrepancy.
-![](Prototype_Req/student/UC-03b · Alt — Recommendations Dismissed.jpg)
+
+![](Prototype_Req/student/UC-03b-RecommendationsDismissed.jpg)
+
 - **3.2.6 AF6 – What-If Simulation (branches at step 7):** Student asks a hypothetical ("What if I switch majors?" / "What if I take this course over the summer?"); the AI runs an alternate simulation and shows a comparative timeline without committing any change to the student's actual plan.
 - **3.2.7 AF7 – Escalate to a Human Advisor (any point):** If the chatbot can't resolve a complex or personal question, it offers a "Talk to an academic advisor" option (may hand off toward Access FAQs & Support, UC-10, or an office appointment — out of scope for this feature).
 
@@ -348,7 +367,8 @@ Gives the student a personalized calendar aggregating all registered class times
 3. System renders a weekly calendar grid, one color-coded block per class (course, room, time).
 4. Student toggles between Week / Month / List view.
 5. Student selects a class block to see full details (instructor, room, section ID).
-![](Prototype_Req/student/UC-04a · Basic Flow — View Timetable.jpg)
+
+![](Prototype_Req/student/UC-04aBasicFlowViewTimetable.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – No Registered Courses (branches at step 2):** System shows an empty state ("No classes scheduled — register for courses to see your timetable") with a shortcut to Course Registration.
@@ -357,7 +377,9 @@ Gives the student a personalized calendar aggregating all registered class times
 - **3.2.4 AF4 – Sync to Google Calendar:** Student selects "Sync to Google Calendar"; the system pushes the timetable to the student's Google Calendar via the Google Calendar API.
 - **3.2.5 AF5 – Download Printable Schedule:** Student selects "Download PDF" for a printable weekly schedule.
 - **3.2.6 AF6 – Schedule Conflict Flag:** If an administrative class transfer creates a time overlap between two of the student's sections, the system flags the conflict prominently and prompts the student to contact the Academic Office.
-![](Prototype_Req/student/UC-04a · Alt — Schedule Conflict (Data Error).jpg)
+
+![](Prototype_Req/student/UC-04a-ScheduleConflict.jpg)
+
 - **3.2.7 AF7 – Calendar Integration Unavailable (branches at AF4):** If the Google Calendar API is unreachable, sync fails gracefully with a retry option; the core in-portal timetable view is unaffected.
 
 ## 4. Postconditions
@@ -403,11 +425,13 @@ Lets the student see a per-course breakdown of academic performance (midterm, as
 3. System displays, per course: component scores, weights, and the computed course grade.
 4. System displays semester GPA, cumulative GPA, and total credits earned.
 5. Student selects a past semester from a dropdown to view historical grades.
-![](Prototype_Req/student/UC-04b · Basic Flow — View Grades & GPA.jpg)
+![](Prototype_Req/student/UC-04bBasicFlow—ViewGradesGPA.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Grade Not Yet Released (branches at step 3):** An ungraded component shows "Pending"/"—" and is excluded from GPA calculation until finalized.
-![](Prototype_Req/student/UC-04b · Alt — Course Not Yet Graded.jpg)
+
+![](Prototype_Req/student/UC-04b-CourseNotYetGraded.jpg)
+
 - **3.2.2 AF2 – Appeal a Grade (branches at step 3):** Student selects "Appeal this Grade" on a specific course, launching UC-07 (Submit Grade Appeal) pre-filled with that course's context.
 - **3.2.3 AF3 – View GPA Trend:** Student toggles a chart showing cumulative-GPA progression across semesters.
 - **3.2.4 AF4 – Download Unofficial Transcript:** Student requests a PDF export of all grades to date.
@@ -460,11 +484,17 @@ Gives the student a comprehensive view of their financial status — tuition owe
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Overdue Balance (branches at step 5):** Past the due date with a balance outstanding, the system shows a prominent overdue banner and any resulting hold (e.g., a registration hold).
-![](Prototype_Req/student/UC-04 · Alt 2.2.3 — Outstanding Tuition Warning.jpg)
+
+![](Prototype_Req/student/UC-04-2.2.3—OutstandingTuitionWarning.jpg)
+
 - **3.2.2 AF2 – Paid in Full / No Current-Semester Data (branches at step 5):** If the balance is fully settled, the system shows a "Paid in Full" confirmation instead.
-![](Prototype_Req/student/UC-04 · Alt 2.2.1 — No Current-Semester Data.jpg)
+
+![](Prototype_Req/student/UC-04-2.2.1—NoCurrent-SemesterData.jpg)
+
 - **3.2.3 AF3 – Download Invoice/Receipt:** Student downloads a PDF of the current invoice or a past payment receipt.
-![](Prototype_Req/student/UC-04 · Alt 2.2.2 — Export PDF.jpg)
+
+![](Prototype_Req/student/UC-04-2.2.2—ExportPDF.jpg)
+
 - **3.2.4 AF4 – Scholarship Pending (branches at step 3):** If a scholarship approval is still in process, the system shows "Pending" rather than a finalized deduction.
 - **3.2.5 AF5 – How to Pay (branches at step 1/5):** Student selects "How to Pay" to view the university's available off-platform payment channels (bank transfer, in-person cashier, etc.), since MyUS does not process payments directly.
 - **3.2.6 AF6 – Dispute a Charge:** If the student believes a charge is incorrect, they're directed to Access FAQs & Support (UC-10) or to contact the Academic Office; MyUS does not have a self-service charge-dispute workflow in this release.
@@ -517,18 +547,24 @@ Lets a student digitally submit a request to review a specific grade component, 
 7. System validates that all required fields and the attachment are present.
 8. System creates the appeal record with status **Pending**, timestamps it, and routes it to the relevant department's admin queue.
 9. System displays a confirmation with a reference number and a link to Track Appeal Status (UC-08).
-![](Prototype_Req/student/UC-02 · Basic Flow — New Appeal.jpg)
+![](Prototype_Req/student/UC-02BasicFlow—NewAppeal.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Missing Required Field/Attachment (branches at step 7):** The system blocks submission and highlights what's missing.
-![](Prototype_Req/student/UC-02 · Alt 2.2.1 — Missing Evidence.jpg)
+
+![](Prototype_Req/student/UC-02-2.2.1—MissingEvidence.jpg)
+
 - **3.2.2 AF2 – Appeal Window Closed (branches at step 1):** "Submit New Appeal" is disabled, and the (past) deadline is shown.
-![](Prototype_Req/student/UC-02 · Alt 2.2.2 — Appeal Window Closed.jpg)
+
+![](Prototype_Req/student/UC-02-2.2.2—AppealWindowClosed.jpg)
+
 - **3.2.3 AF3 – Duplicate Active Appeal (branches at step 1):** If the student already has a Pending or Processing appeal for the same grade component, the system blocks a duplicate and redirects to the existing appeal's status page.
 - **3.2.4 AF4 – Save as Draft (branches at step 3/5):** Student exits before submitting; the system offers to save an in-progress, not-yet-submitted draft.
 - **3.2.5 AF5 – Attachment Upload Failure (branches at step 4):** See UC-07a's alternative flows.
 - **3.2.6 AF6 – Withdraw Before Review (post-submission, while status is still Pending):** Student withdraws the appeal from the tracking screen (UC-08).
-![](Prototype_Req/student/UC-02 · Alt 2.2.3 — Cancel Appeal.jpg)
+
+![](Prototype_Req/student/UC-02-2.2.3—CancelAppeal.jpg)
+
 - **3.2.7 AF7 – Appeal Rejected Outright (post-submission, administrator action):** The administrator reviews and declines the request without proceeding to a fee stage; status moves directly from Pending to **Rejected**, and the student is notified (visible via UC-08).
 
 ## 4. Postconditions
@@ -577,15 +613,20 @@ A mandatory supporting use case for attaching evidence files to a grade appeal �
 4. System uploads the file(s) with a progress indicator.
 5. System lists the uploaded file names/thumbnails, each with a "Remove" option.
 6. Control returns to UC-07 at step 5 (review).
-![](Prototype_Req/student/UC-02a · Basic Flow — Upload Documents.jpg)
+
+![](Prototype_Req/student/UC-02aBasicFlow—UploadDocuments.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Unsupported Format (branches at step 3):** File is rejected with an inline message naming acceptable formats.
 - **3.2.2 AF2 – File Too Large (branches at step 3):** File is rejected with the size limit shown.
-![](Prototype_Req/student/UC-02a · Alt — Invalid - Oversized File.jpg)
+
+![](Prototype_Req/student/UC-02aInvalid-OversizedFile.jpg)
+
 - **3.2.3 AF3 – Upload Failure (branches at step 4):** Network error mid-transfer offers a retry.
 - **3.2.4 AF4 – Remove/Replace a File (branches at step 5):** Student removes a file and uploads a replacement before final submission.
-![](Prototype_Req/student/UC-02a · Alt — File Removed.jpg)
+
+![](Prototype_Req/student/UC-02a—FileRemoved.jpg)
+
 - **3.2.5 AF5 – Maximum Attachment Count Reached (branches at step 2):** Once the configured maximum (e.g., 5 files) is reached, further uploads are blocked until one is removed.
 
 ## 4. Postconditions
@@ -628,16 +669,18 @@ A dashboard where students monitor the real-time processing status of their subm
 3. System displays each as a card: course, disputed component, submission date, and current status.
 4. Student selects an appeal to see full detail, including administrator comments and — if the status is Processing — the fee-payment deadline (date, time, location) for visiting the Academic Office.
 5. If status is **Resolved**, the system shows the outcome (grade upheld, or grade changed with the new value).
-![](Prototype_Req/student/UC-02b · Basic Flow — Appeal List.jpg)
+![](Prototype_Req/student/UC-02BasicFlowAppealList.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – No Appeals Submitted (branches at step 2):** Empty state with a shortcut to "Submit New Appeal."
-![](Prototype_Req/student/UC-02b · Alt — No Appeals (Empty State).jpg)
+
+![](Prototype_Req/student/UC-NoAppeals.jpg)
+
 - **3.2.2 AF2 – Fee Deadline Approaching (branches at step 4):** If the fee deadline is within a configurable threshold (e.g., 3 days), the appeal is highlighted with an urgent reminder.
 - **3.2.3 AF3 – Fee Deadline Missed (branches at step 4):** If the deadline passes unpaid, the administrator closes the appeal and its status becomes **Rejected** (reason: "fee not paid by deadline"), visible to the student.
 - **3.2.4 AF4 – Withdraw a Pending Appeal (branches at step 3, status = Pending):** Same as UC-07's AF6.
 - **3.2.5 AF5 – Additional Information Requested (branches at step 4):** If an administrator requests more evidence, the student is prompted to re-invoke UC-07a or add a comment.
-![](Prototype_Req/student/UC-02b · Alt — Admin Requests Info.jpg)
+![](Prototype_Req/student/UC-02b—AdminRequestsInfo.jpg)
 - **3.2.6 AF6 – Notification Preferences:** Student opts in/out of email notifications for status changes on a given appeal.
 
 ## 4. Postconditions
@@ -683,17 +726,17 @@ Lets a student complete end-of-semester structured surveys evaluating course qua
 6. System validates that all required questions are answered.
 7. System records the response and marks the survey **Completed** for that student.
 8. System returns to the survey list, showing updated completion status.
-![](Prototype_Req/student/UC-05 · Basic Flow — Open Surveys.jpg)
+![](Prototype_Req/student/UC-05BasicFlow—OpenSurveys.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Incomplete Submission (branches at step 6):** Unanswered required questions are highlighted and submission is blocked.
 - **3.2.2 AF2 – Save and Continue Later (branches at step 5):** Partial progress is saved and can be resumed before the deadline.
-![](Prototype_Req/student/UC-05 · Alt 2.2.2 — Draft Saved.jpg)
+![](Prototype_Req/student/UC-05-2-2-2.jpg)
 - **3.2.3 AF3 – Evaluation Period Closed (branches at step 1):** Completed vs. missed surveys are shown read-only; no further edits are allowed.
-![](Prototype_Req/student/UC-05 · Alt 2.2.3 — Survey Expired.jpg)
+![](Prototype_Req/student/UC-05-2-2-3.jpg)
 - **3.2.4 AF4 – Already Submitted (branches at step 3):** A completed survey opens read-only, optionally showing the student's own past responses.
 - **3.2.5 AF5 – Deadline Reminder:** As the window nears its end, the system sends a reminder for any incomplete required surveys.
-![](Prototype_Req/student/UC-05 · Alt 2.2.1 — Mandatory Survey Reminder.jpg)
+![](Prototype_Req/student/UC-05-2-2-1.jpg)
 - **3.2.6 AF6 – Skip an Optional Survey (branches at step 3):** A non-mandatory survey (e.g., general facilities) can be dismissed without penalty.
 
 ## 4. Postconditions
