@@ -22,13 +22,13 @@ Version 1.0
 | UC-09 | Submit Evaluation Surveys | Student |
 | UC-10 | Access FAQs & Support | Student |
 | UC-11 | Admin Bulk Data and Class Control | Administrator |
-| UC-11.1 | Import Student/Course Data | Administrator |
-| UC-11.2 | Validate Data Format | Administrator |
-| UC-12 | Appeal Processing Management | Administrator |
-| UC-12.1 | Set Fee Payment Deadline | Administrator |
-| UC-12.2 | Update Appeal Status | Administrator |
-| UC-13 | Student Data Administration | Administrator |
-| UC-13.1 | Search Student Records | Administrator |
+| UC-12 | Import Student/Course Data | Administrator |
+| UC-13 | Validate Data Format | Administrator |
+| UC-14 | Appeal Processing Management | Administrator |
+| UC-15 | Set Fee Payment Deadline | Administrator |
+| UC-16 | Update Appeal Status | Administrator |
+| UC-17 | Student Data Administration | Administrator |
+| UC-18 | Search Student Records | Administrator |
 
 ---
 
@@ -81,18 +81,6 @@ Describes how a registered undergraduate student logs into the MyUS portal with 
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Login Screen
-- Forced Password-Change Screen
-- Dashboard
-- Invalid-Credentials Error
-- Account-Locked / Hold Notice
-- Forgot-Password Screen
-- Reset-Password Screen
-- Session-Expired Notice
-
-
 ---
 # UC-02. Update Profile
 
@@ -142,15 +130,6 @@ Allows a student to view and edit their own personal information, contact detail
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Profile-View Screen
-- Profile-Edit Screen
-- Save-Confirmation Toast
-- Validation-Error State
-- Restricted-Field Notice
-- No-Changes Notice
 
 ---
 # UC-03. Register for Courses
@@ -217,20 +196,6 @@ Lets a student browse the course catalog for the upcoming semester, verify eligi
 ## 6. Extension Points
 - **6.1 Get AI Course Recommendations (UC-03b):** Triggered by the student at any point while building their load.
 
-## 7. Prototype Requirement
-Screens to design:
-- Administrative-Hold Notice
-- Closed-Registration Read-Only View
-- Course-Catalog / Search Screen
-- Section-Detail Panel
-- Prerequisite-Blocked Error
-- Waitlist Confirmation
-- Schedule-Conflict Warning
-- Registration-Cart / Summary Screen
-- Credit-Limit-Exceeded Notice
-- Registration-Confirmation Screen
-
-
 ---
 # UC-03a. Check Prerequisites
 
@@ -274,11 +239,6 @@ A supporting use case invoked every time a student attempts to add a course, ver
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Prerequisite-Blocked Error (shown in UC-03)
-- Corequisite-Suggestion Modal
 
 ---
 # UC-03b. Get AI Course Recommendations
@@ -337,18 +297,6 @@ An optional conversational assistant that reads the student's transcript and the
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Chat-Conversation Screen
-- AI-Unavailable Error
-- Incomplete-Data Notice
-- Clarifying-Question Prompt
-- Near-Graduation Notice
-- Recommendation-Mismatch Notice
-- Graduation-Timeline View
-- What-If Comparison View
-- Talk-to-Advisor Escalation Screen
-
 ---
 # UC-04. View Timetable
 
@@ -395,18 +343,6 @@ Gives the student a personalized calendar aggregating all registered class times
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Empty State — No Courses
-- Weekly-Calendar Grid
-- List / Agenda View
-- Class-Detail Popup
-- Exam-Overlay View
-- Sync-Confirmation State
-- Sync-Unavailable Notice
-- Schedule-Conflict Flag
-
-
 ---
 # UC-05. View Grades & GPA
 
@@ -450,17 +386,6 @@ Lets the student see a per-course breakdown of academic performance (midterm, as
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Current-Semester Grade Breakdown
-- Cumulative-GPA Summary Card
-- Historical-Semester Selector
-- GPA-Trend Chart
-- Transcript-Export Modal
-- Pending-Grade Placeholder
-- Incomplete/Withdrawn Code Tooltip
-
 
 ---
 # UC-06. Track Tuition Fee
@@ -510,18 +435,6 @@ Gives the student a comprehensive view of their financial status — tuition owe
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Tuition-Summary Dashboard
-- Itemized-Invoice Breakdown
-- Scholarship / Aid Detail
-- Payment-History List
-- Overdue-Balance Warning
-- Paid-in-Full Confirmation
-- How-to-Pay Instructions Modal
-- Invoice/Receipt PDF Download
-
 
 ---
 # UC-07. Submit Grade Appeal
@@ -582,18 +495,6 @@ Lets a student digitally submit a request to review a specific grade component, 
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- My-Appeals Landing Screen
-- Appeal-Window-Closed Notice
-- Duplicate-Appeal Redirect
-- New-Appeal Form
-- Save-as-Draft State
-- Review-Before-Submit Summary
-- Missing-Field Error
-- Submission-Confirmation Screen
-
-
 ---
 # UC-07a. Upload Supporting Documents
 
@@ -641,16 +542,6 @@ A mandatory supporting use case for attaching evidence files to a grade appeal �
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Upload Widget
-- Unsupported-Format / Too-Large Error
-- Upload-Progress State
-- Upload-Failure Retry Prompt
-- Uploaded-File List
-- Max-Attachments Notice
-
-
 ---
 # UC-08. Track Appeal Status
 
@@ -694,16 +585,6 @@ A dashboard where students monitor the real-time processing status of their subm
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Empty State — No Appeals
-- Appeal-List Dashboard
-- Appeal-Detail Screen
-- Pending / Processing / Resolved / Rejected states
-- Urgent Fee-Deadline Banner
-- Withdraw-Confirmation Dialog
-
 
 ---
 # UC-09. Submit Evaluation Surveys
@@ -751,19 +632,6 @@ Lets a student complete end-of-semester structured surveys evaluating course qua
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Survey List
-- Survey-Question Screen
-- Locked / Read-Only Completed View
-- Optional-Survey Skip Prompt
-- Incomplete-Validation Error
-- Submission-Confirmation Screen
-- Save-and-Continue-Later State
-- Deadline-Reminder Banner
-- Period-Closed Read-Only View
-
 
 ---
 # UC-10. Access FAQs & Support
@@ -821,18 +689,6 @@ A searchable library of questions and answers about university policies, academi
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- FAQ Home / Category Screen
-- No-Results / Contact-Support Screen
-- Search-Results Screen
-- Expanded-Answer Detail View
-- Helpful / Not-Helpful Widget
-- Related-Questions Suggestions
-- Bookmarked-FAQs Screen
-
-
 ---
 # UC-11. Admin Bulk Data and Class Control
 
@@ -851,35 +707,37 @@ This use case allows the Administrator to manage student, course, and class data
 1. The Administrator selects **Class Control**.
 2. The system displays the available bulk-data management functions.
 3. The Administrator selects **Import Student/Course Data**.
-4. The system performs **UC-11.1 – Import Student/Course Data**.
+4. The system performs **UC-12 – Import Student/Course Data**.
 5. If the import is completed successfully:
 
    5.1. The system updates the related student, course, or class records.
+
    5.2. The system displays the import summary.
 
-   ![](Prototype_Req/admin/UC11/successful.jpg)
+   ![](Prototype_Req/admin/import_data/successful.jpg)
 
 6. Else:
 
    6.1. The system displays the reason why the operation could not be completed.
+
    6.2. The system keeps the existing data unchanged.
 
-   ![](Prototype_Req/admin/UC11/failed.jpg)
+   ![](Prototype_Req/admin/import_data/failed.jpg)
 
 7. The system records the operation in the audit log.
 
-   ![](Prototype_Req/admin/UC11/log.jpg)
+   ![](Prototype_Req/admin/import_data/log.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Cancel before confirmation:** At any time before confirming the import, the Administrator may cancel the operation; the system discards the temporary import data and leaves existing academic records unchanged.
 - **3.2.2 AF2 – Permission denied:** If the Administrator does not have sufficient permission, the system denies access and displays an authorization error.
 
-   ![](Prototype_Req/admin/UC11/unauthorized.jpg)
+   ![](Prototype_Req/admin/import_data/unauthorized.jpg)
 
 - **3.2.3 AF3 – Duplicate or conflicting records found:** If duplicate or conflicting records are detected, the system identifies the affected records and lets the Administrator choose to skip or update them before proceeding.
 
 ## 4. Postconditions
-- The academic data is added, updated, or left unchanged, and the operation is recorded, according to the outcome of UC-11.1 – Import Student/Course Data.
+- The academic data is added, updated, or left unchanged, and the operation is recorded, according to the outcome of UC-12 – Import Student/Course Data.
 
 ## 5. Special Requirements
 - Only authorized Administrators may access this function.
@@ -888,19 +746,10 @@ This use case allows the Administrator to manage student, course, and class data
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Class Control Page
-- Import File Upload Screen
-- Import Preview Screen
-- Import Success Summary
-- Import Failure/Error Screen
-- Unauthorized Access Screen
-
 ---
-# UC-11.1. Import Student/Course Data
+# UC-12. Import Student/Course Data
 
-**Use-Case ID:** UC-11.1
+**Use-Case ID:** UC-12
 
 **Actor(s):** Administrator
 
@@ -916,14 +765,14 @@ This use case allows the Administrator to import student, course, or class data 
 2. The system asks the Administrator to select the data type and upload an import file.
 3. The Administrator selects student, course, or class data and uploads the file.
 
-   ![](Prototype_Req/admin/UC11/upload.jpg)
+   ![](Prototype_Req/admin/import_data/upload.jpg)
 
-4. The system performs **UC-11.2 – Validate Data Format**.
+4. The system performs **UC-13 – Validate Data Format**.
 5. If the uploaded data is valid:
 
    5.1. The system displays an import preview, including records to be added or updated.
 
-   ![](Prototype_Req/admin/UC11/preview.jpg)
+   ![](Prototype_Req/admin/import_data/preview.jpg)
 
 6. The Administrator reviews the preview and confirms the import.
 7. The system imports the approved records.
@@ -947,17 +796,10 @@ This use case allows the Administrator to import student, course, or class data 
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Data-Type & File-Upload Screen
-- Import-Preview Screen
-- Invalid-File / Error Screen
-- Import-Summary Screen
-
 ---
-# UC-11.2. Validate Data Format
+# UC-13. Validate Data Format
 
-**Use-Case ID:** UC-11.2
+**Use-Case ID:** UC-13
 
 **Actor(s):** Administrator
 
@@ -965,7 +807,7 @@ Screens to design:
 This use case checks whether an uploaded file follows the required structure and data rules.
 
 ## 2. Preconditions
-- Invoked within UC-11.1, after a file has been uploaded.
+- Invoked within UC-12, after a file has been uploaded.
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
@@ -976,17 +818,19 @@ This use case checks whether an uploaded file follows the required structure and
 5. If all records satisfy the validation rules:
 
    5.1. The system marks the records as valid.
+
    5.2. The system allows the import process to continue.
 
-   ![](Prototype_Req/admin/UC11/preview.jpg)
+   ![](Prototype_Req/admin/import_data/preview.jpg)
 
 6. Else:
 
    6.1. The system marks the affected records as invalid or conflicting.
+
    6.2. The system identifies the related rows, fields, and errors.
 7. The system displays the validation result.
 
-   ![](Prototype_Req/admin/UC11/confirmation.jpg)
+   ![](Prototype_Req/admin/import_data/confirmation.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – File unreadable:** If the system cannot read the uploaded file, it stops validation, shows an error message, and asks the Administrator to upload a corrected file.
@@ -1005,15 +849,10 @@ This use case checks whether an uploaded file follows the required structure and
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Validation-Result Screen
-- Validation-Error Detail
-
 ---
-# UC-12. Appeal Processing Management
+# UC-14. Appeal Processing Management
 
-**Use-Case ID:** UC-12
+**Use-Case ID:** UC-14
 
 **Actor(s):** Administrator
 
@@ -1031,23 +870,26 @@ This use case allows the Administrator to review and process student appeals.
 3. The Administrator selects an appeal.
 4. The system displays the student information, appeal details, supporting documents, payment information, and current status.
 
-   ![](Prototype_Req/admin/UC12/appeal.jpg)
+   ![](Prototype_Req/admin/appeal/appeal.jpg)
 
 5. The Administrator reviews the appeal.
 6. If the appeal requires a processing fee:
 
-   6.1. The Administrator performs **UC-12.1 – Set Fee Payment Deadline**.
+   6.1. The Administrator performs **UC-15 – Set Fee Payment Deadline**.
 
-7. The Administrator performs **UC-12.2 – Update Appeal Status**.
-8. If the appeal information is updated successfully (Details in UC-12.2):
+7. The Administrator performs **UC-16 – Update Appeal Status**.
+8. If the appeal information is updated successfully (Details in UC-16):
 
    8.1. The system records the changes in the appeal history.
+
    8.2. The system notifies the student.
+
    8.3. The system displays the updated appeal.
 
 9. Else:
 
    9.1. The system displays an error message.
+
    9.2. The system keeps the previous appeal information unchanged.
 
 ### 3.2 Alternative Flows
@@ -1058,7 +900,7 @@ This use case allows the Administrator to review and process student appeals.
 - **3.2.5 AF5 – Permission denied:** If the Administrator lacks permission to process the appeal, access is denied and the system displays an authorization error.
 
 ## 4. Postconditions
-- The appeal’s payment deadline and/or processing status are updated, and the student is notified, according to the outcomes of UC-12.1 – Set Fee Payment Deadline and UC-12.2 – Update Appeal Status.
+- The appeal’s payment deadline and/or processing status are updated, and the student is notified, according to the outcomes of UC-15 – Set Fee Payment Deadline and UC-16 – Update Appeal Status.
 
 ## 5. Special Requirements
 - Appeal documents must only be accessible to authorized users.
@@ -1067,19 +909,10 @@ This use case allows the Administrator to review and process student appeals.
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Appeal List Screen
-- Appeal Detail Screen
-- Status Update Screen
-- Fee Deadline Screen
-- Error / Invalid Update Screen
-- Unauthorized Access Screen
-
 ---
-# UC-12.1. Set Fee Payment Deadline
+# UC-15. Set Fee Payment Deadline
 
-**Use-Case ID:** UC-12.1
+**Use-Case ID:** UC-15
 
 **Actor(s):** Administrator
 
@@ -1097,29 +930,32 @@ This use case allows the Administrator to set or change the payment deadline for
 1. The Administrator selects **Set Fee Payment Deadline**.
 2. The system displays the fee amount, payment status, and current deadline, if available.
 
-   ![](Prototype_Req/admin/UC12/deadline.jpg)
+   ![](Prototype_Req/admin/appeal/deadline.jpg)
 
 3. The Administrator enters a payment deadline.
 4. The system validates the selected deadline.
 5. If the deadline is valid:
 
    5.1. The system displays the deadline for confirmation.
+
    5.2. The Administrator confirms the deadline.
+
    5.3. The system saves the deadline.
 
-   ![](Prototype_Req/admin/UC12/deadline_successful.jpg)
+   ![](Prototype_Req/admin/appeal/deadline_successful.jpg)
 
 6. Else:
 
    6.1. The system explains why the deadline is invalid.
+
    6.2. The system asks the Administrator to enter another deadline.
 
-   ![](Prototype_Req/admin/UC12/deadline_failed.jpg)
+   ![](Prototype_Req/admin/appeal/deadline_failed.jpg)
 
 7. The system records the deadline in the appeal history.
 8. The system notifies the student.
 
-   ![](Prototype_Req/admin/UC12/deadline_done.jpg)
+   ![](Prototype_Req/admin/appeal/deadline_done.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Existing deadline being changed:** If a payment deadline already exists, the Administrator enters a new deadline and a reason for the change; the system records both the prior and the updated deadline.
@@ -1139,17 +975,10 @@ This use case allows the Administrator to set or change the payment deadline for
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Fee-Deadline Entry Screen
-- Deadline-Confirmation Screen
-- Deadline-Set Success Screen
-- Deadline-Invalid Error Screen
-
 ---
-# UC-12.2. Update Appeal Status
+# UC-16. Update Appeal Status
 
-**Use-Case ID:** UC-12.2
+**Use-Case ID:** UC-16
 
 **Actor(s):** Administrator
 
@@ -1165,7 +994,7 @@ This use case allows the Administrator to change the processing status of an app
 1. The Administrator selects **Update Appeal Status**.
 2. The system displays the current status and the permitted next statuses.
 
-   ![](Prototype_Req/admin/UC12/status.jpg)
+   ![](Prototype_Req/admin/appeal/status.jpg)
 
 3. The Administrator selects a new status.
 4. The Administrator enters a processing note.
@@ -1173,22 +1002,25 @@ This use case allows the Administrator to change the processing status of an app
 6. If the status change is valid:
 
    6.1. The system displays a summary of the change.
+
    6.2. The Administrator confirms the update.
+
    6.3. The system saves the new status.
 
-   ![](Prototype_Req/admin/UC12/status_successful.jpg)
+   ![](Prototype_Req/admin/appeal/status_successful.jpg)
 
 7. Else:
 
    7.1. The system identifies the invalid or missing information.
+
    7.2. The system asks the Administrator to correct the update.
 
-   ![](Prototype_Req/admin/UC12/status_failed.jpg)
+   ![](Prototype_Req/admin/appeal/status_failed.jpg)
 
 8. The system records the status change in the appeal history.
 9. The system notifies the student.
 
-   ![](Prototype_Req/admin/UC12/updated.jpg)
+   ![](Prototype_Req/admin/appeal/updated.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Additional information requested:** If the Administrator needs more details before changing status, they request it and the system notifies the student of the required information.
@@ -1208,17 +1040,10 @@ This use case allows the Administrator to change the processing status of an app
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Status-Update Screen
-- Status-Change Confirmation
-- Status-Update Success Screen
-- Status-Update Error Screen
-
 ---
-# UC-13. Student Data Administration
+# UC-17. Student Data Administration
 
-**Use-Case ID:** UC-13
+**Use-Case ID:** UC-17
 
 **Actor(s):** Administrator
 
@@ -1234,23 +1059,24 @@ Allows the Administrator to access and review student records through a searchab
 ### 3.1 Basic Flow
 1. The Administrator selects **Student Data Administration**.
 2. The system displays the student search page.
-3. The Administrator performs **UC-13.1 – Search Student Records**.
+3. The Administrator performs **UC-18 – Search Student Records**.
 4. If one or more matching students are found:
 
    4.1. The system displays the matching student records.
 
-   ![](Prototype_Req/admin/UC13/multiple_results.jpg)
+   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
 
    4.2. The Administrator selects a student.
+
    4.3. The system displays the student information permitted by the Administrator’s role.
 
-   ![](Prototype_Req/admin/UC13/info.jpg)
+   ![](Prototype_Req/admin/data_admin/info.jpg)
 
 5. Else:
 
    5.1. The system informs the Administrator that no matching student was found.
 
-   ![](Prototype_Req/admin/UC13/no_results.jpg)
+   ![](Prototype_Req/admin/data_admin/no_results.jpg)
 
 6. The system records access to the student record when required.
 
@@ -1258,11 +1084,11 @@ Allows the Administrator to access and review student records through a searchab
 - **3.2.1 AF1 – No search results:** If no matching students are found, the system displays a no-results message and suggests refining the criteria.
 - **3.2.2 AF2 – Restricted student record:** If a matching student’s record is restricted or archived, the system indicates the restriction and limits the displayed data accordingly.
 
-   ![](Prototype_Req/admin/UC13/restricted.jpg)
+   ![](Prototype_Req/admin/data_admin/restricted.jpg)
 
 - **3.2.3 AF3 – Permission denied:** If the Administrator does not have permission to view student records, the system denies access and displays an authorization error.
 
-   ![](Prototype_Req/admin/UC13/unauthorized.jpg)
+   ![](Prototype_Req/admin/data_admin/unauthorized.jpg)
 
 ## 4. Postconditions
 - The selected student information may be displayed according to the Administrator’s permissions.
@@ -1276,19 +1102,10 @@ Allows the Administrator to access and review student records through a searchab
 ## 6. Extension Points
 - None.
 
-## 7. Prototype Requirement
-Screens to design:
-- Student Search Page
-- Multiple Student Search Results
-- Student Detail Screen
-- No-Results Message
-- Restricted Record Notice
-- Unauthorized Access Screen
-
 ---
-# UC-13.1. Search Student Records
+# UC-18. Search Student Records
 
-**Use-Case ID:** UC-13.1
+**Use-Case ID:** UC-18
 
 **Actor(s):** Administrator
 
@@ -1308,7 +1125,7 @@ Allows the Administrator to search for students by one or more criteria and sele
 
    4.1. The system searches for matching student records.
 
-   ![](Prototype_Req/admin/UC13/result.jpg)
+   ![](Prototype_Req/admin/data_admin/result.jpg)
 
 5. Else:
 
@@ -1318,29 +1135,31 @@ Allows the Administrator to search for students by one or more criteria and sele
 
    6.1. The system displays the student ID, name, program, class, and status of each matching student.
 
-   ![](Prototype_Req/admin/UC13/multiple_results.jpg)
+   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
 
    6.2. The Administrator may sort or filter the results.
+
    6.3. The Administrator selects a student.
+
    6.4. The system displays the permitted student information.
 
-   ![](Prototype_Req/admin/UC13/info.jpg)
+   ![](Prototype_Req/admin/data_admin/info.jpg)
 
 7. Else:
 
    7.1. The system informs the Administrator that no matching student was found.
 
-   ![](Prototype_Req/admin/UC13/no_results.jpg)
+   ![](Prototype_Req/admin/data_admin/no_results.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Invalid search criteria:** If the input is incomplete or invalid, the system requests corrected criteria.
 - **3.2.2 AF2 – Too many results:** If a large result set is returned, the system paginates the results and suggests adding filters.
 
-   ![](Prototype_Req/admin/UC13/multiple_results.jpg)
+   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
 
 - **3.2.3 AF3 – Restricted or archived record:** If a found student record is restricted or archived, the system hides unauthorized details and shows the restriction status.
 
-   ![](Prototype_Req/admin/UC13/restricted.jpg)
+   ![](Prototype_Req/admin/data_admin/restricted.jpg)
 
 ## 4. Postconditions
 - Matching student records may be displayed.
@@ -1354,13 +1173,5 @@ Allows the Administrator to search for students by one or more criteria and sele
 
 ## 6. Extension Points
 - None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Search Criteria Form
-- Search Results List
-- Paginated Search Results
-- Restricted Record Notice
-- No-Results Message
 
 ---
