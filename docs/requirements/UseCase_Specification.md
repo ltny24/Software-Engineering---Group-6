@@ -1,6 +1,8 @@
 # MyUS Portal - Use-Case Specification
 Version 1.0
 
+*Performed by: Hồ Thị Như Ngọc and Hoàng Trung Kiên | Reviewed by: Lê Thị Như Ý and Dương Minh Huỳnh Khôi | Edited by: Hồ Thị Như Ngọc and Hoàng Trung Kiên*
+
 ---
 
 # Table of Contents
