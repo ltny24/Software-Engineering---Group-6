@@ -7,21 +7,21 @@
 ### 1. Phase 4 Changes
 
 **Phase 4 (Part 1) - Moved to Sprint 3:**
-* **Goal Updated:** Focus shifted to dynamic timetable integration (data modeling and API) and initiating the grade appeal process (document uploads and status tracking).
-* **Independent Test Updated:** Verifies timetable data retrieval, appeal submission, and status tracking.
+* **Goal Updated:** Focus shifted to dynamic timetable integration (data modeling and API).
+* **Independent Test Updated:** Verifies timetable.
 * **Task Details Added:**
   * T028 (Mock data): Assigned to Vi, reviewed by Khôi, due 20/07.
   * T029 (Timetable backend API): Assigned to Kiên, reviewed by Ngọc, due 23/07, prerequisite T028.
   * T030 (Timetable frontend UI): Assigned to Ý, reviewed by Kiên, due 23/07, prerequisite T029.
-  * T031 (Grade appeal submission endpoint): Assigned to Khôi, reviewed by Vi, due 19/07.
-  * T032 (Document upload handling): Assigned to Khôi, reviewed by Vi, due 20/07, prerequisite T031.
-  * T033 (Appeal status tracking endpoint): Assigned to Ngọc, reviewed by Khôi, due 21/07, prerequisite T031.
-  * T034 (Frontend appeal submission & status pages): Assigned to Ý, reviewed by Kiên, due 22/07, prerequisites T031, T033.
 
 **Phase 4 (Part 2) - Moved to Sprint 4:**
 * **Goal Updated:** Focus is now on the AI chatbot consultation feature and finalizing grade appeal workflow (deadline configurations and system testing).
 * **Independent Test Updated:** Verifies AI chatbot course recommendations and grade appeal deadline validation.
 * **Tasks Reallocated (T035-T039):**
+  * T031: Grade appeal submission endpoint.
+  * T032: Document upload handling
+  * T033: Appeal status tracking endpoint.
+  * T034: Frontend appeal submission & status pages.
   * T035: Implement appeal deadline config & validation.
   * T036: Implement AI chatbot backend adapter & recommendation service.
   * T037: Implement frontend chatbot experience & FAQ search UI.
