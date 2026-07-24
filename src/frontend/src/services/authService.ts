@@ -28,9 +28,5 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
  * Clears local session regardless of server response.
  */
 export async function logout(): Promise<void> {
-  try {
-    await axiosInstance.post('/api/auth/logout');
-  } finally {
-    clearSession();
-  }
+  clearSession();
 }

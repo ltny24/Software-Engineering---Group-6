@@ -29,8 +29,14 @@ export default function Sidebar() {
   const navItems = user?.role === ROLES.ADMIN ? adminNav : studentNav;
 
   const handleLogout = async () => {
-    await logout();
-    navigate(ROUTES.LOGIN);
+    try {
+      await logout();
+    } catch (error) {
+      console.warn('Backend không có API logout, tự động xóa session local.');
+    } finally {
+      localStorage.clear();
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (
