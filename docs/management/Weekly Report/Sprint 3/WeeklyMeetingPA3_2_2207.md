@@ -268,4 +268,4 @@ Updated responsibilities and deadlines were assigned for every remaining task. T
 
 The following screenshot serves as proof of the weekly project alignment and review meeting held online on 16/07/2026.
 
-![Weekly Meeting PA3 Evidence](evidence/1607_online.png)
+![Weekly Meeting PA3 Evidence](evidence/2207.jpg)
