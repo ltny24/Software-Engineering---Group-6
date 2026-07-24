@@ -36,4 +36,14 @@ public class AuthController {
         AuthResponse response = authService.login(request);
         return ResponseEntity.ok(response);
     }
+
+    /**
+     * Logout a user (stateless JWT invalidation on client side).
+     *
+     * @return 200 OK with success message
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<java.util.Map<String, String>> logout() {
+        return ResponseEntity.ok(java.util.Collections.singletonMap("message", "Logged out successfully"));
+    }
 }

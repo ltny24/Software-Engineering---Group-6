@@ -91,8 +91,8 @@ CREATE TABLE myus.Grade (
     term NVARCHAR(50),
     gpaImpact DECIMAL(5,4) NULL,
     CONSTRAINT FK_Grade_Registration FOREIGN KEY(registrationId) REFERENCES myus.CourseRegistration(registrationId) ON DELETE SET NULL,
-    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE,
-    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE CASCADE
+    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION,
+    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE NO ACTION
 );
 
 -- Academic Records

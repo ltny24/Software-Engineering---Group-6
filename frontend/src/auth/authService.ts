@@ -30,6 +30,8 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
 export async function logout(): Promise<void> {
   try {
     await axiosInstance.post('/api/auth/logout');
+  } catch (error) {
+    // Ignore server error on logout to ensure client session is always cleared
   } finally {
     clearSession();
   }
