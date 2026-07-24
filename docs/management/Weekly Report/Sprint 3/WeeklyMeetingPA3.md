@@ -76,7 +76,7 @@ The team discussed the scope and strategy for Section D, which carries the highe
 - Every use case from Section C requires a complete specification with: name/ID, actors, description, preconditions, basic flow (step-by-step), alternative flows (all possible, not just common ones), postconditions, and special requirements.
 - Each use case must be accompanied by UI prototype screenshots showing screens involved in both the basic flow and alternative flows.
 - AI-powered design tools (v0, Bolt, Figma) will be used to accelerate prototype generation directly from use-case specifications. If a coherent UI cannot be generated, the specification needs refinement — this serves as a built-in quality check.
-- Hoàng Trung Kiên will lead the specification writing, with Hồ Thị Như Ngọc handling the prototype generation and screenshot integration.
+- Hoàng Trung Kiên will be responsible for specifying all use cases related to the Admin actor, while Hồ Thị Như Ngọc will specify all use cases related to the Student actor. Both will also handle prototype generation and screenshot integration for their respective specifications.
 
 ### 3.5. Functional Group Implementation — Grade Appeal (Section E)
 
@@ -101,7 +101,7 @@ Based on the PA3-2026 requirements document, the tasks are assigned with explici
 | **A** | Revised Project Plan — 2nd submission (update based on TA feedback + `Changes.md`) | Hồ Thị Như Ngọc (24127089) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 18/07/2026 | PA2 Project Plan |
 | **B** | Detailed Vision Document — 2nd submission (update functional/non-functional requirements, alternatives, user environments) | Hồ Thị Như Ngọc (24127089) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 18/07/2026 | PA2 Vision Document |
 | **C** | Use-Case Model — Mermaid diagrams covering all functional requirements from vision document | Lê Thị Như Ý (24127595) | Hoàng Trung Kiên (24127194) | Follow PA3 requirements | 20/07/2026 | Section B |
-| **D** | Use-Case Specification — all use cases with basic flow, alternative flows, and prototype screenshots | Hoàng Trung Kiên (24127194), Hồ Thị Như Ngọc (24127089) | Lê Thị Như Ý (24127595), Trần Tường Vi (24127586) | Follow PA3 requirements | 25/07/2026 | Section C |
+| **D** | Use-Case Specification — all use cases with basic flow, alternative flows, and prototype screenshots | Hoàng Trung Kiên (24127194) — đặc tả phần Admin, Hồ Thị Như Ngọc (24127089) — đặc tả role Student | Lê Thị Như Ý (24127595), Trần Tường Vi (24127586) | Follow PA3 requirements | 25/07/2026 | Section C |
 | **E** | Implement 1 Functional Group — Grade Appeal end-to-end using Spec Kit workflow | Dương Minh Huỳnh Khôi (24127192), Trần Tường Vi (24127586), Lê Thị Như Ý (24127595) | Hoàng Trung Kiên (24127194), Hồ Thị Như Ngọc (24127089) | Follow PA3 requirements | 28/07/2026 | Sections C, D |
 | **F** | AI Usage Report & Weekly Report — AI usage log + Sprint meetings documentation + Jira screenshots | Trần Tường Vi (24127586) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 28/07/2026 | None |
 
