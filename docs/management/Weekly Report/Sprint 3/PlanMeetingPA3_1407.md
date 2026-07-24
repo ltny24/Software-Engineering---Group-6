@@ -198,4 +198,5 @@ The Sprint 3 Planning Meeting for PA3-2026 was successfully completed. All five 
 ## 8. Appendix - Evidence
 
 The following screenshot serves as proof of the Sprint Planning Meeting held online on 14/07/2026.
+![Weekly Meeting PA3 Evidence](evidence/1407.jpg)
 
