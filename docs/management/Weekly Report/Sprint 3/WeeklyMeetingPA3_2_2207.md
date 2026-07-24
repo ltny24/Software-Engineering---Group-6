@@ -266,6 +266,6 @@ Updated responsibilities and deadlines were assigned for every remaining task. T
 
 ## 8. Appendix - Evidence
 
-The following screenshot serves as proof of the weekly project alignment and review meeting held online on 16/07/2026.
+The following screenshot serves as proof of the weekly project alignment and review meeting held online on 22/07/2026.
 
 ![Weekly Meeting PA3 Evidence](evidence/2207.jpg)
