@@ -5,22 +5,22 @@ import { ROUTES, ROLES } from '../../utils/constants';
 import './Sidebar.css';
 
 const studentNav = [
-  { label: 'Dashboard',   to: ROUTES.DASHBOARD,  icon: '🏠' },
-  { label: 'My Profile',  to: ROUTES.PROFILE,    icon: '👤' },
-  { label: 'Courses',     to: ROUTES.COURSES,    icon: '📚' },
-  { label: 'Timetable',   to: ROUTES.TIMETABLE,  icon: '🗓️' },
-  { label: 'Grades',      to: ROUTES.GRADES,     icon: '📊' },
-  { label: 'Tuition',     to: ROUTES.TUITION,    icon: '💳' },
-  { label: 'Appeals',     to: ROUTES.APPEALS,    icon: '📝' },
-  { label: 'Support',     to: ROUTES.SUPPORT,    icon: '💬' },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
+  { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤' },
+  { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
+  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: '🗓️' },
+  { label: 'Grades', to: ROUTES.GRADES, icon: '📊' },
+  { label: 'Tuition', to: ROUTES.TUITION, icon: '💳' },
+  { label: 'Appeals', to: ROUTES.APPEALS, icon: '📝' },
+  { label: 'Support', to: ROUTES.SUPPORT, icon: '💬' },
 ];
 
 const adminNav = [
-  { label: 'Dashboard',    to: ROUTES.DASHBOARD,        icon: '🏠' },
-  { label: 'Students',     to: ROUTES.ADMIN_STUDENTS,   icon: '👥' },
-  { label: 'Bulk Import',  to: ROUTES.ADMIN_IMPORT,     icon: '📥' },
-  { label: 'Transfers',    to: ROUTES.ADMIN_TRANSFERS,  icon: '🔄' },
-  { label: 'Appeals',      to: ROUTES.ADMIN_APPEALS,    icon: '⚖️' },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
+  { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: '👥' },
+  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: '📥' },
+  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: '🔄' },
+  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: '⚖️' },
 ];
 
 export default function Sidebar() {
@@ -51,7 +51,9 @@ export default function Sidebar() {
                   `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
                 }
               >
-                <span className="sidebar__icon" aria-hidden="true">{icon}</span>
+                <span className="sidebar__icon" aria-hidden="true">
+                  {icon}
+                </span>
                 <span className="sidebar__label">{label}</span>
               </NavLink>
             </li>

@@ -2,9 +2,10 @@
 // MyUS University Portal – App-wide Constants
 // ============================================================
 
+const rawApiBaseUrl = process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
+
 /** Base URL of the Spring Boot backend. */
-export const API_BASE_URL =
-  process.env.REACT_APP_API_BASE_URL ?? 'http://localhost:8080';
+export const API_BASE_URL = rawApiBaseUrl.replace(/\/api\/?$/, '');
 
 /** Local-storage key for the JWT access token. */
 export const TOKEN_KEY = 'myus_access_token';

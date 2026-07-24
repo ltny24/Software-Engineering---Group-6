@@ -1,11 +1,10 @@
-import axios from 'axios';
-
-// Get Base URL from environment variables
-const BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api';
+import axios, { type AxiosRequestConfig } from 'axios';
+import { getAccessToken } from '../utils/tokenUtils';
+import { API_BASE_URL } from '../utils/constants';
 
 // Create an Axios instance
-const api = axios.create({
-  baseURL: BASE_URL,
+const baseApi = axios.create({
+  baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -15,11 +14,10 @@ const api = axios.create({
 // --------------------------------------------------------
 // REQUEST INTERCEPTOR: Automatically attach Token
 // --------------------------------------------------------
-api.interceptors.request.use(
+baseApi.interceptors.request.use(
   (config) => {
-    // Retrieve JWT Token from localStorage
-    const token = localStorage.getItem('accessToken');
-    if (token) {
+    const token = getAccessToken();
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
@@ -30,11 +28,8 @@ api.interceptors.request.use(
 // --------------------------------------------------------
 // RESPONSE INTERCEPTOR: Global error handling
 // --------------------------------------------------------
-api.interceptors.response.use(
-  (response) => {
-    // Return only data on success
-    return response.data;
-  },
+baseApi.interceptors.response.use(
+  (response) => response,
   (error) => {
     if (error.response) {
       const status = error.response.status;
@@ -42,7 +37,8 @@ api.interceptors.response.use(
       if (status === 401) {
         console.error('Error 401: Token expired or unauthorized.');
         // Clear token and redirect to login
-        localStorage.removeItem('accessToken');
+        localStorage.removeItem('myus_access_token');
+        localStorage.removeItem('myus_user');
         window.location.href = '/login';
       } else if (status === 403) {
         console.error('Error 403: Forbidden. You do not have permission.');
@@ -57,5 +53,32 @@ api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+const api = {
+  get: async <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    const response = await baseApi.get<T>(url, config);
+    return response.data as T;
+  },
+  post: async <T = unknown>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<T> => {
+    const response = await baseApi.post<T>(url, data, config);
+    return response.data as T;
+  },
+  put: async <T = unknown>(
+    url: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<T> => {
+    const response = await baseApi.put<T>(url, data, config);
+    return response.data as T;
+  },
+  delete: async <T = unknown>(url: string, config?: AxiosRequestConfig): Promise<T> => {
+    const response = await baseApi.delete<T>(url, config);
+    return response.data as T;
+  },
+};
 
 export default api;

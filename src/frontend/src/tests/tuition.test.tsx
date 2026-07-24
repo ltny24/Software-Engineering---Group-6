@@ -42,16 +42,14 @@ describe('Tuition flow', () => {
 
     render(<TuitionPage />);
 
-    expect(screen.getByText(/đang tải thông tin tài chính/i)).toBeInTheDocument();
+    expect(screen.getByText(/loading financial information/i)).toBeInTheDocument();
 
-    await waitFor(() =>
-      expect(mockedApi.get).toHaveBeenCalledWith('/v1/finance/tuition-balance')
-    );
+    await waitFor(() => expect(mockedApi.get).toHaveBeenCalledWith('/api/v1/finance/tuition/balance'));
 
     expect(await screen.findByText('Fall2026')).toBeInTheDocument();
-    expect(screen.getByText(/trạng thái bình thường/i)).toBeInTheDocument();
+    expect(screen.getByText(/account in good standing/i)).toBeInTheDocument();
     expect(screen.getByText('TXN-001')).toBeInTheDocument();
-    expect(screen.getByText(/chuyển khoản ngân hàng/i)).toBeInTheDocument();
+    expect(screen.getByText(/bank transfer/i)).toBeInTheDocument();
   });
 
   it('flags a financial hold when the account is blocked', async () => {
@@ -59,7 +57,7 @@ describe('Tuition flow', () => {
 
     render(<TuitionPage />);
 
-    expect(await screen.findByText(/bị khóa tài chính/i)).toBeInTheDocument();
+    expect(await screen.findByText(/financial hold/i)).toBeInTheDocument();
   });
 
   it('shows an empty state when there is no payment history yet', async () => {
@@ -67,9 +65,7 @@ describe('Tuition flow', () => {
 
     render(<TuitionPage />);
 
-    expect(
-      await screen.findByText(/chưa ghi nhận giao dịch thanh toán nào/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/no payment transactions recorded from the server/i)).toBeInTheDocument();
   });
 
   it('shows a not-found message and toast when the balance fails to load', async () => {
@@ -78,10 +74,8 @@ describe('Tuition flow', () => {
     render(<TuitionPage />);
 
     await waitFor(() =>
-      expect(mockedToast.error).toHaveBeenCalledWith('Không thể tải dữ liệu tài chính từ máy chủ.')
+      expect(mockedToast.error).toHaveBeenCalledWith('Unable to load financial data from the server.')
     );
-    expect(
-      await screen.findByText(/không tìm thấy thông tin công nợ/i)
-    ).toBeInTheDocument();
+    expect(await screen.findByText(/no balance data found/i)).toBeInTheDocument();
   });
 });

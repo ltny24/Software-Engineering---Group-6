@@ -11,10 +11,7 @@ import type { LoginRequest, LoginResponse } from '../types';
  * Persists tokens to localStorage and returns the login response.
  */
 export async function login(credentials: LoginRequest): Promise<LoginResponse> {
-  const { data } = await axiosInstance.post<LoginResponse>(
-    '/api/auth/login',
-    credentials
-  );
+  const { data } = await axiosInstance.post<LoginResponse>('/api/auth/login', credentials);
   saveSession(
     {
       accessToken: data.accessToken,

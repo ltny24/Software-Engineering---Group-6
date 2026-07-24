@@ -12,12 +12,7 @@ export async function getMyProfile(): Promise<StudentProfile> {
 }
 
 /** PUT /api/students/me – update the authenticated student's profile. */
-export async function updateMyProfile(
-  updates: Partial<StudentProfile>
-): Promise<StudentProfile> {
-  const { data } = await axiosInstance.put<StudentProfile>(
-    '/api/students/me',
-    updates
-  );
+export async function updateMyProfile(updates: Partial<StudentProfile>): Promise<StudentProfile> {
+  const { data } = await axiosInstance.put<StudentProfile>('/api/students/me', updates);
   return data;
 }

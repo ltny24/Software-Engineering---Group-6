@@ -10,18 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
-/**
- * Spring Security configuration for the MyUS University Portal.
- *
- * <p>Configures a stateless, JWT-based security filter chain with CORS
- * support and public access to authentication and documentation endpoints.</p>
- */
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -42,18 +35,6 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
-    /**
-     * Main security filter chain.
-     *
-     * <ul>
-     *   <li>CSRF disabled — stateless JWT-based API</li>
-     *   <li>CORS enabled — uses {@link com.myus.config.CorsConfig}</li>
-     *   <li>Session management — STATELESS</li>
-     *   <li>Public endpoints: auth, docs, actuator health</li>
-     *   <li>Role-based paths (e.g. /api/student/**, /api/admin/**)</li>
-     *   <li>All others require authentication</li>
-     * </ul>
-     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -68,25 +49,24 @@ public class SecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
             .authorizeHttpRequests(auth -> auth
-                    // ── Public endpoints ──────────────────────
-                    .requestMatchers("/api/auth/**", "/error").permitAll()
+                    // 1. Cho phép static resources & favicon
+                    .requestMatchers("/favicon.ico", "/error", "/css/**", "/js/**").permitAll()
 
-                    // ── API documentation ─────────────────────
+                    // 2. Cho phép Auth & API Docs
+                    .requestMatchers("/api/auth/**", "/api/v1/auth/**").permitAll()
                     .requestMatchers(
                             "/swagger-ui/**",
                             "/swagger-ui.html",
                             "/api-docs/**",
                             "/v3/api-docs/**"
                     ).permitAll()
-
-                    // ── Actuator health check ─────────────────
                     .requestMatchers("/actuator/health").permitAll()
-                    
-                    // ── Role-based Access Control Paths (T009) ──
-                    .requestMatchers("/api/student/**").hasRole("STUDENT")
-                    .requestMatchers("/api/admin/**").hasRole("ADMINISTRATOR")
 
-                    // ── Everything else requires authentication
+                    // 3. Cho phép các route grades/me hoặc student
+                    .requestMatchers("/api/v1/grades/**", "/api/grades/**").hasAnyAuthority("STUDENT", "ROLE_STUDENT", "ADMINISTRATOR", "ROLE_ADMINISTRATOR")
+                    .requestMatchers("/api/student/**", "/api/v1/student/**").hasAnyAuthority("STUDENT", "ROLE_STUDENT")
+                    .requestMatchers("/api/admin/**", "/api/v1/admin/**").hasAnyAuthority("ADMINISTRATOR", "ROLE_ADMINISTRATOR")
+
                     .anyRequest().authenticated()
             );
 
@@ -96,9 +76,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * Configures the AuthenticationProvider to use our custom UserDetailsService.
-     */
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -107,18 +84,11 @@ public class SecurityConfig {
         return authProvider;
     }
 
-    /**
-     * BCrypt password encoder for hashing user credentials.
-     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return org.springframework.security.crypto.password.NoOpPasswordEncoder.getInstance();
     }
 
-    /**
-     * Exposes the {@link AuthenticationManager} as a bean so it can
-     * be injected into controllers and services (e.g., login endpoint).
-     */
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration authConfig) throws Exception {

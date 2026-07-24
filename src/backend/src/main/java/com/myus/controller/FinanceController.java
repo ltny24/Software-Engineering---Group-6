@@ -7,12 +7,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -31,15 +30,13 @@ public class FinanceController {
 
     @GetMapping("/tuition/balance")
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<TuitionBalanceResponse> getTuitionBalance(
-            @AuthenticationPrincipal UserDetails userDetails) {
-
-        if (userDetails == null) {
+    public ResponseEntity<TuitionBalanceResponse> getTuitionBalance(Principal principal) {
+        if (principal == null) {
             log.warn("Unauthorized access attempt to tuition balance endpoint without authenticated principal.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String username = userDetails.getUsername();
+        String username = principal.getName();
         log.debug("Loading tuition balance for authenticated student username={}", username);
 
         TuitionBalanceResponse response = financeService.getTuitionBalance(username);
@@ -48,15 +45,14 @@ public class FinanceController {
 
     @GetMapping("/tuition/payment-history")
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<List<TuitionPaymentResponse>> getPaymentHistory(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<TuitionPaymentResponse>> getPaymentHistory(Principal principal) {
 
-        if (userDetails == null) {
+        if (principal == null) {
             log.warn("Unauthorized access attempt to payment history endpoint without authenticated principal.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String username = userDetails.getUsername();
+        String username = principal.getName();
         log.debug("Loading payment history for authenticated student username={}", username);
 
         List<TuitionPaymentResponse> response = financeService.getPaymentHistory(username);

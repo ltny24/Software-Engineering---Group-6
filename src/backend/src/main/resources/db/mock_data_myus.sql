@@ -23,7 +23,7 @@ INSERT INTO myus.Administrator (username, password, role, email, displayName, de
 
 -- 2. INSERT STUDENTS (2000 students)
 INSERT INTO myus.Student (username, password, role, firstName, middleName, lastName, email, phone, address, dateOfBirth, studentType, major, enrollmentStatus, registrationStatus) VALUES
-('24127001', '24127001123', 'STUDENT', N'Hà', N'Tường', N'Trương', '24127001@student.hcmus.edu.vn', '0904335942', N'367 Nguyễn Văn Cừ, Quận 5, TP.HCM', '2006-04-15', N'Chất lượng cao', N'Kỹ thuật phần mềm', 'Enrolled', 'Active'),
+('24127001', '16082006', 'STUDENT', N'Hà', N'Tường', N'Trương', '24127001@student.hcmus.edu.vn', '0904335942', N'367 Nguyễn Văn Cừ, Quận 5, TP.HCM', '2006-04-15', N'Chất lượng cao', N'Kỹ thuật phần mềm', 'Enrolled', 'Active'),
 ('24127002', '24127002123', 'STUDENT', N'Vi', N'Quang', N'Dương', '24127002@student.hcmus.edu.vn', '0908090293', N'175 Nguyễn Văn Cừ, Quận 5, TP.HCM', '2005-03-07', N'Chính quy Đại trà', N'Công nghệ thông tin', 'Enrolled', 'Active'),
 ('24127003', '24127003123', 'STUDENT', N'Kiên', N'Khánh', N'Nguyễn', '24127003@student.hcmus.edu.vn', '0907022674', N'434 Nguyễn Văn Cừ, Quận 5, TP.HCM', '2005-10-09', N'Chính quy - Tăng cường Tiếng Anh', N'Trí tuệ nhân tạo', 'Enrolled', 'Active'),
 ('24127004', '24127004123', 'STUDENT', N'Lan', N'Thị', N'Vũ', '24127004@student.hcmus.edu.vn', '0902322047', N'283 Nguyễn Văn Cừ, Quận 5, TP.HCM', '2005-11-20', N'Chính quy Đại trà', N'An toàn thông tin', 'Enrolled', 'Active'),

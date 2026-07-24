@@ -15,7 +15,7 @@ const TERMS = ['Fall2026', 'Spring2027'];
 
 const DEMO_OFFERINGS: CourseOffering[] = [
   {
-    offeringId: 1001,
+    offeringId: '1001',
     section: 'A',
     term: 'Fall2026',
     schedule: 'Mon/Wed 09:00 - 10:30',
@@ -25,19 +25,19 @@ const DEMO_OFFERINGS: CourseOffering[] = [
     enrolledCount: 12,
     availableSeats: 8,
     course: {
-      courseId: 501,
+      courseId: '501',
       courseCode: 'CS101',
       courseName: 'Introduction to Algorithms',
       description: 'Fundamentals of algorithms and problem solving.',
       credits: 3,
-      prerequisites: 'None',
+      prerequisites: ['None'],
       department: 'Computer Science',
       semester: 'Fall2026',
       capacity: 20,
     },
   },
   {
-    offeringId: 1002,
+    offeringId: '1002',
     section: 'B',
     term: 'Fall2026',
     schedule: 'Tue/Thu 11:00 - 12:30',
@@ -47,12 +47,12 @@ const DEMO_OFFERINGS: CourseOffering[] = [
     enrolledCount: 18,
     availableSeats: 2,
     course: {
-      courseId: 502,
+      courseId: '502',
       courseCode: 'MATH230',
       courseName: 'Linear Algebra',
       description: 'Matrix methods, vector spaces, and linear systems.',
       credits: 4,
-      prerequisites: 'Precalculus',
+      prerequisites: ['Precalculus'],
       department: 'Mathematics',
       semester: 'Fall2026',
       capacity: 20,
@@ -61,9 +61,10 @@ const DEMO_OFFERINGS: CourseOffering[] = [
 ];
 
 const DEMO_REGISTRATIONS: CourseRegistration[] = DEMO_OFFERINGS.map((offering, index) => ({
-  registrationId: 2000 + offering.offeringId,
-  studentId: 12345,
-  status: 'Enrolled',
+  registrationId: `2000${String(offering.offeringId)}`,
+  studentId: '12345',
+  offeringId: offering.offeringId,
+  status: 'ENROLLED',
   registeredAt: new Date(Date.now() - (index + 1) * 86400000).toISOString(),
   offering,
 }));
@@ -91,8 +92,8 @@ export default function CoursesPage() {
   const [loadingRegs, setLoadingRegs] = useState<boolean>(true);
 
   // Trạng thái xử lý theo từng hành động (đăng ký / hủy)
-  const [registeringId, setRegisteringId] = useState<number | null>(null);
-  const [droppingId, setDroppingId] = useState<number | null>(null);
+  const [registeringId, setRegisteringId] = useState<string | number | null>(null);
+  const [droppingId, setDroppingId] = useState<string | number | null>(null);
 
   // ------------------------------------------------------------
   // Gọi API danh sách khóa học (GET /courses)
@@ -122,7 +123,7 @@ export default function CoursesPage() {
         setTotalElements(
           received.length > 0 ? (data.totalElements ?? fallback.length) : fallback.length
         );
-        setCurrentPage(received.length > 0 ? (data.number ?? 0) : 0);
+        setCurrentPage(received.length > 0 ? (data.page ?? 0) : 0);
       } catch (error) {
         toast.error('Failed to load course catalog.');
         console.error(error);
@@ -185,8 +186,10 @@ export default function CoursesPage() {
     fetchOfferings(page);
   };
 
-  const isActiveRegistration = (offeringId: number) =>
-    registrations.some((r) => r.offering.offeringId === offeringId && r.status !== 'Dropped');
+  const isActiveRegistration = (offeringId: string | number) =>
+    registrations.some(
+      (r) => String(r.offering.offeringId) === String(offeringId) && r.status !== 'DROPPED'
+    );
 
   const handleRegister = async (offering: CourseOffering) => {
     try {
@@ -234,8 +237,9 @@ export default function CoursesPage() {
   };
 
   const seatBadgeClass = (offering: CourseOffering) => {
-    if (offering.availableSeats <= 0) return 'seat-badge full';
-    if (offering.availableSeats <= 5) return 'seat-badge low';
+    const seats = offering.availableSeats ?? 0;
+    if (seats <= 0) return 'seat-badge full';
+    if (seats <= 5) return 'seat-badge low';
     return 'seat-badge open';
   };
 
@@ -246,7 +250,7 @@ export default function CoursesPage() {
     return 'badge requested';
   };
 
-  const activeRegistrationsCount = registrations.filter((r) => r.status !== 'Dropped').length;
+  const activeRegistrationsCount = registrations.filter((r) => r.status !== 'DROPPED').length;
 
   return (
     <div className="courses-container">
@@ -462,7 +466,7 @@ export default function CoursesPage() {
                         <span className={statusBadgeClass(reg.status)}>{reg.status}</span>
                       </td>
                       <td data-label="Action" className="registration-action-cell">
-                        {reg.status !== 'Dropped' && (
+                        {reg.status !== 'DROPPED' && (
                           <button
                             className="btn-cancel drop-btn"
                             disabled={droppingId === reg.registrationId}

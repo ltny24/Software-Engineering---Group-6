@@ -14,10 +14,7 @@ interface ProtectedRouteProps {
   requiredRole?: UserRole;
 }
 
-export default function ProtectedRoute({
-  children,
-  requiredRole,
-}: ProtectedRouteProps) {
+export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const { isLoggedIn, user } = useAuth();
   const location = useLocation();
 

@@ -10,14 +10,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
+
+import java.security.Principal;
 
 /**
  * Controller responsible for student profile retrieval.
@@ -37,15 +37,14 @@ public class ProfileController {
 
     @GetMapping
     @PreAuthorize("hasRole('STUDENT')")
-    public ResponseEntity<StudentProfileResponse> getProfile(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<StudentProfileResponse> getProfile(Principal principal) {
 
-        if (userDetails == null) {
+        if (principal == null) {
             log.warn("Unauthorized access attempt to profile endpoint without authenticated principal.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String username = userDetails.getUsername();
+        String username = principal.getName();
         log.debug("Loading profile for authenticated student username={}", username);
 
         Student student = studentRepository.findByUsername(username)
@@ -58,16 +57,16 @@ public class ProfileController {
 
     @PutMapping
     @PreAuthorize("hasRole('STUDENT')")
-        public ResponseEntity<StudentProfileResponse> updateProfile(
-            @AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<StudentProfileResponse> updateProfile(
+            Principal principal,
             @Valid @RequestBody StudentProfileUpdateRequest updateRequest) {
 
-        if (userDetails == null) {
+        if (principal == null) {
             log.warn("Unauthorized access attempt to update profile without authenticated principal.");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        String username = userDetails.getUsername();
+        String username = principal.getName();
         log.debug("Received profile update request for username={}", username);
 
         StudentProfileResponse updatedProfile = profileService.updateProfile(username, updateRequest);

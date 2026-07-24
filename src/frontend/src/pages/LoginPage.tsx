@@ -20,7 +20,8 @@ export default function LoginPage() {
   const { setUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
 
-  const from = (location.state as { from?: { pathname: string } })?.from?.pathname ?? ROUTES.DASHBOARD;
+  const from =
+    (location.state as { from?: { pathname: string } })?.from?.pathname ?? ROUTES.DASHBOARD;
 
   const {
     register,
@@ -58,7 +59,9 @@ export default function LoginPage() {
           noValidate
         >
           <div className="form-group">
-            <label htmlFor="login-username" className="form-label">Username</label>
+            <label htmlFor="login-username" className="form-label">
+              Username
+            </label>
             <input
               id="login-username"
               type="text"
@@ -67,13 +70,13 @@ export default function LoginPage() {
               autoComplete="username"
               {...register('username')}
             />
-            {errors.username && (
-              <span className="form-error">{errors.username.message}</span>
-            )}
+            {errors.username && <span className="form-error">{errors.username.message}</span>}
           </div>
 
           <div className="form-group">
-            <label htmlFor="login-password" className="form-label">Password</label>
+            <label htmlFor="login-password" className="form-label">
+              Password
+            </label>
             <input
               id="login-password"
               type="password"
@@ -82,9 +85,7 @@ export default function LoginPage() {
               autoComplete="current-password"
               {...register('password')}
             />
-            {errors.password && (
-              <span className="form-error">{errors.password.message}</span>
-            )}
+            {errors.password && <span className="form-error">{errors.password.message}</span>}
           </div>
 
           <button

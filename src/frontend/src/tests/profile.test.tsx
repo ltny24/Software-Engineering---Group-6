@@ -41,7 +41,7 @@ describe('Profile management flow', () => {
 
     expect(screen.getByText(/loading profile/i)).toBeInTheDocument();
 
-    await waitFor(() => expect(mockedApi.get).toHaveBeenCalledWith('/v1/profile'));
+    await waitFor(() => expect(mockedApi.get).toHaveBeenCalledWith('/api/v1/profile'));
 
     expect(await screen.findByText('stu001')).toBeInTheDocument();
     expect(screen.getByText('Computer Science')).toBeInTheDocument();
@@ -67,7 +67,7 @@ describe('Profile management flow', () => {
     await user.click(screen.getByRole('button', { name: /save changes/i }));
 
     await waitFor(() =>
-      expect(mockedApi.put).toHaveBeenCalledWith('/v1/profile', {
+      expect(mockedApi.put).toHaveBeenCalledWith('/api/v1/profile', {
         phone: '0911111111',
         address: '456 New Address',
       })
