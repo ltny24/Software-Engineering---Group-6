@@ -101,19 +101,19 @@ Based on the PA3-2026 requirements document, the tasks are assigned with explici
 | **A** | Revised Project Plan — 2nd submission (update based on TA feedback + `Changes.md`) | Hồ Thị Như Ngọc (24127089) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 18/07/2026 | PA2 Project Plan |
 | **B** | Detailed Vision Document — 2nd submission (update functional/non-functional requirements, alternatives, user environments) | Hồ Thị Như Ngọc (24127089) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 18/07/2026 | PA2 Vision Document |
 | **C** | Use-Case Model — Mermaid diagrams covering all functional requirements from vision document | Lê Thị Như Ý (24127595) | Hoàng Trung Kiên (24127194) | Follow PA3 requirements | 20/07/2026 | Section B |
-| **D** | Use-Case Specification — all use cases with basic flow, alternative flows, and prototype screenshots | Hoàng Trung Kiên (24127194) — đặc tả phần Admin, Hồ Thị Như Ngọc (24127089) — đặc tả role Student | Lê Thị Như Ý (24127595), Trần Tường Vi (24127586) | Follow PA3 requirements | 25/07/2026 | Section C |
-| **E** | Implement 1 Functional Group — Grade Appeal end-to-end using Spec Kit workflow | Dương Minh Huỳnh Khôi (24127192), Trần Tường Vi (24127586), Lê Thị Như Ý (24127595) | Hoàng Trung Kiên (24127194), Hồ Thị Như Ngọc (24127089) | Follow PA3 requirements | 28/07/2026 | Sections C, D |
-| **F** | AI Usage Report & Weekly Report — AI usage log + Sprint meetings documentation + Jira screenshots | Trần Tường Vi (24127586) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 28/07/2026 | None |
+| **D** | Use-Case Specification — all use cases with basic flow, alternative flows, and prototype screenshots | Hoàng Trung Kiên (24127194) — đặc tả phần Admin, Hồ Thị Như Ngọc (24127089) — đặc tả role Student | Lê Thị Như Ý (24127595), Trần Tường Vi (24127586) | Follow PA3 requirements | 21/07/2026 | Section C |
+| **E** | Implement 1 Functional Group — Grade Appeal end-to-end using Spec Kit workflow | Dương Minh Huỳnh Khôi (24127192), Trần Tường Vi (24127586), Lê Thị Như Ý (24127595) | Hoàng Trung Kiên (24127194), Hồ Thị Như Ngọc (24127089) | Follow PA3 requirements | 22/07/2026 | Sections C, D |
+| **F** | AI Usage Report & Weekly Report — AI usage log + Sprint meetings documentation + Jira screenshots | Trần Tường Vi (24127586) | Dương Minh Huỳnh Khôi (24127192) | Follow PA3 requirements | 24/07/2026 | None |
 
 ### B. Section E — Grade Appeal Implementation Breakdown
 
 | Sub-task ID | Description | Person in Charge | Reviewer | Deadline |
 | --- | --- | --- | --- | --- |
 | **E-BE** | Backend: Appeal entity, `AppealRepository`, `AppealService`/`AppealServiceImpl`, `AppealController`, `AppealAdminController`, DTOs, and exception handling | Dương Minh Huỳnh Khôi (24127192) | Trần Tường Vi (24127586) | 24/07/2026 |
-| **E-FE** | Frontend: Appeal submission form, status tracking UI, and admin review dashboard | Lê Thị Như Ý (24127595) | Dương Minh Huỳnh Khôi (24127192) | 26/07/2026 |
+| **E-FE** | Frontend: Appeal submission form, status tracking UI, and admin review dashboard | Lê Thị Như Ý (24127595) | Dương Minh Huỳnh Khôi (24127192) | 24/07/2026 |
 | **E-DB** | Database: Appeal schema, mock data, and integration verification | Trần Tường Vi (24127586) | Lê Thị Như Ý (24127595) | 24/07/2026 |
-| **E-SK** | Spec Kit artifacts: `spec.md`, `plan.md`, `tasks.md` for the Appeal functional group | All Section E members | Hoàng Trung Kiên (24127194) | 28/07/2026 |
-| **E-DEMO** | Video demo with narration — upload to YouTube (Unlisted) and include link in submission | Dương Minh Huỳnh Khôi (24127192) | All Section E members | 28/07/2026 |
+| **E-SK** | Spec Kit artifacts: `spec.md`, `plan.md`, `tasks.md` for the Appeal functional group | All Section E members | Hoàng Trung Kiên (24127194) | 24/07/2026 |
+| **E-DEMO** | Video demo with narration — upload to YouTube (Unlisted) and include link in submission | Dương Minh Huỳnh Khôi (24127192) | All Section E members | 25/07/2026 |
 
 ---
 
@@ -133,10 +133,10 @@ Based on the PA3-2026 requirements document, the tasks are assigned with explici
 
 1. **Immediate (by 18/07):** Dương Minh Huỳnh Khôi to complete peer review of Sections A & B (Revised Project Plan, Detailed Vision Document, and `Changes.md`).
 2. **By 20/07:** Lê Thị Như Ý to finalize the use-case model (Section C) with all Mermaid diagrams, reviewed by Hoàng Trung Kiên.
-3. **By 25/07:** Hoàng Trung Kiên and Hồ Thị Như Ngọc to complete all use-case specifications (Section D) with prototype screenshots, reviewed by Ý and Vi.
-4. **By 28/07:** Section E team (Khôi, Vi, Ý) to complete the Grade Appeal full-stack implementation with Spec Kit artifacts and video demo.
-5. **By 28/07:** Trần Tường Vi to compile the AI Usage Report and finalize all weekly meeting documentation (Section F).
-6. **By 30/07:** Compile the final PA3 submission package: all Markdown files, PDF conversions, Git log screenshot, and compressed zip file (`PA3-Group[GroupId].zip`).
+3. **By 22/07:** Hoàng Trung Kiên and Hồ Thị Như Ngọc to complete all use-case specifications (Section D) with prototype screenshots, reviewed by Ý and Vi.
+4. **By 24/07:** Section E team (Khôi, Vi, Ý) to complete the Grade Appeal full-stack implementation with Spec Kit artifacts and video demo.
+5. **By 24/07:** Trần Tường Vi to compile the AI Usage Report and finalize all weekly meeting documentation (Section F).
+6. **By 25/07:** Compile the final PA3 submission package: all Markdown files, PDF conversions, Git log screenshot, and compressed zip file (`PA3-Group[GroupId].zip`).
 
 ---
 
