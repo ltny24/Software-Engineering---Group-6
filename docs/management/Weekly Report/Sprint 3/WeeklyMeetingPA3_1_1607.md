@@ -150,4 +150,4 @@ The Weekly Review & Planning Meeting for Sprint 3 (PA3-2026) successfully establ
 
 The following screenshot serves as proof of the weekly project alignment and review meeting held online on 16/07/2026.
 
-![Weekly Meeting PA3 Evidence](evidence/1607_online.png)
+![Weekly Meeting PA3 Evidence](evidence/1607.png)
