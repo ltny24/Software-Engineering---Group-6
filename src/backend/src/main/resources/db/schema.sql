@@ -1,12 +1,13 @@
 -- SQL Server schema for MyUS University Portal
--- File: src/backend/src/main/resources/db/schema.sql
 SET NOCOUNT ON;
+
+USE MyUS;
+GO
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'myus')
 BEGIN
     EXEC('CREATE SCHEMA myus');
 END
-
 GO
 
 -- Students
@@ -80,7 +81,7 @@ CREATE TABLE myus.CourseRegistration (
     CONSTRAINT FK_CourseRegistration_Offering FOREIGN KEY(offeringId) REFERENCES myus.CourseOffering(offeringId) ON DELETE CASCADE
 );
 
--- Grades
+-- Grades (Đã sửa NO ACTION cho studentId và courseId để tránh Cascade Cycle)
 CREATE TABLE myus.Grade (
     gradeId BIGINT IDENTITY(1,1) PRIMARY KEY,
     registrationId BIGINT NULL,
@@ -91,8 +92,8 @@ CREATE TABLE myus.Grade (
     term NVARCHAR(50),
     gpaImpact DECIMAL(5,4) NULL,
     CONSTRAINT FK_Grade_Registration FOREIGN KEY(registrationId) REFERENCES myus.CourseRegistration(registrationId) ON DELETE SET NULL,
-    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE,
-    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE CASCADE
+    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION,
+    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE NO ACTION
 );
 
 -- Academic Records
@@ -167,7 +168,7 @@ CREATE TABLE myus.SurveyResponse (
     surveyId BIGINT NOT NULL,
     studentId BIGINT NOT NULL,
     submittedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
-    answers NVARCHAR(MAX) NOT NULL,-- JSON or structured text
+    answers NVARCHAR(MAX) NOT NULL,
     CONSTRAINT FK_SurveyResponse_Survey FOREIGN KEY(surveyId) REFERENCES myus.Survey(surveyId) ON DELETE CASCADE,
     CONSTRAINT FK_SurveyResponse_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE
 );
@@ -210,16 +211,11 @@ CREATE TABLE myus.ChatbotSession (
 
 -- Additional constraints: status enumerations
 ALTER TABLE myus.CourseRegistration ADD CONSTRAINT CHK_CourseRegistration_Status CHECK (status IN ('Requested','Enrolled','Waitlisted','Dropped'));
-
 ALTER TABLE myus.Appeal ADD CONSTRAINT CHK_Appeal_Status CHECK (status IN ('Submitted','Under Review','Approved','Denied','Withdrawn'));
-
 ALTER TABLE myus.Survey ADD CONSTRAINT CHK_Survey_Status CHECK (status IN ('Draft','Open','Closed'));
-
 ALTER TABLE myus.ClassTransferRequest ADD CONSTRAINT CHK_Transfer_Status CHECK (status IN ('Requested','Reviewing','Approved','Denied'));
 
--- Optional: ensure registration references unique student-offering combination
 CREATE UNIQUE INDEX UX_CourseRegistration_Student_Offering ON myus.CourseRegistration(studentId, offeringId) WHERE status IN ('Requested','Enrolled','Waitlisted');
 
 GO
-
 SET NOCOUNT OFF;
