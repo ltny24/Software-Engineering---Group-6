@@ -178,6 +178,6 @@ All members agreed to complete the final quality-assurance tasks and jointly ver
 
 ## 8. Appendix - Evidence
 
-The following screenshot serves as evidence of the Sprint 3 Review meeting held online on [DD/MM/2026].
+The following screenshot serves as evidence of the Sprint 3 Review meeting held online on 24/07/2026.
 
 ![Sprint 3 Review Meeting Evidence](evidence/2407.jpg)
