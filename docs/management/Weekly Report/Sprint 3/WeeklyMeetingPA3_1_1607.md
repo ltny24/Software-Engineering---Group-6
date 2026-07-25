@@ -1,4 +1,4 @@
-# Meeting Report 7 - Weekly Review & Planning Meeting (Sprint 3 - PA3)
+# Meeting Report 10 - Weekly Review & Planning Meeting (Sprint 3 - PA3)
 
 **Course:** CSC13002 - Introduction to Software Engineering\
 **Project Assignment:** PA3-2026\
