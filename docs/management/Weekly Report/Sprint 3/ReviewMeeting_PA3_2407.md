@@ -125,11 +125,11 @@ Before concluding the meeting, the team summarized the main issues requiring att
 
 ## 4. Work Assignment
 
-The team continued to complete the remaining revisions and final quality-assurance tasks based on the assignments established during Weekly Review 2.
+The team has completed the remaining revisions and final quality-assurance tasks based on the assignments established during Sprint 3.
 
 No major new development tasks were introduced during this meeting.
 
-The remaining responsibilities were:
+The main responsibilities for PA3 were:
 
 | Task                                                | Person in Charge | Reviewer                          |
 | --------------------------------------------------- | ---------------- | --------------------------------- |
@@ -141,6 +141,9 @@ The remaining responsibilities were:
 | Finalize AI usage, Jira, and weekly report evidence | Trần Tường Vi    | Dương Minh Huỳnh Khôi             |
 | Compile and verify the final submission package     | All members      | Hồ Thị Như Ngọc, Hoàng Trung Kiên |
 
+Below is the Jira task screenshot showing task assignments and progress for this sprint (PA3).
+
+![Sprint 3 Jira Evidence](evidence/2407_2.jpg)
 ---
 
 ## 5. Decisions Made
