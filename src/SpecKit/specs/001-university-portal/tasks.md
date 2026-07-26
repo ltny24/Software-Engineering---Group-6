@@ -64,9 +64,9 @@
 
 ### Functional Group 2: Grade Appeal System
 - [ ] T028 [P] [US2] [FG2] Implement digital grade appeal submission endpoint that routes review requests directly to the academic department in `backend/src/main/java/com/myus/controller/AppealController.java`
-- [ ] T029 [P] [US2] [FG2] Implement supporting document upload handling and form validation service in `backend/src/main/java/com/myus/service/AppealService.java`
+- [ ] T029 [P] [US2] [FG2] Implement grade appeal business logic and form validation service (enforcing 14-day submission window, expected grade constraints, and reason validation) in backend/src/main/java/com/myus/service/AppealService.java
 - [ ] T030 [P] [US2] [FG2] Implement appeal status tracking endpoint to retrieve real-time processing status (Pending, Processing, Resolved) and the deadline date for visiting the academic office to complete fee payments in `backend/src/main/java/com/myus/controller/AppealController.java`
-- [ ] T031 [US2] [FG2] Implement frontend grade appeal digital submission form and file attachment UI in `frontend/src/pages/appeals/AppealSubmissionPage.tsx`
+- [ ] T031 [US2] [FG2] Implement frontend grade appeal digital submission form (course selection, exam type, expected grade input, and reason textarea) in frontend/src/pages/appeals/AppealSubmissionPage.tsx
 - [ ] T032 [US2] [FG2] Implement frontend visual status dashboard displaying real-time appeal progress and highlighting exact fee payment deadlines at the academic office in `frontend/src/pages/appeals/AppealStatusDashboard.tsx`
 
 ### AI Chatbot & Support (Section 4 & Functional Group 3 AI Module)
