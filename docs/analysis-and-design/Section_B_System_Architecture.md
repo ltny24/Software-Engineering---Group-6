@@ -50,10 +50,11 @@ End-to-end execution of the digital grade appeal workflow, including:
 - Digital appeal submission
 - Supporting evidence uploads (`.pdf`, `.jpg`, `.png`, maximum 5 MB)
 - Real-time appeal status tracking:
-  - `PENDING`
-  - `PROCESSING`
-  - `RESOLVED`
-  - `REJECTED`
+  - `Submitted`
+  - `Under Review`
+  - `Approved`
+  - `Denied`
+  - `Withdrawn`
 - Dynamic fee payment deadline enforcement (+5 business days)
 
 #### Functional Group 6 – Support & FAQ
@@ -229,16 +230,16 @@ TypeScript is critical for modeling intricate Data Transfer Objects (DTOs), incl
 
 This prevents runtime type errors and ensures consistency between frontend and backend data contracts.
 
-### Styling & Responsive UI — Tailwind CSS
+### Styling & Responsive UI — Plain CSS with BEM Convention
 
-Tailwind CSS is utilized as a utility-first CSS framework to satisfy multi-device responsiveness requirements across desktop, laptop, tablet, and mobile breakpoints (**NFR ID13**).
+The frontend uses plain CSS files organized per component, following the **BEM (Block Element Modifier)** naming convention to satisfy multi-device responsiveness requirements across desktop, laptop, tablet, and mobile breakpoints (**NFR ID13**).
 
 It enables:
 
 - Condensed daily-agenda layouts on mobile devices (**UC-04**).
 - Clean and expandable UI patterns for the centralized FAQ library (**UC-10**).
 
-without generating bloated CSS bundles.
+without requiring additional CSS framework dependencies.
 
 ### Routing & Security — React Router DOM
 
@@ -268,12 +269,13 @@ Its responsibilities include:
   - Standard JSON.
   - `multipart/form-data` when uploading supporting documents for grade appeals (**UC-07a**).
 
-### Build & Bundling Tooling — Vite
+### Build & Bundling Tooling — Create React App (react-scripts)
 
-Vite provides:
+**Create React App (CRA)** with `react-scripts` is used as the build tool to provide:
 
-- Ultra-fast Hot Module Replacement (HMR) during development.
+- Rapid development environment with integrated Webpack configuration.
 - Optimized production builds with tree-shaking for fast deployment.
+- Out-of-the-box support for TypeScript compilation and testing infrastructure.
 
 ---
 
@@ -357,6 +359,10 @@ It stores structured schemas including:
 - `enrollments`
 - `grade_appeals`
 - `tuition_invoices`
+- `class_transfer_requests`
+- `chatbot_sessions`
+- `faq_articles`
+- `surveys`
 - System audit logs
 
 (**UC-11**, **UC-17**)
@@ -415,6 +421,14 @@ Notifications are triggered during:
 ---
 
 ## 2.5. DevOps, Quality Assurance & Spec-Driven Tooling
+
+### Database Migration Management — Flyway
+
+**Flyway** is integrated for version-controlled database schema migration. All schema changes are managed through SQL migration scripts located in `src/main/resources/db/migration/`, ensuring:
+
+- Consistent database state across all environments (development, testing, production).
+- Repeatable and auditable schema evolution history.
+- Baseline support for existing databases without data loss.
 
 ### Spec-Driven Engineering — Spec Kit
 
