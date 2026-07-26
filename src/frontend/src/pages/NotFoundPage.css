@@ -45,7 +45,9 @@
   font-weight: var(--font-medium);
   font-size: var(--text-sm);
   text-decoration: none;
-  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   margin-top: var(--space-2);
 }
 

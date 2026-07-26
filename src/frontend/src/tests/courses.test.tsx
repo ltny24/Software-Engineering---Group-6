@@ -52,6 +52,7 @@ const PAGED_OFFERINGS: PagedResponse<CourseOffering> = {
   content: [OFFERING],
   totalElements: 1,
   totalPages: 1,
+  page: 0,
   number: 0,
   size: 9,
 };
@@ -59,7 +60,7 @@ const PAGED_OFFERINGS: PagedResponse<CourseOffering> = {
 const REGISTRATION: CourseRegistration = {
   registrationId: 3001,
   studentId: 12345,
-  status: 'Enrolled',
+  status: 'ENROLLED',
   registeredAt: new Date().toISOString(),
   offering: OFFERING,
 };
@@ -103,7 +104,7 @@ describe('Course registration flow', () => {
   it('drops an active registration after confirmation', async () => {
     const user = userEvent.setup();
     mockedGetMyRegistrations.mockResolvedValue([REGISTRATION]);
-    mockedDropRegistration.mockResolvedValue({ ...REGISTRATION, status: 'Dropped' });
+    mockedDropRegistration.mockResolvedValue({ ...REGISTRATION, status: 'DROPPED' });
     window.confirm = jest.fn().mockReturnValue(true);
 
     render(<CoursesPage />);

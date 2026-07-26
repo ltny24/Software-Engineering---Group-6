@@ -7,24 +7,24 @@
 /* ----- CSS Custom Properties (Design Tokens) ----- */
 :root {
   /* Brand palette */
-  --color-primary:        #1e3a5f;   /* Deep navy */
-  --color-primary-light:  #2d5a9e;
-  --color-primary-dark:   #112340;
-  --color-accent:         #f0a500;   /* Gold */
-  --color-accent-light:   #ffc840;
-  --color-accent-dark:    #c07d00;
+  --color-primary: #1e3a5f; /* Deep navy */
+  --color-primary-light: #2d5a9e;
+  --color-primary-dark: #112340;
+  --color-accent: #f0a500; /* Gold */
+  --color-accent-light: #ffc840;
+  --color-accent-dark: #c07d00;
 
   /* Semantic colours */
-  --color-success:  #16a34a;
-  --color-warning:  #d97706;
-  --color-danger:   #dc2626;
-  --color-info:     #0284c7;
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-danger: #dc2626;
+  --color-info: #0284c7;
 
   /* Neutrals */
-  --color-bg:         #f4f7fb;
-  --color-surface:    #ffffff;
-  --color-border:     #e2e8f0;
-  --color-text:       #1a202c;
+  --color-bg: #f4f7fb;
+  --color-surface: #ffffff;
+  --color-border: #e2e8f0;
+  --color-text: #1a202c;
   --color-text-muted: #718096;
   --color-text-light: #a0aec0;
 
@@ -32,27 +32,27 @@
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Fira Code', 'Courier New', monospace;
 
-  --text-xs:   0.75rem;   /* 12px */
-  --text-sm:   0.875rem;  /* 14px */
-  --text-base: 1rem;      /* 16px */
-  --text-lg:   1.125rem;  /* 18px */
-  --text-xl:   1.25rem;   /* 20px */
-  --text-2xl:  1.5rem;    /* 24px */
-  --text-3xl:  1.875rem;  /* 30px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
 
-  --font-normal:   400;
-  --font-medium:   500;
+  --font-normal: 400;
+  --font-medium: 500;
   --font-semibold: 600;
-  --font-bold:     700;
+  --font-bold: 700;
 
   /* Spacing scale */
-  --space-1:  0.25rem;
-  --space-2:  0.5rem;
-  --space-3:  0.75rem;
-  --space-4:  1rem;
-  --space-5:  1.25rem;
-  --space-6:  1.5rem;
-  --space-8:  2rem;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
   --space-10: 2.5rem;
   --space-12: 3rem;
   --space-16: 4rem;
@@ -148,7 +148,12 @@ ol {
   list-style: none;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   line-height: 1.3;
   font-weight: var(--font-semibold);
   color: var(--color-text);
@@ -314,7 +319,9 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--color-surface);
   color: var(--color-text);
   font-size: var(--text-sm);
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
   outline: none;
 }
 
@@ -399,12 +406,30 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: 0.02em;
 }
 
-.badge--success  { background-color: #dcfce7; color: var(--color-success); }
-.badge--warning  { background-color: #fef3c7; color: var(--color-warning); }
-.badge--danger   { background-color: #fee2e2; color: var(--color-danger); }
-.badge--info     { background-color: #e0f2fe; color: var(--color-info); }
-.badge--neutral  { background-color: var(--color-border); color: var(--color-text-muted); }
-.badge--primary  { background-color: #dbeafe; color: var(--color-primary-light); }
+.badge--success {
+  background-color: #dcfce7;
+  color: var(--color-success);
+}
+.badge--warning {
+  background-color: #fef3c7;
+  color: var(--color-warning);
+}
+.badge--danger {
+  background-color: #fee2e2;
+  color: var(--color-danger);
+}
+.badge--info {
+  background-color: #e0f2fe;
+  color: var(--color-info);
+}
+.badge--neutral {
+  background-color: var(--color-border);
+  color: var(--color-text-muted);
+}
+.badge--primary {
+  background-color: #dbeafe;
+  color: var(--color-primary-light);
+}
 
 /* ============================================================
    Table
@@ -460,10 +485,26 @@ h1, h2, h3, h4, h5, h6 {
   font-size: var(--text-sm);
 }
 
-.alert--success { background-color: #f0fdf4; border-color: #86efac; color: #166534; }
-.alert--warning { background-color: #fffbeb; border-color: #fcd34d; color: #92400e; }
-.alert--danger  { background-color: #fef2f2; border-color: #fca5a5; color: #991b1b; }
-.alert--info    { background-color: #f0f9ff; border-color: #7dd3fc; color: #075985; }
+.alert--success {
+  background-color: #f0fdf4;
+  border-color: #86efac;
+  color: #166534;
+}
+.alert--warning {
+  background-color: #fffbeb;
+  border-color: #fcd34d;
+  color: #92400e;
+}
+.alert--danger {
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+  color: #991b1b;
+}
+.alert--info {
+  background-color: #f0f9ff;
+  border-color: #7dd3fc;
+  color: #075985;
+}
 
 /* ============================================================
    Loading Spinner
@@ -486,7 +527,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ============================================================

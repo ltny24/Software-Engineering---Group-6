@@ -12,28 +12,30 @@ export async function getCourses(params?: {
   search?: string;
   department?: string;
 }): Promise<PagedResponse<CourseOffering>> {
-  const { data } = await axiosInstance.get<PagedResponse<CourseOffering>>(
-    '/api/courses',
-    { params }
-  );
+  const { data } = await axiosInstance.get<PagedResponse<CourseOffering>>('/api/courses', {
+    params,
+  });
   return data;
 }
 
 /** GET /api/registrations/me – fetch the student's enrolled courses / timetable. */
 export async function getMyRegistrations(): Promise<CourseRegistration[]> {
-  const { data } = await axiosInstance.get<CourseRegistration[]>(
-    '/api/registrations/me'
-  );
+  const { data } = await axiosInstance.get<CourseRegistration[]>('/api/registrations/me');
   return data;
 }
 
 /** POST /api/registrations – register for a course offering. */
-export async function registerCourse(
-  offeringId: string
-): Promise<CourseRegistration> {
-  const { data } = await axiosInstance.post<CourseRegistration>(
-    '/api/registrations',
-    { offeringId }
+export async function registerCourse(offeringId: string | number): Promise<CourseRegistration> {
+  const { data } = await axiosInstance.post<CourseRegistration>('/api/registrations', {
+    offeringId,
+  });
+  return data;
+}
+
+/** PUT /api/registrations/{id}/drop – drop an existing registration. */
+export async function dropRegistration(registrationId: string | number): Promise<CourseRegistration> {
+  const { data } = await axiosInstance.put<CourseRegistration>(
+    `/api/registrations/${registrationId}/drop`
   );
   return data;
 }

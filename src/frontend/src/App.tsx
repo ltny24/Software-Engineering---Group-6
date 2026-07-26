@@ -9,21 +9,21 @@ import { ROUTES, ROLES } from './utils/constants';
 // Lazy-loaded pages – code splitting for faster initial load
 // ============================================================
 
-const LoginPage        = lazy(() => import('./pages/LoginPage'));
-const NotFoundPage     = lazy(() => import('./pages/NotFoundPage'));
-const DashboardPage    = lazy(() => import('./pages/DashboardPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
+const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 
 // Student pages
-const ProfilePage      = lazy(() => import('./pages/profile/ProfilePage'));
-const CoursesPage      = lazy(() => import('./pages/courses/CoursesPage'));
-const TimetablePage    = lazy(() => import('./pages/timetable/TimetablePage'));
-const GradesPage       = lazy(() => import('./pages/grades/GradesPage'));
-const TuitionPage      = lazy(() => import('./pages/tuition/TuitionPage'));
-const AppealsPage      = lazy(() => import('./pages/appeals/AppealsPage'));
-const SupportPage      = lazy(() => import('./pages/support/SupportPage'));
+const ProfilePage = lazy(() => import('./pages/profile/ProfilePage'));
+const CoursesPage = lazy(() => import('./pages/courses/CoursesPage'));
+const TimetablePage = lazy(() => import('./pages/timetable/TimetablePage'));
+const GradesPage = lazy(() => import('./pages/grades/GradesPage'));
+const TuitionPage = lazy(() => import('./pages/tuition/TuitionPage'));
+const AppealsPage = lazy(() => import('./pages/appeals/AppealsPage'));
+const SupportPage = lazy(() => import('./pages/support/SupportPage'));
 
 // Admin pages
-const AdminPage        = lazy(() => import('./pages/admin/AdminPage'));
+const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
 
 // ============================================================
 // Global loading fallback

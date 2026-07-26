@@ -1,1 +1,8 @@
-com/myus/UniversityPortalApplicationTests.class
+com\myus\service\AppealServiceImplTest.class
+com\myus\service\AppealServiceImplTest$GetAllAppealsTests.class
+com\myus\service\AppealServiceImplTest$ReviewAppealTests.class
+com\myus\service\AppealServiceImplTest$GetMyAppealsTests.class
+com\myus\service\AppealServiceImplTest$WithdrawAppealTests.class
+com\myus\service\FinanceServiceImplTest.class
+com\myus\UniversityPortalApplicationTests.class
+com\myus\service\AppealServiceImplTest$SubmitAppealTests.class

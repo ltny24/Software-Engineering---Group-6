@@ -13,7 +13,7 @@
   padding: 40px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 .login-card__header {
@@ -21,7 +21,11 @@
   margin-bottom: 32px;
 }
 
-.login-card__logo { font-size: 3rem; display: block; margin-bottom: 12px; }
+.login-card__logo {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 12px;
+}
 
 .login-card__title {
   font-size: 1.5rem;
@@ -30,13 +34,29 @@
   margin: 0 0 8px;
 }
 
-.login-card__subtitle { color: #64748b; font-size: 0.9rem; margin: 0; }
+.login-card__subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0;
+}
 
-.login-card__form { display: flex; flex-direction: column; gap: 20px; }
+.login-card__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
-.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
-.form-label { font-size: 0.875rem; font-weight: 600; color: #334155; }
+.form-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
 
 .form-input {
   padding: 11px 14px;
@@ -44,20 +64,29 @@
   border-radius: 8px;
   font-size: 0.95rem;
   color: #1e293b;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
   outline: none;
   font-family: inherit;
 }
 
 .form-input:focus {
   border-color: #2a5298;
-  box-shadow: 0 0 0 3px rgba(42,82,152,0.15);
+  box-shadow: 0 0 0 3px rgba(42, 82, 152, 0.15);
 }
 
-.form-input--error { border-color: #ef4444; }
-.form-input--error:focus { box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+.form-input--error {
+  border-color: #ef4444;
+}
+.form-input--error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
 
-.form-error { font-size: 0.8rem; color: #ef4444; }
+.form-error {
+  font-size: 0.8rem;
+  color: #ef4444;
+}
 
 .btn {
   padding: 12px 24px;
@@ -66,7 +95,9 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.15s, transform 0.1s;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
   font-family: inherit;
 }
 
@@ -75,9 +106,17 @@
   color: #fff;
 }
 
-.btn--primary:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
-.btn--primary:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn--full { width: 100%; }
+.btn--primary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+.btn--primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.btn--full {
+  width: 100%;
+}
 
 .login-card__help {
   text-align: center;

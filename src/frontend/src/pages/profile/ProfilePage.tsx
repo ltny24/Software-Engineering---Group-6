@@ -23,7 +23,7 @@ interface StudentProfile {
 export default function ProfilePage() {
   const [profile, setProfile] = useState<StudentProfile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  
+
   // State quản lý chế độ Edit
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [editPhone, setEditPhone] = useState<string>('');
@@ -38,8 +38,8 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      // Gọi GET /api/v1/profile (đã có interceptor lo phần base URL và Token)
-      const data = await api.get<StudentProfile>('/v1/profile');
+      // Call GET /api/v1/profile (base URL and token are handled by the interceptor)
+      const data = await api.get<StudentProfile>('/api/v1/profile');
       setProfile(data);
       // Khởi tạo giá trị cho form edit
       setEditPhone(data.phone || '');
@@ -55,12 +55,12 @@ export default function ProfilePage() {
   const handleSave = async () => {
     try {
       setIsSaving(true);
-      // Gọi PUT /api/v1/profile với 2 trường được phép sửa
-      await api.put('/v1/profile', {
+      // Call PUT /api/v1/profile with editable student fields
+      await api.put('/api/v1/profile', {
         phone: editPhone,
         address: editAddress,
       });
-      
+
       toast.success('Profile updated successfully!');
       setIsEditing(false);
       // Refresh lại data sau khi lưu
