@@ -125,13 +125,6 @@ The objective is to establish a reliable degree audit engine and conversational 
 
 # Visual Design Guidelines
 
-## Color Palette
-
-| Element | Color |
-|---------|-------|
-| Page Background | `#f8fafc` |
-| Chat Container | `#ffffff` |
-| Chat Border | `#e2e8f0` |
 
 ---
 
