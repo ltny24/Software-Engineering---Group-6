@@ -63,11 +63,11 @@
 **Independent Test**: A student digitally submits a grade appeal with supporting documents, monitors real-time status and payment deadlines, searches FAQ resources, and receives customized course recommendations and graduation pathway simulations from the AI chatbot without administrator assistance.
 
 ### Functional Group 2: Grade Appeal System
-- [ ] T028 [P] [US2] [FG2] Implement digital grade appeal submission endpoint that routes review requests directly to the academic department in `backend/src/main/java/com/myus/controller/AppealController.java`
-- [ ] T029 [P] [US2] [FG2] Implement grade appeal business logic and form validation service (enforcing 14-day submission window, expected grade constraints, and reason validation) in backend/src/main/java/com/myus/service/AppealService.java
+- [ ] T028 [P] [US2] [FG2] Implement digital grade appeal submission endpoint handling multipart/form-data payloads in `backend/src/main/java/com/myus/controller/AppealController.java`
+- [ ] T029 [P] [US2] [FG2] Implement supporting document upload handling, file size/type validation, and storage logic in `backend/src/main/java/com/myus/service/FileStorageService.java` and `AppealService.java`
 - [ ] T030 [P] [US2] [FG2] Implement appeal status tracking endpoint to retrieve real-time processing status (Pending, Processing, Resolved) and the deadline date for visiting the academic office to complete fee payments in `backend/src/main/java/com/myus/controller/AppealController.java`
-- [ ] T031 [US2] [FG2] Implement frontend grade appeal digital submission form (course selection, exam type, expected grade input, and reason textarea) in frontend/src/pages/appeals/AppealSubmissionPage.tsx
-- [ ] T032 [US2] [FG2] Implement frontend visual status dashboard displaying real-time appeal progress and highlighting exact fee payment deadlines at the academic office in `frontend/src/pages/appeals/AppealStatusDashboard.tsx`
+- [ ] T031 [US2] [FG2] Implement frontend grade appeal digital submission form, reason textarea, and interactive file dropzone UI in `frontend/src/pages/appeals/AppealSubmissionPage.tsx`
+- [ ] T032 [US2] [FG2] Implement frontend visual status dashboard displaying real-time appeal progress, attached file links, and highlighting exact fee payment deadlines at the academic office in `frontend/src/pages/appeals/AppealStatusDashboard.tsx`
 
 ### AI Chatbot & Support (Section 4 & Functional Group 3 AI Module)
 - [ ] T033 [P] [US2] [AI] Implement Profile & Progress Analysis engine to retrieve student academic transcripts, evaluate completed credits, and compare remaining degree requirements against official university curriculum standards in `backend/src/main/java/com/myus/service/ai/ProfileAnalysisService.java`
