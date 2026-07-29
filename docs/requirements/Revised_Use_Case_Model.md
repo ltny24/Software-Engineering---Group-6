@@ -1,30 +1,6 @@
 # MyUS Portal — Use-Case Model
 *Performed by: Hồ Thị Như Ngọc | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc*
 
-
-| # | Issue Found | Resolution |
-|---|---|---|
-| 1 | **Tuition tracking was missing entirely.** Vision Doc Feature 4 and AC-01.2 explicitly name tuition balance as one of three items shown together on the student dashboard (with GPA and timetable), and UC-06 exists in the Use-Case Specification, but no diagram in v1.0 of this model showed it. | Added **Track Tuition Fee (UC-06)** as a third child of *Academic & Financial Tracking*, alongside View Timetable and View Grades & GPA. |
-| 2 | **Incorrect «include» relationship.** The Student Subsystem diagram showed *Grade Appeal System* «include»-ing *Track Appeal Status*, but the accompanying text only justified including *Upload Supporting Documents*. Per the spec (UC-08), tracking status is reached independently via "My Appeals" and is not a mandatory step that executes every time an appeal is submitted — an «include» is incorrect here. | Removed the «include» edge; *Track Appeal Status* is now modeled as its own use case invoked directly by Student, grouped under the same Feature 2 boundary. |
-| 3 | **Naming inconsistencies** between the two diagrams and the Use-Case Specification (e.g., "Submit Feedback & Surveys" vs. "Submit Feedback & Evaluation" vs. spec's "Submit Evaluation Surveys"; "Search Centralized Support & FAQ" vs. spec's "Access FAQs & Support"). | All node labels now match the Use-Case Specification's titles exactly. |
-| 4 | **No traceability between diagrams and spec IDs.** A reader could not tell which spec use case (UC-01…UC-13.1) a diagram node referred to. | Every node now carries its Use-Case Specification ID, and a traceability table (below) maps each Vision Document feature to its use case(s). |
-| 5 | **Missing "Class Transfer" capability.** Vision Doc Feature 7 explicitly states administrators "manually execute student class transfers," and AC-05.3 tests this behavior, but neither this model nor the Use-Case Specification (v1.0) contained a use case for it. | Added **Perform Student Class Transfer (UC-11.3)** under *Admin Bulk Data & Class Control*; the corresponding use case has been added to the revised Use-Case Specification (v1.1). |
-
-### Table of Contents
-
-| # | Vision Document Feature | Use-Case ID(s) |
-|---|---|---|
-| — | Authentication (shared, generalized `User` actor) | UC-01 |
-| 1 | Profile & Account Management | UC-02 |
-| 2 | Grade Appeal System for Students | UC-07, UC-07a, UC-08 |
-| 3 | Course Enrollment & AI Chatbot | UC-03, UC-03a, UC-03b |
-| 4 | Academic & Financial Tracking | UC-04, UC-05, UC-06 |
-| 5 | Feedback & Evaluation Surveys | UC-09 |
-| 6 | Centralized Support & FAQ | UC-10 |
-| 7 | Admin Bulk Data & Class Control | UC-11, UC-11.1, UC-11.2, UC-11.3 |
-| 8 | Appeal Processing Management | UC-12, UC-12.1, UC-12.2 |
-| 9 | Student Data Administration | UC-13, UC-13.1 |
-
 ---
 
 ## 1. Overall System & Actor Generalization
