@@ -9,6 +9,14 @@ import com.myus.dto.StudentProfileUpdateRequest;
 public interface ProfileService {
 
     /**
+     * Retrieve an authenticated student's profile.
+     *
+     * @param username the authenticated student's username
+     * @return profile response DTO
+     */
+    StudentProfileResponse getProfile(String username);
+
+    /**
      * Update an authenticated student's profile.
      *
      * @param username the authenticated student's username

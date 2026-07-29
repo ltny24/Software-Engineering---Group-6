@@ -25,6 +25,19 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public StudentProfileResponse getProfile(String username) {
+        log.debug("Loading profile for username={}", username);
+
+        Student student = studentRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Student profile not found for username: " + username));
+
+        log.debug("Loaded student profile: id={}, username={}", student.getStudentId(), username);
+        return mapToResponse(student);
+    }
+
+    @Override
     public StudentProfileResponse updateProfile(String username, StudentProfileUpdateRequest updateRequest) {
         log.debug("Updating profile for username={}", username);
 

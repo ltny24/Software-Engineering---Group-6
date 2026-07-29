@@ -2,12 +2,8 @@ package com.myus.controller;
 
 import com.myus.dto.StudentProfileResponse;
 import com.myus.dto.StudentProfileUpdateRequest;
-import com.myus.entity.Student;
-import com.myus.exception.ResourceNotFoundException;
-import com.myus.repository.StudentRepository;
 import com.myus.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,39 +16,29 @@ import jakarta.validation.Valid;
 import java.security.Principal;
 
 /**
- * Controller responsible for student profile retrieval.
+ * REST controller for student profile operations.
+ *
+ * <p>All endpoints require the {@code STUDENT} role. The authenticated
+ * student is resolved from the JWT token and all business logic is
+ * delegated to {@link ProfileService}.</p>
  */
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/profile")
 public class ProfileController {
 
-    private final StudentRepository studentRepository;
     private final ProfileService profileService;
 
-    public ProfileController(StudentRepository studentRepository, ProfileService profileService) {
-        this.studentRepository = studentRepository;
+    public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<StudentProfileResponse> getProfile(Principal principal) {
-
-        if (principal == null) {
-            log.warn("Unauthorized access attempt to profile endpoint without authenticated principal.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         String username = principal.getName();
-        log.debug("Loading profile for authenticated student username={}", username);
-
-        Student student = studentRepository.findByUsername(username)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Student profile not found for username: " + username));
-
-        StudentProfileResponse response = mapToDto(student);
-        return ResponseEntity.ok(response);
+        log.debug("GET /api/v1/profile – username={}", username);
+        return ResponseEntity.ok(profileService.getProfile(username));
     }
 
     @PutMapping
@@ -60,34 +46,8 @@ public class ProfileController {
     public ResponseEntity<StudentProfileResponse> updateProfile(
             Principal principal,
             @Valid @RequestBody StudentProfileUpdateRequest updateRequest) {
-
-        if (principal == null) {
-            log.warn("Unauthorized access attempt to update profile without authenticated principal.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-
         String username = principal.getName();
-        log.debug("Received profile update request for username={}", username);
-
-        StudentProfileResponse updatedProfile = profileService.updateProfile(username, updateRequest);
-        return ResponseEntity.ok(updatedProfile);
-    }
-
-    private StudentProfileResponse mapToDto(Student student) {
-        return new StudentProfileResponse(
-                student.getStudentId(),
-                student.getUsername(),
-                student.getEmail(),
-                student.getFirstName(),
-                student.getMiddleName(),
-                student.getLastName(),
-                student.getPhone(),
-                student.getAddress(),
-                student.getDateOfBirth(),
-                student.getStudentType(),
-                student.getMajor(),
-                student.getEnrollmentStatus(),
-                student.getRegistrationStatus()
-        );
+        log.debug("PUT /api/v1/profile – username={}", username);
+        return ResponseEntity.ok(profileService.updateProfile(username, updateRequest));
     }
 }
