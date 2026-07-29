@@ -53,6 +53,12 @@ public class AuthController {
                 user));
     }
 
+    /** Stateless logout endpoint. */
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        return ResponseEntity.ok().build();
+    }
+
     private String displayName(Student student) {
         return String.join(" ",
                 student.getFirstName(),

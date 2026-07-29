@@ -76,7 +76,9 @@ com\myus\entity\CourseRegistration.class
 com\myus\security\IsStudent.class
 com\myus\entity\Appeal.class
 com\myus\entity\TuitionPayment.class
+com\myus\dto\appeal\AppealDetailResponse.class
 com\myus\security\JwtAuthenticationFilter.class
+com\myus\dto\appeal\AppealSummaryResponse.class
 com\myus\util\package-info.class
 com\myus\dto\TuitionPaymentResponse.class
 com\myus\entity\Survey.class

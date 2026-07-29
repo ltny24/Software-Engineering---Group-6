@@ -37,6 +37,8 @@ public class Appeal {
     @Column(length = 2048)
     private String supportingDocumentUrl;
 
+    private Double expectedGrade;
+
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String reviewerComments;
 

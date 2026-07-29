@@ -29,8 +29,13 @@ export default function Sidebar() {
   const navItems = user?.role === ROLES.ADMIN ? adminNav : studentNav;
 
   const handleLogout = async () => {
-    await logout();
-    navigate(ROUTES.LOGIN);
+    try {
+      await logout();
+    } catch (err) {
+      console.warn('Logout error:', err);
+    } finally {
+      navigate(ROUTES.LOGIN);
+    }
   };
 
   return (

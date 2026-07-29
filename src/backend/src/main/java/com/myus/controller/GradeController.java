@@ -36,6 +36,9 @@ public class GradeController {
             item.setCourseCode(grade.getCourse() != null ? grade.getCourse().getCourseCode() : null);
             item.setCourseName(grade.getCourse() != null ? grade.getCourse().getCourseName() : null);
             item.setCurrentGrade(grade.getGradeValue());
+            item.setMidtermGrade(grade.getMidtermGrade());
+            item.setFinalGrade(grade.getFinalGrade());
+            item.setGradePoint(grade.getGradePoint());
             item.setTerm(grade.getTerm());
             item.setIsFinalized(true);
             item.setIsEligibleForAppeal(true);

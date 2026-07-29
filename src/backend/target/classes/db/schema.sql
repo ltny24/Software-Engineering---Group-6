@@ -112,6 +112,8 @@ CREATE TABLE myus.Grade (
     courseId BIGINT NOT NULL,
     gradeValue NVARCHAR(10) NOT NULL,
     gradePoint DECIMAL(5,2) NULL, -- Mở rộng tránh lỗi tràn
+    midtermGrade DECIMAL(5,2) NULL,
+    finalGrade DECIMAL(5,2) NULL,
     term NVARCHAR(50),
     gpaImpact DECIMAL(6,4) NULL, -- Mở rộng tránh lỗi tràn
     CONSTRAINT FK_Grade_Registration FOREIGN KEY(registrationId) REFERENCES myus.CourseRegistration(registrationId) ON DELETE SET NULL,
@@ -143,6 +145,7 @@ CREATE TABLE myus.Appeal (
     resolvedAt DATETIME2 NULL,
     resolutionCode NVARCHAR(50),
     reviewerAdminId BIGINT NULL,
+    expectedGrade DECIMAL(3,1) NULL,
     CONSTRAINT FK_Appeal_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION, -- Sửa chống loop
     CONSTRAINT FK_Appeal_Grade FOREIGN KEY(gradeId) REFERENCES myus.Grade(gradeId) ON DELETE SET NULL,
     CONSTRAINT FK_Appeal_Admin FOREIGN KEY(reviewerAdminId) REFERENCES myus.Administrator(adminId) ON DELETE SET NULL

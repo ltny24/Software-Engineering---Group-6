@@ -10,52 +10,118 @@ import type { CourseOffering, CourseRegistration } from '../../types';
 import './CoursesPage.css';
 
 const PAGE_SIZE = 9;
-const DEPARTMENTS = ['Computer Science', 'Mathematics', 'Physics'];
-const TERMS = ['Fall2026', 'Spring2027'];
+const DEPARTMENTS = ['Computer Science', 'Mathematics', 'General Studies'];
+const TERMS = ['HKI 2025-2026', 'HKII 2025-2026', 'HKIII 2025-2026'];
 
 const DEMO_OFFERINGS: CourseOffering[] = [
   {
-    offeringId: 1001,
-    section: 'A',
-    term: 'Fall2026',
-    schedule: 'Mon/Wed 09:00 - 10:30',
-    instructor: 'Dr. Nguyễn',
-    location: 'Building A',
-    room: '204',
-    enrolledCount: 12,
-    availableSeats: 8,
+    offeringId: 21,
+    section: '01',
+    term: 'HKIII 2025-2026',
+    schedule: 'Mon/Wed 07:30 - 09:10',
+    instructor: 'Prof. John von Neumann',
+    location: 'Main Campus',
+    room: 'Room A101',
+    enrolledCount: 0,
+    availableSeats: 150,
     course: {
-      courseId: 501,
-      courseCode: 'CS101',
-      courseName: 'Introduction to Algorithms',
-      description: 'Fundamentals of algorithms and problem solving.',
-      credits: 3,
-      prerequisites: 'None',
-      department: 'Computer Science',
-      semester: 'Fall2026',
-      capacity: 20,
+      courseId: 11,
+      courseCode: 'BAA00022',
+      courseName: 'Physical Education 2',
+      description: 'Advanced physical education and team sports',
+      credits: 2,
+      prerequisites: 'Physical Education 1',
+      department: 'General Studies',
+      semester: 'HKIII 2025-2026',
+      capacity: 150,
     },
   },
   {
-    offeringId: 1002,
-    section: 'B',
-    term: 'Fall2026',
-    schedule: 'Tue/Thu 11:00 - 12:30',
-    instructor: 'Thầy Trần',
-    location: 'Building B',
-    room: '108',
-    enrolledCount: 18,
-    availableSeats: 2,
+    offeringId: 23,
+    section: '01',
+    term: 'HKIII 2025-2026',
+    schedule: 'Mon/Wed 09:30 - 11:10',
+    instructor: 'Dr. Alan Turing',
+    location: 'Main Campus',
+    room: 'Room A102',
+    enrolledCount: 0,
+    availableSeats: 120,
     course: {
-      courseId: 502,
-      courseCode: 'MATH230',
-      courseName: 'Linear Algebra',
-      description: 'Matrix methods, vector spaces, and linear systems.',
+      courseId: 12,
+      courseCode: 'BAA00102',
+      courseName: 'Political Economy of Marxism-Leninism',
+      description: 'Economic theories of Marxism-Leninism and market dynamics',
+      credits: 2,
+      prerequisites: 'Marxist-Leninist Philosophy',
+      department: 'General Studies',
+      semester: 'HKIII 2025-2026',
+      capacity: 120,
+    },
+  },
+  {
+    offeringId: 25,
+    section: '01',
+    term: 'HKIII 2025-2026',
+    schedule: 'Tue/Thu 07:30 - 09:10',
+    instructor: 'Prof. Barbara Liskov',
+    location: 'Main Campus',
+    room: 'Room B201',
+    enrolledCount: 0,
+    availableSeats: 100,
+    course: {
+      courseId: 13,
+      courseCode: 'CSC10006',
+      courseName: 'Database Systems',
+      description: 'Relational database design, SQL querying, indexing, and transactions',
       credits: 4,
-      prerequisites: 'Precalculus',
+      prerequisites: 'Computer Systems',
+      department: 'Computer Science',
+      semester: 'HKIII 2025-2026',
+      capacity: 100,
+    },
+  },
+  {
+    offeringId: 27,
+    section: '01',
+    term: 'HKIII 2025-2026',
+    schedule: 'Tue/Thu 09:30 - 11:10',
+    instructor: 'Dr. Donald Knuth',
+    location: 'Main Campus',
+    room: 'Room B202',
+    enrolledCount: 0,
+    availableSeats: 100,
+    course: {
+      courseId: 14,
+      courseCode: 'CSC13002',
+      courseName: 'Introduction to Software Engineering',
+      description: 'Software development lifecycle, agile methods, testing, and design patterns',
+      credits: 4,
+      prerequisites: 'Computational Thinking',
+      department: 'Software Engineering',
+      semester: 'HKIII 2025-2026',
+      capacity: 100,
+    },
+  },
+  {
+    offeringId: 29,
+    section: '01',
+    term: 'HKIII 2025-2026',
+    schedule: 'Fri 07:30 - 11:10',
+    instructor: 'Prof. Grace Hopper',
+    location: 'Main Campus',
+    room: 'Room C301',
+    enrolledCount: 0,
+    availableSeats: 120,
+    course: {
+      courseId: 15,
+      courseCode: 'MTH00057',
+      courseName: 'Applied Mathematics & Statistics for IT',
+      description: 'Discrete mathematics, linear algebra, and statistical applications for IT',
+      credits: 4,
+      prerequisites: 'Probability and Statistics',
       department: 'Mathematics',
-      semester: 'Fall2026',
-      capacity: 20,
+      semester: 'HKIII 2025-2026',
+      capacity: 120,
     },
   },
 ];
@@ -356,49 +422,74 @@ export default function CoursesPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {offerings.map((offering) => {
-                      const registered = isActiveRegistration(offering.offeringId);
-                      const full = (offering.availableSeats ?? 0) <= 0;
-                      return (
-                        <tr className="registration-row" key={String(offering.offeringId)}>
-                          <td data-label="Code">{offering.course?.courseCode ?? '—'}</td>
-                          <td data-label="Course Name">
-                            <span className="registration-course-name">
-                              {offering.course?.courseName ?? '—'}
-                            </span>
-                            <span className="registration-sub muted">
-                              {offering.course?.description ?? ''}
-                            </span>
-                          </td>
-                          <td data-label="Section">{offering.section}</td>
-                          <td data-label="Credits">{offering.course?.credits ?? 0}</td>
-                          <td data-label="Department">{offering.course?.department ?? '—'}</td>
-                          <td data-label="Schedule">{offering.schedule}</td>
-                          <td data-label="Seats">
-                            <span className={seatBadgeClass(offering)}>
-                              {(offering.availableSeats ?? 0) > 0
-                                ? `${offering.availableSeats} seats left`
-                                : 'Full'}
-                            </span>
-                          </td>
-                          <td data-label="Action" className="registration-action-cell">
-                            <button
-                              className="btn-edit register-btn"
-                              disabled={registered || full || registeringId === offering.offeringId}
-                              onClick={() => handleRegister(offering)}
-                            >
-                              {registered
-                                ? 'Registered ✓'
-                                : registeringId === offering.offeringId
-                                  ? 'Registering...'
-                                  : full
-                                    ? 'Full'
-                                    : 'Register'}
-                            </button>
-                          </td>
-                        </tr>
-                      );
-                    })}
+                    {offerings
+                      .filter((offering) => {
+                        const code = offering.course?.courseCode?.toUpperCase() || '';
+                        const dept = appliedFilters.department;
+                        if (dept === 'Computer Science') {
+                          return (
+                            code.startsWith('CSC') ||
+                            offering.course?.department === 'Computer Science'
+                          );
+                        }
+                        if (dept === 'Mathematics') {
+                          return (
+                            code.startsWith('MTH') || offering.course?.department === 'Mathematics'
+                          );
+                        }
+                        if (dept === 'General Studies') {
+                          return (
+                            code.startsWith('BAA') ||
+                            offering.course?.department === 'General Studies'
+                          );
+                        }
+                        return true;
+                      })
+                      .map((offering) => {
+                        const registered = isActiveRegistration(offering.offeringId);
+                        const full = (offering.availableSeats ?? 0) <= 0;
+                        return (
+                          <tr className="registration-row" key={String(offering.offeringId)}>
+                            <td data-label="Code">{offering.course?.courseCode ?? '—'}</td>
+                            <td data-label="Course Name">
+                              <span className="registration-course-name">
+                                {offering.course?.courseName ?? '—'}
+                              </span>
+                              <span className="registration-sub muted">
+                                {offering.course?.description ?? ''}
+                              </span>
+                            </td>
+                            <td data-label="Section">{offering.section}</td>
+                            <td data-label="Credits">{offering.course?.credits ?? 0}</td>
+                            <td data-label="Department">{offering.course?.department ?? '—'}</td>
+                            <td data-label="Schedule">{offering.schedule}</td>
+                            <td data-label="Seats">
+                              <span className={seatBadgeClass(offering)}>
+                                {(offering.availableSeats ?? 0) > 0
+                                  ? `${offering.availableSeats} seats left`
+                                  : 'Full'}
+                              </span>
+                            </td>
+                            <td data-label="Action" className="registration-action-cell">
+                              <button
+                                className="btn-edit register-btn"
+                                disabled={
+                                  registered || full || registeringId === offering.offeringId
+                                }
+                                onClick={() => handleRegister(offering)}
+                              >
+                                {registered
+                                  ? 'Registered ✓'
+                                  : registeringId === offering.offeringId
+                                    ? 'Registering...'
+                                    : full
+                                      ? 'Full'
+                                      : 'Register'}
+                              </button>
+                            </td>
+                          </tr>
+                        );
+                      })}
                   </tbody>
                 </table>
               </div>

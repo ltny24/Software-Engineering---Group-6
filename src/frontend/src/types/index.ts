@@ -82,14 +82,22 @@ export interface CourseRegistration {
 
 // ----- Grades & Academic Records -----
 export interface Grade {
-  gradeId: string;
-  registrationId: string;
-  studentId: string;
-  courseId: string;
-  gradeValue: string;
-  gradePoint: number;
+  gradeId: string | number;
+  registrationId?: string | number;
+  studentId?: string | number;
+  courseId?: string | number;
+  courseCode?: string;
+  courseName?: string;
+  currentGrade?: string;
+  gradeValue?: string;
+  gradePoint?: number;
+  midtermGrade?: number;
+  finalGrade?: number;
   term: string;
-  gpaImpact: number;
+  gpaImpact?: number;
+  isFinalized?: boolean;
+  isEligibleForAppeal?: boolean;
+  course?: Course;
 }
 
 export interface AcademicRecord {

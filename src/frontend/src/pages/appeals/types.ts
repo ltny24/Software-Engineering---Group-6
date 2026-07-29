@@ -25,5 +25,6 @@ export interface AppealRecord {
 export interface AppealFormValues {
   gradeId: string;
   currentGrade: string;
+  expectedGrade: string;
   reason: string;
 }

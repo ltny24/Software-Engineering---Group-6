@@ -33,10 +33,10 @@ export const TuitionPage: React.FC = () => {
   const fetchTuitionData = async () => {
     try {
       setLoading(true);
-      const { data } = await api.get<TuitionBalanceResponse>('/v1/finance/tuition-balance');
+      const { data } = await api.get<TuitionBalanceResponse>('/v1/finance/tuition/balance');
       setFinance(data);
     } catch (error) {
-      toast.error('Không thể tải dữ liệu tài chính từ máy chủ.');
+      toast.error('Failed to load financial data from server.');
       console.error('Error fetching tuition data:', error);
     } finally {
       setLoading(false);
@@ -53,7 +53,7 @@ export const TuitionPage: React.FC = () => {
           fontFamily: 'Arial, sans-serif',
         }}
       >
-        Đang tải thông tin tài chính...
+        Loading financial information...
       </div>
     );
   }
@@ -68,7 +68,7 @@ export const TuitionPage: React.FC = () => {
           fontFamily: 'Arial, sans-serif',
         }}
       >
-        Không tìm thấy thông tin công nợ cho tài khoản này.
+        No financial account records found for this student.
       </div>
     );
   }
@@ -106,11 +106,11 @@ export const TuitionPage: React.FC = () => {
               textTransform: 'uppercase',
             }}
           >
-            Quản Lý Tài Chính Sinh Viên
+            Student Financial Management
           </h1>
           <div style={{ fontSize: '13px', color: '#666', marginTop: '5px' }}>
-            Học kỳ thu phí:{' '}
-            <strong style={{ color: '#333' }}>{finance.term || 'Học kỳ hiện tại'}</strong>
+            Billing Term:{' '}
+            <strong style={{ color: '#333' }}>{finance.term || 'Current Term'}</strong>
           </div>
         </div>
 
@@ -127,7 +127,7 @@ export const TuitionPage: React.FC = () => {
                 fontWeight: 'bold',
               }}
             >
-              Bị khóa tài chính
+              Financial Hold
             </span>
           ) : (
             <span
@@ -141,14 +141,14 @@ export const TuitionPage: React.FC = () => {
                 fontWeight: 'bold',
               }}
             >
-              Trạng thái bình thường
+              Normal Status
             </span>
           )}
         </div>
       </div>
 
       <div style={{ padding: '25px 30px' }}>
-        {/* Khối Tổng Hợp Công Nợ */}
+        {/* Tuition Summary Card */}
         <div
           style={{
             border: '1px solid #ddd',
@@ -167,7 +167,7 @@ export const TuitionPage: React.FC = () => {
               fontSize: '14px',
             }}
           >
-            TỔNG HỢP CÔNG NỢ HỌC KỲ
+            SEMESTER TUITION SUMMARY
           </div>
           <div
             style={{
@@ -188,10 +188,10 @@ export const TuitionPage: React.FC = () => {
                   marginBottom: '6px',
                 }}
               >
-                Tổng Phí Đăng Ký
+                Total Charges
               </div>
               <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}>
-                {(finance.totalCharges || 0).toLocaleString('vi-VN')} đ
+                {(finance.totalCharges || 0).toLocaleString('en-US')} VND
               </div>
             </div>
 
@@ -204,10 +204,10 @@ export const TuitionPage: React.FC = () => {
                   marginBottom: '6px',
                 }}
               >
-                Học Bổng / Giảm Trừ
+                Scholarships / Waivers
               </div>
               <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3c763d' }}>
-                - {(finance.scholarshipAmount || 0).toLocaleString('vi-VN')} đ
+                - {(finance.scholarshipAmount || 0).toLocaleString('en-US')} VND
               </div>
             </div>
 
@@ -220,10 +220,10 @@ export const TuitionPage: React.FC = () => {
                   marginBottom: '6px',
                 }}
               >
-                Đã Thanh Toán
+                Total Payments
               </div>
               <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#31708f' }}>
-                {(finance.payments || 0).toLocaleString('vi-VN')} đ
+                {(finance.payments || 0).toLocaleString('en-US')} VND
               </div>
             </div>
 
@@ -245,7 +245,7 @@ export const TuitionPage: React.FC = () => {
                   marginBottom: '6px',
                 }}
               >
-                SỐ DƯ CÒN NỢ
+                OUTSTANDING BALANCE
               </div>
               <div
                 style={{
@@ -254,13 +254,13 @@ export const TuitionPage: React.FC = () => {
                   color: (finance.balance || 0) > 0 ? '#d9534f' : '#3c763d',
                 }}
               >
-                {(finance.balance || 0).toLocaleString('vi-VN')} đ
+                {(finance.balance || 0).toLocaleString('en-US')} VND
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bảng Lịch Sử Thanh Toán */}
+        {/* Payment History Table */}
         <div style={{ border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
           <div
             style={{
@@ -272,7 +272,7 @@ export const TuitionPage: React.FC = () => {
               fontSize: '14px',
             }}
           >
-            LỊCH SỬ GIAO DỊCH THANH TOÁN
+            PAYMENT TRANSACTION HISTORY
           </div>
 
           <div style={{ overflowX: 'auto' }}>
@@ -289,17 +289,17 @@ export const TuitionPage: React.FC = () => {
                   <th
                     style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
                   >
-                    Mã Giao Dịch
+                    Reference No.
                   </th>
                   <th
                     style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
                   >
-                    Ngày Thanh Toán
+                    Payment Date
                   </th>
                   <th
                     style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
                   >
-                    Phương Thức
+                    Payment Method
                   </th>
                   <th
                     style={{
@@ -309,12 +309,12 @@ export const TuitionPage: React.FC = () => {
                       textAlign: 'right',
                     }}
                   >
-                    Số Tiền
+                    Amount
                   </th>
                   <th
                     style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
                   >
-                    Trạng Thái
+                    Status
                   </th>
                 </tr>
               </thead>
@@ -337,12 +337,12 @@ export const TuitionPage: React.FC = () => {
                       </td>
                       <td style={{ border: '1px solid #ddd', padding: '12px 10px', color: '#555' }}>
                         {item.paymentDate
-                          ? new Date(item.paymentDate).toLocaleDateString('vi-VN')
+                          ? new Date(item.paymentDate).toLocaleDateString('en-US')
                           : '-'}
                       </td>
                       <td style={{ border: '1px solid #ddd', padding: '12px 10px', color: '#555' }}>
                         {item.paymentMethod === 'BANK_TRANSFER'
-                          ? 'Chuyển khoản Ngân hàng'
+                          ? 'Bank Transfer'
                           : item.paymentMethod}
                       </td>
                       <td
@@ -354,7 +354,7 @@ export const TuitionPage: React.FC = () => {
                           color: '#333',
                         }}
                       >
-                        {(item.amount || 0).toLocaleString('vi-VN')} đ
+                        {(item.amount || 0).toLocaleString('en-US')} VND
                       </td>
                       <td style={{ border: '1px solid #ddd', padding: '12px 10px' }}>
                         <span
@@ -367,7 +367,7 @@ export const TuitionPage: React.FC = () => {
                             fontWeight: 'bold',
                           }}
                         >
-                          Thành công
+                          {item.status || 'Success'}
                         </span>
                       </td>
                     </tr>
@@ -383,7 +383,7 @@ export const TuitionPage: React.FC = () => {
                         color: '#888',
                       }}
                     >
-                      Chưa ghi nhận giao dịch thanh toán nào từ máy chủ.
+                      No payment transaction history recorded for this student.
                     </td>
                   </tr>
                 )}

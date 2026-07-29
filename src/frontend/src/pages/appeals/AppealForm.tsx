@@ -64,6 +64,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
   const [form, setForm] = useState<AppealFormValues>({
     gradeId: '',
     currentGrade: '',
+    expectedGrade: '',
     reason: '',
   });
   const [gradeOptions, setGradeOptions] = useState<
@@ -167,6 +168,10 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
       nextErrors.currentGrade = 'Please enter your current grade.';
     }
 
+    if (!form.expectedGrade.trim() || Number.isNaN(Number(form.expectedGrade))) {
+      nextErrors.expectedGrade = 'Please enter a valid expected grade (0.0 - 10.0).';
+    }
+
     if (form.reason.trim().length < MIN_REASON_LENGTH) {
       nextErrors.reason = `Please enter at least ${MIN_REASON_LENGTH} characters explaining the issue.`;
     }
@@ -206,14 +211,15 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
     const payload = {
       gradeId: Number(form.gradeId),
       appealReason: form.reason,
-      supportingDocumentUrl: selectedFile ? selectedFile.name : '',
+      expectedGrade: Number(form.expectedGrade),
+      supportingDocumentUrl: selectedFile ? selectedFile.name : 'https://ktdbcl.hcmus.edu.vn/',
     };
 
     try {
       setSubmitting(true);
       await api.post('/appeals', payload);
       toast.success('Your appeal was submitted successfully.');
-      setForm({ gradeId: '', currentGrade: '', reason: '' });
+      setForm({ gradeId: '', currentGrade: '', expectedGrade: '', reason: '' });
       setSelectedFile(null);
       setErrors({});
       onSubmitted?.();
@@ -362,7 +368,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           </div>
         )}
 
-        <div style={{ display: 'grid', gap: 20, gridTemplateColumns: 'repeat(2, minmax(0, 1fr))' }}>
+        <div style={{ display: 'grid', gap: 20, gridTemplateColumns: 'repeat(3, minmax(0, 1fr))' }}>
           <div>
             <label style={labelStyle} htmlFor="gradeId">
               Your grade
@@ -416,6 +422,30 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
             />
             {errors.currentGrade && (
               <p style={{ marginTop: 8, fontSize: 13, color: '#dc2626' }}>{errors.currentGrade}</p>
+            )}
+          </div>
+
+          <div>
+            <label style={labelStyle} htmlFor="expectedGrade">
+              Expected grade <span style={{ color: '#ef4444' }}>*</span>
+            </label>
+            <input
+              id="expectedGrade"
+              type="number"
+              min="0.0"
+              max="10.0"
+              step="0.1"
+              style={{ ...inputStyle, cursor: formDisabled ? 'not-allowed' : 'text' }}
+              placeholder="e.g. 9.0"
+              value={form.expectedGrade}
+              onChange={(event) => {
+                setSubmitError(null);
+                setForm((current) => ({ ...current, expectedGrade: event.target.value }));
+              }}
+              disabled={formDisabled}
+            />
+            {errors.expectedGrade && (
+              <p style={{ marginTop: 8, fontSize: 13, color: '#dc2626' }}>{errors.expectedGrade}</p>
             )}
           </div>
         </div>
