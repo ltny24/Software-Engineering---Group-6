@@ -1,197 +1,159 @@
 # MyUS University Portal
 
-A full-stack web-based academic portal that digitalizes daily administrative and academic activities for students and administrators at a university.
+A full-stack web-based academic portal digitalizing daily administrative and academic activities for students and administrators.
 
-## Project Overview
-
-MyUS provides a unified workspace for:
-- **Students**: Course registration, timetable viewing, grades & GPA tracking, tuition management, grade appeals, and AI-powered course recommendations.
-- **Administrators**: Academic schedule management, student data import, appeal processing, class transfers, and survey management.
+| | |
+|---|---|
+| **Students** | Course registration, timetable, grades/GPA, tuition, appeals, AI chatbot |
+| **Administrators** | Student data import, appeal processing, class transfers, survey management |
 
 ## Technology Stack
 
 | Layer | Technology |
 |-------|-----------|
-| **Backend Runtime** | Java 17 + Spring Boot 3.2.5 |
-| **Backend Framework** | Spring Web, Spring Data JPA, Spring Security |
-| **Authentication** | JWT (jjwt 0.12.5) stateless tokens |
-| **Database** | SQL Server (via mssql-jdbc) |
-| **Database Migration** | Flyway |
-| **API Documentation** | SpringDoc OpenAPI (Swagger UI) |
-| **Frontend Runtime** | Node.js >= 18 |
-| **Frontend Framework** | React 18.3 + TypeScript 5.4 |
-| **State / Routing** | React Router v6, React Context |
-| **HTTP Client** | Axios |
-| **Build (Backend)** | Maven |
-| **Build (Frontend)** | Create React App (react-scripts) |
+| **Backend** | Java 17, Spring Boot 3.2.5, Spring Security + JWT, Spring Data JPA |
+| **Database** | SQL Server + Flyway migrations |
+| **Frontend** | React 18.3, TypeScript 5.4, React Router v6, Axios |
+| **API Docs** | SpringDoc OpenAPI (Swagger UI) |
+| **Build** | Maven (backend), npm/react-scripts (frontend) |
 
 ## Prerequisites
 
-- **Java 17** (JDK)
+- **Java 17** JDK
 - **Maven 3.8+**
-- **SQL Server** (local or remote instance)
+- **SQL Server** (local or remote, database: `MyUS`)
 - **Node.js 18+** with npm 9+
-- A modern web browser
 
-## Installation
+## Quick Start
 
-### 1. Clone the repository
+### 1. Clone & Configure
 
 ```bash
 git clone <repository-url>
 cd Software-Engineering---Group-6
 ```
 
-### 2. Backend setup
+**Backend** — configure database in `backend/resources/application.properties` or env vars:
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `SPRING_DATASOURCE_URL` | `jdbc:sqlserver://localhost:1433;databaseName=MyUS` | SQL Server connection |
+| `SPRING_DATASOURCE_USERNAME` | `sa` | DB username |
+| `SPRING_DATASOURCE_PASSWORD` | (required) | DB password |
+| `JWT_SECRET` | (default in properties) | Base64 JWT signing key |
+| `CORS_ALLOWED_ORIGINS` | `http://localhost:3000` | Frontend origin |
+
+**Frontend** — copy env template:
 
 ```bash
-cd src/backend
-
-# Configure database connection (see src/backend/.env.example)
-# The application reads application.properties with env-var overrides.
-
-# Run database migrations (Flyway runs automatically on startup)
-./mvnw spring-boot:run
+cp frontend/.env.example frontend/.env.local
 ```
 
-The backend starts on **http://localhost:8080**.
-
-API docs (Swagger UI) available at: http://localhost:8080/swagger-ui.html
-
-### 3. Frontend setup
+### 2. Run Backend
 
 ```bash
-cd src/frontend
+cd backend
+mvn spring-boot:run
+# → Starts on http://localhost:8080
+# → Swagger UI: http://localhost:8080/swagger-ui.html
+```
 
-# Install dependencies
+### 3. Run Frontend
+
+```bash
+cd frontend
 npm install
-
-# Configure environment (see .env.example)
-cp .env.example .env.local
-
-# Start development server
 npm start
-```
-
-The frontend starts on **http://localhost:3000** (proxied to the backend).
-
-## How to Run
-
-```bash
-# Backend (from src/backend)
-./mvnw spring-boot:run
-
-# Frontend (from src/frontend)
-npm start
+# → Starts on http://localhost:3000 (proxied to backend)
 ```
 
 ## How to Test
 
 ```bash
-# Backend tests
-cd src/backend
-./mvnw test
+# Backend unit tests
+cd backend
+mvn test
 
 # Frontend tests
-cd src/frontend
+cd frontend
 npm test
-
-# Frontend tests with coverage
 npm run test:coverage
-```
-
-## Lint & Format
-
-```bash
-# Frontend
-cd src/frontend
-npm run lint          # ESLint check
-npm run lint:fix      # ESLint auto-fix
-npm run format        # Prettier format
 ```
 
 ## Project Structure
 
 ```
-.
-├── .editorconfig            # Coding style conventions
-├── .gitignore
-├── .vscode/                 # Shared editor settings
-├── docs/                    # Project documentation
-│   ├── analysis-and-design/
-│   ├── architecture/        # Architecture documentation
-│   ├── management/          # Project management & reports
-│   ├── requirements/        # Requirements & use cases
-│   ├── survey/              # Survey data
-│   └── test/                # Test plans
-├── src/
-│   ├── backend/             # Spring Boot application
-│   │   ├── src/main/java/com/myus/
-│   │   │   ├── config/      # CORS, JWT configuration
-│   │   │   ├── controller/  # REST controllers
-│   │   │   ├── dto/         # Data Transfer Objects
-│   │   │   ├── entity/      # JPA entity classes
-│   │   │   ├── exception/   # Error handling
-│   │   │   ├── repository/  # Spring Data repositories
-│   │   │   ├── security/    # JWT authentication
-│   │   │   ├── service/     # Business logic
-│   │   │   └── util/        # Utilities
-│   │   ├── src/main/resources/
-│   │   │   ├── db/          # SQL scripts & migrations
-│   │   │   └── application.properties
-│   │   └── pom.xml
-│   ├── frontend/            # React application
-│   │   └── src/
-│   │       ├── api/         # Axios configuration
-│   │       ├── auth/        # Auth context & guards
-│   │       ├── components/  # Shared UI components
-│   │       ├── hooks/       # Custom React hooks
-│   │       ├── pages/       # Route-level page components
-│   │       ├── services/    # API service functions
-│   │       ├── tests/       # Frontend tests
-│   │       ├── types/       # TypeScript interfaces
-│   │       └── utils/       # Constants & utilities
-│   └── SpecKit/             # SpecKit specification tooling
+├── backend/
+│   ├── pom.xml                         ← Maven config
+│   ├── src/
+│   │   └── myus/                       ← Java source (package myus.*)
+│   │       ├── UniversityPortalApplication.java
+│   │       ├── config/                 ← CORS, JWT config
+│   │       ├── controller/             ← REST endpoints
+│   │       ├── dto/                    ← Data transfer objects
+│   │       ├── entity/                 ← JPA entities
+│   │       ├── exception/              ← Error handling
+│   │       ├── repository/             ← Spring Data repos
+│   │       ├── security/               ← JWT auth + SecurityConfig
+│   │       └── service/                ← Business logic
+│   ├── test/                           ← Unit tests
+│   └── resources/
+│       ├── application.properties
+│       └── db/                         ← SQL schema + migrations + seed data
+├── frontend/
+│   ├── public/
+│   ├── src/
+│   │   ├── api/                        ← Axios instance + interceptors
+│   │   ├── auth/                       ← Auth context, guards, service
+│   │   ├── components/                 ← Layout, Sidebar, shared UI
+│   │   ├── pages/                      ← Page components per route
+│   │   ├── services/                   ← API service functions
+│   │   ├── tests/                      ← Frontend tests
+│   │   ├── types/                      ← TypeScript interfaces
+│   │   └── utils/                      ← Constants, token utils
+│   ├── package.json
+│   └── tsconfig.json
+├── docs/                               ← Requirements, reports, use cases
+├── speckit/                            ← SpecKit specs & constitution
+│   └── README.md                       ← SpecKit usage guide
 └── README.md
 ```
 
-## Architecture
-
-The backend follows a **Layered Architecture**:
-
-```
-Controllers (REST endpoints)
-    ↓
-Services (business logic, transactions)
-    ↓
-Repositories (Spring Data JPA)
-    ↓
-Entities (domain model mapped to SQL Server)
-```
-
-The frontend uses a **component-based architecture** with React Router for page navigation and React Context for authentication state.
-
 ## API Endpoints
 
-| Module | Base Path | Description |
-|--------|-----------|-------------|
-| Auth | `/api/auth` | Login, token management |
-| Courses | `/api/courses` | Course catalog browsing |
-| Registrations | `/api/registrations` | Course enrollment |
-| Grades | `/api/v1/grades` | Student grades |
-| Profile | `/api/v1/profile` | Student profile |
-| Finance | `/api/v1/finance` | Tuition & payments |
-| Appeals | `/api/appeals` | Student grade appeals |
-| Admin Appeals | `/api/admin/appeals` | Admin appeal processing |
+| Module | Path | Auth |
+|--------|------|------|
+| Auth | `POST /api/auth/login` | Public |
+| Courses | `/api/courses` | Student |
+| Enrollments | `/api/registrations` | Student |
+| Grades | `/api/v1/grades` | Student |
+| Profile | `/api/v1/profile` | Student |
+| Finance | `/api/v1/finance` | Student |
+| Appeals | `/api/appeals` | Student |
+| Admin Appeals | `/api/admin/appeals` | Admin |
+
+## Architecture
+
+```
+Controllers (REST) → Services (business logic) → Repositories (JPA) → Entities → SQL Server
+                         ↕
+                   JWT Security Filter (stateless)
+```
+
+Frontend: component-based React with Context for auth state, React Router for SPA navigation.
 
 ## Environment Variables
 
-See `src/backend/.env.example` and `src/frontend/.env.example` for required variables.
+See `backend/.env.example` and `frontend/.env.example`.
 
-## Contributing
+## Documentation
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the contribution workflow.
+- **SpecKit specs**: `speckit/README.md` — Specification-driven development workflow
+- **Requirements**: `docs/requirements/`
+- **Architecture**: `docs/analysis-and-design/`
+- **Reports**: `docs/management/`
+- **API contracts**: `speckit/specs/001-university-portal/contracts/`
 
 ## License
 
-This is a student project for CS300 - Introduction to Software Engineering.
+CS300 — Introduction to Software Engineering. Student project.

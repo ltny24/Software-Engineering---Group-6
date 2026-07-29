@@ -17,7 +17,6 @@ $RECYCLE.BIN/
 *~
 
 # ---- Java / Maven / Gradle ----
-target/
 build/
 !.mvn/wrapper/maven-wrapper.jar
 *.class
