@@ -51,7 +51,7 @@ export interface Course {
   courseName: string;
   description: string;
   credits: number;
-  prerequisites: string[] | string;
+  prerequisites: string | string[];
   department: string;
   semester: string;
   capacity: number;
@@ -59,25 +59,25 @@ export interface Course {
 
 export interface CourseOffering {
   offeringId: string | number;
-  courseId?: string | number;
   section: string;
   term: string;
   schedule: string;
   instructor: string;
   location: string;
   room: string;
-  enrolledCount: number;
-  availableSeats: number;
-  course: Course;
+  enrolledCount?: number;
+  availableSeats?: number;
+  course?: Course;
+  courseId?: string | number;
 }
 
 export interface CourseRegistration {
   registrationId: string | number;
   studentId: string | number;
   offeringId?: string | number;
-  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED';
+  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED' | 'Dropped' | 'Enrolled';
   registeredAt: string;
-  offering: CourseOffering;
+  offering?: CourseOffering;
 }
 
 // ----- Grades & Academic Records -----
@@ -175,8 +175,8 @@ export interface PagedResponse<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
-  page: number;
-  size: number;
+  page?: number;
+  size?: number;
   number?: number;
 }
 

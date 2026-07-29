@@ -28,6 +28,7 @@ axiosInstance.interceptors.request.use(
 
 // ----- Response interceptor – handle 401 globally -----
 axiosInstance.interceptors.response.use(
+  // Keep Axios's normal response shape; services read response.data.
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {

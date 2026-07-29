@@ -1,14 +1,37 @@
 -- SQL Server schema for MyUS University Portal
-SET NOCOUNT ON;
+-- File: src/backend/src/main/resources/db/schema.sql
 
-USE MyUS;
-GO
+SET NOCOUNT ON;
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'myus')
 BEGIN
     EXEC('CREATE SCHEMA myus');
 END
 GO
+
+-- =========================================================================
+-- LỆNH DROP (Chạy ngược thứ tự để không bị kẹt khóa ngoại và làm sạch dữ liệu cũ)
+-- =========================================================================
+IF OBJECT_ID('myus.ChatbotSession', 'U') IS NOT NULL DROP TABLE myus.ChatbotSession;
+IF OBJECT_ID('myus.ClassTransferRequest', 'U') IS NOT NULL DROP TABLE myus.ClassTransferRequest;
+IF OBJECT_ID('myus.FAQArticle', 'U') IS NOT NULL DROP TABLE myus.FAQArticle;
+IF OBJECT_ID('myus.SurveyResponse', 'U') IS NOT NULL DROP TABLE myus.SurveyResponse;
+IF OBJECT_ID('myus.Survey', 'U') IS NOT NULL DROP TABLE myus.Survey;
+IF OBJECT_ID('myus.TuitionPayment', 'U') IS NOT NULL DROP TABLE myus.TuitionPayment;
+IF OBJECT_ID('myus.TuitionAccount', 'U') IS NOT NULL DROP TABLE myus.TuitionAccount;
+IF OBJECT_ID('myus.Appeal', 'U') IS NOT NULL DROP TABLE myus.Appeal;
+IF OBJECT_ID('myus.AcademicRecord', 'U') IS NOT NULL DROP TABLE myus.AcademicRecord;
+IF OBJECT_ID('myus.Grade', 'U') IS NOT NULL DROP TABLE myus.Grade;
+IF OBJECT_ID('myus.CourseRegistration', 'U') IS NOT NULL DROP TABLE myus.CourseRegistration;
+IF OBJECT_ID('myus.CourseOffering', 'U') IS NOT NULL DROP TABLE myus.CourseOffering;
+IF OBJECT_ID('myus.Course', 'U') IS NOT NULL DROP TABLE myus.Course;
+IF OBJECT_ID('myus.Administrator', 'U') IS NOT NULL DROP TABLE myus.Administrator;
+IF OBJECT_ID('myus.Student', 'U') IS NOT NULL DROP TABLE myus.Student;
+GO
+
+-- =========================================================================
+-- TẠO BẢNG MỚI
+-- =========================================================================
 
 -- Students
 CREATE TABLE myus.Student (
@@ -81,19 +104,19 @@ CREATE TABLE myus.CourseRegistration (
     CONSTRAINT FK_CourseRegistration_Offering FOREIGN KEY(offeringId) REFERENCES myus.CourseOffering(offeringId) ON DELETE CASCADE
 );
 
--- Grades (Đã sửa NO ACTION cho studentId và courseId để tránh Cascade Cycle)
+-- Grades
 CREATE TABLE myus.Grade (
     gradeId BIGINT IDENTITY(1,1) PRIMARY KEY,
     registrationId BIGINT NULL,
     studentId BIGINT NOT NULL,
     courseId BIGINT NOT NULL,
     gradeValue NVARCHAR(10) NOT NULL,
-    gradePoint DECIMAL(4,2) NULL,
+    gradePoint DECIMAL(5,2) NULL, -- Mở rộng tránh lỗi tràn
     term NVARCHAR(50),
-    gpaImpact DECIMAL(5,4) NULL,
+    gpaImpact DECIMAL(6,4) NULL, -- Mở rộng tránh lỗi tràn
     CONSTRAINT FK_Grade_Registration FOREIGN KEY(registrationId) REFERENCES myus.CourseRegistration(registrationId) ON DELETE SET NULL,
-    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION,
-    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE NO ACTION
+    CONSTRAINT FK_Grade_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION, -- Sửa chống loop
+    CONSTRAINT FK_Grade_Course FOREIGN KEY(courseId) REFERENCES myus.Course(courseId) ON DELETE NO ACTION -- Sửa chống loop
 );
 
 -- Academic Records
@@ -101,7 +124,7 @@ CREATE TABLE myus.AcademicRecord (
     recordId BIGINT IDENTITY(1,1) PRIMARY KEY,
     studentId BIGINT NOT NULL,
     term NVARCHAR(50) NOT NULL,
-    cumulativeGPA DECIMAL(4,3) NULL,
+    cumulativeGPA DECIMAL(5,3) NULL, -- Mở rộng tránh lỗi tràn
     earnedCredits INT NULL,
     CONSTRAINT FK_AcademicRecord_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE
 );
@@ -120,7 +143,7 @@ CREATE TABLE myus.Appeal (
     resolvedAt DATETIME2 NULL,
     resolutionCode NVARCHAR(50),
     reviewerAdminId BIGINT NULL,
-    CONSTRAINT FK_Appeal_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE,
+    CONSTRAINT FK_Appeal_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE NO ACTION, -- Sửa chống loop
     CONSTRAINT FK_Appeal_Grade FOREIGN KEY(gradeId) REFERENCES myus.Grade(gradeId) ON DELETE SET NULL,
     CONSTRAINT FK_Appeal_Admin FOREIGN KEY(reviewerAdminId) REFERENCES myus.Administrator(adminId) ON DELETE SET NULL
 );
@@ -168,7 +191,7 @@ CREATE TABLE myus.SurveyResponse (
     surveyId BIGINT NOT NULL,
     studentId BIGINT NOT NULL,
     submittedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
-    answers NVARCHAR(MAX) NOT NULL,
+    answers NVARCHAR(MAX) NOT NULL, -- JSON or structured text
     CONSTRAINT FK_SurveyResponse_Survey FOREIGN KEY(surveyId) REFERENCES myus.Survey(surveyId) ON DELETE CASCADE,
     CONSTRAINT FK_SurveyResponse_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE
 );
@@ -209,13 +232,17 @@ CREATE TABLE myus.ChatbotSession (
     CONSTRAINT FK_Chatbot_Student FOREIGN KEY(studentId) REFERENCES myus.Student(studentId) ON DELETE CASCADE
 );
 
--- Additional constraints: status enumerations
+-- =========================================================================
+-- RÀNG BUỘC PHỤ TRỢ (CONSTRAINTS)
+-- =========================================================================
+
 ALTER TABLE myus.CourseRegistration ADD CONSTRAINT CHK_CourseRegistration_Status CHECK (status IN ('Requested','Enrolled','Waitlisted','Dropped'));
 ALTER TABLE myus.Appeal ADD CONSTRAINT CHK_Appeal_Status CHECK (status IN ('Submitted','Under Review','Approved','Denied','Withdrawn'));
 ALTER TABLE myus.Survey ADD CONSTRAINT CHK_Survey_Status CHECK (status IN ('Draft','Open','Closed'));
 ALTER TABLE myus.ClassTransferRequest ADD CONSTRAINT CHK_Transfer_Status CHECK (status IN ('Requested','Reviewing','Approved','Denied'));
 
+-- Ensure registration references unique student-offering combination
 CREATE UNIQUE INDEX UX_CourseRegistration_Student_Offering ON myus.CourseRegistration(studentId, offeringId) WHERE status IN ('Requested','Enrolled','Waitlisted');
-
 GO
+
 SET NOCOUNT OFF;

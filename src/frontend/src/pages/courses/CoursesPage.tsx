@@ -15,7 +15,7 @@ const TERMS = ['Fall2026', 'Spring2027'];
 
 const DEMO_OFFERINGS: CourseOffering[] = [
   {
-    offeringId: '1001',
+    offeringId: 1001,
     section: 'A',
     term: 'Fall2026',
     schedule: 'Mon/Wed 09:00 - 10:30',
@@ -25,19 +25,19 @@ const DEMO_OFFERINGS: CourseOffering[] = [
     enrolledCount: 12,
     availableSeats: 8,
     course: {
-      courseId: '501',
+      courseId: 501,
       courseCode: 'CS101',
       courseName: 'Introduction to Algorithms',
       description: 'Fundamentals of algorithms and problem solving.',
       credits: 3,
-      prerequisites: ['None'],
+      prerequisites: 'None',
       department: 'Computer Science',
       semester: 'Fall2026',
       capacity: 20,
     },
   },
   {
-    offeringId: '1002',
+    offeringId: 1002,
     section: 'B',
     term: 'Fall2026',
     schedule: 'Tue/Thu 11:00 - 12:30',
@@ -47,12 +47,12 @@ const DEMO_OFFERINGS: CourseOffering[] = [
     enrolledCount: 18,
     availableSeats: 2,
     course: {
-      courseId: '502',
+      courseId: 502,
       courseCode: 'MATH230',
       courseName: 'Linear Algebra',
       description: 'Matrix methods, vector spaces, and linear systems.',
       credits: 4,
-      prerequisites: ['Precalculus'],
+      prerequisites: 'Precalculus',
       department: 'Mathematics',
       semester: 'Fall2026',
       capacity: 20,
@@ -61,10 +61,9 @@ const DEMO_OFFERINGS: CourseOffering[] = [
 ];
 
 const DEMO_REGISTRATIONS: CourseRegistration[] = DEMO_OFFERINGS.map((offering, index) => ({
-  registrationId: `2000${String(offering.offeringId)}`,
-  studentId: '12345',
-  offeringId: offering.offeringId,
-  status: 'ENROLLED',
+  registrationId: 2000 + Number(offering.offeringId),
+  studentId: 12345,
+  status: 'Enrolled',
   registeredAt: new Date(Date.now() - (index + 1) * 86400000).toISOString(),
   offering,
 }));
@@ -85,7 +84,11 @@ export default function CoursesPage() {
   const [searchInput, setSearchInput] = useState<string>('');
   const [departmentInput, setDepartmentInput] = useState<string>('');
   const [termInput, setTermInput] = useState<string>('');
-  const [appliedFilters, setAppliedFilters] = useState({ search: '', department: '', term: '' });
+  const [appliedFilters, setAppliedFilters] = useState({
+    search: '',
+    department: '',
+    term: '',
+  });
 
   // --- My registrations state ---
   const [registrations, setRegistrations] = useState<CourseRegistration[]>([]);
@@ -102,7 +105,10 @@ export default function CoursesPage() {
     async (page: number) => {
       try {
         setLoadingOfferings(true);
-        const params: Record<string, string | number> = { page, size: PAGE_SIZE };
+        const params: Record<string, string | number> = {
+          page,
+          size: PAGE_SIZE,
+        };
         if (appliedFilters.search) params.search = appliedFilters.search;
         if (appliedFilters.department) params.department = appliedFilters.department;
         if (appliedFilters.term) params.term = appliedFilters.term;
@@ -123,7 +129,7 @@ export default function CoursesPage() {
         setTotalElements(
           received.length > 0 ? (data.totalElements ?? fallback.length) : fallback.length
         );
-        setCurrentPage(received.length > 0 ? (data.page ?? 0) : 0);
+        setCurrentPage(received.length > 0 ? (data.number ?? 0) : 0);
       } catch (error) {
         toast.error('Failed to load course catalog.');
         console.error(error);
@@ -186,16 +192,18 @@ export default function CoursesPage() {
     fetchOfferings(page);
   };
 
-  const isActiveRegistration = (offeringId: string | number) =>
-    registrations.some(
-      (r) => String(r.offering.offeringId) === String(offeringId) && r.status !== 'DROPPED'
-    );
+  const isActiveRegistration = (offeringId: string | number) => {
+    return registrations.some((r) => {
+      const registrationOfferingId = r.offering?.offeringId;
+      return registrationOfferingId !== undefined && registrationOfferingId === offeringId;
+    });
+  };
 
   const handleRegister = async (offering: CourseOffering) => {
     try {
       setRegisteringId(offering.offeringId);
-      await registerCourse(offering.offeringId);
-      toast.success(`Registered for ${offering.course.courseCode} successfully!`);
+      await registerCourse(String(offering.offeringId));
+      toast.success(`Registered for ${offering.course?.courseCode ?? 'this course'} successfully!`);
       // Làm mới cả 2 danh sách để cập nhật số chỗ còn trống & trạng thái
       await Promise.all([fetchOfferings(currentPage), fetchRegistrations()]);
     } catch (error: any) {
@@ -207,12 +215,13 @@ export default function CoursesPage() {
   };
 
   const handleDrop = async (registration: CourseRegistration) => {
-    const courseLabel = `${registration.offering.course.courseCode} - ${registration.offering.section}`;
+    const offering = registration.offering;
+    const courseLabel = `${offering?.course?.courseCode ?? 'Course'} - ${offering?.section ?? ''}`;
     if (!window.confirm(`Drop registration for ${courseLabel}?`)) return;
 
     try {
       setDroppingId(registration.registrationId);
-      await dropRegistration(registration.registrationId);
+      await dropRegistration(String(registration.registrationId));
       toast.success(`Dropped ${courseLabel}.`);
       await Promise.all([fetchRegistrations(), fetchOfferings(currentPage)]);
     } catch (error: any) {
@@ -250,7 +259,10 @@ export default function CoursesPage() {
     return 'badge requested';
   };
 
-  const activeRegistrationsCount = registrations.filter((r) => r.status !== 'DROPPED').length;
+  const activeRegistrationsCount = registrations.filter((r) => {
+    const status = r.status?.toUpperCase();
+    return status !== 'DROPPED' && status !== 'DROPPED';
+  }).length;
 
   return (
     <div className="courses-container">
@@ -346,25 +358,25 @@ export default function CoursesPage() {
                   <tbody>
                     {offerings.map((offering) => {
                       const registered = isActiveRegistration(offering.offeringId);
-                      const full = offering.availableSeats <= 0;
+                      const full = (offering.availableSeats ?? 0) <= 0;
                       return (
-                        <tr className="registration-row" key={offering.offeringId}>
-                          <td data-label="Code">{offering.course.courseCode}</td>
+                        <tr className="registration-row" key={String(offering.offeringId)}>
+                          <td data-label="Code">{offering.course?.courseCode ?? '—'}</td>
                           <td data-label="Course Name">
                             <span className="registration-course-name">
-                              {offering.course.courseName}
+                              {offering.course?.courseName ?? '—'}
                             </span>
                             <span className="registration-sub muted">
-                              {offering.course.description}
+                              {offering.course?.description ?? ''}
                             </span>
                           </td>
                           <td data-label="Section">{offering.section}</td>
-                          <td data-label="Credits">{offering.course.credits}</td>
-                          <td data-label="Department">{offering.course.department}</td>
+                          <td data-label="Credits">{offering.course?.credits ?? 0}</td>
+                          <td data-label="Department">{offering.course?.department ?? '—'}</td>
                           <td data-label="Schedule">{offering.schedule}</td>
                           <td data-label="Seats">
                             <span className={seatBadgeClass(offering)}>
-                              {offering.availableSeats > 0
+                              {(offering.availableSeats ?? 0) > 0
                                 ? `${offering.availableSeats} seats left`
                                 : 'Full'}
                             </span>
@@ -443,30 +455,30 @@ export default function CoursesPage() {
                 </thead>
                 <tbody>
                   {registrations.map((reg) => (
-                    <tr className="registration-row" key={reg.registrationId}>
-                      <td data-label="Code">{reg.offering.course.courseCode}</td>
+                    <tr className="registration-row" key={String(reg.registrationId)}>
+                      <td data-label="Code">{reg.offering?.course?.courseCode ?? '—'}</td>
                       <td data-label="Course Name">
                         <span className="registration-course-name">
-                          {reg.offering.course.courseName}
+                          {reg.offering?.course?.courseName ?? '—'}
                         </span>
                         <span className="registration-sub muted">
                           Registered at {formatDateTime(reg.registeredAt)}
                         </span>
                       </td>
-                      <td data-label="Section">{reg.offering.section}</td>
-                      <td data-label="Credits">{reg.offering.course.credits}</td>
-                      <td data-label="Capacity">{reg.offering.course.capacity}</td>
-                      <td data-label="Enrolled">{reg.offering.enrolledCount}</td>
-                      <td data-label="Schedule">{reg.offering.schedule}</td>
+                      <td data-label="Section">{reg.offering?.section ?? '—'}</td>
+                      <td data-label="Credits">{reg.offering?.course?.credits ?? 0}</td>
+                      <td data-label="Capacity">{reg.offering?.course?.capacity ?? 0}</td>
+                      <td data-label="Enrolled">{reg.offering?.enrolledCount ?? 0}</td>
+                      <td data-label="Schedule">{reg.offering?.schedule ?? '—'}</td>
                       <td data-label="Location">
-                        {reg.offering.location}
-                        {reg.offering.room ? ` – Room ${reg.offering.room}` : ''}
+                        {reg.offering?.location ?? '—'}
+                        {reg.offering?.room ? ` – Room ${reg.offering.room}` : ''}
                       </td>
                       <td data-label="Status">
                         <span className={statusBadgeClass(reg.status)}>{reg.status}</span>
                       </td>
                       <td data-label="Action" className="registration-action-cell">
-                        {reg.status !== 'DROPPED' && (
+                        {reg.status?.toUpperCase() !== 'DROPPED' && (
                           <button
                             className="btn-cancel drop-btn"
                             disabled={droppingId === reg.registrationId}

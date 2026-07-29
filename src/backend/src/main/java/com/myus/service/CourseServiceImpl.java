@@ -1,5 +1,15 @@
 package com.myus.service;
 
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.myus.dto.CourseOfferingResponse;
 import com.myus.dto.CourseResponse;
 import com.myus.entity.Course;
@@ -7,13 +17,9 @@ import com.myus.entity.CourseOffering;
 import com.myus.exception.ResourceNotFoundException;
 import com.myus.repository.CourseOfferingRepository;
 import com.myus.repository.CourseRegistrationRepository;
+import com.myus.repository.CourseRepository;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Default implementation of {@link CourseService}.
@@ -28,11 +34,14 @@ public class CourseServiceImpl implements CourseService {
 
     private final CourseOfferingRepository offeringRepository;
     private final CourseRegistrationRepository registrationRepository;
+    private final CourseRepository courseRepository;
 
     public CourseServiceImpl(CourseOfferingRepository offeringRepository,
-                             CourseRegistrationRepository registrationRepository) {
+                             CourseRegistrationRepository registrationRepository,
+                             CourseRepository courseRepository) {
         this.offeringRepository = offeringRepository;
         this.registrationRepository = registrationRepository;
+        this.courseRepository = courseRepository;
     }
 
     @Override
@@ -57,6 +66,22 @@ public class CourseServiceImpl implements CourseService {
                         "Course offering not found with id: " + offeringId));
 
         return mapToOfferingResponse(offering);
+    }
+
+    @Override
+    public List<Course> getAllCourses() {
+        if (courseRepository == null) {
+            throw new IllegalStateException("Course repository is not configured");
+        }
+        return courseRepository.findAll();
+    }
+
+    @Override
+    public Optional<Course> getCourseById(long courseId) {
+        if (courseRepository == null) {
+            throw new IllegalStateException("Course repository is not configured");
+        }
+        return courseRepository.findById(courseId);
     }
 
     // ── Private helpers ────────────────────────────────────────
