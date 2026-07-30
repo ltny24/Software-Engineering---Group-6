@@ -3,5 +3,7 @@
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
-  }
+  },
+  "prettier.endOfLine": "auto",
+  "files.eol": "\n"
 }
