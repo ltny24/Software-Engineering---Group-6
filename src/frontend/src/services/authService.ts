@@ -28,5 +28,11 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
  * Clears local session regardless of server response.
  */
 export async function logout(): Promise<void> {
-  clearSession();
+  try {
+    await axiosInstance.post('/api/auth/logout');
+  } catch (error) {
+    console.warn('Logout API warning/error:', error);
+  } finally {
+    clearSession();
+  }
 }

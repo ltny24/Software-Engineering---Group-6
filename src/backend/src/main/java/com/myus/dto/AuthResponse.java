@@ -9,7 +9,7 @@ package com.myus.dto;
  *   "accessToken": "eyJhbG...",
  *   "tokenType": "Bearer",
  *   "expiresIn": 86400000,
- *   "user": { "id": 1, "role": "STUDENT" }
+ *   "user": { "id": 1, "username": "24120001", "role": "STUDENT" }
  * }
  * </pre>
  */
@@ -73,14 +73,20 @@ public class AuthResponse {
     public static class UserInfo {
 
         private Long id;
+        private String username;
+        private String email;
         private String role;
+        private String displayName;
 
         public UserInfo() {
         }
 
-        public UserInfo(Long id, String role) {
+        public UserInfo(Long id, String username, String email, String role, String displayName) {
             this.id = id;
+            this.username = username;
+            this.email = email;
             this.role = role;
+            this.displayName = displayName;
         }
 
         public Long getId() {
@@ -91,12 +97,36 @@ public class AuthResponse {
             this.id = id;
         }
 
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
         public String getRole() {
             return role;
         }
 
         public void setRole(String role) {
             this.role = role;
+        }
+
+        public String getDisplayName() {
+            return displayName;
+        }
+
+        public void setDisplayName(String displayName) {
+            this.displayName = displayName;
         }
     }
 }

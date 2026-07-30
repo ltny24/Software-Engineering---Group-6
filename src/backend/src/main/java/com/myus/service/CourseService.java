@@ -1,8 +1,12 @@
 package com.myus.service;
 
-import com.myus.dto.CourseOfferingResponse;
+import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
+
+import com.myus.dto.CourseOfferingResponse;
+import com.myus.entity.Course;
 
 /**
  * Service contract for course catalog browsing operations.
@@ -33,4 +37,14 @@ public interface CourseService {
      * @throws com.myus.exception.ResourceNotFoundException if not found
      */
     CourseOfferingResponse getOfferingById(Long offeringId);
+
+    /**
+     * Retrieve all courses.
+     */
+    List<Course> getAllCourses();
+
+    /**
+     * Retrieve a course by its identifier.
+     */
+    Optional<Course> getCourseById(long courseId);
 }

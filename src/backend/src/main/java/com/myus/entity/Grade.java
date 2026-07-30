@@ -35,6 +35,12 @@ public class Grade {
     @Column(precision = 4, scale = 2)
     private BigDecimal gradePoint;
 
+    @Column(precision = 4, scale = 2)
+    private BigDecimal midtermGrade;
+
+    @Column(precision = 4, scale = 2)
+    private BigDecimal finalGrade;
+
     @Column(length = 50)
     private String term;
 

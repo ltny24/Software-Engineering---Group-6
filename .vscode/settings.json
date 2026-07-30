@@ -4,6 +4,20 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "prettier.endOfLine": "auto",
-  "files.eol": "\n"
+  "java.compile.nullAnalysis.mode": "automatic",
+  "chat.tools.terminal.autoApprove": {
+    "/^powershell -NoProfile -Command \"Set-Location -Path 'd:\\\\ki_6\\\\SE\\\\PA4\\\\Software-Engineering---Group-6-main\\\\src\\\\frontend'; node -e 'const \\{prepareUrls\\}=require\\(\\\\\"\\./node_modules/react-dev-utils/WebpackDevServerUtils\\\\\"\\); console\\.log\\(JSON\\.stringify\\(prepareUrls\\(\\\\\"http\\\\\",\\\\\"0\\.0\\.0\\.0\\\\\",3000,\\\\\"/\\\\\"\\)\\)\\); console\\.log\\(JSON\\.stringify\\(prepareUrls\\(\\\\\"http\\\\\",\\\\\"127\\.0\\.0\\.1\\\\\",3000,\\\\\"/\\\\\"\\)\\)\\);'\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^Set-Location -Path 'd:\\\\ki_6\\\\SE\\\\PA4\\\\Software-Engineering---Group-6-main\\\\src\\\\backend'; if \\(Test-Path \\.\\\\mvnw\\) \\{ \\.\\\\mvnw -v \\} else \\{ mvn -v \\}$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^cmd /c \"cd /d d:\\\\ki_6\\\\SE\\\\PA4\\\\Software-Engineering---Group-6-main\\\\src\\\\backend && mvn -v && mvn spring-boot:run -DskipTests\"$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  },
+  "CodeGPT.apiKey": "CodeGPT Plus Beta"
 }

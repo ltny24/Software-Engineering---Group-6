@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
 
@@ -22,36 +22,26 @@ interface TuitionBalanceResponse {
   paymentHistory: TuitionPaymentDTO[];
 }
 
-function TuitionPage() {
+export const TuitionPage: React.FC = () => {
   const [finance, setFinance] = useState<TuitionBalanceResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const formatCurrency = (value: number) =>
-    new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'VND',
-      maximumFractionDigits: 0,
-    }).format(value || 0);
-
-  const formatDate = (dateString?: string) =>
-    dateString ? new Date(dateString).toLocaleDateString('en-US') : '-';
-
   useEffect(() => {
-    const fetchTuitionData = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get<TuitionBalanceResponse>('/api/v1/finance/tuition/balance');
-        setFinance(res as TuitionBalanceResponse);
-      } catch (error) {
-        toast.error('Unable to load financial data from the server.');
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTuitionData();
   }, []);
+
+  const fetchTuitionData = async () => {
+    try {
+      setLoading(true);
+      const { data } = await api.get<TuitionBalanceResponse>('/v1/finance/tuition/balance');
+      setFinance(data);
+    } catch (error) {
+      toast.error('Failed to load financial data from server.');
+      console.error('Error fetching tuition data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -59,8 +49,8 @@ function TuitionPage() {
         style={{
           padding: '40px',
           textAlign: 'center',
-          color: '#64748b',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
+          color: '#666',
+          fontFamily: 'Arial, sans-serif',
         }}
       >
         Loading financial information...
@@ -74,11 +64,11 @@ function TuitionPage() {
         style={{
           padding: '40px',
           textAlign: 'center',
-          color: '#64748b',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
+          color: '#888',
+          fontFamily: 'Arial, sans-serif',
         }}
       >
-        No balance data found for this account.
+        No financial account records found for this student.
       </div>
     );
   }
@@ -86,219 +76,203 @@ function TuitionPage() {
   return (
     <div
       style={{
-        backgroundColor: '#f8fafc',
-        minHeight: '100vh',
-        padding: '32px 24px',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
+        backgroundColor: '#ffffff',
+        fontFamily: 'Arial, sans-serif',
+        color: '#333',
+        minHeight: '80vh',
         width: '100%',
       }}
     >
-      <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
-        {/* Header Section */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottom: '1px solid #e2e8f0',
-            paddingBottom: '20px',
-            marginBottom: '32px',
-            flexWrap: 'wrap',
-            gap: '16px',
-          }}
-        >
-          <div>
-            <h1
-              style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', margin: '0 0 4px 0' }}
-            >
-              Student Financial Dashboard
-            </h1>
-            <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-              Billing term:{' '}
-              <strong style={{ color: '#1e293b', fontWeight: '600' }}>
-                {finance.term || 'Current term'}
-              </strong>
-            </p>
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {finance.financialHold ? (
-              <span
-                style={{
-                  backgroundColor: '#fef2f2',
-                  color: '#dc2626',
-                  border: '1px solid #fecaca',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
-                  fontSize: '13px',
-                  fontWeight: '600',
-                }}
-              >
-                Financial Hold
-              </span>
-            ) : (
-              <span
-                style={{
-                  backgroundColor: '#f0fdf4',
-                  color: '#16a34a',
-                  border: '1px solid #bbf7d0',
-                  padding: '6px 14px',
-                  borderRadius: '20px',
-                  fontSize: '13px',
-                  fontWeight: '600',
-                }}
-              >
-                Account in Good Standing
-              </span>
-            )}
+      {/* Top Header */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '18px 30px',
+          backgroundColor: '#f9f9f9',
+          borderBottom: '1px solid #e7e7e7',
+          flexWrap: 'wrap',
+          gap: '10px',
+        }}
+      >
+        <div>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: '24px',
+              fontWeight: 'normal',
+              color: '#555',
+              textTransform: 'uppercase',
+            }}
+          >
+            Student Financial Management
+          </h1>
+          <div style={{ fontSize: '13px', color: '#666', marginTop: '5px' }}>
+            Billing Term:{' '}
+            <strong style={{ color: '#333' }}>{finance.term || 'Current Term'}</strong>
           </div>
         </div>
 
-        {/* Summary KPI Cards */}
-        <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', flexWrap: 'wrap' }}>
-          <div
-            style={{
-              flex: '1',
-              minWidth: '220px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: '4px solid #6366f1',
-            }}
-          >
-            <div
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          {finance.financialHold ? (
+            <span
               style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
+                backgroundColor: '#f2dede',
+                color: '#a94442',
+                border: '1px solid #ebccd1',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                fontSize: '13px',
+                fontWeight: 'bold',
               }}
             >
-              Total Tuition Charges
-            </div>
-            <div style={{ fontSize: '20px', fontWeight: '700', color: '#1e293b' }}>
-              {formatCurrency(finance.totalCharges)}
-            </div>
-          </div>
-
-          <div
-            style={{
-              flex: '1',
-              minWidth: '220px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: '4px solid #10b981',
-            }}
-          >
-            <div
+              Financial Hold
+            </span>
+          ) : (
+            <span
               style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
+                backgroundColor: '#dff0d8',
+                color: '#3c763d',
+                border: '1px solid #d6e9c6',
+                padding: '6px 12px',
+                borderRadius: '4px',
+                fontSize: '13px',
+                fontWeight: 'bold',
               }}
             >
-              Scholarship / Discounts
-            </div>
-            <div style={{ fontSize: '20px', fontWeight: '700', color: '#059669' }}>
-              - {formatCurrency(finance.scholarshipAmount)}
-            </div>
-          </div>
-
-          <div
-            style={{
-              flex: '1',
-              minWidth: '220px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: '4px solid #0ea5e9',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
-              }}
-            >
-              Amount Paid
-            </div>
-            <div style={{ fontSize: '20px', fontWeight: '700', color: '#0284c7' }}>
-              {formatCurrency(finance.payments)}
-            </div>
-          </div>
-
-          <div
-            style={{
-              flex: '1',
-              minWidth: '220px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: `4px solid ${(finance.balance || 0) > 0 ? '#ef4444' : '#10b981'}`,
-            }}
-          >
-            <div
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
-              }}
-            >
-              Outstanding Balance
-            </div>
-            <div
-              style={{
-                fontSize: '20px',
-                fontWeight: '700',
-                color: (finance.balance || 0) > 0 ? '#dc2626' : '#059669',
-              }}
-            >
-              {formatCurrency(finance.balance)}
-            </div>
-          </div>
+              Normal Status
+            </span>
+          )}
         </div>
+      </div>
 
-        {/* Payment History Table Section */}
+      <div style={{ padding: '25px 30px' }}>
+        {/* Tuition Summary Card */}
         <div
           style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-            border: '1px solid #e2e8f0',
-            overflow: 'hidden',
+            border: '1px solid #ddd',
+            borderRadius: '4px',
+            marginBottom: '30px',
+            backgroundColor: '#fff',
           }}
         >
           <div
             style={{
-              padding: '16px 24px',
-              borderBottom: '1px solid #e2e8f0',
-              backgroundColor: '#f8fafc',
+              backgroundColor: '#f5f5f5',
+              padding: '12px 18px',
+              borderBottom: '1px solid #ddd',
+              fontWeight: 'bold',
+              color: '#444',
+              fontSize: '14px',
             }}
           >
-            <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-              Payment History
-            </h2>
+            SEMESTER TUITION SUMMARY
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-around',
+              padding: '20px 15px',
+              textAlign: 'center',
+              gap: '15px',
+            }}
+          >
+            <div style={{ minWidth: '160px', flex: '1' }}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: '#777',
+                  textTransform: 'uppercase',
+                  marginBottom: '6px',
+                }}
+              >
+                Total Charges
+              </div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#333' }}>
+                {(finance.totalCharges || 0).toLocaleString('en-US')} VND
+              </div>
+            </div>
+
+            <div style={{ minWidth: '160px', flex: '1', borderLeft: '1px solid #eee' }}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: '#777',
+                  textTransform: 'uppercase',
+                  marginBottom: '6px',
+                }}
+              >
+                Scholarships / Waivers
+              </div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3c763d' }}>
+                - {(finance.scholarshipAmount || 0).toLocaleString('en-US')} VND
+              </div>
+            </div>
+
+            <div style={{ minWidth: '160px', flex: '1', borderLeft: '1px solid #eee' }}>
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: '#777',
+                  textTransform: 'uppercase',
+                  marginBottom: '6px',
+                }}
+              >
+                Total Payments
+              </div>
+              <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#31708f' }}>
+                {(finance.payments || 0).toLocaleString('en-US')} VND
+              </div>
+            </div>
+
+            <div
+              style={{
+                minWidth: '180px',
+                flex: '1',
+                borderLeft: '1px solid #ddd',
+                backgroundColor: '#fafafa',
+                padding: '5px 0',
+              }}
+            >
+              <div
+                style={{
+                  fontSize: '12px',
+                  color: '#a94442',
+                  textTransform: 'uppercase',
+                  fontWeight: 'bold',
+                  marginBottom: '6px',
+                }}
+              >
+                OUTSTANDING BALANCE
+              </div>
+              <div
+                style={{
+                  fontSize: '22px',
+                  fontWeight: 'bold',
+                  color: (finance.balance || 0) > 0 ? '#d9534f' : '#3c763d',
+                }}
+              >
+                {(finance.balance || 0).toLocaleString('en-US')} VND
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Payment History Table */}
+        <div style={{ border: '1px solid #ddd', borderRadius: '4px', overflow: 'hidden' }}>
+          <div
+            style={{
+              backgroundColor: '#f5f5f5',
+              padding: '12px 18px',
+              borderBottom: '1px solid #ddd',
+              fontWeight: 'bold',
+              color: '#444',
+              fontSize: '14px',
+            }}
+          >
+            PAYMENT TRANSACTION HISTORY
           </div>
 
           <div style={{ overflowX: 'auto' }}>
@@ -306,27 +280,42 @@ function TuitionPage() {
               style={{
                 width: '100%',
                 borderCollapse: 'collapse',
-                textAlign: 'left',
-                fontSize: '14px',
+                textAlign: 'center',
+                fontSize: '13px',
               }}
             >
               <thead>
-                <tr
-                  style={{
-                    backgroundColor: '#ffffff',
-                    borderBottom: '2px solid #e2e8f0',
-                    color: '#64748b',
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Reference Number</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Payment Date</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Method</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600', textAlign: 'right' }}>
+                <tr style={{ backgroundColor: '#ffffff', color: '#333' }}>
+                  <th
+                    style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
+                  >
+                    Reference No.
+                  </th>
+                  <th
+                    style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
+                  >
+                    Payment Date
+                  </th>
+                  <th
+                    style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
+                  >
+                    Payment Method
+                  </th>
+                  <th
+                    style={{
+                      border: '1px solid #ddd',
+                      padding: '12px 15px',
+                      fontWeight: 'bold',
+                      textAlign: 'right',
+                    }}
+                  >
                     Amount
                   </th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Status</th>
+                  <th
+                    style={{ border: '1px solid #ddd', padding: '12px 10px', fontWeight: 'bold' }}
+                  >
+                    Status
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -334,54 +323,51 @@ function TuitionPage() {
                   finance.paymentHistory.map((item, index) => (
                     <tr
                       key={item.paymentId || index}
-                      style={{
-                        borderBottom: '1px solid #f1f5f9',
-                        backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
-                      }}
+                      style={{ backgroundColor: index % 2 === 0 ? '#ffffff' : '#f9f9f9' }}
                     >
                       <td
                         style={{
-                          padding: '16px 24px',
+                          border: '1px solid #ddd',
+                          padding: '12px 10px',
                           fontFamily: 'monospace',
-                          color: '#475569',
-                          fontWeight: '500',
+                          color: '#555',
                         }}
                       >
                         {item.referenceNumber}
                       </td>
-                      <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '500' }}>
-                        {formatDate(item.paymentDate)}
+                      <td style={{ border: '1px solid #ddd', padding: '12px 10px', color: '#555' }}>
+                        {item.paymentDate
+                          ? new Date(item.paymentDate).toLocaleDateString('en-US')
+                          : '-'}
                       </td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>
+                      <td style={{ border: '1px solid #ddd', padding: '12px 10px', color: '#555' }}>
                         {item.paymentMethod === 'BANK_TRANSFER'
                           ? 'Bank Transfer'
                           : item.paymentMethod}
                       </td>
                       <td
                         style={{
-                          padding: '16px 24px',
+                          border: '1px solid #ddd',
+                          padding: '12px 15px',
                           textAlign: 'right',
-                          fontWeight: '600',
-                          fontSize: '13px',
-                          color: '#1e293b',
+                          fontWeight: 'bold',
+                          color: '#333',
                         }}
                       >
-                        {formatCurrency(item.amount)}
+                        {(item.amount || 0).toLocaleString('en-US')} VND
                       </td>
-                      <td style={{ padding: '16px 24px' }}>
+                      <td style={{ border: '1px solid #ddd', padding: '12px 10px' }}>
                         <span
                           style={{
-                            display: 'inline-block',
-                            backgroundColor: '#f0fdf4',
-                            color: '#16a34a',
-                            border: '1px solid #bbf7d0',
-                            padding: '4px 10px',
-                            borderRadius: '6px',
-                            fontSize: '13px',
-                            fontWeight: '600',
+                            backgroundColor: '#5cb85c',
+                            color: '#ffffff',
+                            padding: '3px 8px',
+                            borderRadius: '3px',
+                            fontSize: '11px',
+                            fontWeight: 'bold',
                           }}
                         >
-                          Completed
+                          {item.status || 'Success'}
                         </span>
                       </td>
                     </tr>
@@ -391,13 +377,13 @@ function TuitionPage() {
                     <td
                       colSpan={5}
                       style={{
-                        padding: '48px',
+                        border: '1px solid #ddd',
+                        padding: '30px',
                         textAlign: 'center',
-                        color: '#94a3b8',
-                        fontSize: '14px',
+                        color: '#888',
                       }}
                     >
-                      No payment transactions recorded from the server.
+                      No payment transaction history recorded for this student.
                     </td>
                   </tr>
                 )}
@@ -408,6 +394,6 @@ function TuitionPage() {
       </div>
     </div>
   );
-}
+};
 
 export default TuitionPage;
