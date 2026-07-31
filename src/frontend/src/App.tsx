@@ -21,6 +21,7 @@ const GradesPage = lazy(() => import('./pages/grades/GradesPage'));
 const TuitionPage = lazy(() => import('./pages/tuition/TuitionPage'));
 const AppealsPage = lazy(() => import('./pages/appeals/AppealsPage'));
 const SupportPage = lazy(() => import('./pages/support/SupportPage'));
+const FaqPage = lazy(() => import('./pages/support/FaqPage'));
 
 // Admin pages
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
@@ -146,6 +147,16 @@ export default function App() {
                 <ProtectedRoute>
                   <Layout>
                     <SupportPage />
+                  </Layout>
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path={ROUTES.SUPPORT_FAQ}
+              element={
+                <ProtectedRoute>
+                  <Layout>
+                    <FaqPage />
                   </Layout>
                 </ProtectedRoute>
               }

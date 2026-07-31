@@ -36,6 +36,7 @@ export const ROUTES = {
   APPEALS: '/appeals',
   APPEALS_NEW: '/appeals/new',
   SUPPORT: '/support',
+  SUPPORT_FAQ: '/support/faq',
 
   // Admin
   ADMIN: '/admin',

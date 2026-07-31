@@ -3753,8 +3753,17 @@ INSERT INTO myus.TuitionPayment (accountId, amount, paymentDate, paymentMethod, 
 
 -- 7. INSERT FAQ ARTICLES
 INSERT INTO myus.FAQArticle (question, answer, category, tags, published) VALUES
-(N'How to register for courses online?', N'Students go to the Course Registration section, select a course from the Course Offerings list, and click Register.', N'Academic Affairs', N'course_registration, course', 1),
-(N'How to appeal a course grade?', N'Go to the Grade Appeal section, select the course to appeal, enter the reason, and attach supporting documents.', N'Examination & Assessment', N'grade_appeal, grade', 1),
-(N'What is the process for paying tuition online?', N'Students can check their balance in the Tuition section and transfer payment using the format StudentID - TuitionHKx to the university account.', N'Finance', N'tuition, payment', 1);
+(N'How to register for courses online?', N'Students go to the Course Registration section, select a course from the Course Offerings list, and click Register.', N'Registration', N'course_registration, course, enroll', 1),
+(N'How to appeal a course grade?', N'Go to the Grade Appeal section, select the course to appeal, enter the reason, and attach supporting documents.', N'Grades & Appeals', N'grade_appeal, grade, appeal', 1),
+(N'What is the process for paying tuition online?', N'Students can check their balance in the Tuition section and transfer payment using the format StudentID - TuitionHKx to the university account.', N'Tuition', N'tuition, payment, fee', 1),
+(N'How do I drop or withdraw from a course?', N'Open Courses, find the course under My Registrations, and click Drop. Courses can be dropped before the withdrawal deadline published on the academic calendar without academic penalty.', N'Registration', N'drop, withdraw, unenroll, course', 1),
+(N'What is the university''s late add/drop policy?', N'Students may add or drop courses within the first two weeks of the term. After this period, a Class Transfer request must be submitted through the Registration office for approval.', N'Academic Policies', N'add_drop, deadline, policy', 1),
+(N'How is my cumulative GPA calculated?', N'Your cumulative GPA is the credit-weighted average of all completed course grade points, shown on the Grades page and updated automatically after each term.', N'Grades & Appeals', N'gpa, grade_point_average, transcript', 1),
+(N'What is the deadline to submit a grade appeal?', N'Grade appeals must be submitted within 10 business days of the grade being posted. Late appeals are only accepted with documented extenuating circumstances.', N'Grades & Appeals', N'grade_appeal, deadline, appeal', 1),
+(N'How do I check my tuition balance and scholarship amount?', N'Your current balance, applied scholarship amount, and payment history are all available on the Tuition page under your student dashboard.', N'Tuition', N'tuition, balance, scholarship, payment', 1),
+(N'What happens if I miss a tuition payment deadline?', N'A financial hold is placed on your account, which blocks course registration and transcript requests until the balance is paid or a payment plan is arranged with the Finance office.', N'Tuition', N'tuition, financial_hold, deadline, payment', 1),
+(N'I forgot my portal password. How do I reset it?', N'Click "Forgot password" on the login page and follow the email verification steps. If you no longer have access to your registered email, contact the IT Helpdesk directly.', N'IT/Technical Support', N'password, login, reset, account', 1),
+(N'The student portal is not loading correctly. What should I do?', N'Try clearing your browser cache or using an updated browser (Chrome, Edge, Firefox). If the issue persists, submit a ticket to the IT Helpdesk with a screenshot of the error.', N'IT/Technical Support', N'portal, technical_issue, browser, error', 1),
+(N'How do I update my contact information or address?', N'Go to My Profile, click Edit, update your phone number, address, or emergency contact, then click Save.', N'Academic Policies', N'profile, contact_info, address, update', 1);
 
 SET NOCOUNT OFF;

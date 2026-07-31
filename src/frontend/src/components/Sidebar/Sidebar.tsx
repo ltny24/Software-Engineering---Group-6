@@ -13,6 +13,7 @@ const studentNav = [
   { label: 'Tuition', to: ROUTES.TUITION, icon: '💳' },
   { label: 'Appeals', to: ROUTES.APPEALS, icon: '📝' },
   { label: 'Support', to: ROUTES.SUPPORT, icon: '💬' },
+  { label: 'Help & FAQ', to: ROUTES.SUPPORT_FAQ, icon: '❓' },
 ];
 
 const adminNav = [

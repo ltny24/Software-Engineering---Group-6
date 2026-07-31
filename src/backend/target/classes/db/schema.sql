@@ -181,7 +181,9 @@ CREATE TABLE myus.FAQArticle (
     category NVARCHAR(255),
     tags NVARCHAR(500),
     updatedAt DATETIME2 NULL,
-    published BIT NOT NULL DEFAULT 0
+    published BIT NOT NULL DEFAULT 0,
+    helpfulCount INT NOT NULL DEFAULT 0,
+    notHelpfulCount INT NOT NULL DEFAULT 0
 );
 
 -- Class Transfer Requests

@@ -35,4 +35,10 @@ public class FAQArticle {
     @Column(nullable = false)
     private Boolean published = false;
 
+    @Column(nullable = false)
+    private Integer helpfulCount = 0;
+
+    @Column(nullable = false)
+    private Integer notHelpfulCount = 0;
+
 }
