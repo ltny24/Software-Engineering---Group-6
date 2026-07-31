@@ -10,6 +10,7 @@ com\myus\config\JwtProperties.class
 com\myus\dto\AuthResponse$UserInfo.class
 com\myus\repository\StudentRepository.class
 com\myus\repository\AdministratorRepository.class
+com\myus\controller\FaqController.class
 com\myus\exception\ResourceNotFoundException.class
 com\myus\entity\ClassTransferRequest.class
 com\myus\entity\ChatbotSession.class
@@ -18,6 +19,7 @@ com\myus\dto\AuthResponse.class
 com\myus\entity\SurveyResponse.class
 com\myus\config\CorsConfig.class
 com\myus\service\FinanceServiceImpl.class
+com\myus\repository\FaqRepository.class
 com\myus\service\EnrollmentService.class
 com\myus\entity\Administrator.class
 com\myus\config\package-info.class
@@ -27,8 +29,10 @@ com\myus\repository\CourseRepository.class
 com\myus\entity\package-info.class
 com\myus\dto\AppealSubmitRequest.class
 com\myus\security\IsAdministrator.class
+com\myus\service\FaqServiceImpl$ScoredArticle.class
 com\myus\security\UserDetailsServiceImpl.class
 com\myus\controller\EnrollmentController.class
+com\myus\dto\FaqResponse.class
 com\myus\entity\AcademicRecord.class
 com\myus\entity\CourseOffering.class
 com\myus\service\EnrollmentServiceImpl.class
@@ -78,8 +82,11 @@ com\myus\util\package-info.class
 com\myus\dto\TuitionPaymentResponse.class
 com\myus\entity\Survey.class
 com\myus\exception\ApiError.class
+com\myus\dto\FaqFeedbackRequest.class
 com\myus\service\package-info.class
 com\myus\dto\CourseOfferingResponse.class
 com\myus\exception\EnrollmentException.class
+com\myus\service\FaqService.class
+com\myus\service\FaqServiceImpl.class
 com\myus\exception\GlobalExceptionHandler.class
 com\myus\security\JwtAuthenticationEntryPoint.class

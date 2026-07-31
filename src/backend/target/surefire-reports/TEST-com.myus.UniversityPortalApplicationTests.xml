@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.myus.service.FaqServiceImplTest$GetByIdTests" time="0.024" tests="3" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="com.myus.UniversityPortalApplicationTests" time="10.489" tests="1" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -10,6 +10,7 @@
     <property name="user.variant" value=""/>
     <property name="java.vendor.url" value="https://adoptium.net/"/>
     <property name="user.timezone" value="Asia/Bangkok"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
     <property name="os.name" value="Windows 11"/>
     <property name="java.vm.specification.version" value="17"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
@@ -30,6 +31,8 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="windows-1252"/>
+    <property name="java.awt.headless" value="true"/>
     <property name="surefire.real.class.path" value="C:\Users\Hp\AppData\Local\Temp\surefire3861824834818598774\surefirebooter-20260731210839822_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
@@ -44,11 +47,14 @@
     <property name="localRepository" value="C:\Users\Hp\.m2\repository"/>
     <property name="java.vendor.url.bug" value="https://github.com/adoptium/adoptium-support/issues"/>
     <property name="java.io.tmpdir" value="C:\Users\Hp\AppData\Local\Temp\"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
     <property name="java.version" value="17.0.19"/>
     <property name="user.dir" value="C:\Users\Hp\Music\Software-Engineering---Group-6\src\backend"/>
     <property name="os.arch" value="amd64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="5956"/>
     <property name="sun.os.patch.level" value=""/>
+    <property name="CONSOLE_LOG_CHARSET" value="windows-1252"/>
     <property name="native.encoding" value="Cp1252"/>
     <property name="java.library.path" value="C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\Program Files (x86)\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\180\Tools\Binn\;C:\Program Files\Microsoft SQL Server\170\DTS\Binn\;C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot\bin;C:\Program Files\apache-maven-3.9.16\bin;C:\Users\Hp\AppData\Local\Programs\Python\Python312\Scripts\;C:\Users\Hp\AppData\Local\Programs\Python\Python312\;C:\Users\Hp\AppData\Local\Programs\Python\Launcher\;C:\Users\Hp\AppData\Local\Microsoft\WindowsApps;C:\Microsoft VS Code\bin;C:\msys64\ucrt64\bin;C:\Users\Hp\AppData\Local\Programs\MiKTeX\miktex\bin\x64\;C:\Users\Hp\AppData\Roaming\npm;C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot\bin;C:\Program Files\apache-maven-3.9.16\bin;;."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
@@ -58,7 +64,47 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="getByIdThrowsWhenUnpublished" classname="com.myus.service.FaqServiceImplTest$GetByIdTests" time="0.005"/>
-  <testcase name="getByIdThrowsWhenNotFound" classname="com.myus.service.FaqServiceImplTest$GetByIdTests" time="0.005"/>
-  <testcase name="getByIdReturnsRelatedQuestions" classname="com.myus.service.FaqServiceImplTest$GetByIdTests" time="0.011"/>
+  <testcase name="contextLoads" classname="com.myus.UniversityPortalApplicationTests" time="0.028">
+    <system-out><![CDATA[21:08:42.865 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.myus.UniversityPortalApplicationTests]: UniversityPortalApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+21:08:43.012 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.myus.UniversityPortalApplication for test class com.myus.UniversityPortalApplicationTests
+21:08:43.172 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2026-07-31T21:08:43.461+07:00  INFO 5956 --- [           main] c.myus.UniversityPortalApplicationTests  : Starting UniversityPortalApplicationTests using Java 17.0.19 with PID 5956 (started by Hp in C:\Users\Hp\Music\Software-Engineering---Group-6\src\backend)
+2026-07-31T21:08:43.461+07:00 DEBUG 5956 --- [           main] c.myus.UniversityPortalApplicationTests  : Running with Spring Boot v3.2.5, Spring v6.1.6
+2026-07-31T21:08:43.461+07:00  INFO 5956 --- [           main] c.myus.UniversityPortalApplicationTests  : The following 1 profile is active: "test"
+2026-07-31T21:08:44.897+07:00  INFO 5956 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-07-31T21:08:44.988+07:00  INFO 5956 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 78 ms. Found 10 JPA repository interfaces.
+2026-07-31T21:08:46.021+07:00  INFO 5956 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-07-31T21:08:46.601+07:00  INFO 5956 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection ConnectionID:1 ClientConnectionId: d7edddae-9772-4e1f-8e99-d3c70957ba58
+2026-07-31T21:08:46.601+07:00  INFO 5956 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-07-31T21:08:46.767+07:00  INFO 5956 --- [           main] o.f.c.internal.license.VersionPrinter    : Flyway Community Edition 9.22.3 by Redgate
+2026-07-31T21:08:46.767+07:00  INFO 5956 --- [           main] o.f.c.internal.license.VersionPrinter    : See release notes here: https://rd.gt/416ObMi
+2026-07-31T21:08:46.767+07:00  INFO 5956 --- [           main] o.f.c.internal.license.VersionPrinter    : 
+2026-07-31T21:08:46.972+07:00  INFO 5956 --- [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:sqlserver://localhost:1433;connectRetryInterval=10;connectRetryCount=1;maxResultBuffer=-1;sendTemporalDataTypesAsStringForBulkCopy=true;delayLoadingLobs=true;useFmtOnly=false;useBulkCopyForBatchInsert=false;cancelQueryTimeout=-1;sslProtocol=TLS;jaasConfigurationName=SQLJDBCDriver;statementPoolingCacheSize=0;serverPreparedStatementDiscardThreshold=10;enablePrepareOnFirstPreparedStatementCall=false;fips=false;socketTimeout=0;authentication=NotSpecified;authenticationScheme=nativeAuthentication;xopenStates=false;datetimeParameterType=datetime2;sendTimeAsDatetime=true;replication=false;trustStoreType=JKS;trustServerCertificate=true;TransparentNetworkIPResolution=true;iPAddressPreference=IPv4First;serverNameAsACE=false;sendStringParametersAsUnicode=true;selectMethod=direct;responseBuffering=adaptive;queryTimeout=-1;packetSize=8000;multiSubnetFailover=false;loginTimeout=30;lockTimeout=-1;lastUpdateCount=true;prepareMethod=prepexec;encrypt=false;disableStatementPooling=true;databaseName=MyUS;columnEncryptionSetting=Disabled;applicationName=Microsoft JDBC Driver for SQL Server;applicationIntent=readwrite; (Microsoft SQL Server 17.0)
+2026-07-31T21:08:47.102+07:00  WARN 5956 --- [           main] o.f.c.internal.database.base.Database    : Flyway upgrade recommended: SQL Server 17.0 is newer than this version of Flyway and support has not been tested. The latest supported version of SQL Server is 16.0.
+2026-07-31T21:08:47.231+07:00  INFO 5956 --- [           main] o.f.core.internal.command.DbValidate     : Successfully validated 4 migrations (execution time 00:00.076s)
+2026-07-31T21:08:47.261+07:00  INFO 5956 --- [           main] o.f.core.internal.command.DbMigrate      : Current version of schema [myus]: 3
+2026-07-31T21:08:47.272+07:00  INFO 5956 --- [           main] o.f.core.internal.command.DbMigrate      : Schema [myus] is up to date. No migration necessary.
+2026-07-31T21:08:47.402+07:00  INFO 5956 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-07-31T21:08:47.511+07:00  INFO 5956 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.4.Final
+2026-07-31T21:08:47.561+07:00  INFO 5956 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-07-31T21:08:47.751+07:00  INFO 5956 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-07-31T21:08:47.873+07:00  WARN 5956 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: SQLServerDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-07-31T21:08:49.305+07:00  INFO 5956 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-07-31T21:08:49.312+07:00  INFO 5956 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-07-31T21:08:50.202+07:00  INFO 5956 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-07-31T21:08:51.461+07:00  WARN 5956 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-07-31T21:08:52.187+07:00  INFO 5956 --- [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoint(s) beneath base path '/actuator'
+2026-07-31T21:08:52.267+07:00  INFO 5956 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1bdf24c0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2d5bfc3a, org.springframework.security.web.context.SecurityContextHolderFilter@6331b2d, org.springframework.security.web.header.HeaderWriterFilter@67534bfc, org.springframework.web.filter.CorsFilter@3bf8f426, org.springframework.security.web.authentication.logout.LogoutFilter@6ccb2162, com.myus.security.JwtAuthenticationFilter@c3fd72, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@3e0d75a4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@61725c0e, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@7103ba38, org.springframework.security.web.session.SessionManagementFilter@27a067d6, org.springframework.security.web.access.ExceptionTranslationFilter@1dae615d, org.springframework.security.web.access.intercept.AuthorizationFilter@60a386b1]
+2026-07-31T21:08:53.106+07:00  INFO 5956 --- [           main] c.myus.UniversityPortalApplicationTests  : Started UniversityPortalApplicationTests in 9.944 seconds (process running for 13.181)
+]]></system-out>
+  </testcase>
 </testsuite>
