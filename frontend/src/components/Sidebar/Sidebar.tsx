@@ -31,10 +31,9 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await logout();
-    } catch (error) {
-      console.warn('Backend không có API logout, tự động xóa session local.');
+    } catch (err) {
+      console.warn('Logout error:', err);
     } finally {
-      localStorage.clear();
       navigate(ROUTES.LOGIN);
     }
   };

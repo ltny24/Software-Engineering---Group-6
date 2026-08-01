@@ -51,7 +51,7 @@ export interface Course {
   courseName: string;
   description: string;
   credits: number;
-  prerequisites: string[] | string;
+  prerequisites: string | string[];
   department: string;
   semester: string;
   capacity: number;
@@ -59,37 +59,45 @@ export interface Course {
 
 export interface CourseOffering {
   offeringId: string | number;
-  courseId?: string | number;
   section: string;
   term: string;
   schedule: string;
   instructor: string;
   location: string;
   room: string;
-  enrolledCount: number;
-  availableSeats: number;
-  course: Course;
+  enrolledCount?: number;
+  availableSeats?: number;
+  course?: Course;
+  courseId?: string | number;
 }
 
 export interface CourseRegistration {
   registrationId: string | number;
   studentId: string | number;
   offeringId?: string | number;
-  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED';
+  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED' | 'Dropped' | 'Enrolled';
   registeredAt: string;
-  offering: CourseOffering;
+  offering?: CourseOffering;
 }
 
 // ----- Grades & Academic Records -----
 export interface Grade {
-  gradeId: string;
-  registrationId: string;
-  studentId: string;
-  courseId: string;
-  gradeValue: string;
-  gradePoint: number;
+  gradeId: string | number;
+  registrationId?: string | number;
+  studentId?: string | number;
+  courseId?: string | number;
+  courseCode?: string;
+  courseName?: string;
+  currentGrade?: string;
+  gradeValue?: string;
+  gradePoint?: number;
+  midtermGrade?: number;
+  finalGrade?: number;
   term: string;
-  gpaImpact: number;
+  gpaImpact?: number;
+  isFinalized?: boolean;
+  isEligibleForAppeal?: boolean;
+  course?: Course;
 }
 
 export interface AcademicRecord {
@@ -175,8 +183,8 @@ export interface PagedResponse<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
-  page: number;
-  size: number;
+  page?: number;
+  size?: number;
   number?: number;
 }
 

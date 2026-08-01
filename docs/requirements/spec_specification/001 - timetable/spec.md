@@ -1,5 +1,5 @@
 # Timetable Feature Specification
-**Author:** Lê Thị Như Ý | **Reviewer:** Trần Tường Vi | **Editor:** Lê Thị Như Ý, Trần Tường Vi
+
 ## Feature Name
 Student Timetable Page
 

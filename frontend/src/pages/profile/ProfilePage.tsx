@@ -38,8 +38,8 @@ export default function ProfilePage() {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      // Call GET /api/v1/profile (base URL and token are handled by the interceptor)
-      const data = await api.get<StudentProfile>('/api/v1/profile');
+      // Gọi GET /api/v1/profile (đã có interceptor lo phần base URL và Token)
+      const { data } = await api.get<StudentProfile>('/v1/profile');
       setProfile(data);
       // Khởi tạo giá trị cho form edit
       setEditPhone(data.phone || '');
@@ -55,8 +55,8 @@ export default function ProfilePage() {
   const handleSave = async () => {
     try {
       setIsSaving(true);
-      // Call PUT /api/v1/profile with editable student fields
-      await api.put('/api/v1/profile', {
+      // Gọi PUT /api/v1/profile với 2 trường được phép sửa
+      await api.put('/v1/profile', {
         phone: editPhone,
         address: editAddress,
       });
@@ -86,7 +86,7 @@ export default function ProfilePage() {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <h2> Student Profile</h2>
+        <h2>Student Profile</h2>
         {!isEditing ? (
           <button className="btn-edit" onClick={() => setIsEditing(true)}>
             Edit Contact Info

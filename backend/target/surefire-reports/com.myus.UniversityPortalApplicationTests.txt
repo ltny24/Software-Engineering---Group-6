@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.myus.UniversityPortalApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 24.86 s -- in com.myus.UniversityPortalApplicationTests

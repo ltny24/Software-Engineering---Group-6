@@ -36,7 +36,7 @@ import java.util.List;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/appeals")
+@RequestMapping({"/api/appeals", "/api/v1/appeals"})
 public class AppealController {
 
     private final AppealService appealService;
@@ -64,6 +64,28 @@ public class AppealController {
 
         AppealResponse response = appealService.submitAppeal(username, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    /**
+     * GET /api/v1/appeals/my-appeals – list summary of authenticated student's appeals.
+     */
+    @GetMapping({"/my-appeals", "/v1/my-appeals"})
+    @IsStudent
+    public ResponseEntity<List<com.myus.dto.appeal.AppealSummaryResponse>> getStudentAppeals(Principal principal) {
+        String username = principal.getName();
+        return ResponseEntity.ok(appealService.getStudentAppeals(username));
+    }
+
+    /**
+     * GET /api/v1/appeals/{trackingCode} – get detailed information of a student appeal.
+     */
+    @GetMapping({"/{trackingCode}", "/v1/{trackingCode}"})
+    @IsStudent
+    public ResponseEntity<com.myus.dto.appeal.AppealDetailResponse> getAppealDetailByCode(
+            Principal principal,
+            @PathVariable String trackingCode) {
+        String username = principal.getName();
+        return ResponseEntity.ok(appealService.getAppealDetailByCode(trackingCode, username));
     }
 
     /**

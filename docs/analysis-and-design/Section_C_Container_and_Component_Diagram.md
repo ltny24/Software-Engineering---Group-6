@@ -168,7 +168,6 @@ flowchart TB
   * **Storage Interface:** Synchronous file creation, reading, and deletion triggered by REST API file controller endpoints. Relational metadata (relative storage path, original filename, file size, MIME type, upload timestamp) is persisted in SQL Server, while raw binary files reside on disk.
 
 ---
-
 ## 2. C4 Model - Level 3: Component Diagrams
 **Performed by:** Dương Minh Huỳnh Khôi | **Reviewed by:** Hoàng Trung Kiên | **Edited by:** Dương Minh Huỳnh Khôi
 

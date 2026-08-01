@@ -1,5 +1,5 @@
 # Grade Feature Tasks
-**Author:** Lê Thị Như Ý | **Reviewer:** Trần Tường Vi | **Editor:** Lê Thị Như Ý, Trần Tường Vi
+**Author:** Lê Thị Như Ý | **Reviewer:**Trần Tường Vi | **Editor:** Lê Thị Như Ý, Trần Tường Vi
 ## Implementation Tasks
 1. Create the grade page component structure (`GradesPage.tsx`) and setup route placeholders.
 2. Define TypeScript interfaces for course (`CourseDTO`) and grade (`GradeDTO`) data structures.

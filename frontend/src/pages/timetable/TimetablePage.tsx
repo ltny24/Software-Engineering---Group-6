@@ -1,120 +1,182 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import api from '../../services/api';
+import { getMyRegistrations } from '../../services/courseService';
+import type { CourseRegistration } from '../../types';
 
-interface TimetableItem {
-  id: number;
+interface TimetableSlot {
+  id: number | string;
+  registrationId: number | string;
   term: string;
   day: string;
+  dayShort: string;
   courseCode: string;
   courseName: string;
-  periods: number;
+  timeSlot: string;
   room: string;
-  lecturer: string;
-  classType: string;
+  instructor: string;
+  section: string; // Used for Class Name (e.g., 24CTT1, 24KHMT1)
+  sessionType: 'Lecture' | 'Lab';
 }
 
-const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-function TimetablePage() {
-  const [schedule, setSchedule] = useState<TimetableItem[]>([]);
-  const [selectedTerm, setSelectedTerm] = useState<string>('2024-2025-HK2');
+export const TimetablePage: React.FC = () => {
+  const [registrations, setRegistrations] = useState<CourseRegistration[]>([]);
+  const [selectedTerm, setSelectedTerm] = useState<string>('HKI 2025-2026');
   const [loading, setLoading] = useState<boolean>(true);
 
-  const getTimeSlot = (periods: number): string => {
-    const timeSlots: Record<number, string> = {
-      1: '7:00 - 8:30',
-      2: '8:45 - 10:15',
-      3: '10:30 - 12:00',
-      4: '13:00 - 14:30',
-      5: '14:45 - 16:15',
-      6: '16:30 - 18:00',
-      7: '18:15 - 19:45',
-    };
-    return timeSlots[periods] || 'N/A';
-  };
-
   useEffect(() => {
-    const fetchTimetableData = async () => {
-      try {
-        setLoading(true);
-        const res = await api.get<any[]>('/api/registrations/me');
-
-        console.log(' Dữ liệu thô từ Backend:', res);
-
-        const mappedSchedule: TimetableItem[] = (res || []).map((item: any, index: number) => {
-          const offering = item.offering || item.courseOffering || item;
-          const course = offering.course || item.course || {};
-
-          let rawDay = offering.day || offering.dayOfWeek || 'Monday';
-          if (!offering.day && offering.schedule) {
-            const daysMap: Record<string, string> = {
-              'Thứ 2': 'Monday',
-              'Thứ 3': 'Tuesday',
-              'Thứ 4': 'Wednesday',
-              'Thứ 5': 'Thursday',
-              'Thứ 6': 'Friday',
-              'Thứ 7': 'Saturday',
-              'Chủ Nhật': 'Sunday',
-              Mon: 'Monday',
-              Tue: 'Tuesday',
-              Wed: 'Wednesday',
-              Thu: 'Thursday',
-              Fri: 'Friday',
-              Sat: 'Saturday',
-              Sun: 'Sunday',
-            };
-            for (const [key, value] of Object.entries(daysMap)) {
-              if (offering.schedule.includes(key)) {
-                rawDay = value;
-                break;
-              }
-            }
-          }
-
-          return {
-            id: item.registrationId || item.id || index,
-            term: offering.term || offering.semester || item.term || '2024-2025-HK2',
-            day: rawDay,
-            courseCode: course.courseCode || offering.courseCode || 'N/A',
-            courseName: course.courseName || course.name || offering.courseName || 'N/A',
-            periods: course.credits || offering.credits || offering.periods || 3,
-            room: offering.room || offering.location || 'Online',
-            lecturer: offering.instructor || offering.lecturer || offering.teacher || 'N/A',
-            classType: offering.classType || 'Lecture',
-          };
-        });
-
-        setSchedule(mappedSchedule);
-      } catch (error) {
-        toast.error('Unable to load timetable data from the server.');
-        console.error('Error fetching timetable:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTimetableData();
   }, []);
+
+  const fetchTimetableData = async () => {
+    try {
+      setLoading(true);
+      const data = await getMyRegistrations();
+      setRegistrations(data || []);
+
+      if (data && data.length > 0) {
+        const terms = Array.from(new Set(data.map((r) => r.offering?.term).filter(Boolean)));
+        if (terms.includes('HKI 2025-2026')) {
+          setSelectedTerm('HKI 2025-2026');
+        } else if (terms.length > 0) {
+          setSelectedTerm(terms[0] as string);
+        }
+      }
+    } catch (error) {
+      toast.error('Failed to load student timetable from server.');
+      console.error('Error fetching timetable data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Standardize Instructor Titles: Only allow "ThS." or "TS." or plain full name
+  const cleanInstructorName = (rawName: string): string => {
+    if (!rawName) return 'TBD';
+    return rawName
+      .replace(/^PGS\.\s*TS\./i, 'TS.')
+      .replace(/^Dr\./i, 'TS.')
+      .replace(/^Prof\./i, 'TS.')
+      .replace(/^DS\./i, 'TS.')
+      .trim();
+  };
+
+  // Convert CourseRegistration into TimetableSlot objects (handles both Theory and Lab sessions)
+  const parseScheduleItems = (regList: CourseRegistration[]): TimetableSlot[] => {
+    const slots: TimetableSlot[] = [];
+
+    const dayMap: Record<string, { full: string; short: string }> = {
+      Mon: { full: 'Monday', short: 'MON' },
+      Tue: { full: 'Tuesday', short: 'TUE' },
+      Wed: { full: 'Wednesday', short: 'WED' },
+      Thu: { full: 'Thursday', short: 'THU' },
+      Fri: { full: 'Friday', short: 'FRI' },
+      Sat: { full: 'Saturday', short: 'SAT' },
+      Sun: { full: 'Sunday', short: 'SUN' },
+    };
+
+    const parseSession = (sessionStr: string) => {
+      let assignedDay = 'Monday';
+      let dayShort = 'MON';
+      let timePart = sessionStr.trim();
+
+      for (const dayKey of Object.keys(dayMap)) {
+        if (sessionStr.includes(dayKey)) {
+          assignedDay = dayMap[dayKey].full;
+          dayShort = dayMap[dayKey].short;
+          timePart = sessionStr.replace(dayKey, '').replace('Lab:', '').trim();
+          break;
+        }
+      }
+
+      return { day: assignedDay, dayShort, timeSlot: timePart || '07:30 - 11:10' };
+    };
+
+    regList.forEach((reg) => {
+      const offering = reg.offering;
+      if (!offering || !offering.term) return;
+
+      const term = offering.term;
+      const courseCode = offering.course?.courseCode || 'N/A';
+      const courseName = offering.course?.courseName || 'Course';
+      const rawInstructor = offering.instructor || 'TBD';
+      const instructor = cleanInstructorName(rawInstructor);
+
+      // Strip "Room " prefix from room strings (e.g. "Room A101" -> "A101")
+      const rawRoom = offering.room || offering.location || 'TBD';
+      const cleanRoom = rawRoom.replace(/^Room\s+/i, '').trim();
+
+      const className = offering.section || 'N/A';
+      const rawSchedule = offering.schedule || 'Mon 07:30 - 11:10';
+
+      const parts = rawSchedule.split('|');
+      const theoryStr = parts[0];
+      const labStr = parts[1];
+
+      // Theory session
+      const theoryInfo = parseSession(theoryStr);
+      slots.push({
+        id: `${reg.registrationId}-lecture`,
+        registrationId: reg.registrationId,
+        term,
+        day: theoryInfo.day,
+        dayShort: theoryInfo.dayShort,
+        courseCode,
+        courseName,
+        timeSlot: theoryInfo.timeSlot,
+        room: cleanRoom,
+        instructor,
+        section: className,
+        sessionType: 'Lecture',
+      });
+
+      // Lab session (if present)
+      if (labStr) {
+        const labInfo = parseSession(labStr);
+        const labRoom = cleanRoom.startsWith('Lab') ? cleanRoom : `Lab ${cleanRoom}`;
+        slots.push({
+          id: `${reg.registrationId}-lab`,
+          registrationId: reg.registrationId,
+          term,
+          day: labInfo.day,
+          dayShort: labInfo.dayShort,
+          courseCode,
+          courseName,
+          timeSlot: labInfo.timeSlot,
+          room: labRoom,
+          instructor,
+          section: className,
+          sessionType: 'Lab',
+        });
+      }
+    });
+
+    return slots;
+  };
+
+  const allSlots = parseScheduleItems(registrations);
+  const filteredSlots = allSlots.filter((slot) => slot.term === selectedTerm);
+  const totalCourses = Array.from(new Set(filteredSlots.map((s) => s.courseCode))).length;
+  const totalSessions = filteredSlots.length;
 
   if (loading) {
     return (
       <div
-        style={{
-          padding: '40px',
-          textAlign: 'center',
-          color: '#64748b',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-        }}
+        style={{ padding: '40px', textAlign: 'center', color: '#64748b', fontFamily: 'sans-serif' }}
       >
-        Loading timetable...
+        Loading student timetable...
       </div>
     );
   }
 
-  const filteredSchedule = schedule.filter((item) => item.term === selectedTerm);
-  const totalCourses = filteredSchedule.length;
-  const totalPeriods = filteredSchedule.reduce((sum, item) => sum + item.periods, 0);
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // Group slots by registrationId for the Detailed Table (Lecture first, Lab directly below)
+  const groupedCoursesMap = new Map<string | number, TimetableSlot[]>();
+  filteredSlots.forEach((slot) => {
+    const list = groupedCoursesMap.get(slot.registrationId) || [];
+    list.push(slot);
+    groupedCoursesMap.set(slot.registrationId, list);
+  });
 
   return (
     <div
@@ -146,7 +208,7 @@ function TimetablePage() {
               Academic Timetable
             </h1>
             <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-              Track study schedules by semester and classrooms
+              Track theory and lab class schedules, rooms, and instructors by semester
             </p>
           </div>
 
@@ -181,8 +243,9 @@ function TimetablePage() {
                 cursor: 'pointer',
               }}
             >
-              <option value="2024-2025-HK2">Semester 2 (2024 - 2025)</option>
-              <option value="2024-2025-HK1">Semester 1 (2024 - 2025)</option>
+              <option value="HKI 2025-2026">Semester I (2025-2026)</option>
+              <option value="HKII 2025-2026">Semester II (2025-2026)</option>
+              <option value="HKIII 2025-2026">Semester III (2025-2026)</option>
             </select>
           </div>
         </div>
@@ -191,7 +254,7 @@ function TimetablePage() {
           <div
             style={{
               flex: '1',
-              minWidth: '250px',
+              minWidth: '220px',
               backgroundColor: '#ffffff',
               borderRadius: '8px',
               padding: '24px',
@@ -210,7 +273,7 @@ function TimetablePage() {
                 marginBottom: '8px',
               }}
             >
-              Total Courses
+              Enrolled Courses
             </div>
             <div style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
               {totalCourses}
@@ -220,7 +283,7 @@ function TimetablePage() {
           <div
             style={{
               flex: '1',
-              minWidth: '250px',
+              minWidth: '220px',
               backgroundColor: '#ffffff',
               borderRadius: '8px',
               padding: '24px',
@@ -239,15 +302,15 @@ function TimetablePage() {
                 marginBottom: '8px',
               }}
             >
-              Total Periods / Week
+              Weekly Class Sessions (Theory + Lab)
             </div>
             <div style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
-              {totalPeriods}
+              {totalSessions}
             </div>
           </div>
         </div>
 
-        {/* Weekly Timetable */}
+        {/* Weekly Timetable Grid */}
         <div
           style={{
             backgroundColor: '#ffffff',
@@ -265,7 +328,7 @@ function TimetablePage() {
             }}
           >
             <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-              Weekly Timetable
+              Weekly Class Schedule
             </h2>
           </div>
 
@@ -288,14 +351,14 @@ function TimetablePage() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  {DAYS_OF_WEEK.map((dayName) => (
+                  {daysOfWeek.map((dayName) => (
                     <th
                       key={dayName}
                       style={{
                         padding: '14px 12px',
                         fontWeight: '600',
                         borderRight: '1px solid #e2e8f0',
-                        minWidth: '150px',
+                        minWidth: '140px',
                       }}
                     >
                       {dayName}
@@ -305,8 +368,8 @@ function TimetablePage() {
               </thead>
               <tbody>
                 <tr style={{ backgroundColor: '#ffffff' }}>
-                  {DAYS_OF_WEEK.map((dayName) => {
-                    const coursesOnDay = filteredSchedule.filter((item) => item.day === dayName);
+                  {daysOfWeek.map((dayName) => {
+                    const coursesOnDay = filteredSlots.filter((item) => item.day === dayName);
                     return (
                       <td
                         key={dayName}
@@ -320,48 +383,54 @@ function TimetablePage() {
                       >
                         {coursesOnDay.length > 0 ? (
                           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            {coursesOnDay.map((course) => (
+                            {coursesOnDay.map((item) => (
                               <div
-                                key={course.id}
+                                key={item.id}
                                 style={{
                                   padding: '8px 10px',
                                   borderRadius: '6px',
-                                  backgroundColor: '#eff6ff',
-                                  border: '1px solid #bfdbfe',
-                                  borderLeft: '3px solid #2563eb',
+                                  backgroundColor:
+                                    item.sessionType === 'Lab' ? '#f0fdf4' : '#eff6ff',
+                                  border: `1px solid ${
+                                    item.sessionType === 'Lab' ? '#bbf7d0' : '#bfdbfe'
+                                  }`,
+                                  borderLeft: `3px solid ${
+                                    item.sessionType === 'Lab' ? '#16a34a' : '#2563eb'
+                                  }`,
                                 }}
                               >
-                                <div
-                                  style={{
-                                    fontSize: '12px',
-                                    fontWeight: '600',
-                                    color: '#1e40af',
-                                    marginBottom: '4px',
-                                  }}
-                                >
-                                  {course.courseCode}
-                                </div>
+                                {/* Line 1: Course Code & Name */}
                                 <div
                                   style={{
                                     fontSize: '11px',
-                                    color: '#1e293b',
-                                    fontWeight: '500',
-                                    marginBottom: '2px',
+                                    fontWeight: '600',
+                                    color: item.sessionType === 'Lab' ? '#15803d' : '#1e40af',
+                                    marginBottom: '3px',
+                                    lineHeight: '1.3',
                                   }}
                                 >
-                                  {course.courseName}
+                                  {item.courseCode} - {item.courseName}
                                 </div>
+                                {/* Line 2: Time slot (No Icon) */}
                                 <div
                                   style={{
-                                    fontSize: '10px',
-                                    color: '#64748b',
-                                    marginBottom: '4px',
+                                    fontSize: '11px',
+                                    color: '#475569',
+                                    fontWeight: '500',
+                                    marginBottom: '3px',
                                   }}
                                 >
-                                  {getTimeSlot(course.periods)}
+                                  {item.timeSlot}
                                 </div>
-                                <div style={{ fontSize: '10px', color: '#64748b' }}>
-                                  {course.room} | {course.periods} periods
+                                {/* Line 3: Room | Class (No "Room " prefix) */}
+                                <div
+                                  style={{
+                                    fontSize: '11px',
+                                    color: '#64748b',
+                                    fontWeight: '500',
+                                  }}
+                                >
+                                  {item.room} | {item.section}
                                 </div>
                               </div>
                             ))}
@@ -387,6 +456,7 @@ function TimetablePage() {
           </div>
         </div>
 
+        {/* Detailed Schedule Table */}
         <div
           style={{
             backgroundColor: '#ffffff',
@@ -405,7 +475,7 @@ function TimetablePage() {
             }}
           >
             <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-              Detailed Timetable
+              Detailed Course Schedule
             </h2>
           </div>
 
@@ -428,71 +498,99 @@ function TimetablePage() {
                     textTransform: 'uppercase',
                   }}
                 >
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Day</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Code</th>
                   <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Name</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Time</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Code</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Schedule</th>
                   <th style={{ padding: '14px 24px', fontWeight: '600' }}>Room</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Lecturer</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Type</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Instructor</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Class Name</th>
+                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Session Type</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredSchedule.length > 0 ? (
-                  filteredSchedule.map((item, index) => (
-                    <tr
-                      key={item.id}
-                      style={{
-                        borderBottom: '1px solid #f1f5f9',
-                        backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
-                      }}
-                    >
-                      <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '600' }}>
-                        {item.day}
-                      </td>
-                      <td
-                        style={{
-                          padding: '16px 24px',
-                          fontFamily: 'monospace',
-                          color: '#475569',
-                          fontWeight: '500',
-                        }}
-                      >
-                        {item.courseCode}
-                      </td>
-                      <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
-                        {item.courseName}
-                      </td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>
-                        {getTimeSlot(item.periods)}
-                      </td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>{item.room}</td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>{item.lecturer}</td>
-                      <td style={{ padding: '16px 24px' }}>
-                        <span
+                {groupedCoursesMap.size > 0 ? (
+                  Array.from(groupedCoursesMap.values()).flatMap((slotsGroup, groupIdx) =>
+                    slotsGroup.map((slotItem, slotIdx) => {
+                      const isFirstInGroup = slotIdx === 0;
+                      return (
+                        <tr
+                          key={slotItem.id}
                           style={{
-                            display: 'inline-block',
-                            padding: '4px 10px',
-                            borderRadius: '6px',
-                            fontWeight: '600',
-                            fontSize: '13px',
-                            backgroundColor: '#eff6ff',
-                            color: '#2563eb',
-                            border: '1px solid #bfdbfe',
+                            borderBottom:
+                              slotIdx === slotsGroup.length - 1
+                                ? '2px solid #e2e8f0'
+                                : '1px solid #f1f5f9',
+                            backgroundColor: groupIdx % 2 === 0 ? '#ffffff' : '#fcfcfd',
                           }}
                         >
-                          {item.classType}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
+                          {/* Column 1: Course Name (Blank for Lab row) */}
+                          <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
+                            {isFirstInGroup ? slotItem.courseName : ''}
+                          </td>
+
+                          {/* Column 2: Code (Blank for Lab row) */}
+                          <td
+                            style={{
+                              padding: '16px 24px',
+                              fontFamily: 'monospace',
+                              color: '#475569',
+                              fontWeight: '500',
+                            }}
+                          >
+                            {isFirstInGroup ? slotItem.courseCode : ''}
+                          </td>
+
+                          {/* Column 3: Schedule (Day + Time, e.g. TUE 13:30 - 17:10) */}
+                          <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '500' }}>
+                            <strong>{slotItem.dayShort}</strong> {slotItem.timeSlot}
+                          </td>
+
+                          {/* Column 4: Room (No "Room " prefix, e.g. B201 or Lab B203) */}
+                          <td style={{ padding: '16px 24px', color: '#475569' }}>
+                            {slotItem.room}
+                          </td>
+
+                          {/* Column 5: Instructor (Standardized title: TS. / ThS. / Plain) */}
+                          <td style={{ padding: '16px 24px', color: '#475569' }}>
+                            {slotItem.instructor}
+                          </td>
+
+                          {/* Column 6: Class Name */}
+                          <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
+                            {slotItem.section}
+                          </td>
+
+                          {/* Column 7: Session Type Badge */}
+                          <td style={{ padding: '16px 24px' }}>
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                fontWeight: '600',
+                                fontSize: '13px',
+                                backgroundColor:
+                                  slotItem.sessionType === 'Lab' ? '#f0fdf4' : '#eff6ff',
+                                color: slotItem.sessionType === 'Lab' ? '#16a34a' : '#2563eb',
+                                border: `1px solid ${
+                                  slotItem.sessionType === 'Lab' ? '#bbf7d0' : '#bfdbfe'
+                                }`,
+                              }}
+                            >
+                              {slotItem.sessionType}
+                            </span>
+                          </td>
+                        </tr>
+                      );
+                    })
+                  )
                 ) : (
                   <tr>
                     <td
-                      colSpan={8}
+                      colSpan={7}
                       style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}
                     >
-                      No timetable data available for this semester.
+                      No timetable records found for this semester.
                     </td>
                   </tr>
                 )}
@@ -503,6 +601,6 @@ function TimetablePage() {
       </div>
     </div>
   );
-}
+};
 
 export default TimetablePage;

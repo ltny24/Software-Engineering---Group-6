@@ -33,8 +33,19 @@ public class AppealSubmitRequest {
     private String appealReason;
 
     /**
+     * Optional/mandatory expected grade submitted by the student (0.0 to 10.0).
+     */
+    private Double expectedGrade;
+
+    /**
      * Optional URL to a supporting document (e.g., scanned exam paper, evidence).
      */
     @Size(max = 2048, message = "Supporting document URL must not exceed 2048 characters.")
     private String supportingDocumentUrl;
+
+    public AppealSubmitRequest(Long gradeId, String appealReason, String supportingDocumentUrl) {
+        this.gradeId = gradeId;
+        this.appealReason = appealReason;
+        this.supportingDocumentUrl = supportingDocumentUrl;
+    }
 }

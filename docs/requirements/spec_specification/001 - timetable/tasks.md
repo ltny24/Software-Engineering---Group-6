@@ -1,5 +1,5 @@
 # Timetable Feature Tasks
-**Author:** Lê Thị Như Ý | **Reviewer:** Trần Tường Vi | **Editor:** Lê Thị Như Ý, Trần Tường Vi
+
 ## Task Breakdown
 1. Create the timetable page and route placeholder.
 2. Define the `TimetableItem` type for schedule entries.
