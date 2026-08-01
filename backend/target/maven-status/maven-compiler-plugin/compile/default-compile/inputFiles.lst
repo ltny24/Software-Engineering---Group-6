@@ -1,6 +1,7 @@
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/GraduationProgressDTO.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/ChatbotSession.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/security/JwtAuthenticationEntryPoint.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/config/StudentPasswordMigration.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/controller/AppealAdminController.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/GradeServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/exception/ApiError.java
@@ -24,17 +25,21 @@
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/repository/TuitionAccountRepository.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/security/JwtTokenProvider.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/exception/GlobalExceptionHandler.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/AcademicServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/TuitionBalanceResponse.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/ClassTransferRequest.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/controller/FinanceController.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/EnrollmentService.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/GradeOptionResponse.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/Administrator.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/ProfileService.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/repository/AcademicRecordRepository.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/ChatbotServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/AuthRequest.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/Student.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/FinanceServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/SurveyResponse.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/AcademicService.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/ProfileServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/Survey.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/security/IsStudent.java
@@ -57,6 +62,7 @@
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/service/EnrollmentServiceImpl.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/AppealResponse.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/AuthResponse.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/appeal/AppealSummaryResponse.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/config/CorsConfig.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/repository/CourseOfferingRepository.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/GradeResponse.java
@@ -68,6 +74,7 @@
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/StudentProfileUpdateRequest.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/exception/ResourceNotFoundException.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/TuitionPaymentResponse.java
+/Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/appeal/AppealDetailResponse.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/dto/AppealReviewRequest.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/entity/UserRole.java
 /Users/mac/Documents/SE/Software-Engineering---Group-6/backend/src/myus/security/JwtAuthenticationFilter.java

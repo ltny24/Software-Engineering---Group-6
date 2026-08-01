@@ -1,10 +1,10 @@
-package com.myus.service;
+package myus.service;
 
-import com.myus.dto.StudentProfileResponse;
-import com.myus.dto.StudentProfileUpdateRequest;
-import com.myus.entity.Student;
-import com.myus.exception.ResourceNotFoundException;
-import com.myus.repository.StudentRepository;
+import myus.dto.StudentProfileResponse;
+import myus.dto.StudentProfileUpdateRequest;
+import myus.entity.Student;
+import myus.exception.ResourceNotFoundException;
+import myus.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

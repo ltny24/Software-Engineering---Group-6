@@ -71,7 +71,7 @@ public class AppealController {
      */
     @GetMapping({"/my-appeals", "/v1/my-appeals"})
     @IsStudent
-    public ResponseEntity<List<com.myus.dto.appeal.AppealSummaryResponse>> getStudentAppeals(Principal principal) {
+    public ResponseEntity<List<myus.dto.appeal.AppealSummaryResponse>> getStudentAppeals(Principal principal) {
         String username = principal.getName();
         return ResponseEntity.ok(appealService.getStudentAppeals(username));
     }
@@ -81,7 +81,7 @@ public class AppealController {
      */
     @GetMapping({"/{trackingCode}", "/v1/{trackingCode}"})
     @IsStudent
-    public ResponseEntity<com.myus.dto.appeal.AppealDetailResponse> getAppealDetailByCode(
+    public ResponseEntity<myus.dto.appeal.AppealDetailResponse> getAppealDetailByCode(
             Principal principal,
             @PathVariable String trackingCode) {
         String username = principal.getName();

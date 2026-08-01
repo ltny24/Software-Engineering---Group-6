@@ -40,6 +40,8 @@ public class Appeal {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String reviewerComments;
 
+    private Double expectedGrade;
+
     private LocalDateTime deadline;
 
     private LocalDateTime resolvedAt;
