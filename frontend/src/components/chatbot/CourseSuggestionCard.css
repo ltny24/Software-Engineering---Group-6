@@ -1,0 +1,123 @@
+/* CourseSuggestionCard – genesis design system (BEM) */
+/* Surface #FFFFFF, Border #E8E8EC, Primary #6366F1, Radius 12px */
+
+.csc-card {
+  background: #FFFFFF;
+  border: 1px solid #E8E8EC;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin: 12px 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.csc-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.csc-card--eligible {
+  border-left: 4px solid #10B981;
+}
+
+.csc-card--warning {
+  border-left: 4px solid #F59E0B;
+}
+
+.csc-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.csc-card__code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 500;
+  font-size: 0.75rem;
+  color: #6366F1;
+  background: rgba(99, 102, 241, 0.08);
+  padding: 3px 10px;
+  border-radius: 4px;
+  letter-spacing: -0.01em;
+}
+
+.csc-card__credits {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #6B6B6B;
+}
+
+.csc-card__name {
+  font-family: 'General Sans', system-ui, -apple-system, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0A0A0A;
+  margin: 0 0 6px 0;
+  letter-spacing: -0.03em;
+}
+
+.csc-card__meta {
+  display: flex;
+  gap: 16px;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #6B6B6B;
+  margin-bottom: 10px;
+}
+
+.csc-card__reason {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  color: #6B6B6B;
+  line-height: 1.5;
+  margin: 0 0 12px 0;
+}
+
+.csc-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.csc-card__badge {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: 9999px;
+}
+
+.csc-card__badge--cleared {
+  background: rgba(16, 185, 129, 0.1);
+  color: #059669;
+}
+
+.csc-card__badge--pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #B45309;
+}
+
+.csc-card__save-btn {
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  padding: 8px 16px;
+  border: 1px solid #E8E8EC;
+  background: #FFFFFF;
+  color: #0A0A0A;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.csc-card__save-btn:hover {
+  border-color: #6366F1;
+  background: rgba(99, 102, 241, 0.06);
+  color: #6366F1;
+  transform: translateY(-1px);
+}

@@ -31,39 +31,39 @@ flowchart TB
     classDef external fill:#999999,stroke:#666666,stroke-width:2px,color:#ffffff,font-style:italic
 
     %% Primary Actors (People)
-    Student["<<Person>><br/><b>Student</b><br/>Undergraduate learner performing self-service academic actions, viewing grades, submitting appeals, and interacting with AI advisor."]:::person
+    Student["[Person]<br><b>Student</b><br>Undergraduate learner performing self-service academic actions, viewing grades, submitting appeals, and interacting with AI advisor."]:::person
 
-    Admin["<<Person>><br/><b>Administrator</b><br/>Academic Affairs officer managing data imports, class controls, grade appeal reviews, and student records."]:::person
+    Admin["[Person]<br><b>Administrator</b><br>Academic Affairs officer managing data imports, class controls, grade appeal reviews, and student records."]:::person
 
     %% System Boundary
     subgraph SystemBoundary ["MyUS University Portal System (System Boundary)"]
         direction TB
 
-        Frontend["<<Container: Single Page Application>><br/><b>Frontend Web Application</b><br/>[React 18, TypeScript, Axios, React Router]<br/>Provides responsive UI, client-side routing, form validation, and reactive state management."]:::container
+        Frontend["[Container: Single Page Application]<br><b>Frontend Web Application</b><br>(React 18, TypeScript, Axios, React Router)<br>Provides responsive UI, client-side routing, form validation, and reactive state management."]:::container
 
-        Backend["<<Container: Web API Application>><br/><b>Backend API Server</b><br/>[Spring Boot 3.x, Spring Security, JPA, Java 17]<br/>Executes RESTful API services, security rules, transaction management, AI orchestration, and file operations."]:::container
+        Backend["[Container: Web API Application]<br><b>Backend API Server</b><br>(Spring Boot 3.x, Spring Security, JPA, Java 17)<br>Executes RESTful API services, security rules, transaction management, AI orchestration, and file operations."]:::container
 
-        Database[("<<Container: Relational Database>><br/><b>SQL Server Database</b><br/>[Microsoft SQL Server 2019/2022]<br/>Stores structured domain data, academic records, users, enrollments, appeals, and Flyway migration logs.")]:::database
+        Database[(" [Container: Relational Database]<br><b>SQL Server Database</b><br>(Microsoft SQL Server 2019/2022)<br>Stores structured domain data, academic records, users, enrollments, appeals, and Flyway migration logs. ")]:::database
 
-        FileStorage[("<<Container: File System / Binary Storage>><br/><b>Local File Storage</b><br/>[OS File System / Storage Volume]<br/>Stores binary evidence attachments (.pdf, .jpg, .png) for grade appeal cases (UC-07a).")]:::database
+        FileStorage[(" [Container: File System / Binary Storage]<br><b>Local File Storage</b><br>(OS File System / Storage Volume)<br>Stores binary evidence attachments (.pdf, .jpg, .png) for grade appeal cases (UC-07a). ")]:::database
     end
 
     %% External Systems
-    GeminiAI["<<External System>><br/><b>Google Gemini / OpenAI LLM API</b><br/>Cloud-based Large Language Model powering AI advising and personalized recommendations."]:::external
+    GeminiAI["[External System]<br><b>Google Gemini / OpenAI LLM API</b><br>Cloud-based Large Language Model powering AI advising and personalized recommendations."]:::external
 
-    EmailGateway["<<External System>><br/><b>Campus SMTP Email Gateway</b><br/>University mail infrastructure for sending notification emails and fee deadline alerts."]:::external
+    EmailGateway["[External System]<br><b>Campus SMTP Email Gateway</b><br>University mail infrastructure for sending notification emails and fee deadline alerts."]:::external
 
     %% Communication Flows
-    Student -->|"Accesses portal, submits requests, views content<br/>[HTTPS / HTML5 / React SPA]"| Frontend
-    Admin -->|"Executes administrative tasks, manages records<br/>[HTTPS / HTML5 / React SPA]"| Frontend
+    Student -->|"Accesses portal, submits requests, views content<br>(HTTPS / HTML5 / React SPA)"| Frontend
+    Admin -->|"Executes administrative tasks, manages records<br>(HTTPS / HTML5 / React SPA)"| Frontend
 
-    Frontend -->|"Sends REST API requests & JWT tokens<br/>[HTTPS / REST / JSON & Multipart Data]"| Backend
+    Frontend -->|"Sends REST API requests and JWT tokens<br>(HTTPS / REST / JSON and Multipart Data)"| Backend
 
-    Backend -->|"Reads/writes structured domain data & logs<br/>[JDBC / TCP Port 1433 / HikariCP Pool]"| Database
-    Backend -->|"Persists and reads grade appeal attachments<br/>[Local File I/O / Java NIO / POSIX Path]"| FileStorage
+    Backend -->|"Reads/writes structured domain data and logs<br>(JDBC / TCP Port 1433 / HikariCP Pool)"| Database
+    Backend -->|"Persists and reads grade appeal attachments<br>(Local File I/O / Java NIO / POSIX Path)"| FileStorage
 
-    Backend -->|"Dispatches RAG prompts & fetches course recommendations<br/>[HTTPS / REST API / TLS 1.2+]"| GeminiAI
-    Backend -->|"Sends transactional email & security alerts<br/>[SMTP / SMTPS / TCP Port 587]"| EmailGateway
+    Backend -->|"Dispatches RAG prompts and fetches course recommendations<br>(HTTPS / REST API / TLS 1.2+)"| GeminiAI
+    Backend -->|"Sends transactional email and security alerts<br>(SMTP / SMTPS / TCP Port 587)"| EmailGateway
 ```
 
 ---
