@@ -49,20 +49,88 @@ cd Software-Engineering---Group-6
 cp frontend/.env.example frontend/.env.local
 ```
 
-### 2. Run Backend
+### 2. Database Setup (Docker — SQL Server)
+
+> **Yêu cầu**: Docker Desktop đang chạy.
+
+```bash
+# Bước 1: Khởi tạo SQL Server container
+docker run -e "ACCEPT_EULA=Y" \
+           -e "MSSQL_SA_PASSWORD=Khoidmh1106" \
+           -p 1433:1433 \
+           --name myus-sqlserver \
+           -d mcr.microsoft.com/mssql/server:2022-latest
+
+# Chờ ~15 giây cho SQL Server khởi động xong
+
+# Bước 2: Tạo database MyUS
+docker exec myus-sqlserver /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost -U sa -P Khoidmh1106 -N -C \
+  -Q "CREATE DATABASE MyUS"
+
+# Bước 3: Import schema
+docker cp backend/resources/db/schema.sql myus-sqlserver:/schema.sql
+docker exec myus-sqlserver /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost -U sa -P Khoidmh1106 -N -C -d MyUS \
+  -i /schema.sql
+
+# Bước 4: Thêm cột bổ sung (midtermGrade, finalGrade, expectedGrade)
+docker exec myus-sqlserver /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost -U sa -P Khoidmh1106 -N -C -d MyUS \
+  -Q "ALTER TABLE myus.Grade ADD midtermGrade DECIMAL(4,2) NULL, finalGrade DECIMAL(4,2) NULL; ALTER TABLE myus.Appeal ADD expectedGrade DECIMAL(4,2) NULL;"
+
+# Bước 5: Import mock data (100 students, 5 admins, 15 courses, 1000 grades, ...)
+docker cp backend/resources/db/mock_data_myus.sql myus-sqlserver:/mock_data.sql
+docker exec myus-sqlserver /opt/mssql-tools18/bin/sqlcmd \
+  -S localhost -U sa -P Khoidmh1106 -N -C -d MyUS \
+  -i /mock_data.sql
+```
+
+**Thông tin kết nối database:**
+
+| Thông số | Giá trị |
+|----------|---------|
+| Host | `localhost` |
+| Port | `1433` |
+| Database | `MyUS` |
+| Username | `sa` |
+| Password | `Khoidmh1106` |
+| Schema | `myus` |
+
+**Dữ liệu mock data bao gồm:**
+
+| Bảng | Số lượng |
+|------|----------|
+| Students | 100 (username: `24127001` → `24127100`) |
+| Administrators | 5 (username: `admin001` → `admin005`) |
+| Courses | 15 |
+| Course Offerings | 30 |
+| Grades | 1000 |
+| Tuition Accounts | 200 |
+
+**Tài khoản test (password = username + `123` cho student):**
+
+| Role | Username | Password |
+|------|----------|----------|
+| Student | `24127001` | `24127001123` |
+| Admin | `admin001` | `admin001` |
+
+> **Lưu ý**: Nếu container đã tồn tại, chạy `docker start myus-sqlserver` để khởi động lại.
+
+### 3. Run Backend
 
 ```bash
 cd backend
-mvn spring-boot:run
+mvn spring-boot:run -Dspring-boot.run.profiles=dev -Dmaven.test.skip=true
 # → Starts on http://localhost:8080
 # → Swagger UI: http://localhost:8080/swagger-ui.html
 ```
 
-### 3. Run Frontend
+### 4. Run Frontend
 
 ```bash
 cd frontend
-npm install
+npm install --legacy-peer-deps
 npm start
 # → Starts on http://localhost:3000 (proxied to backend)
 ```
