@@ -48,8 +48,8 @@ export const ROUTES = {
   NOT_FOUND: '/404',
 } as const;
 
-/** User roles – must match backend enum values. */
+/** User roles – must match backend {@code UserRole} enum values exactly. */
 export const ROLES = {
   STUDENT: 'STUDENT',
-  ADMIN: 'ADMIN',
+  ADMINISTRATOR: 'ADMINISTRATOR',
 } as const;

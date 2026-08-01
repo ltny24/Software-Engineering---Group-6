@@ -3,7 +3,7 @@
 // ============================================================
 
 // ----- Auth -----
-export type UserRole = 'STUDENT' | 'ADMIN';
+export type UserRole = 'STUDENT' | 'ADMINISTRATOR';
 
 export interface AuthUser {
   id: string;

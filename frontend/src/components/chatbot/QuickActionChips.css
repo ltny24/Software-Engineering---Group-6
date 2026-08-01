@@ -1,0 +1,45 @@
+/* QuickActionChips – genesis design system (BEM) */
+/* Pill shape (rounded-full), Primary #6366F1, Border #E8E8EC */
+
+.qac-chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 0 16px 0;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.qac-chips::-webkit-scrollbar {
+  height: 4px;
+}
+
+.qac-chips::-webkit-scrollbar-thumb {
+  background: #E8E8EC;
+  border-radius: 4px;
+}
+
+.qac-chips__chip {
+  flex-shrink: 0;
+  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 6px 16px;
+  border: 1px solid #E8E8EC;
+  border-radius: 9999px;
+  background: #FFFFFF;
+  color: #6B6B6B;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.qac-chips__chip:hover {
+  border-color: #6366F1;
+  background: rgba(99, 102, 241, 0.06);
+  color: #6366F1;
+}
+
+.qac-chips__chip:active {
+  transform: scale(0.97);
+}

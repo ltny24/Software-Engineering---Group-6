@@ -26,7 +26,7 @@ const adminNav = [
 export default function Sidebar() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
-  const navItems = user?.role === ROLES.ADMIN ? adminNav : studentNav;
+  const navItems = user?.role === ROLES.ADMINISTRATOR ? adminNav : studentNav;
 
   const handleLogout = async () => {
     try {
@@ -69,7 +69,7 @@ export default function Sidebar() {
 
       <div className="sidebar__footer">
         <div className="sidebar__user">
-          <span className="sidebar__user-name">{user?.displayName}</span>
+          <span className="sidebar__user-name">{user?.displayName ?? user?.username ?? 'User'}</span>
           <span className="sidebar__user-role">{user?.role}</span>
         </div>
         <button

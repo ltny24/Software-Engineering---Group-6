@@ -10,7 +10,7 @@ import './LoginPage.css';
 
 const loginSchema = z.object({
   username: z.string().min(1, 'Username is required'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  password: z.string().min(1, 'Password is required'),
 });
 type LoginForm = z.infer<typeof loginSchema>;
 
@@ -34,7 +34,7 @@ export default function LoginPage() {
     try {
       const response = await login(data);
       setUser(response.user);
-      toast.success(`Welcome back, ${response.user.displayName}!`);
+      toast.success(`Welcome back, ${response.user.displayName || response.user.username}!`);
       navigate(from, { replace: true });
     } catch {
       toast.error('Invalid username or password. Please try again.');

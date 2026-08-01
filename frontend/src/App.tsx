@@ -155,7 +155,7 @@ export default function App() {
             <Route
               path={`${ROUTES.ADMIN}/*`}
               element={
-                <ProtectedRoute requiredRole={ROLES.ADMIN}>
+                <ProtectedRoute requiredRole={ROLES.ADMINISTRATOR}>
                   <Layout>
                     <AdminPage />
                   </Layout>

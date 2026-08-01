@@ -48,20 +48,40 @@ public class AuthController {
 
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String token = jwtTokenProvider.generateToken(authentication);
+
+            // Extract user identity from the authenticated principal
             Long userId = null;
-            if (userDetails instanceof Student) {
-                userId = ((Student) userDetails).getStudentId();
-            } else if (userDetails instanceof Administrator) {
-                userId = ((Administrator) userDetails).getAdminId();
+            String username = authRequest.getUsername();
+            String email = null;
+            String displayName = null;
+            String role = null;
+
+            if (userDetails instanceof Student student) {
+                userId = student.getStudentId();
+                email = student.getEmail();
+                displayName = (student.getFirstName() != null ? student.getFirstName() : "")
+                        + (student.getLastName() != null ? " " + student.getLastName() : "");
+                displayName = displayName.trim();
+            } else if (userDetails instanceof Administrator admin) {
+                userId = admin.getAdminId();
+                email = admin.getEmail();
+                displayName = admin.getDisplayName() != null
+                        ? admin.getDisplayName()
+                        : admin.getUsername();
             }
 
-            String role = authentication.getAuthorities().stream()
+            // Strip Spring Security's ROLE_ prefix so the frontend receives
+            // clean role names ("STUDENT", "ADMINISTRATOR")
+            role = authentication.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
+                    .map(r -> r.startsWith("ROLE_") ? r.substring(5) : r)
                     .findFirst()
                     .orElse(null);
 
-            AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo(userId, role);
-            AuthResponse response = new AuthResponse(token, jwtTokenProvider.getExpirationMs(), userInfo);
+            AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo(
+                    userId, username, email, role, displayName);
+            AuthResponse response = new AuthResponse(
+                    token, jwtTokenProvider.getExpirationMs(), userInfo);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {
             log.warn("Login failed for username={}: {}", authRequest.getUsername(), ex.getMessage());

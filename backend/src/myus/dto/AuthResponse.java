@@ -3,13 +3,19 @@ package myus.dto;
 /**
  * Response DTO for {@code POST /api/auth/login}.
  *
- * <p>Matches the API contract:</p>
+ * <p>Matches the API contract expected by the React frontend:</p>
  * <pre>
  * {
  *   "accessToken": "eyJhbG...",
  *   "tokenType": "Bearer",
  *   "expiresIn": 86400000,
- *   "user": { "id": 1, "role": "STUDENT" }
+ *   "user": {
+ *     "id": 1,
+ *     "username": "student",
+ *     "email": "student@myus.edu.vn",
+ *     "role": "STUDENT",
+ *     "displayName": "Test User"
+ *   }
  * }
  * </pre>
  */
@@ -68,35 +74,41 @@ public class AuthResponse {
     // ── Nested UserInfo ──────────────────────────────────────────
 
     /**
-     * Minimal user identity included in the authentication response.
+     * User identity included in the authentication response.
+     * Fields must match the frontend {@code AuthUser} interface.
      */
     public static class UserInfo {
 
         private Long id;
+        private String username;
+        private String email;
         private String role;
+        private String displayName;
 
         public UserInfo() {
         }
 
-        public UserInfo(Long id, String role) {
+        public UserInfo(Long id, String username, String email, String role, String displayName) {
             this.id = id;
+            this.username = username;
+            this.email = email;
             this.role = role;
+            this.displayName = displayName;
         }
 
-        public Long getId() {
-            return id;
-        }
+        public Long getId() { return id; }
+        public void setId(Long id) { this.id = id; }
 
-        public void setId(Long id) {
-            this.id = id;
-        }
+        public String getUsername() { return username; }
+        public void setUsername(String username) { this.username = username; }
 
-        public String getRole() {
-            return role;
-        }
+        public String getEmail() { return email; }
+        public void setEmail(String email) { this.email = email; }
 
-        public void setRole(String role) {
-            this.role = role;
-        }
+        public String getRole() { return role; }
+        public void setRole(String role) { this.role = role; }
+
+        public String getDisplayName() { return displayName; }
+        public void setDisplayName(String displayName) { this.displayName = displayName; }
     }
 }
