@@ -29,12 +29,12 @@ public interface AppealService {
     /**
      * Retrieve summary list of appeals for student tracking dashboard.
      */
-    List<com.myus.dto.appeal.AppealSummaryResponse> getStudentAppeals(String username);
+    List<myus.dto.appeal.AppealSummaryResponse> getStudentAppeals(String username);
 
     /**
      * Retrieve detailed appeal info by tracking code or ID for student.
      */
-    com.myus.dto.appeal.AppealDetailResponse getAppealDetailByCode(String trackingCode, String username);
+    myus.dto.appeal.AppealDetailResponse getAppealDetailByCode(String trackingCode, String username);
 
     /**
      * Retrieve all appeals submitted by the authenticated student.

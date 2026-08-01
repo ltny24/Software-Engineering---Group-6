@@ -1,3 +1,4 @@
+myus/service/AcademicService.class
 myus/dto/TuitionBalanceResponse.class
 myus/exception/ApiError$FieldValidationError.class
 myus/controller/ProfileController.class
@@ -16,6 +17,7 @@ myus/repository/CourseOfferingRepository.class
 myus/service/FinanceServiceImpl.class
 myus/dto/EnrollmentResponse.class
 myus/service/ChatbotService.class
+myus/service/AcademicServiceImpl.class
 myus/service/EnrollmentServiceImpl.class
 myus/entity/SurveyResponse.class
 myus/dto/CourseOfferingResponse.class
@@ -41,6 +43,7 @@ myus/dto/GraduationProgressDTO.class
 myus/repository/StudentRepository.class
 myus/dto/StudentProfileResponse.class
 myus/controller/FinanceController.class
+myus/dto/GradeOptionResponse.class
 myus/controller/AppealAdminController.class
 myus/repository/CourseRegistrationRepository.class
 myus/controller/AuthController.class
@@ -50,6 +53,7 @@ myus/dto/GradeResponse.class
 myus/repository/AppealRepository.class
 myus/entity/Administrator.class
 myus/entity/ClassTransferRequest.class
+myus/config/StudentPasswordMigration.class
 myus/security/IsAdministrator.class
 myus/repository/AdministratorRepository.class
 myus/dto/EnrollmentRequest.class
@@ -58,6 +62,7 @@ myus/dto/CourseSuggestionDTO.class
 myus/dto/TuitionPaymentResponse.class
 myus/service/ChatbotServiceImpl.class
 myus/service/CourseServiceImpl.class
+myus/dto/appeal/AppealSummaryResponse.class
 myus/exception/ResourceNotFoundException.class
 myus/entity/Student.class
 myus/service/AppealService.class
@@ -72,6 +77,7 @@ myus/security/IsStudent.class
 myus/security/SecurityConfig.class
 myus/security/UserDetailsServiceImpl.class
 myus/repository/GradeRepository.class
+myus/dto/appeal/AppealDetailResponse.class
 myus/entity/Grade.class
 myus/service/GradeServiceImpl.class
 myus/security/JwtAuthenticationEntryPoint.class
@@ -84,5 +90,6 @@ myus/config/CorsConfig.class
 myus/dto/AppealReviewRequest.class
 myus/repository/CourseRepository.class
 myus/dto/AuthResponse.class
+myus/repository/AcademicRecordRepository.class
 myus/repository/FAQArticleRepository.class
 myus/repository/TuitionPaymentRepository.class

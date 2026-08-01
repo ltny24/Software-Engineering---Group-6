@@ -1,7 +1,7 @@
-package com.myus.service;
+package myus.service;
 
-import com.myus.entity.Course;
-import com.myus.repository.CourseRepository;
+import myus.entity.Course;
+import myus.repository.CourseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

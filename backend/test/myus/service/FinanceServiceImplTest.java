@@ -1,4 +1,3 @@
-<<<<<<< HEAD:backend/test/myus/service/FinanceServiceImplTest.java
 package myus.service;
 
 import myus.dto.TuitionBalanceResponse;
@@ -8,17 +7,6 @@ import myus.entity.TuitionPayment;
 import myus.repository.StudentRepository;
 import myus.repository.TuitionAccountRepository;
 import myus.repository.TuitionPaymentRepository;
-=======
-package com.myus.service;
-
-import com.myus.dto.TuitionBalanceResponse;
-import com.myus.entity.Student;
-import com.myus.entity.TuitionAccount;
-import com.myus.entity.TuitionPayment;
-import com.myus.repository.StudentRepository;
-import com.myus.repository.TuitionAccountRepository;
-import com.myus.repository.TuitionPaymentRepository;
->>>>>>> ltny24/main:src/backend/src/test/java/com/myus/service/FinanceServiceImplTest.java
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

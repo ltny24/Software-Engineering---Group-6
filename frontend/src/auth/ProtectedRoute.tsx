@@ -25,9 +25,7 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
 
   if (requiredRole && user?.role) {
     // Normalize: strip ROLE_ prefix for compatibility with both old and new backends.
-    const normalizedUserRole = user.role.startsWith('ROLE_')
-      ? user.role.substring(5)
-      : user.role;
+    const normalizedUserRole = user.role.startsWith('ROLE_') ? user.role.substring(5) : user.role;
 
     if (normalizedUserRole !== requiredRole) {
       // Authenticated but wrong role – redirect to dashboard.

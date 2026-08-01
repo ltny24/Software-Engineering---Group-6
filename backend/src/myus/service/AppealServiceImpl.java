@@ -119,7 +119,7 @@ public class AppealServiceImpl implements AppealService {
     }
 
     @Override
-    public List<com.myus.dto.appeal.AppealSummaryResponse> getStudentAppeals(String username) {
+    public List<myus.dto.appeal.AppealSummaryResponse> getStudentAppeals(String username) {
         Student student = findStudentByUsername(username);
         List<Appeal> appeals = appealRepository
                 .findByStudentStudentIdOrderBySubmittedAtDesc(student.getStudentId());
@@ -128,7 +128,7 @@ public class AppealServiceImpl implements AppealService {
     }
 
     @Override
-    public com.myus.dto.appeal.AppealDetailResponse getAppealDetailByCode(String trackingCode, String username) {
+    public myus.dto.appeal.AppealDetailResponse getAppealDetailByCode(String trackingCode, String username) {
         Student student = findStudentByUsername(username);
         Long appealId;
         try {
@@ -314,8 +314,8 @@ public class AppealServiceImpl implements AppealService {
         }
     }
 
-    private com.myus.dto.appeal.AppealSummaryResponse mapToSummaryResponse(Appeal appeal) {
-        com.myus.dto.appeal.AppealSummaryResponse res = new com.myus.dto.appeal.AppealSummaryResponse();
+    private myus.dto.appeal.AppealSummaryResponse mapToSummaryResponse(Appeal appeal) {
+        myus.dto.appeal.AppealSummaryResponse res = new myus.dto.appeal.AppealSummaryResponse();
         res.setAppealId(appeal.getAppealId());
         res.setTrackingCode("APL-" + String.format("%06d", appeal.getAppealId()));
         res.setCreatedAt(appeal.getSubmittedAt() != null ? appeal.getSubmittedAt() : LocalDateTime.now());
@@ -331,8 +331,8 @@ public class AppealServiceImpl implements AppealService {
         if (appeal.getGrade() != null) {
             Grade g = appeal.getGrade();
             res.setExamType("Final Exam");
-            if (g.getFinalGrade() != null) {
-                res.setCurrentGrade(g.getFinalGrade().doubleValue());
+            if (g.getGradePoint() != null) {
+                res.setCurrentGrade(g.getGradePoint().doubleValue());
             } else if (g.getGradePoint() != null) {
                 res.setCurrentGrade(g.getGradePoint().doubleValue());
             } else {
@@ -365,9 +365,9 @@ public class AppealServiceImpl implements AppealService {
         return res;
     }
 
-    private com.myus.dto.appeal.AppealDetailResponse mapToDetailResponse(Appeal appeal) {
-        com.myus.dto.appeal.AppealSummaryResponse summary = mapToSummaryResponse(appeal);
-        com.myus.dto.appeal.AppealDetailResponse detail = new com.myus.dto.appeal.AppealDetailResponse();
+    private myus.dto.appeal.AppealDetailResponse mapToDetailResponse(Appeal appeal) {
+        myus.dto.appeal.AppealSummaryResponse summary = mapToSummaryResponse(appeal);
+        myus.dto.appeal.AppealDetailResponse detail = new myus.dto.appeal.AppealDetailResponse();
 
         detail.setAppealId(summary.getAppealId());
         detail.setTrackingCode(summary.getTrackingCode());

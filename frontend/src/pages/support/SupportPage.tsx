@@ -1,41 +1,28 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { sendChatMessage } from '../../services/chatbotService';
+import { useChatbot } from '../../components/chatbot/ChatbotContext';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import CourseSuggestionCard from '../../components/chatbot/CourseSuggestionCard';
 import GraduationRoadmapCard from '../../components/chatbot/GraduationRoadmapCard';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
 import FAQSearch from '../../components/faq/FAQSearch';
-import type { ChatMessage, CourseSuggestion } from '../../types/chatbot.types';
+import type { CourseSuggestion } from '../../types/chatbot.types';
 import './SupportPage.css';
 
 type TabKey = 'chatbot' | 'faq';
 
-let messageCounter = 0;
-function nextId(): string {
-  messageCounter += 1;
-  return `msg-${Date.now()}-${messageCounter}`;
-}
-
 /**
  * Support page combining the AI Learning Path Chatbot and searchable FAQ library.
- * Uses tab navigation to switch between the two features.
+ * Chat messages are persisted via ChatbotContext so they survive page navigation.
  */
 export default function SupportPage() {
   const [activeTab, setActiveTab] = useState<TabKey>('chatbot');
 
-  // Chatbot state
-  const [messages, setMessages] = useState<ChatMessage[]>(() => [
-    {
-      id: nextId(),
-      role: 'assistant',
-      content:
-        "Hello! 👋 I'm your MyUS Academic Assistant. I can help with:\n\n📚 **Course Recommendations** – suggest courses for your next semester\n📊 **Graduation Progress** – check your degree audit and timeline\n📝 **Academic Policies** – ask about grades, appeals, and regulations\n\nHow can I help you today?",
-      timestamp: new Date().toISOString(),
-    },
-  ]);
+  // Chatbot state from persistent context (survives page navigation + refresh)
+  const { messages, sending, send } = useChatbot();
+
+  // Local input state (intentionally not persisted across pages)
   const [input, setInput] = useState('');
-  const [sending, setSending] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to latest message
@@ -43,51 +30,22 @@ export default function SupportPage() {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = useCallback(
-    async (text: string, contextType?: string) => {
-      const trimmed = text.trim();
-      if (!trimmed || sending) return;
+  const handleSend = async (text: string, contextType?: string) => {
+    const trimmed = text.trim();
+    if (!trimmed || sending) return;
 
-      const userMsg: ChatMessage = {
-        id: nextId(),
-        role: 'user',
-        content: trimmed,
-        timestamp: new Date().toISOString(),
-      };
+    setInput('');
 
-      setMessages((prev) => [...prev, userMsg]);
-      setInput('');
-      setSending(true);
-
-      try {
-        const response = await sendChatMessage({
-          message: trimmed,
-          contextType: contextType as
-            | 'GENERAL'
-            | 'COURSE_SUGGESTION'
-            | 'GRADUATION_AUDIT'
-            | undefined,
-        });
-
-        const aiMsg: ChatMessage = {
-          id: response.responseId || nextId(),
-          role: 'assistant',
-          content: response.replyText,
-          timestamp: response.timestamp || new Date().toISOString(),
-          suggestedCourses: response.suggestedCourses,
-          graduationProgress: response.graduationProgress,
-        };
-
-        setMessages((prev) => [...prev, aiMsg]);
-      } catch (err: any) {
-        console.error('Chatbot request failed:', err);
-        toast.error('Failed to get a response. Please try again.');
-      } finally {
-        setSending(false);
-      }
-    },
-    [sending]
-  );
+    try {
+      await send(
+        trimmed,
+        contextType as 'GENERAL' | 'COURSE_SUGGESTION' | 'GRADUATION_AUDIT' | undefined
+      );
+    } catch (err: any) {
+      console.error('Chatbot request failed:', err);
+      toast.error('Failed to get a response. Please try again.');
+    }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
