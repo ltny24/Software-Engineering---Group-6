@@ -95,11 +95,11 @@ MyUS là hệ thống cổng thông tin sinh viên được xây dựng cho Trư
 
 | Phần Mềm | Phiên Bản | Ghi Chú |
 |----------|-----------|---------|
+| Docker | 24+ | `docker --version` để kiểm tra |
 | Java JDK | 17 hoặc 21 | `java -version` để kiểm tra |
 | Node.js | ≥ 18.x | `node -v` để kiểm tra |
 | npm | ≥ 9.x | Đi kèm Node.js |
 | Maven | 3.8+ | Dự án đã có Maven Wrapper (`mvnw`) |
-| SQL Server | 2019+ | Hoặc MySQL 8.0+ |
 | Git | — | Quản lý mã nguồn |
 
 ---
@@ -113,34 +113,76 @@ git clone <repository-url>
 cd Software-Engineering---Group-6
 ```
 
-### 2. Thiết Lập Database
+### 2. Thiết Lập Database (Docker SQL Server)
 
-#### Bước 2.1: Tạo Database
+Database được host trong Docker container `myus-sqlserver` (image `mcr.microsoft.com/mssql/server:2022-latest`).
 
-Mở SQL Server Management Studio (SSMS) hoặc công cụ quản lý database bạn dùng và tạo database mới:
+#### Bước 2.1: Kéo Image & Tạo Container
 
-```sql
-CREATE DATABASE MyUS;
-GO
+```bash
+# Kéo image SQL Server 2022
+docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+# Tạo và chạy container
+docker run -d \
+  --name myus-sqlserver \
+  -e 'ACCEPT_EULA=Y' \
+  -e 'MSSQL_SA_PASSWORD=Khoidmh1106' \
+  -p 1433:1433 \
+  mcr.microsoft.com/mssql/server:2022-latest
+
+# Kiểm tra container đang chạy
+docker ps | grep myus-sqlserver
 ```
 
-#### Bước 2.2: Chạy Script Schema
+#### Bước 2.2: Tạo Database
 
-Chạy file schema để tạo tất cả các bảng:
+Dùng `docker exec` để tạo database bên trong container:
 
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -Q "CREATE DATABASE MyUS;"
 ```
-src/backend/src/main/resources/db/schema.sql
+
+#### Bước 2.3: Chạy Script Schema
+
+Chạy file `schema.sql` từ máy host vào container:
+
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -d MyUS \
+  < src/backend/src/main/resources/db/schema.sql
 ```
 
 Script này sẽ tạo schema `myus` và tất cả các bảng cần thiết.
 
-#### Bước 2.3: Chạy Script Dữ Liệu Mẫu
+#### Bước 2.4: Chạy Script Dữ Liệu Mẫu
 
-Chạy file dữ liệu mẫu để có tài khoản test và dữ liệu demo:
+Import dữ liệu mẫu (tài khoản test, khóa học, điểm số...):
 
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -d MyUS \
+  < src/backend/src/main/resources/db/mock_data_myus.sql
 ```
-src/backend/src/main/resources/db/mock_data_myus.sql
+
+#### Bước 2.5: Kiểm Tra Dữ Liệu Đã Import
+
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -d MyUS \
+  -Q "SELECT COUNT(*) AS StudentCount FROM myus.Student;"
 ```
+
+> **Mẹo:** Để tiện dùng, bạn có thể tạo alias:
+> ```bash
+> alias myus-sql="docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Khoidmh1106' -d MyUS"
+> ```
+> Sau đó dùng: `myus-sql -Q "SELECT * FROM myus.Student;"`
 
 ### 3. Cấu Hình Backend
 
@@ -277,15 +319,66 @@ Database **MyUS** sử dụng schema `myus` để tổ chức tất cả các b�
 
 ### Kết Nối Database
 
-#### Qua Ứng Dụng (Spring Boot)
+#### Qua `docker exec` (sqlcmd — Cách Chính)
 
-Kết nối được cấu hình trong `application.properties`:
+Đây là cách truy cập database **không cần cài thêm công cụ** vì dùng trực tiếp `sqlcmd` có sẵn trong container:
+
+```bash
+# Mở phiên sqlcmd tương tác
+docker exec -it myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Khoidmh1106' -d MyUS
+```
+
+Sau khi vào được dấu nhắc `1>`, bạn có thể chạy SQL trực tiếp. Gõ `GO` để thực thi và `QUIT` để thoát.
+
+```sql
+-- Ví dụ trong phiên tương tác
+SELECT COUNT(*) FROM myus.Student;
+GO
+```
+
+#### Chạy Từng Câu Lệnh SQL Từ Máy Host
+
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -d MyUS \
+  -Q "SELECT studentId, username, firstName, lastName FROM myus.Student;"
+```
+
+#### Chạy File `.sql` Từ Máy Host
+
+```bash
+docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+  -S localhost -U sa -P 'Khoidmh1106' \
+  -d MyUS \
+  < path/to/script.sql
+```
+
+#### Dùng Alias (Khuyến Nghị)
+
+Thêm dòng sau vào `~/.zshrc` để có lệnh tắt:
+
+```bash
+alias myus-db='docker exec -it myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Khoidmh1106 -d MyUS'
+```
+
+Sau đó reload: `source ~/.zshrc`
+
+Giờ bạn có thể truy cập database chỉ bằng:
+
+```bash
+myus-db
+```
+
+#### Qua Ứng Dụng (Spring Boot — `application.properties`)
+
+Kết nối từ backend Spring Boot đến SQL Server trong Docker container:
 
 ```properties
-# SQL Server
-spring.datasource.url=jdbc:sqlserver://<HOST>:<PORT>;databaseName=MyUS;encrypt=false;trustServerCertificate=true
-spring.datasource.username=<USERNAME>
-spring.datasource.password=<PASSWORD>
+# SQL Server connection
+spring.datasource.url=jdbc:sqlserver://localhost:1433;databaseName=MyUS;encrypt=false;trustServerCertificate=true
+spring.datasource.username=sa
+spring.datasource.password=Khoidmh1106
 spring.datasource.driver-class-name=com.microsoft.sqlserver.jdbc.SQLServerDriver
 
 # JPA / Hibernate
@@ -294,135 +387,82 @@ spring.jpa.hibernate.ddl-auto=none
 spring.jpa.show-sql=false
 ```
 
-> **Hỗ trợ MySQL:** Nếu dùng MySQL, đổi driver và dialect:
-> ```properties
-> spring.datasource.url=jdbc:mysql://localhost:3306/MyUS?useSSL=false&allowPublicKeyRetrieval=true
-> spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
-> spring.jpa.database-platform=org.hibernate.dialect.MySQLDialect
-> ```
-
-#### Qua Công Cụ Quản Lý (SSMS / DBeaver)
-
-| Tham Số | Giá Trị |
-|---------|---------|
-| Server Type | Database Engine (SQL Server) |
-| Server Name | `localhost` (hoặc `127.0.0.1`) |
-| Authentication | SQL Server Authentication |
-| Login | `sa` (hoặc username của bạn) |
-| Password | Mật khẩu đã thiết lập khi cài SQL Server |
+> **Lưu ý bảo mật:** Mật khẩu `Khoidmh1106` đang được lưu dạng plain text trong file cấu hình. Trong môi trường production, hãy sử dụng biến môi trường (`SPRING_DATASOURCE_PASSWORD`) và không commit mật khẩu lên repository.
 
 ### Các Thao Tác Database Thường Dùng
 
+> **Giả định:** Bạn đã tạo alias `myus-sql` như hướng dẫn ở trên. Nếu chưa, thay `myus-sql` bằng lệnh `docker exec` đầy đủ.
+
 #### Xem danh sách sinh viên
 
-```sql
-SELECT studentId, username, firstName, lastName, email, major, enrollmentStatus
-FROM myus.Student
-ORDER BY lastName;
+```bash
+myus-sql -Q "SELECT studentId, username, firstName, lastName, email, major, enrollmentStatus FROM myus.Student ORDER BY lastName;"
 ```
 
 #### Xem đăng ký học phần của một sinh viên
 
-```sql
-SELECT
-    cr.registrationId,
-    cr.status,
-    co.section,
-    co.term,
-    co.instructor,
-    c.courseCode,
-    c.courseName,
-    c.credits
-FROM myus.CourseRegistration cr
-JOIN myus.CourseOffering co ON cr.offeringId = co.offeringId
-JOIN myus.Course c ON co.courseId = c.courseId
-WHERE cr.studentId = 1
-ORDER BY co.term DESC;
+```bash
+myus-sql -Q "SELECT cr.registrationId, cr.status, co.section, co.term, co.instructor, c.courseCode, c.courseName, c.credits FROM myus.CourseRegistration cr JOIN myus.CourseOffering co ON cr.offeringId = co.offeringId JOIN myus.Course c ON co.courseId = c.courseId WHERE cr.studentId = 1 ORDER BY co.term DESC;"
 ```
 
 #### Xem bảng điểm sinh viên
 
-```sql
-SELECT
-    c.courseCode,
-    c.courseName,
-    g.gradeValue,
-    g.gradePoint,
-    g.term
-FROM myus.Grade g
-JOIN myus.Course c ON g.courseId = c.courseId
-WHERE g.studentId = 1
-ORDER BY g.term DESC;
+```bash
+myus-sql -Q "SELECT c.courseCode, c.courseName, g.gradeValue, g.gradePoint, g.term FROM myus.Grade g JOIN myus.Course c ON g.courseId = c.courseId WHERE g.studentId = 1 ORDER BY g.term DESC;"
 ```
 
 #### Xem GPA tích lũy
 
-```sql
-SELECT
-    ar.term,
-    ar.cumulativeGPA,
-    ar.earnedCredits
-FROM myus.AcademicRecord ar
-WHERE ar.studentId = 1
-ORDER BY ar.term;
+```bash
+myus-sql -Q "SELECT ar.term, ar.cumulativeGPA, ar.earnedCredits FROM myus.AcademicRecord ar WHERE ar.studentId = 1 ORDER BY ar.term;"
 ```
 
 #### Xem đơn khiếu nại đang chờ xử lý
 
-```sql
-SELECT
-    a.appealId,
-    s.firstName,
-    s.lastName,
-    a.appealReason,
-    a.status,
-    a.submittedAt,
-    a.deadline
-FROM myus.Appeal a
-JOIN myus.Student s ON a.studentId = s.studentId
-WHERE a.status IN ('Submitted', 'Under Review')
-ORDER BY a.submittedAt;
+```bash
+myus-sql -Q "SELECT a.appealId, s.firstName, s.lastName, a.appealReason, a.status, a.submittedAt, a.deadline FROM myus.Appeal a JOIN myus.Student s ON a.studentId = s.studentId WHERE a.status IN ('Submitted', 'Under Review') ORDER BY a.submittedAt;"
 ```
 
 #### Xem học phí còn nợ
 
-```sql
-SELECT
-    s.studentId,
-    s.firstName,
-    s.lastName,
-    ta.term,
-    ta.totalCharges,
-    ta.payments,
-    ta.scholarshipAmount,
-    ta.balance,
-    ta.financialHold
-FROM myus.TuitionAccount ta
-JOIN myus.Student s ON ta.studentId = s.studentId
-WHERE ta.balance > 0
-ORDER BY ta.term DESC;
+```bash
+myus-sql -Q "SELECT s.studentId, s.firstName, s.lastName, ta.term, ta.totalCharges, ta.payments, ta.scholarshipAmount, ta.balance, ta.financialHold FROM myus.TuitionAccount ta JOIN myus.Student s ON ta.studentId = s.studentId WHERE ta.balance > 0 ORDER BY ta.term DESC;"
 ```
 
 #### Xem lịch sử thanh toán
 
-```sql
-SELECT
-    tp.paymentId,
-    s.firstName,
-    s.lastName,
-    tp.amount,
-    tp.paymentDate,
-    tp.paymentMethod,
-    tp.status
-FROM myus.TuitionPayment tp
-JOIN myus.TuitionAccount ta ON tp.accountId = ta.accountId
-JOIN myus.Student s ON ta.studentId = s.studentId
-ORDER BY tp.paymentDate DESC;
+```bash
+myus-sql -Q "SELECT tp.paymentId, s.firstName, s.lastName, tp.amount, tp.paymentDate, tp.paymentMethod, tp.status FROM myus.TuitionPayment tp JOIN myus.TuitionAccount ta ON tp.accountId = ta.accountId JOIN myus.Student s ON ta.studentId = s.studentId ORDER BY tp.paymentDate DESC;"
 ```
 
 #### Thống kê số lượng đăng ký theo môn học
 
+```bash
+myus-sql -Q "SELECT c.courseCode, c.courseName, COUNT(cr.registrationId) AS totalRegistrations, SUM(CASE WHEN cr.status = 'Enrolled' THEN 1 ELSE 0 END) AS enrolled FROM myus.Course c JOIN myus.CourseOffering co ON c.courseId = co.courseId JOIN myus.CourseRegistration cr ON co.offeringId = cr.offeringId GROUP BY c.courseCode, c.courseName ORDER BY totalRegistrations DESC;"
+```
+
+#### Xem các khảo sát đang mở
+
+```bash
+myus-sql -Q "SELECT surveyId, title, description, openDate, closeDate, status, targetAudience FROM myus.Survey WHERE status = 'Open' ORDER BY closeDate;"
+```
+
+#### Xem FAQ phổ biến
+
+```bash
+myus-sql -Q "SELECT faqId, question, category, helpfulCount, notHelpfulCount FROM myus.FAQArticle WHERE published = 1 ORDER BY helpfulCount DESC;"
+```
+
+#### Dùng sqlcmd tương tác để chạy SQL phức tạp
+
+```bash
+myus-db
+```
+
+Vào được dấu nhắc `1>` thì viết SQL như bình thường, kết thúc bằng `GO`:
+
 ```sql
+-- Truy vấn nhiều dòng trong phiên tương tác
 SELECT
     c.courseCode,
     c.courseName,
@@ -433,42 +473,13 @@ JOIN myus.CourseOffering co ON c.courseId = co.courseId
 JOIN myus.CourseRegistration cr ON co.offeringId = cr.offeringId
 GROUP BY c.courseCode, c.courseName
 ORDER BY totalRegistrations DESC;
-```
-
-#### Xem các khảo sát đang mở
-
-```sql
-SELECT
-    surveyId,
-    title,
-    description,
-    openDate,
-    closeDate,
-    status,
-    targetAudience
-FROM myus.Survey
-WHERE status = 'Open'
-ORDER BY closeDate;
-```
-
-#### Xem FAQ phổ biến
-
-```sql
-SELECT
-    faqId,
-    question,
-    category,
-    helpfulCount,
-    notHelpfulCount
-FROM myus.FAQArticle
-WHERE published = 1
-ORDER BY helpfulCount DESC;
+GO
 ```
 
 #### Reset dữ liệu database
 
-```sql
--- Xóa tất cả dữ liệu (giữ cấu trúc bảng)
+```bash
+myus-sql -Q "
 DELETE FROM myus.ChatbotSession;
 DELETE FROM myus.SurveyResponse;
 DELETE FROM myus.TuitionPayment;
@@ -484,9 +495,16 @@ DELETE FROM myus.Survey;
 DELETE FROM myus.Course;
 DELETE FROM myus.Administrator;
 DELETE FROM myus.Student;
+"
 ```
 
-> **Sau khi reset**, chạy lại file `mock_data_myus.sql` để có dữ liệu mẫu.
+> **Sau khi reset**, import lại dữ liệu mẫu:
+> ```bash
+> docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
+>   -S localhost -U sa -P 'Khoidmh1106' \
+>   -d MyUS \
+>   < src/backend/src/main/resources/db/mock_data_myus.sql
+> ```
 
 ---
 
@@ -497,8 +515,9 @@ Tài khoản được tạo tự động khi chạy `mock_data_myus.sql`:
 | Vai Trò | Username | Mật Khẩu | Mô Tả |
 |---------|----------|----------|-------|
 | Sinh viên | `24127002` | `24127002123` | Đăng ký học phần, xem điểm, xem TKB |
+| Quản trị viên | `admin001` | `admin001` | Quản lý khiếu nại, xem báo cáo |
 
-> **Quan trọng:** Mật khẩu trong database được mã hóa bằng **BCrypt**. Không tự ý INSERT mật khẩu plain text — Spring Security sẽ từ chối xác thực.
+> **Lưu ý bảo mật:** Mật khẩu trong database hiện đang được lưu dạng plain text (cấu hình `NoOpPasswordEncoder`). Trong môi trường production, cần nâng cấp lên **BCrypt** hoặc một cơ chế mã hóa mạnh hơn.
 
 ---
 
@@ -543,10 +562,33 @@ Nguyên nhân: JWT token cũ trong Local Storage.
 ### Lỗi DataSource khi khởi động backend
 
 Kiểm tra:
-- SQL Server service đang chạy
-- Tên database trong connection string đúng
-- Username và password đúng
-- Port SQL Server đúng (mặc định: 1433)
+- Container SQL Server đang chạy: `docker ps | grep myus-sqlserver`
+- Nếu container đã dừng, khởi động lại: `docker start myus-sqlserver`
+- Tên database trong connection string đúng (`databaseName=MyUS`)
+- Username (`sa`) và password (`Khoidmh1106`) đúng
+- Port 1433 không bị chiếm: `lsof -i :1433`
+
+### Container SQL Server không khởi động được
+
+```bash
+# Xem logs
+docker logs myus-sqlserver
+
+# Nguyên nhân thường gặp: port 1433 đã bị chiếm (ví dụ bởi azuresqledge)
+# Giải pháp: dừng container đang chiếm port hoặc đổi port
+docker stop azuresqledge
+docker start myus-sqlserver
+```
+
+### Không tìm thấy sqlcmd trong container
+
+```bash
+# Kiểm tra đường dẫn sqlcmd
+docker exec myus-sqlserver ls /opt/mssql-tools/bin/sqlcmd
+
+# Nếu không có, dùng sqlcmd trong PATH
+docker exec -it myus-sqlserver sqlcmd -S localhost -U sa -P 'Khoidmh1106'
+```
 
 ### `mvn` command not found
 
@@ -565,13 +607,12 @@ npm install
 
 ## Thứ Tự Chạy Hệ Thống
 
-1. ⚙️ Khởi động SQL Server service
-2. 🗄️ Chạy script `schema.sql` để tạo bảng
-3. 📥 Chạy script `mock_data_myus.sql` để import dữ liệu mẫu
-4. 🔧 Cấu hình `application.properties` với thông tin database
-5. 🚀 Chạy backend (`./mvnw spring-boot:run`)
-6. 🎨 Chạy frontend (`npm start`)
-7. 🌐 Truy cập `http://localhost:3000` và đăng nhập
+1. 🐳 Đảm bảo Docker container SQL Server đang chạy: `docker start myus-sqlserver`
+2. 🗄️ (Lần đầu) Chạy script `schema.sql` và `mock_data_myus.sql` qua `docker exec`
+3. 🔧 Cấu hình `application.properties` với thông tin database
+4. 🚀 Chạy backend: `cd src/backend && ./mvnw spring-boot:run -DskipTests`
+5. 🎨 Chạy frontend: `cd src/frontend && npm install && npm start`
+6. 🌐 Truy cập `http://localhost:3000` và đăng nhập
 
 ---
 
