@@ -7,6 +7,8 @@ import {
   registerCourse,
 } from '../../services/courseService';
 import type { CourseOffering, CourseRegistration } from '../../types';
+import { useAuth } from '../../auth';
+import { ROLES } from '../../utils/constants';
 import './CoursesPage.css';
 
 const PAGE_SIZE = 9;
@@ -72,6 +74,8 @@ const DEMO_REGISTRATIONS: CourseRegistration[] = DEMO_OFFERINGS.map((offering, i
 type TabKey = 'browse' | 'mine';
 
 export default function CoursesPage() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === ROLES.ADMIN;
   const [activeTab, setActiveTab] = useState<TabKey>('browse');
 
   // --- Catalog (Browse) state ---
@@ -263,12 +267,14 @@ export default function CoursesPage() {
           >
             Browse Courses
           </button>
-          <button
-            className={`tab-btn ${activeTab === 'mine' ? 'tab-btn-active' : ''}`}
-            onClick={() => setActiveTab('mine')}
-          >
-            My Registrations {activeRegistrationsCount > 0 && `(${activeRegistrationsCount})`}
-          </button>
+          {!isAdmin && (
+            <button
+              className={`tab-btn ${activeTab === 'mine' ? 'tab-btn-active' : ''}`}
+              onClick={() => setActiveTab('mine')}
+            >
+              My Registrations {activeRegistrationsCount > 0 && `(${activeRegistrationsCount})`}
+            </button>
+          )}
         </div>
       </div>
 
@@ -370,19 +376,32 @@ export default function CoursesPage() {
                             </span>
                           </td>
                           <td data-label="Action" className="registration-action-cell">
-                            <button
-                              className="btn-edit register-btn"
-                              disabled={registered || full || registeringId === offering.offeringId}
-                              onClick={() => handleRegister(offering)}
-                            >
-                              {registered
-                                ? 'Registered ✓'
-                                : registeringId === offering.offeringId
-                                  ? 'Registering...'
-                                  : full
-                                    ? 'Full'
-                                    : 'Register'}
-                            </button>
+                            {isAdmin ? (
+                              <button
+                                className="btn-edit register-btn"
+                                disabled
+                                style={{ opacity: 0.5, cursor: 'not-allowed' }}
+                                title="Administrators cannot register for courses"
+                              >
+                                Admin View
+                              </button>
+                            ) : (
+                              <button
+                                className="btn-edit register-btn"
+                                disabled={
+                                  registered || full || registeringId === offering.offeringId
+                                }
+                                onClick={() => handleRegister(offering)}
+                              >
+                                {registered
+                                  ? 'Registered ✓'
+                                  : registeringId === offering.offeringId
+                                    ? 'Registering...'
+                                    : full
+                                      ? 'Full'
+                                      : 'Register'}
+                              </button>
+                            )}
                           </td>
                         </tr>
                       );

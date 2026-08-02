@@ -44,7 +44,9 @@ describe('Tuition flow', () => {
 
     expect(screen.getByText(/loading financial information/i)).toBeInTheDocument();
 
-    await waitFor(() => expect(mockedApi.get).toHaveBeenCalledWith('/api/v1/finance/tuition/balance'));
+    await waitFor(() =>
+      expect(mockedApi.get).toHaveBeenCalledWith('/api/v1/finance/tuition/balance')
+    );
 
     expect(await screen.findByText('Fall2026')).toBeInTheDocument();
     expect(screen.getByText(/account in good standing/i)).toBeInTheDocument();
@@ -65,7 +67,9 @@ describe('Tuition flow', () => {
 
     render(<TuitionPage />);
 
-    expect(await screen.findByText(/no payment transactions recorded from the server/i)).toBeInTheDocument();
+    expect(
+      await screen.findByText(/no payment transactions recorded from the server/i)
+    ).toBeInTheDocument();
   });
 
   it('shows a not-found message and toast when the balance fails to load', async () => {
@@ -74,7 +78,9 @@ describe('Tuition flow', () => {
     render(<TuitionPage />);
 
     await waitFor(() =>
-      expect(mockedToast.error).toHaveBeenCalledWith('Unable to load financial data from the server.')
+      expect(mockedToast.error).toHaveBeenCalledWith(
+        'Unable to load financial data from the server.'
+      )
     );
     expect(await screen.findByText(/no balance data found/i)).toBeInTheDocument();
   });

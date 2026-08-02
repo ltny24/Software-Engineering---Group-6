@@ -33,7 +33,9 @@ export async function registerCourse(offeringId: string | number): Promise<Cours
 }
 
 /** PUT /api/registrations/{id}/drop – drop an existing registration. */
-export async function dropRegistration(registrationId: string | number): Promise<CourseRegistration> {
+export async function dropRegistration(
+  registrationId: string | number
+): Promise<CourseRegistration> {
   const { data } = await axiosInstance.put<CourseRegistration>(
     `/api/registrations/${registrationId}/drop`
   );

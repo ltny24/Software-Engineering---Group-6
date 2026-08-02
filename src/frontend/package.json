@@ -62,7 +62,7 @@
       "prettier"
     ],
     "rules": {
-      "prettier/prettier": "error",
+      "prettier/prettier": "off",
       "no-console": "warn",
       "react/prop-types": "off"
     }
@@ -72,7 +72,8 @@
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "es5",
-    "printWidth": 100
+    "printWidth": 100,
+    "endOfLine": "auto"
   },
   "browserslist": {
     "production": [

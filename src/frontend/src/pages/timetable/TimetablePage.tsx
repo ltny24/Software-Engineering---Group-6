@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import api from '../../services/api';
+import { useAuth } from '../../auth';
+import { ROLES } from '../../utils/constants';
 
 interface TimetableItem {
   id: number;
@@ -17,6 +19,8 @@ interface TimetableItem {
 const DAYS_OF_WEEK = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 function TimetablePage() {
+  const { user } = useAuth();
+  const isAdmin = user?.role === ROLES.ADMIN;
   const [schedule, setSchedule] = useState<TimetableItem[]>([]);
   const [selectedTerm, setSelectedTerm] = useState<string>('2024-2025-HK2');
   const [loading, setLoading] = useState<boolean>(true);
@@ -38,11 +42,19 @@ function TimetablePage() {
     const fetchTimetableData = async () => {
       try {
         setLoading(true);
-        const res = await api.get<any[]>('/api/registrations/me');
+        let rawData: any[] = [];
+        
+        if (isAdmin) {
+          const res = await api.get<any>('/api/courses?size=1000');
+          rawData = res.content || [];
+        } else {
+          const res = await api.get<any[]>('/api/registrations/me');
+          rawData = res || [];
+        }
 
-        console.log(' Dữ liệu thô từ Backend:', res);
+        console.log(' Dữ liệu thô từ Backend:', rawData);
 
-        const mappedSchedule: TimetableItem[] = (res || []).map((item: any, index: number) => {
+        const mappedSchedule: TimetableItem[] = rawData.map((item: any, index: number) => {
           const offering = item.offering || item.courseOffering || item;
           const course = offering.course || item.course || {};
 
@@ -115,6 +127,163 @@ function TimetablePage() {
   const filteredSchedule = schedule.filter((item) => item.term === selectedTerm);
   const totalCourses = filteredSchedule.length;
   const totalPeriods = filteredSchedule.reduce((sum, item) => sum + item.periods, 0);
+
+  const renderWeeklyTable = (title: string, schedulesToRender: TimetableItem[]) => (
+    <div
+      key={title}
+      style={{
+        backgroundColor: '#ffffff',
+        borderRadius: '8px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+        border: '1px solid #e2e8f0',
+        overflow: 'hidden',
+        marginBottom: '32px',
+      }}
+    >
+      <div
+        style={{
+          padding: '16px 24px',
+          borderBottom: '1px solid #e2e8f0',
+          backgroundColor: '#f8fafc',
+        }}
+      >
+        <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
+          {title}
+        </h2>
+      </div>
+
+      <div style={{ overflowX: 'auto' }}>
+        <table
+          style={{
+            width: '100%',
+            borderCollapse: 'collapse',
+            textAlign: 'left',
+            fontSize: '13px',
+          }}
+        >
+          <thead>
+            <tr
+              style={{
+                backgroundColor: '#f8fafc',
+                borderBottom: '2px solid #e2e8f0',
+                color: '#64748b',
+                fontSize: '12px',
+                textTransform: 'uppercase',
+              }}
+            >
+              {DAYS_OF_WEEK.map((dayName) => (
+                <th
+                  key={dayName}
+                  style={{
+                    padding: '14px 12px',
+                    fontWeight: '600',
+                    borderRight: '1px solid #e2e8f0',
+                    minWidth: '150px',
+                  }}
+                >
+                  {dayName}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr style={{ backgroundColor: '#ffffff' }}>
+              {DAYS_OF_WEEK.map((dayName) => {
+                const coursesOnDay = schedulesToRender.filter((item) => item.day === dayName);
+                return (
+                  <td
+                    key={dayName}
+                    style={{
+                      padding: '12px',
+                      borderRight: '1px solid #e2e8f0',
+                      borderBottom: '1px solid #f1f5f9',
+                      verticalAlign: 'top',
+                      backgroundColor: coursesOnDay.length > 0 ? '#ffffff' : '#fcfcfd',
+                    }}
+                  >
+                    {coursesOnDay.length > 0 ? (
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                        {coursesOnDay.map((course) => (
+                          <div
+                            key={course.id}
+                            style={{
+                              padding: '8px 10px',
+                              borderRadius: '6px',
+                              backgroundColor: '#eff6ff',
+                              border: '1px solid #bfdbfe',
+                              borderLeft: '3px solid #2563eb',
+                            }}
+                          >
+                            {isAdmin ? (
+                              <div
+                                style={{
+                                  fontSize: '11px',
+                                  color: '#1e293b',
+                                  fontWeight: '600',
+                                }}
+                              >
+                                {course.courseName} {getTimeSlot(course.periods)}
+                              </div>
+                            ) : (
+                              <>
+                                <div
+                                  style={{
+                                    fontSize: '12px',
+                                    fontWeight: '600',
+                                    color: '#1e40af',
+                                    marginBottom: '4px',
+                                  }}
+                                >
+                                  {course.courseCode}
+                                </div>
+                                <div
+                                  style={{
+                                    fontSize: '11px',
+                                    color: '#1e293b',
+                                    fontWeight: '500',
+                                    marginBottom: '2px',
+                                  }}
+                                >
+                                  {course.courseName}
+                                </div>
+                                <div
+                                  style={{
+                                    fontSize: '10px',
+                                    color: '#64748b',
+                                    marginBottom: '4px',
+                                  }}
+                                >
+                                  {getTimeSlot(course.periods)}
+                                </div>
+                                <div style={{ fontSize: '10px', color: '#64748b' }}>
+                                  {course.room} | {course.periods} periods
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          color: '#cbd5e1',
+                          fontSize: '12px',
+                          padding: '20px 0',
+                          textAlign: 'center',
+                        }}
+                      >
+                        —
+                      </div>
+                    )}
+                  </td>
+                );
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 
   return (
     <div
@@ -248,258 +417,137 @@ function TimetablePage() {
         </div>
 
         {/* Weekly Timetable */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-            border: '1px solid #e2e8f0',
-            overflow: 'hidden',
-          }}
-        >
-          <div
-            style={{
-              padding: '16px 24px',
-              borderBottom: '1px solid #e2e8f0',
-              backgroundColor: '#f8fafc',
-            }}
-          >
-            <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-              Weekly Timetable
-            </h2>
-          </div>
-
-          <div style={{ overflowX: 'auto' }}>
-            <table
+        {isAdmin ? (
+          <>
+            {renderWeeklyTable(
+              'Weekly Timetable - Morning',
+              filteredSchedule.filter((item) => item.periods <= 3)
+            )}
+            {renderWeeklyTable(
+              'Weekly Timetable - Afternoon',
+              filteredSchedule.filter((item) => item.periods > 3)
+            )}
+          </>
+        ) : (
+          <>
+            {renderWeeklyTable('Weekly Timetable', filteredSchedule)}
+            <div
               style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                textAlign: 'left',
-                fontSize: '13px',
+                backgroundColor: '#ffffff',
+                borderRadius: '8px',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+                border: '1px solid #e2e8f0',
+                overflow: 'hidden',
+                marginTop: '32px',
               }}
             >
-              <thead>
-                <tr
+              <div
+                style={{
+                  padding: '16px 24px',
+                  borderBottom: '1px solid #e2e8f0',
+                  backgroundColor: '#f8fafc',
+                }}
+              >
+                <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
+                  Detailed Timetable
+                </h2>
+              </div>
+
+              <div style={{ overflowX: 'auto' }}>
+                <table
                   style={{
-                    backgroundColor: '#f8fafc',
-                    borderBottom: '2px solid #e2e8f0',
-                    color: '#64748b',
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                    textAlign: 'left',
+                    fontSize: '14px',
                   }}
                 >
-                  {DAYS_OF_WEEK.map((dayName) => (
-                    <th
-                      key={dayName}
-                      style={{
-                        padding: '14px 12px',
-                        fontWeight: '600',
-                        borderRight: '1px solid #e2e8f0',
-                        minWidth: '150px',
-                      }}
-                    >
-                      {dayName}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                <tr style={{ backgroundColor: '#ffffff' }}>
-                  {DAYS_OF_WEEK.map((dayName) => {
-                    const coursesOnDay = filteredSchedule.filter((item) => item.day === dayName);
-                    return (
-                      <td
-                        key={dayName}
-                        style={{
-                          padding: '12px',
-                          borderRight: '1px solid #e2e8f0',
-                          borderBottom: '1px solid #f1f5f9',
-                          verticalAlign: 'top',
-                          backgroundColor: coursesOnDay.length > 0 ? '#ffffff' : '#fcfcfd',
-                        }}
-                      >
-                        {coursesOnDay.length > 0 ? (
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                            {coursesOnDay.map((course) => (
-                              <div
-                                key={course.id}
-                                style={{
-                                  padding: '8px 10px',
-                                  borderRadius: '6px',
-                                  backgroundColor: '#eff6ff',
-                                  border: '1px solid #bfdbfe',
-                                  borderLeft: '3px solid #2563eb',
-                                }}
-                              >
-                                <div
-                                  style={{
-                                    fontSize: '12px',
-                                    fontWeight: '600',
-                                    color: '#1e40af',
-                                    marginBottom: '4px',
-                                  }}
-                                >
-                                  {course.courseCode}
-                                </div>
-                                <div
-                                  style={{
-                                    fontSize: '11px',
-                                    color: '#1e293b',
-                                    fontWeight: '500',
-                                    marginBottom: '2px',
-                                  }}
-                                >
-                                  {course.courseName}
-                                </div>
-                                <div
-                                  style={{
-                                    fontSize: '10px',
-                                    color: '#64748b',
-                                    marginBottom: '4px',
-                                  }}
-                                >
-                                  {getTimeSlot(course.periods)}
-                                </div>
-                                <div style={{ fontSize: '10px', color: '#64748b' }}>
-                                  {course.room} | {course.periods} periods
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div
-                            style={{
-                              color: '#cbd5e1',
-                              fontSize: '12px',
-                              padding: '20px 0',
-                              textAlign: 'center',
-                            }}
-                          >
-                            —
-                          </div>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-            border: '1px solid #e2e8f0',
-            overflow: 'hidden',
-            marginTop: '32px',
-          }}
-        >
-          <div
-            style={{
-              padding: '16px 24px',
-              borderBottom: '1px solid #e2e8f0',
-              backgroundColor: '#f8fafc',
-            }}
-          >
-            <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-              Detailed Timetable
-            </h2>
-          </div>
-
-          <div style={{ overflowX: 'auto' }}>
-            <table
-              style={{
-                width: '100%',
-                borderCollapse: 'collapse',
-                textAlign: 'left',
-                fontSize: '14px',
-              }}
-            >
-              <thead>
-                <tr
-                  style={{
-                    backgroundColor: '#ffffff',
-                    borderBottom: '2px solid #e2e8f0',
-                    color: '#64748b',
-                    fontSize: '12px',
-                    textTransform: 'uppercase',
-                  }}
-                >
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Day</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Code</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Name</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Time</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Room</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Lecturer</th>
-                  <th style={{ padding: '14px 24px', fontWeight: '600' }}>Type</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredSchedule.length > 0 ? (
-                  filteredSchedule.map((item, index) => (
+                  <thead>
                     <tr
-                      key={item.id}
                       style={{
-                        borderBottom: '1px solid #f1f5f9',
-                        backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
+                        backgroundColor: '#ffffff',
+                        borderBottom: '2px solid #e2e8f0',
+                        color: '#64748b',
+                        fontSize: '12px',
+                        textTransform: 'uppercase',
                       }}
                     >
-                      <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '600' }}>
-                        {item.day}
-                      </td>
-                      <td
-                        style={{
-                          padding: '16px 24px',
-                          fontFamily: 'monospace',
-                          color: '#475569',
-                          fontWeight: '500',
-                        }}
-                      >
-                        {item.courseCode}
-                      </td>
-                      <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
-                        {item.courseName}
-                      </td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>
-                        {getTimeSlot(item.periods)}
-                      </td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>{item.room}</td>
-                      <td style={{ padding: '16px 24px', color: '#475569' }}>{item.lecturer}</td>
-                      <td style={{ padding: '16px 24px' }}>
-                        <span
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Day</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Code</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Name</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Time</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Room</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Lecturer</th>
+                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Type</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredSchedule.length > 0 ? (
+                      filteredSchedule.map((item, index) => (
+                        <tr
+                          key={item.id}
                           style={{
-                            display: 'inline-block',
-                            padding: '4px 10px',
-                            borderRadius: '6px',
-                            fontWeight: '600',
-                            fontSize: '13px',
-                            backgroundColor: '#eff6ff',
-                            color: '#2563eb',
-                            border: '1px solid #bfdbfe',
+                            borderBottom: '1px solid #f1f5f9',
+                            backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
                           }}
                         >
-                          {item.classType}
-                        </span>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={8}
-                      style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}
-                    >
-                      No timetable data available for this semester.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                          <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '600' }}>
+                            {item.day}
+                          </td>
+                          <td
+                            style={{
+                              padding: '16px 24px',
+                              fontFamily: 'monospace',
+                              color: '#475569',
+                              fontWeight: '500',
+                            }}
+                          >
+                            {item.courseCode}
+                          </td>
+                          <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
+                            {item.courseName}
+                          </td>
+                          <td style={{ padding: '16px 24px', color: '#475569' }}>
+                            {getTimeSlot(item.periods)}
+                          </td>
+                          <td style={{ padding: '16px 24px', color: '#475569' }}>{item.room}</td>
+                          <td style={{ padding: '16px 24px', color: '#475569' }}>
+                            {item.lecturer}
+                          </td>
+                          <td style={{ padding: '16px 24px' }}>
+                            <span
+                              style={{
+                                display: 'inline-block',
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                fontWeight: '600',
+                                fontSize: '13px',
+                                backgroundColor: '#eff6ff',
+                                color: '#2563eb',
+                                border: '1px solid #bfdbfe',
+                              }}
+                            >
+                              {item.classType}
+                            </span>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td
+                          colSpan={8}
+                          style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}
+                        >
+                          No timetable data available for this semester.
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
   getFaqById,
@@ -98,6 +98,14 @@ export default function FaqPage() {
 
   const [bookmarks, setBookmarks] = useState<FAQArticle[]>(() => loadBookmarks());
   const [showBookmarksOnly, setShowBookmarksOnly] = useState<boolean>(false);
+
+  // Ref map để scroll đến FAQ item khi jumpToFaq
+  const itemRefs = useRef<Record<string, HTMLLIElement | null>>({});
+  const pendingScrollId = useRef<string | null>(null);
+  // Lưu FAQ đang jump tới để inject vào results sau khi fetch xong
+  const jumpingFaqRef = useRef<FAQArticle | null>(null);
+  // Flag: skip fetch khi đang jump (vì chúng ta tự set appliedSearch = '')
+  const skipNextFetchRef = useRef<boolean>(false);
 
   const isBookmarked = useCallback(
     (faqId: string | number) => bookmarks.some((b) => String(b.faqId) === String(faqId)),
@@ -206,6 +214,10 @@ export default function FaqPage() {
   }, [searchInput]);
 
   useEffect(() => {
+    if (skipNextFetchRef.current) {
+      skipNextFetchRef.current = false;
+      return;
+    }
     fetchResults(appliedSearch, selectedCategory, 0);
   }, [appliedSearch, selectedCategory, fetchResults]);
 
@@ -262,14 +274,33 @@ export default function FaqPage() {
   const jumpToFaq = (faq: FAQArticle) => {
     setShowBookmarksOnly(false);
     setSelectedCategory('');
-    setSearchInput('');
-    setAppliedSearch('');
-    setResults((prev) =>
-      prev.some((r) => String(r.faqId) === String(faq.faqId)) ? prev : [faq, ...prev]
-    );
     setExpandedId(faq.faqId);
+    pendingScrollId.current = String(faq.faqId);
+    jumpingFaqRef.current = faq;
+
+    // Nếu search đang trống, chỉ cần inject FAQ vào list hiện tại
+    if (!searchInput && !appliedSearch && selectedCategory === '') {
+      skipNextFetchRef.current = false;
+      setResults((prev) =>
+        prev.some((r) => String(r.faqId) === String(faq.faqId)) ? prev : [faq, ...prev]
+      );
+      jumpingFaqRef.current = null; // inject ngay, không cần đợi fetch
+    } else {
+      // Clear search -> sẽ trigger fetch debounce, skip nó
+      skipNextFetchRef.current = true;
+      setSearchInput('');
+      setAppliedSearch('');
+      // Inject FAQ ngay vào results để list không bị empty
+      setResults((prev) =>
+        prev.some((r) => String(r.faqId) === String(faq.faqId)) ? prev : [faq, ...prev]
+      );
+      jumpingFaqRef.current = null; // Không cần inject lại sau fetch
+    }
+
     if (!detailCache[String(faq.faqId)] && !String(faq.faqId).startsWith('demo-')) {
-      toggleExpand(faq);
+      void getFaqById(faq.faqId)
+        .then((detail) => setDetailCache((prev) => ({ ...prev, [String(faq.faqId)]: detail })))
+        .catch(console.error);
     }
   };
 
@@ -280,6 +311,35 @@ export default function FaqPage() {
 
   const noResults = !loadingResults && !showBookmarksOnly && visibleResults.length === 0;
   const noBookmarks = showBookmarksOnly && bookmarks.length === 0;
+
+  // Sau khi fetch xong: inject FAQ đang jump và scroll đến nó
+  useEffect(() => {
+    if (loadingResults) return;
+
+    // Nếu có jumpingFaq, đảm bảo nó xuất hiện trong list
+    if (jumpingFaqRef.current) {
+      const target = jumpingFaqRef.current;
+      setResults((prev) =>
+        prev.some((r) => String(r.faqId) === String(target.faqId)) ? prev : [target, ...prev]
+      );
+      setExpandedId(target.faqId);
+      jumpingFaqRef.current = null;
+    }
+  }, [loadingResults]);
+
+  // Scroll đến FAQ item sau khi render (khi jumpToFaq được gọi)
+  // Chạy sau mỗi render nhưng tự clear ngay khi thực hiện xong
+  useEffect(() => {
+    if (!pendingScrollId.current) return;
+    const id = pendingScrollId.current;
+    const el = itemRefs.current[id];
+    if (el) {
+      pendingScrollId.current = null;
+      requestAnimationFrame(() => {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  });
 
   return (
     <div className="faq-container">
@@ -385,7 +445,13 @@ export default function FaqPage() {
                 const voted = votedIds.has(String(faq.faqId));
 
                 return (
-                  <li key={faq.faqId} className={`faq-item ${expanded ? 'faq-item-expanded' : ''}`}>
+                  <li
+                    key={faq.faqId}
+                    className={`faq-item ${expanded ? 'faq-item-expanded' : ''}`}
+                    ref={(el) => {
+                      itemRefs.current[String(faq.faqId)] = el;
+                    }}
+                  >
                     <button className="faq-question-row" onClick={() => toggleExpand(faq)}>
                       <span className="faq-question-text">{faq.question}</span>
                       <span className="faq-question-meta">
@@ -478,19 +544,19 @@ export default function FaqPage() {
             </ul>
 
             {!showBookmarksOnly && totalPages > 1 && (
-              <div className="pagination">
+              <div className="faq-pagination">
                 <button
-                  className="btn-cancel"
+                  className="faq-pagination-btn"
                   disabled={page <= 0}
                   onClick={() => goToPage(page - 1)}
                 >
                   ‹ Prev
                 </button>
-                <span className="pagination-info">
+                <span className="faq-pagination-info">
                   Page {page + 1} of {Math.max(totalPages, 1)}
                 </span>
                 <button
-                  className="btn-cancel"
+                  className="faq-pagination-btn"
                   disabled={page >= totalPages - 1}
                   onClick={() => goToPage(page + 1)}
                 >

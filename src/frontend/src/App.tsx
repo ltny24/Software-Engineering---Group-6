@@ -166,11 +166,16 @@ export default function App() {
             <Route
               path={`${ROUTES.ADMIN}/*`}
               element={
-                <ProtectedRoute requiredRole={ROLES.ADMIN}>
-                  <Layout>
+                <Layout>
+                  <ProtectedRoute
+                    requiredRole={ROLES.ADMIN}
+                    resourceName="Admin Bulk Data &amp; Class Control"
+                    requiredPermission="bulk_data.import"
+                    ucReference="UC07 · Alt Flow 2.1"
+                  >
                     <AdminPage />
-                  </Layout>
-                </ProtectedRoute>
+                  </ProtectedRoute>
+                </Layout>
               }
             />
 

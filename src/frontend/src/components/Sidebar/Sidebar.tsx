@@ -18,10 +18,17 @@ const studentNav = [
 
 const adminNav = [
   { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
+  { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤', disabled: true },
+  { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
+  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: '🗓️' },
+  { label: 'Grades', to: ROUTES.GRADES, icon: '📊', disabled: true },
+  { label: 'Tuition', to: ROUTES.TUITION, icon: '💳', disabled: true },
   { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: '👥' },
   { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: '📥' },
   { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: '🔄' },
   { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: '⚖️' },
+  { label: 'Support', to: ROUTES.SUPPORT, icon: '💬', disabled: true },
+  { label: 'Help & FAQ', to: ROUTES.SUPPORT_FAQ, icon: '❓', disabled: true },
 ];
 
 export default function Sidebar() {
@@ -49,22 +56,39 @@ export default function Sidebar() {
 
       <nav className="sidebar__nav">
         <ul className="sidebar__list">
-          {navItems.map(({ label, to, icon }) => (
-            <li key={to} className="sidebar__item">
-              <NavLink
-                to={to}
-                end={to === ROUTES.DASHBOARD}
-                className={({ isActive }) =>
-                  `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
-                }
-              >
-                <span className="sidebar__icon" aria-hidden="true">
-                  {icon}
-                </span>
-                <span className="sidebar__label">{label}</span>
-              </NavLink>
-            </li>
-          ))}
+          {navItems.map(({ label, to, icon, disabled }) => {
+            if (disabled) {
+              return (
+                <li key={label} className="sidebar__item">
+                  <div
+                    className="sidebar__link sidebar__link--disabled"
+                    title="Not available for Administrator"
+                  >
+                    <span className="sidebar__icon" aria-hidden="true">
+                      {icon}
+                    </span>
+                    <span className="sidebar__label">{label}</span>
+                  </div>
+                </li>
+              );
+            }
+            return (
+              <li key={to} className="sidebar__item">
+                <NavLink
+                  to={to}
+                  end={to === ROUTES.DASHBOARD}
+                  className={({ isActive }) =>
+                    `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
+                  }
+                >
+                  <span className="sidebar__icon" aria-hidden="true">
+                    {icon}
+                  </span>
+                  <span className="sidebar__label">{label}</span>
+                </NavLink>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
