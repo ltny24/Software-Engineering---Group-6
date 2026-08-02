@@ -14,6 +14,8 @@ import com.myus.repository.AppealRepository;
 import com.myus.repository.GradeRepository;
 import com.myus.repository.StudentRepository;
 import lombok.extern.slf4j.Slf4j;
+import myus.dto.appeal.AppealDetailResponse;
+import myus.dto.appeal.AppealSummaryResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -111,6 +113,40 @@ public class AppealServiceImpl implements AppealService {
         List<Appeal> appeals = appealRepository
                 .findByStudentStudentIdOrderBySubmittedAtDesc(student.getStudentId());
         return appeals.stream().map(this::mapToResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<AppealSummaryResponse> getStudentAppeals(String username) {
+        Student student = findStudentByUsername(username);
+        List<Appeal> appeals = appealRepository
+                .findByStudentStudentIdOrderBySubmittedAtDesc(student.getStudentId());
+        checkAndCancelExpiredAppeals(appeals);
+        return appeals.stream().map(this::mapToSummaryResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public AppealDetailResponse getAppealDetailByCode(String trackingCode, String username) {
+        Student student = findStudentByUsername(username);
+        Long appealId;
+        try {
+            if (trackingCode != null && trackingCode.startsWith("APL-")) {
+                appealId = Long.parseLong(trackingCode.replace("APL-", ""));
+            } else if (trackingCode != null) {
+                appealId = Long.parseLong(trackingCode);
+            } else {
+                throw new ResourceNotFoundException("Tracking code cannot be empty.");
+            }
+        } catch (NumberFormatException e) {
+            throw new ResourceNotFoundException("Invalid tracking code: " + trackingCode);
+        }
+
+        Appeal appeal = appealRepository
+                .findByAppealIdAndStudentStudentId(appealId, student.getStudentId())
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "Appeal not found for code: " + trackingCode));
+
+        checkAndCancelExpiredAppeals(List.of(appeal));
+        return mapToDetailResponse(appeal);
     }
 
     @Override
@@ -260,5 +296,92 @@ public class AppealServiceImpl implements AppealService {
         }
 
         return response;
+    }
+
+    private void checkAndCancelExpiredAppeals(List<Appeal> appeals) {
+        LocalDateTime now = LocalDateTime.now();
+        for (Appeal appeal : appeals) {
+            if ("PENDING".equalsIgnoreCase(appeal.getStatus()) || "Submitted".equalsIgnoreCase(appeal.getStatus())) {
+                if (appeal.getDeadline() != null && appeal.getDeadline().isBefore(now)) {
+                    appeal.setStatus("CANCELED");
+                    appeal.setResolutionCode("CANCELED_FEE_OVERDUE");
+                    appealRepository.save(appeal);
+                }
+            }
+        }
+    }
+
+    private AppealSummaryResponse mapToSummaryResponse(Appeal appeal) {
+        AppealSummaryResponse res = new AppealSummaryResponse();
+        res.setAppealId(appeal.getAppealId());
+        res.setTrackingCode("APL-" + String.format("%06d", appeal.getAppealId()));
+        res.setCreatedAt(appeal.getSubmittedAt() != null ? appeal.getSubmittedAt() : LocalDateTime.now());
+
+        String status = appeal.getStatus();
+        if ("Submitted".equalsIgnoreCase(status)) status = "PENDING";
+        else if ("Under Review".equalsIgnoreCase(status)) status = "PROCESSING";
+        else if ("Approved".equalsIgnoreCase(status)) status = "RESOLVED";
+        else if ("Denied".equalsIgnoreCase(status)) status = "REJECTED";
+        else if ("Withdrawn".equalsIgnoreCase(status)) status = "CANCELED";
+        res.setStatus(status);
+
+        if (appeal.getGrade() != null) {
+            Grade g = appeal.getGrade();
+            res.setExamType("Final Exam");
+            if (g.getGradePoint() != null) {
+                res.setCurrentGrade(g.getGradePoint().doubleValue());
+            } else {
+                res.setCurrentGrade(8.0);
+            }
+
+            if (appeal.getExpectedGrade() != null) {
+                res.setExpectedGrade(appeal.getExpectedGrade());
+            } else {
+                res.setExpectedGrade(res.getCurrentGrade());
+            }
+
+            if (g.getCourse() != null) {
+                res.setCourseCode(g.getCourse().getCourseCode());
+                res.setCourseName(g.getCourse().getCourseName());
+            } else {
+                res.setCourseCode("CSC10009");
+                res.setCourseName("Computer Systems");
+            }
+        } else {
+            res.setExamType("Final Exam");
+            res.setCurrentGrade(8.0);
+            res.setExpectedGrade(appeal.getExpectedGrade() != null ? appeal.getExpectedGrade() : 8.0);
+            res.setCourseCode("CSC10009");
+            res.setCourseName("Computer Systems");
+        }
+
+        res.setFeeStatus("PENDING".equals(status) ? "UNPAID" : "PAID");
+        res.setFeePaymentDeadline(appeal.getDeadline() != null ? appeal.getDeadline() : (appeal.getSubmittedAt() != null ? appeal.getSubmittedAt().plusHours(72) : LocalDateTime.now().plusHours(72)));
+        return res;
+    }
+
+    private AppealDetailResponse mapToDetailResponse(Appeal appeal) {
+        AppealSummaryResponse summary = mapToSummaryResponse(appeal);
+        AppealDetailResponse detail = new AppealDetailResponse();
+
+        detail.setAppealId(summary.getAppealId());
+        detail.setTrackingCode(summary.getTrackingCode());
+        detail.setCourseCode(summary.getCourseCode());
+        detail.setCourseName(summary.getCourseName());
+        detail.setExamType(summary.getExamType());
+        detail.setCurrentGrade(summary.getCurrentGrade());
+        detail.setExpectedGrade(summary.getExpectedGrade());
+        detail.setStatus(summary.getStatus());
+        detail.setFeeStatus(summary.getFeeStatus());
+        detail.setFeePaymentDeadline(summary.getFeePaymentDeadline());
+        detail.setCreatedAt(summary.getCreatedAt());
+
+        detail.setReason(appeal.getAppealReason() != null ? appeal.getAppealReason() : "No detailed reason provided.");
+        detail.setReviewerComments(appeal.getReviewerComments() != null ? appeal.getReviewerComments() : "Pending administrative review.");
+        detail.setUpdatedGrade("RESOLVED".equals(summary.getStatus()) ? summary.getExpectedGrade() : null);
+        detail.setResolvedAt(appeal.getResolvedAt());
+        detail.setAttachments(appeal.getSupportingDocumentUrl() != null ? java.util.List.of(appeal.getSupportingDocumentUrl()) : java.util.List.of());
+
+        return detail;
     }
 }

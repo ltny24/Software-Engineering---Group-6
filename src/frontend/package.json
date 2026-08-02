@@ -62,6 +62,7 @@
       "prettier"
     ],
     "rules": {
+      "prettier/prettier": "off",
       "prettier/prettier": "error",
       "no-console": "warn",
       "react/prop-types": "off"
@@ -72,6 +73,8 @@
     "singleQuote": true,
     "tabWidth": 2,
     "trailingComma": "es5",
+    "printWidth": 100,
+    "endOfLine": "auto"
     "printWidth": 100
   },
   "browserslist": {
@@ -85,6 +88,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  }
+}
+
   },
   "proxy": "http://localhost:8080"
 }

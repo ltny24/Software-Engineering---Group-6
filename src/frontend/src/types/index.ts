@@ -130,11 +130,17 @@ export interface Appeal {
 
 // ----- FAQ -----
 export interface FAQArticle {
+  faqId: string | number;
   faqId: string;
   question: string;
   answer: string;
   category: string;
   tags: string[];
+  updatedAt?: string;
+  published?: boolean;
+  helpfulCount?: number;
+  notHelpfulCount?: number;
+  relatedQuestions?: FAQArticle[];
   updatedAt: string;
   published: boolean;
 }

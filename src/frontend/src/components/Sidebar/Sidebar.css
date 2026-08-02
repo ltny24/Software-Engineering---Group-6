@@ -58,6 +58,13 @@
     color 0.15s;
 }
 
+.sidebar__link--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: blur(0.05px);
+}
+
 .sidebar__link:hover {
   background: rgba(255, 255, 255, 0.08);
   color: #fff;

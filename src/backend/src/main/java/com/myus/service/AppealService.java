@@ -3,6 +3,8 @@ package com.myus.service;
 import com.myus.dto.AppealResponse;
 import com.myus.dto.AppealReviewRequest;
 import com.myus.dto.AppealSubmitRequest;
+import myus.dto.appeal.AppealDetailResponse;
+import myus.dto.appeal.AppealSummaryResponse;
 
 import java.util.List;
 
@@ -27,6 +29,17 @@ public interface AppealService {
     AppealResponse submitAppeal(String username, AppealSubmitRequest request);
 
     /**
+     * Retrieve summary list of appeals for the student tracking dashboard.
+     */
+    List<AppealSummaryResponse> getStudentAppeals(String username);
+
+    /**
+     * Retrieve detailed appeal info by tracking code or ID for the student.
+     */
+    AppealDetailResponse getAppealDetailByCode(String trackingCode, String username);
+
+    /**
+     * Retrieve all appeals submitted by the authenticated student.
      * Retrieve all appeals submitted by the authenticated student.
      *
      * @param username the authenticated student's username
@@ -44,6 +57,7 @@ public interface AppealService {
     AppealResponse getAppealById(String username, Long appealId);
 
     /**
+     * Withdraw a pending appeal.
      * Withdraw a pending appeal. Only appeals in "Submitted" status
      * can be withdrawn by the student.
      *
@@ -65,6 +79,7 @@ public interface AppealService {
     List<AppealResponse> getAllAppeals(String statusFilter);
 
     /**
+     * Retrieve a specific appeal by ID.
      * Retrieve a specific appeal by ID. Used by administrators.
      *
      * @param appealId the appeal ID
@@ -73,6 +88,7 @@ public interface AppealService {
     AppealResponse getAppealByIdAdmin(Long appealId);
 
     /**
+     * Review and process a grade appeal.
      * Review and process a grade appeal. Allows the administrator to
      * update the status, add comments, and set a fee payment deadline.
      *
