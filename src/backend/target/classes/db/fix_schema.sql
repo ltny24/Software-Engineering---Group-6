@@ -1,7 +1,0 @@
-USE MyUS;
-GO
-SET QUOTED_IDENTIFIER ON;
-GO
-ALTER TABLE myus.Grade ADD midtermGrade DECIMAL(4,2) NULL, finalGrade DECIMAL(4,2) NULL;
-ALTER TABLE myus.Appeal ADD expectedGrade DECIMAL(4,2) NULL;
-GO

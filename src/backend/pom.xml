@@ -11,7 +11,7 @@
         <relativePath/>
     </parent>
 
-    <groupId>myus</groupId>
+    <groupId>com.myus</groupId>
     <artifactId>university-portal-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
@@ -23,6 +23,7 @@
         <java.version>17</java.version>
         <jjwt.version>0.12.5</jjwt.version>
         <lombok.version>1.18.46</lombok.version>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
         <springdoc.version>2.5.0</springdoc.version>
     </properties>
 
@@ -75,20 +76,6 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- ===== H2 in-memory database (dev) ===== -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>runtime</scope>
-        </dependency>
-
-        <!-- ===== .env file support ===== -->
-        <dependency>
-            <groupId>me.paulschwarz</groupId>
-            <artifactId>spring-dotenv</artifactId>
-            <version>4.0.0</version>
-        </dependency>
-
         <!-- ===== Flyway Database Migration ===== -->
         <dependency>
             <groupId>org.flywaydb</groupId>
@@ -97,6 +84,13 @@
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-sqlserver</artifactId>
+        </dependency>
+
+        <!-- ===== MapStruct (DTO Mapping) ===== -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
         </dependency>
 
         <!-- ===== Lombok ===== -->
@@ -142,26 +136,12 @@
     </dependencies>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
-        <testSourceDirectory>test</testSourceDirectory>
-        <resources>
-            <resource>
-                <directory>resources</directory>
-            </resource>
-        </resources>
-        <testResources>
-            <testResource>
-                <directory>resources</directory>
-            </testResource>
-        </testResources>
-
         <plugins>
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>myus.UniversityPortalApplication</mainClass>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
@@ -182,6 +162,11 @@
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

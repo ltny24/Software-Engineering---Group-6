@@ -3,7 +3,7 @@
 // ============================================================
 
 // ----- Auth -----
-export type UserRole = 'STUDENT' | 'ADMINISTRATOR';
+export type UserRole = 'STUDENT' | 'ADMIN';
 
 export interface AuthUser {
   id: string;
@@ -51,7 +51,7 @@ export interface Course {
   courseName: string;
   description: string;
   credits: number;
-  prerequisites: string | string[];
+  prerequisites: string[] | string;
   department: string;
   semester: string;
   capacity: number;
@@ -59,45 +59,37 @@ export interface Course {
 
 export interface CourseOffering {
   offeringId: string | number;
+  courseId?: string | number;
   section: string;
   term: string;
   schedule: string;
   instructor: string;
   location: string;
   room: string;
-  enrolledCount?: number;
-  availableSeats?: number;
-  course?: Course;
-  courseId?: string | number;
+  enrolledCount: number;
+  availableSeats: number;
+  course: Course;
 }
 
 export interface CourseRegistration {
   registrationId: string | number;
   studentId: string | number;
   offeringId?: string | number;
-  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED' | 'Dropped' | 'Enrolled';
+  status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED';
   registeredAt: string;
-  offering?: CourseOffering;
+  offering: CourseOffering;
 }
 
 // ----- Grades & Academic Records -----
 export interface Grade {
-  gradeId: string | number;
-  registrationId?: string | number;
-  studentId?: string | number;
-  courseId?: string | number;
-  courseCode?: string;
-  courseName?: string;
-  currentGrade?: string;
-  gradeValue?: string;
-  gradePoint?: number;
-  midtermGrade?: number;
-  finalGrade?: number;
+  gradeId: string;
+  registrationId: string;
+  studentId: string;
+  courseId: string;
+  gradeValue: string;
+  gradePoint: number;
   term: string;
-  gpaImpact?: number;
-  isFinalized?: boolean;
-  isEligibleForAppeal?: boolean;
-  course?: Course;
+  gpaImpact: number;
 }
 
 export interface AcademicRecord {
@@ -183,8 +175,8 @@ export interface PagedResponse<T> {
   content: T[];
   totalElements: number;
   totalPages: number;
-  page?: number;
-  size?: number;
+  page: number;
+  size: number;
   number?: number;
 }
 

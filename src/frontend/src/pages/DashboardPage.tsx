@@ -95,7 +95,7 @@ const adminCards = [
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const isAdmin = user?.role === ROLES.ADMINISTRATOR;
+  const isAdmin = user?.role === ROLES.ADMIN;
   const cards = isAdmin ? adminCards : studentCards;
 
   const greeting = (() => {

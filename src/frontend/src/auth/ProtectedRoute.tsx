@@ -23,14 +23,9 @@ export default function ProtectedRoute({ children, requiredRole }: ProtectedRout
     return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
   }
 
-  if (requiredRole && user?.role) {
-    // Normalize: strip ROLE_ prefix for compatibility with both old and new backends.
-    const normalizedUserRole = user.role.startsWith('ROLE_') ? user.role.substring(5) : user.role;
-
-    if (normalizedUserRole !== requiredRole) {
-      // Authenticated but wrong role – redirect to dashboard.
-      return <Navigate to={ROUTES.DASHBOARD} replace />;
-    }
+  if (requiredRole && user?.role !== requiredRole) {
+    // Authenticated but wrong role – redirect to dashboard.
+    return <Navigate to={ROUTES.DASHBOARD} replace />;
   }
 
   return children;

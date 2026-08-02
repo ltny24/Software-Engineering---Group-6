@@ -31,7 +31,7 @@ const OFFERING: CourseOffering = {
     courseName: 'Introduction to Algorithms',
     description: 'Fundamentals of algorithms and problem solving.',
     credits: 3,
-    prerequisites: 'None',
+    prerequisites: ['None'],
     department: 'Computer Science',
     semester: 'Fall2026',
     capacity: 20,
@@ -41,7 +41,7 @@ const OFFERING: CourseOffering = {
 const REGISTRATION: CourseRegistration = {
   registrationId: 3001,
   studentId: 12345,
-  status: 'Enrolled',
+  status: 'ENROLLED',
   registeredAt: new Date().toISOString(),
   offering: OFFERING,
 };
