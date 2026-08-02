@@ -83,7 +83,6 @@ describe('Tuition flow', () => {
       expect(mockedToast.error).toHaveBeenCalledWith(
         'Unable to load financial data from the server.'
       )
-      expect(mockedToast.error).toHaveBeenCalledWith('Unable to load financial data from the server.')
     );
     expect(await screen.findByText(/no balance data found/i)).toBeInTheDocument();
   });

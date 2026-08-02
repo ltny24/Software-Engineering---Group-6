@@ -36,6 +36,7 @@ describe('FAQ support flow', () => {
       totalPages: 0,
       totalElements: 0,
       page: 0,
+      size: 10,
     });
     mockedFaqService.getFaqById.mockResolvedValue({
       faqId: 'demo-1',

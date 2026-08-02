@@ -25,29 +25,15 @@ export default function SupportPage() {
           <p>Search university policies, academic rules, and IT support answers.</p>
         </Link>
 
-        <div className="support-hub-card support-hub-card-disabled">
+        <Link to={ROUTES.SUPPORT_AI_CHATBOT} className="support-hub-card">
           <span className="support-hub-icon" aria-hidden="true">
             🤖
           </span>
           <h3>AI Learning Assistant</h3>
           <p>Personalized course suggestions and graduation roadmaps.</p>
-          <span className="badge badge--warning">Coming Soon</span>
-        </div>
+          <span className="badge badge--success">Available</span>
+        </Link>
       </div>
     </div>
-import PlaceholderPage from '../../components/PlaceholderPage/PlaceholderPage';
-
-/**
- * Support page – T034
- * Provides FAQ search and AI learning path chatbot interface.
- * Full implementation: see T033 (chatbot backend adapter).
- */
-export default function SupportPage() {
-  return (
-    <PlaceholderPage
-      icon="💬"
-      title="Help & Support"
-      description="The AI learning path chatbot and searchable FAQ library will be available here. (T034)"
-    />
   );
 }

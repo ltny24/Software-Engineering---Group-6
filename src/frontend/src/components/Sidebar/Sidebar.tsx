@@ -4,7 +4,14 @@ import { useAuth } from '../../auth';
 import { ROUTES, ROLES } from '../../utils/constants';
 import './Sidebar.css';
 
-const studentNav = [
+interface NavItem {
+  label: string;
+  to: string;
+  icon: string;
+  disabled?: boolean;
+}
+
+const studentNav: NavItem[] = [
   { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
   { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤' },
   { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
@@ -16,7 +23,7 @@ const studentNav = [
   { label: 'Help & FAQ', to: ROUTES.SUPPORT_FAQ, icon: '❓' },
 ];
 
-const adminNav = [
+const adminNav: NavItem[] = [
   { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
   { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤', disabled: true },
   { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
@@ -89,22 +96,6 @@ export default function Sidebar() {
               </li>
             );
           })}
-          {navItems.map(({ label, to, icon }) => (
-            <li key={to} className="sidebar__item">
-              <NavLink
-                to={to}
-                end={to === ROUTES.DASHBOARD}
-                className={({ isActive }) =>
-                  `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
-                }
-              >
-                <span className="sidebar__icon" aria-hidden="true">
-                  {icon}
-                </span>
-                <span className="sidebar__label">{label}</span>
-              </NavLink>
-            </li>
-          ))}
         </ul>
       </nav>
 
