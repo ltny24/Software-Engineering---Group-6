@@ -75,7 +75,6 @@
     "trailingComma": "es5",
     "printWidth": 100,
     "endOfLine": "auto"
-    "printWidth": 100
   },
   "browserslist": {
     "production": [
@@ -88,9 +87,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
-}
-
   },
   "proxy": "http://localhost:8080"
 }

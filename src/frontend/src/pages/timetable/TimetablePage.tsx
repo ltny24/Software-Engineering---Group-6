@@ -55,11 +55,6 @@ function TimetablePage() {
         console.log(' Dữ liệu thô từ Backend:', rawData);
 
         const mappedSchedule: TimetableItem[] = rawData.map((item: any, index: number) => {
-        const res = await api.get<any[]>('/api/registrations/me');
-
-        console.log(' Dữ liệu thô từ Backend:', res);
-
-        const mappedSchedule: TimetableItem[] = (res || []).map((item: any, index: number) => {
           const offering = item.offering || item.courseOffering || item;
           const course = offering.course || item.course || {};
 
