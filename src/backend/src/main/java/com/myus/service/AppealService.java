@@ -3,6 +3,8 @@ package com.myus.service;
 import com.myus.dto.AppealResponse;
 import com.myus.dto.AppealReviewRequest;
 import com.myus.dto.AppealSubmitRequest;
+import myus.dto.appeal.AppealDetailResponse;
+import myus.dto.appeal.AppealSummaryResponse;
 
 import java.util.List;
 
@@ -19,37 +21,31 @@ public interface AppealService {
 
     /**
      * Submit a new grade appeal for the authenticated student.
-     *
-     * @param username the authenticated student's username
-     * @param request  the appeal submission payload
-     * @return the created appeal
      */
     AppealResponse submitAppeal(String username, AppealSubmitRequest request);
 
     /**
+     * Retrieve summary list of appeals for the student tracking dashboard.
+     */
+    List<AppealSummaryResponse> getStudentAppeals(String username);
+
+    /**
+     * Retrieve detailed appeal info by tracking code or ID for the student.
+     */
+    AppealDetailResponse getAppealDetailByCode(String trackingCode, String username);
+
+    /**
      * Retrieve all appeals submitted by the authenticated student.
-     *
-     * @param username the authenticated student's username
-     * @return list of the student's appeals, ordered by submission date descending
      */
     List<AppealResponse> getMyAppeals(String username);
 
     /**
      * Retrieve a specific appeal belonging to the authenticated student.
-     *
-     * @param username the authenticated student's username
-     * @param appealId the appeal ID
-     * @return the appeal details
      */
     AppealResponse getAppealById(String username, Long appealId);
 
     /**
-     * Withdraw a pending appeal. Only appeals in "Submitted" status
-     * can be withdrawn by the student.
-     *
-     * @param username the authenticated student's username
-     * @param appealId the appeal ID to withdraw
-     * @return the updated appeal with status "Withdrawn"
+     * Withdraw a pending appeal.
      */
     AppealResponse withdrawAppeal(String username, Long appealId);
 
@@ -57,29 +53,16 @@ public interface AppealService {
 
     /**
      * Retrieve all appeals, optionally filtered by status.
-     * Used by administrators.
-     *
-     * @param statusFilter optional status to filter by (null for all)
-     * @return list of appeals
      */
     List<AppealResponse> getAllAppeals(String statusFilter);
 
     /**
-     * Retrieve a specific appeal by ID. Used by administrators.
-     *
-     * @param appealId the appeal ID
-     * @return the appeal details
+     * Retrieve a specific appeal by ID.
      */
     AppealResponse getAppealByIdAdmin(Long appealId);
 
     /**
-     * Review and process a grade appeal. Allows the administrator to
-     * update the status, add comments, and set a fee payment deadline.
-     *
-     * @param appealId      the appeal ID to review
-     * @param adminUsername  the reviewing administrator's username
-     * @param request       the review payload
-     * @return the updated appeal
+     * Review and process a grade appeal.
      */
     AppealResponse reviewAppeal(Long appealId, String adminUsername, AppealReviewRequest request);
 }

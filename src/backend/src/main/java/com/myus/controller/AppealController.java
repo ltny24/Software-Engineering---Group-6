@@ -6,6 +6,8 @@ import com.myus.security.IsStudent;
 import com.myus.service.AppealService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import myus.dto.appeal.AppealDetailResponse;
+import myus.dto.appeal.AppealSummaryResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,19 +22,11 @@ import java.security.Principal;
 import java.util.List;
 
 /**
- * REST controller for student grade appeal operations (T028, T030).
+ * REST controller for student grade appeal operations.
  *
  * <p>All endpoints require the {@code STUDENT} role via the
  * {@link IsStudent} annotation. The authenticated student is
  * resolved from the JWT token.</p>
- *
- * <p>API contract:</p>
- * <ul>
- *   <li>{@code POST /api/appeals}               – submit a grade appeal</li>
- *   <li>{@code GET  /api/appeals/me}             – list my appeals</li>
- *   <li>{@code GET  /api/appeals/me/{appealId}}  – get specific appeal</li>
- *   <li>{@code PUT  /api/appeals/me/{appealId}/withdraw} – withdraw a pending appeal</li>
- * </ul>
  */
 @Slf4j
 @RestController
@@ -47,10 +41,6 @@ public class AppealController {
 
     /**
      * Submit a new grade appeal.
-     *
-     * @param principal the authenticated principal (injected from JWT)
-     * @param request   the appeal submission payload
-     * @return the created appeal (HTTP 201 Created)
      */
     @PostMapping
     @IsStudent
@@ -59,23 +49,40 @@ public class AppealController {
             @Valid @RequestBody AppealSubmitRequest request) {
 
         String username = principal.getName();
-        log.debug("POST /api/appeals – username={}, gradeId={}",
-                username, request.getGradeId());
+        log.debug("POST /api/appeals – username={}, gradeId={}", username, request.getGradeId());
 
         AppealResponse response = appealService.submitAppeal(username, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
+     * GET /api/v1/appeals/my-appeals – list summary of the authenticated student's appeals.
+     */
+    @GetMapping({"/my-appeals", "/v1/my-appeals"})
+    @IsStudent
+    public ResponseEntity<List<AppealSummaryResponse>> getStudentAppeals(Principal principal) {
+        String username = principal.getName();
+        return ResponseEntity.ok(appealService.getStudentAppeals(username));
+    }
+
+    /**
+     * GET /api/v1/appeals/{trackingCode} – get detailed information of a student appeal.
+     */
+    @GetMapping({"/{trackingCode}", "/v1/{trackingCode}"})
+    @IsStudent
+    public ResponseEntity<AppealDetailResponse> getAppealDetailByCode(
+            Principal principal,
+            @PathVariable String trackingCode) {
+        String username = principal.getName();
+        return ResponseEntity.ok(appealService.getAppealDetailByCode(trackingCode, username));
+    }
+
+    /**
      * Retrieve all appeals submitted by the authenticated student.
-     *
-     * @param principal the authenticated principal
-     * @return list of the student's appeals
      */
     @GetMapping("/me")
     @IsStudent
     public ResponseEntity<List<AppealResponse>> getMyAppeals(Principal principal) {
-
         String username = principal.getName();
         log.debug("GET /api/appeals/me – username={}", username);
 
@@ -85,10 +92,6 @@ public class AppealController {
 
     /**
      * Retrieve a specific appeal belonging to the authenticated student.
-     *
-     * @param principal the authenticated principal
-     * @param appealId  the appeal ID
-     * @return the appeal details
      */
     @GetMapping("/me/{appealId}")
     @IsStudent
@@ -104,12 +107,7 @@ public class AppealController {
     }
 
     /**
-     * Withdraw a pending appeal. Only appeals in "Submitted" status
-     * can be withdrawn.
-     *
-     * @param principal the authenticated principal
-     * @param appealId  the appeal ID to withdraw
-     * @return the updated appeal with status "Withdrawn"
+     * Withdraw a pending appeal.
      */
     @PutMapping("/me/{appealId}/withdraw")
     @IsStudent

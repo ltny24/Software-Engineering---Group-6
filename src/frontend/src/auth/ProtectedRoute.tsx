@@ -32,19 +32,20 @@ export default function ProtectedRoute({
   const location = useLocation();
 
   if (!isLoggedIn) {
-    // Redirect to login, preserving the attempted URL for post-login redirect.
     return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
-    // Authenticated but wrong role – show the Access Denied screen in-place.
-    return (
-      <UnauthorizedScreen
-        resourceName={resourceName}
-        requiredPermission={requiredPermission}
-        ucReference={ucReference}
-      />
-    );
+  if (requiredRole && user?.role) {
+    const normalizedUserRole = user.role.startsWith('ROLE_') ? user.role.substring(5) : user.role;
+    if (normalizedUserRole !== requiredRole) {
+      return (
+        <UnauthorizedScreen
+          resourceName={resourceName}
+          requiredPermission={requiredPermission}
+          ucReference={ucReference}
+        />
+      );
+    }
   }
 
   return children;

@@ -40,6 +40,8 @@ public class Appeal {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String reviewerComments;
 
+    private Double expectedGrade;
+
     private LocalDateTime deadline;
 
     private LocalDateTime resolvedAt;
@@ -50,5 +52,4 @@ public class Appeal {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewerAdminId")
     private Administrator reviewerAdmin;
-
 }
