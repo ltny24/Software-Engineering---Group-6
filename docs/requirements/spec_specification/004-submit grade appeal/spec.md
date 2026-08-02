@@ -13,7 +13,7 @@ The **Submit Grade Appeal** feature allows undergraduate students to digitally s
 
 ## 2. User Stories
 * **US-GA-01:** As a Student, I want to select an enrolled course and exam type (Midterm/Final) to submit a digital grade appeal so that my grade can be reviewed without filling out physical paper forms.
-* **US-GA-02:** As a Student, I want to attach supporting documents (e.g., assignment proofs, email correspondence, medical certificates) to my appeal request to provide evidence for the re-evaluation.
+* **US-GA-02:** As a Student, I want to provide a link/URL to supporting documents (e.g., assignment proofs, email correspondence, medical certificates) to my appeal request to provide evidence for the re-evaluation.
 * **US-GA-03:** As a Student, I want to view a visual tracking dashboard of my submitted appeals showing real-time status updates (`PENDING`, `PROCESSING`, `RESOLVED`, `REJECTED`) and the exact deadline to complete fee payments at the academic office.
 
 ---
@@ -30,14 +30,13 @@ The **Submit Grade Appeal** feature allows undergraduate students to digitally s
 * **FR-05:** Students MUST input their **Expected Grade** (must be a valid numerical grade between 0.0 and 10.0, higher than the current grade).
 * **FR-06:** Students MUST provide a **Reason for Appeal** (mandatory text field, minimum 20 characters, maximum 1000 characters).
 
-### 3.3. Document Upload
-* **FR-07:** The system MUST support attaching up to 3 supporting files per appeal.
-* **FR-08:** Allowed file formats: `.pdf`, `.png`, `.jpg`, `.jpeg`.
-* **FR-09:** Maximum allowed file size: **5 MB per file**.
+### 3.3. Document Link
+* **FR-07:** The system MUST support providing a valid URL to a supporting document.
+* **FR-08:** The document URL MUST be saved as text up to 2048 characters.
 
 ### 3.4. Workflow & Fee Deadline Calculation
-* **FR-10:** Upon successful submission, the system MUST generate a unique `Appeal Tracking ID` and set the initial status to `PENDING`.
-* **FR-11:** The system MUST automatically calculate and display a **Fee Payment Deadline** (exactly 5 business days from the submission timestamp) instructing the student when to pay the physical appeal fee at the Academic Affairs Office.
+* **FR-10:** Upon successful submission, the system MUST generate a unique Appeal record and set the initial status to `Submitted`.
+* **FR-11:** The fee payment deadline is managed by the administrator and displayed to the student in the status tracking dashboard.
 
 ---
 
@@ -45,12 +44,12 @@ The **Submit Grade Appeal** feature allows undergraduate students to digitally s
 
 ### Scenario 1: Successful Appeal Submission
 * **Given** a logged-in Student is on the Appeal Submission page and selecting an eligible course within the 14-day window,
-* **When** the student inputs valid expected grade (8.5 vs current 6.5), enters a valid reason (>20 chars), attaches a 2MB PDF proof, and clicks "Submit Appeal",
-* **Then** the system saves the record, displays a success confirmation modal with the Appeal Tracking ID, sets status to `PENDING`, and calculates the fee payment deadline (+5 business days).
+* **When** the student inputs valid expected grade (8.5 vs current 6.5), enters a valid reason (>20 chars), provides a valid document URL, and clicks "Submit Appeal",
+* **Then** the system saves the record, displays a success confirmation modal, sets status to `Submitted`, and awaits administrator review for deadline assignment.
 
 ### Scenario 2: Submission Rejected Due to Validation Errors
 * **Given** a logged-in Student is filling out the appeal form,
-* **When** the student leaves the "Reason" field empty OR uploads a `.exe` file OR uploads a file larger than 5MB,
+* **When** the student leaves the "Reason" field empty OR provides an invalid document URL length,
 * **Then** the Submit button remains disabled or triggers an error toast notification specifying the exact validation failure without submitting data to the server.
 
 ### Scenario 3: Real-Time Appeal Status & Deadline Tracking
@@ -82,11 +81,11 @@ graph TD
 
     A1(["Click 'Request Appeal' on eligible course"]):::action
     A2(["Select Exam Type & Input Expected Grade"]):::action
-    A3(["Input Reason & Upload Supporting Proofs"]):::action
+    A3(["Input Reason & Provide Document URL"]):::action
     A4(["Click 'Submit Appeal' button"]):::action
     A5(["Click 'Confirm & Agree to Fee Rules'"]):::action
 
-    D1{"Client Validation<br/>(Size < 5MB, Reason > 20 chars?)"}:::decision
+    D1{"Client Validation<br/>(Reason > 20 chars?)"}:::decision
     D2{"Server Validation<br/>(Within 14-day window?)"}:::decision
 
     S1 -->|Course locked / Expired| S1
@@ -170,20 +169,12 @@ Selectable options:
 - Multi-line textarea
 - Live character counter (e.g., **25 / 1000 characters**)
 
-##### Evidence Dropzone (`FileDropzone.tsx`)
+##### Document Link Input
 
 Supports:
 
-- Drag-and-drop upload
-- Allowed formats:
-  - `.pdf`
-  - `.png`
-  - `.jpg`
-- Maximum file size:
-  - **5 MB**
-- Features:
-  - Instant thumbnail preview
-  - Remove (**X**) button for each uploaded file
+- A text input field for providing a URL link to supporting evidence (e.g., Google Drive link).
+- Maximum length: 2048 characters.
 
 ##### Footer Actions
 
@@ -198,10 +189,9 @@ Supports:
   - Show inline validation:
     > "Expected grade must be higher than current grade."
 
-- If an uploaded file exceeds **5 MB**
-  - Reject the upload immediately.
+- If a document URL exceeds 2048 characters
   - Display toast notification:
-    > "File exceeds 5MB limit."
+    > "URL is too long."
 
 #### User Interaction
 
@@ -225,7 +215,7 @@ Displays a concise summary including:
 - Course
 - Exam Type
 - Current Grade → Expected Grade
-- Number of attached files
+- Attached document URL
 
 ##### Warning Banner (Yellow)
 
@@ -244,7 +234,7 @@ Displays the university policy:
 
 After confirmation:
 
-- Frontend submits a `POST /api/v1/appeals` request using **FormData**.
+- Frontend submits a `POST /api/v1/appeals` request using **JSON**.
 - A full-screen loading spinner is displayed while the request and file upload are being processed.
 
 ---
