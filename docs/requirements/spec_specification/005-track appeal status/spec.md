@@ -43,12 +43,12 @@ The **Track Grade Appeal Status** feature provides undergraduate students with a
 
 ## 3.3. Search, Filter, and Detail Inspection
 
-- **FR-05:** The UI MUST provide instant client-side filtering by Status (`All`, `Pending`, `Processing`, `Resolved`, `Rejected`) and text search by Course Code or Tracking ID (e.g., `GA-2026-0891`).
+- **FR-05:** The UI MUST provide instant client-side filtering by Status (`All`, `Pending`, `Processing`, `Resolved`, `Rejected`).
 
 - **FR-06:** The system MUST provide a detail slide-over drawer or modal when a record is selected, displaying:
   - Full course and exam metadata.
   - Student's original submission reason and expected grade.
-  - Downloadable hyperlinks to all supporting documents attached during submission.
+  - A clickable hyperlink to the provided supporting document URL.
   - Official administrative feedback, reviewing lecturer notes, and the final updated score (if applicable).
 
 ---
@@ -130,7 +130,7 @@ graph TD
 
     A1(["Select Status Filter / Type Search Keyword"]):::action
     A2(["Click row or 'View Details' button"]):::action
-    A3(["Click document attachment link"]):::action
+    A3(["Click document URL link"]):::action
     A4(["Click 'Close' or overlay background"]):::action
 
     Dec1{"Status == RESOLVED?"}:::decision
@@ -138,7 +138,7 @@ graph TD
     S1 --> A1 --> S1
     S1 --> A2 --> D1
 
-    D1 --> A3 -->|Download file| D1
+    D1 --> A3 -->|Open URL in new tab| D1
     D1 --> Dec1
 
     Dec1 -->|Yes: Show updated grade & Admin notes| D1
@@ -174,7 +174,7 @@ Includes:
 - Search input
   - Search by Course Name
   - Course Code
-  - Tracking ID
+  - Appeal ID
 
 - Status dropdown filter:
   - All
@@ -188,7 +188,7 @@ Includes:
 
 Displays the following columns:
 
-- Tracking Code (e.g., **GA-2026-0891**)
+- Appeal ID (e.g., **101**)
 - Course Information
   - Course Code
   - Course Name
@@ -237,7 +237,7 @@ Allows students to inspect complete appeal information without leaving the dashb
 
 Displays:
 
-- Tracking Code
+- Appeal ID
 - Status Badge
 - Submission Timestamp
 
@@ -257,13 +257,7 @@ Shows a highlighted comparison card including:
 Displays:
 
 - Full appeal reason
-- Uploaded supporting documents as clickable attachment cards
-
-Each attachment card contains:
-
-- File icon
-- File name
-- File size
+- Provided supporting document URL link
 
 ---
 
