@@ -1,0 +1,68 @@
+<!--
+Sync Impact Report
+Version change: 1.0.0 → 2.0.0
+Modified principles: I. Specification-Centered Collaboration → Technology Stack; II. Incremental Delivery → Architecture Principles; III. Quality by Design → Code Quality; IV. Git and Automation Discipline → Security; V. Transparency and Adaptation → Database
+Added sections: Technology Stack; Architecture Principles; Code Quality; Security; Database; Testing; Documentation
+Removed sections: Additional Constraints; Development Workflow
+Templates reviewed: .specify/templates/plan-template.md ✅ aligned; .specify/templates/spec-template.md ✅ aligned; .specify/templates/tasks-template.md ✅ aligned; .specify/templates/constitution-template.md ✅ aligned
+Follow-up TODOs: none
+-->
+
+# MyUS Project Constitution
+
+## Technology Stack
+
+- Frontend: React
+- Backend: Spring Boot
+- Database: SQL Server
+- Authentication: JWT
+
+## Architecture Principles
+
+- Follow Clean Architecture principles.
+- Separate Presentation, Business Logic, and Data Access layers.
+- Use RESTful APIs for communication.
+
+## Code Quality
+
+- Use meaningful naming conventions.
+- Follow coding standards and best practices.
+- All new features must be documented.
+
+## Security
+
+- All users must be authenticated before accessing protected resources.
+- Role-based authorization for Student and Administrator.
+- Sensitive data must not be exposed in APIs.
+
+## Database
+
+- Use normalized database design.
+- Maintain referential integrity through foreign keys.
+
+## Testing
+
+- Critical business logic should be tested.
+- API endpoints should be validated before deployment.
+
+## Documentation
+
+- Major features must include user stories and acceptance criteria.
+- System design decisions should be documented.
+
+## Governance
+
+This constitution is the authoritative guide for project planning, architecture, quality, and release readiness.
+Amendments require updating this document, reviewing changes with collaborators, and bumping the constitution version.
+
+Versioning policy:
+- MAJOR version when governance, principles, or section structure changes materially.
+- MINOR version when new mandatory sections are added.
+- PATCH version for clarifications, wording updates, or non-substantive edits.
+
+Compliance review:
+- Every pull request must reference this constitution and explain how proposed work complies with one or more sections.
+- Reviewers should flag changes that introduce hidden scope, weaken architecture boundaries, or bypass documented quality/security requirements.
+- Automated hooks are optional helpers, not substitutes for explicit agreement.
+
+**Version**: 2.0.0 | **Ratified**: 2026-06-02 | **Last Amended**: 2026-06-02
