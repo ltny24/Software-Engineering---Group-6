@@ -10,9 +10,9 @@
 
 **Purpose:** Configure database queries and lightweight DTO projections to fetch student appeal lists efficiently without loading heavy attachment blobs.
 
-- [ ] T030-01 [P] [US2] [FG2] Create projection interface or DTO class `AppealSummaryResponse.java` in `backend/src/main/java/com/myus/dto/appeal/`
-- [ ] T030-02 [P] [US2] [FG2] Create detailed DTO class `AppealDetailResponse.java` including attachment lists and admin feedback fields in `backend/src/main/java/com/myus/dto/appeal/`
-- [ ] T030-03 [P] [US2] [FG2] Add custom query methods in `GradeAppealRepository.java` (`findByStudentIdOrderByCreatedAtDesc` and `findByTrackingCodeAndStudentId`) in `backend/src/main/java/com/myus/repository/GradeAppealRepository.java`
+- [ ] T030-01 [P] [US2] [FG2] Create DTO class `AppealSummaryResponse.java` in `backend/src/myus/dto/appeal/`
+- [ ] T030-02 [P] [US2] [FG2] Create DTO class `AppealDetailResponse.java` in `backend/src/myus/dto/appeal/`
+- [ ] T030-03 [P] [US2] [FG2] Add custom query methods in `AppealRepository.java` in `backend/src/myus/repository/AppealRepository.java`
 
 ---
 
@@ -20,10 +20,9 @@
 
 **Purpose:** Implement secure REST controllers and background evaluation logic to handle status tracking and automatic deadline expiration.
 
-- [ ] T030-04 [P] [US2] [FG2] Implement service method `getStudentAppeals(String studentId)` in `AppealServiceImpl.java` mapping entities to summary DTOs in `backend/src/main/java/com/myus/service/impl/AppealServiceImpl.java`
-- [ ] T030-05 [P] [US2] [FG2] Implement service method `getAppealDetailByCode(String trackingCode, String studentId)` ensuring strict ownership verification in `backend/src/main/java/com/myus/service/impl/AppealServiceImpl.java`
-- [ ] T030-06 [US2] [FG2] Implement Spring `@Scheduled` cron job or read-time check in `AppealService` to automatically transition unpaid `PENDING` appeals past their deadline to `CANCELED` status in `backend/src/main/java/com/myus/service/AppealService.java`
-- [ ] T030-07 [P] [US2] [FG2] Implement REST endpoints `GET /my-appeals` and `GET /{trackingCode}` secured with `@PreAuthorize("hasRole('STUDENT')")` in `backend/src/main/java/com/myus/controller/AppealController.java`
+- [ ] T030-04 [P] [US2] [FG2] Implement service method `getStudentAppeals` in `AppealServiceImpl.java` in `backend/src/myus/service/AppealServiceImpl.java`
+- [ ] T030-05 [P] [US2] [FG2] Implement service method `getAppealDetailByCode` ensuring ownership verification in `backend/src/myus/service/AppealServiceImpl.java`
+- [ ] T030-07 [P] [US2] [FG2] Implement REST endpoints `GET /my-appeals` and `GET /{trackingCode}` in `backend/src/myus/controller/AppealController.java`
 
 ---
 
@@ -31,13 +30,12 @@
 
 **Purpose:** Build responsive tracking dashboard, search/filter controls, countdown alerts, and slide-over inspection drawer.
 
-- [ ] T032-01 [P] [US2] [FG2] Define TypeScript interfaces for tracking (`AppealSummaryDTO`, `AppealDetailDTO`, filter state types) in `frontend/src/types/appeal.types.ts`
-- [ ] T032-02 [P] [US2] [FG2] Implement API connector methods using Axios (`getMyAppealHistory`, `getAppealDetail`) in `frontend/src/services/appealService.ts`
-- [ ] T032-03 [US2] [FG2] Build reusable status badge component `AppealStatusBadge.tsx` supporting all 5 color-coded status states in `frontend/src/components/appeals/`
-- [ ] T032-04 [US2] [FG2] Implement deadline utility and countdown timer component `DeadlineCountdown.tsx` highlighting rows in bold red when under 24 hours remain in `frontend/src/components/appeals/`
-- [ ] T032-05 [US2] [FG2] Build summary metrics header and search/filter toolbar component `AppealFilterToolbar.tsx` supporting instant keyword searching and status dropdown selection in `frontend/src/components/appeals/`
-- [ ] T032-06 [US2] [FG2] Implement slide-over detail inspection drawer `AppealDetailDrawer.tsx` rendering original reasons, downloadable attachment cards, and admin feedback callouts in `frontend/src/components/appeals/`
-- [ ] T032-07 [US2] [FG2] Build main status dashboard page `AppealStatusDashboard.tsx` combining data grid, pagination, empty states, and drawer management in `frontend/src/pages/appeals/AppealStatusDashboard.tsx`
+- [ ] T032-01 [P] [US2] [FG2] Define TypeScript interfaces for tracking (`AppealSummaryResponse`, `AppealDetailResponse`) in `frontend/src/types/appeal.types.ts`
+- [ ] T032-02 [P] [US2] [FG2] Implement API connector methods using Axios in `frontend/src/services/appealService.ts`
+- [ ] T032-03 [US2] [FG2] Build reusable status badge component `AppealStatusBadge.tsx` in `frontend/src/components/appeals/`
+- [ ] T032-05 [US2] [FG2] Build filter toolbar component `AppealFilterToolbar.tsx` in `frontend/src/components/appeals/`
+- [ ] T032-06 [US2] [FG2] Implement detail inspection drawer `AppealDetailDrawer.tsx` rendering reasons, document link, and admin feedback in `frontend/src/components/appeals/`
+- [ ] T032-07 [US2] [FG2] Build status tracking page `AppealStatusTracking.tsx` in `frontend/src/pages/appeals/AppealStatusTracking.tsx`
 
 ---
 
@@ -45,7 +43,6 @@
 
 **Purpose:** Execute unit tests, integration tests, and UI verification for the status tracking and detail view workflows.
 
-- [ ] T040-01 [P] [US2] [FG2] Write Spring Boot JUnit 5 unit tests for `AppealService` verifying correct DTO mapping, strict student ID ownership filtering, and deadline expiration logic in `backend/src/test/java/com/myus/service/AppealServiceTest.java`
-- [ ] T040-02 [P] [US2] [FG2] Write MockMvc integration tests for `AppealController` verifying 200 OK responses for valid owners and 403 Forbidden for unauthorized access attempts in `backend/src/test/java/com/myus/controller/AppealControllerTest.java`
-- [ ] T041-01 [US2] [FG2] Write React Testing Library unit tests for `AppealStatusDashboard.tsx` verifying client-side keyword search filtering and badge color rendering in `frontend/src/tests/components/appeals/`
-- [ ] T041-02 [US2] [FG2] Perform manual end-to-end acceptance testing: Login as student (`24127001`) -> Open Status Dashboard -> Filter by "Resolved" -> Click row -> Verify admin feedback notes and updated score render correctly in the slide-over drawer.
+- [ ] T040-01 [P] [US2] [FG2] Write Spring Boot JUnit 5 unit tests for `AppealService` in `backend/test/myus/service/AppealServiceImplTest.java`
+- [ ] T041-01 [US2] [FG2] Write React Testing Library unit tests for `AppealStatusTracking.tsx` in `frontend/src/pages/appeals/`
+- [ ] T041-02 [US2] [FG2] Perform manual end-to-end acceptance testing: Login as student -> Open Status Dashboard -> Filter by "Resolved" -> Click row -> Verify admin feedback notes.
