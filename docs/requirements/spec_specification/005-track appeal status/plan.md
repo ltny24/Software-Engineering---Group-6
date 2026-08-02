@@ -43,9 +43,9 @@ Responsibilities include:
 
 - Enforce JWT authentication and `ROLE_STUDENT` authorization.
 - Ensure students can access only their own appeal records.
-- Execute optimized JPA queries for summary lists without eagerly loading attachments.
-- Automatically mark expired unpaid appeals as `CANCELED` using Spring `@Scheduled` tasks or query-time evaluation.
-- Stream attachment files securely or generate signed cloud storage URLs when requested.
+- Execute optimized JPA queries for summary lists.
+- Rely on manual administrative updates for status transitions.
+- Store the provided document URL securely as text within the `Appeal` entity.
 
 ---
 
@@ -137,43 +137,28 @@ Alternate row colors should improve readability:
 # Data Model
 
 ```ts
-interface AppealAttachmentDTO {
-  attachmentId: number;
-  fileName: string;
-  fileUrl: string;
-  fileSizeBytes: number;
-  contentType: string;
-}
-
-interface AppealSummaryDTO {
+interface AppealSummaryResponse {
   appealId: number;
-  trackingCode: string;
-  courseOfferingId: number;
   courseCode: string;
   courseName: string;
-  examType: string;
-  currentGrade: number;
-  expectedGrade: number;
-  status:
-    | "PENDING"
-    | "PROCESSING"
-    | "RESOLVED"
-    | "REJECTED"
-    | "CANCELED";
-  feeStatus:
-    | "UNPAID"
-    | "PAID"
-    | "WAIVED";
-  feePaymentDeadline: string;
-  createdAt: string;
+  term: string;
+  status: string;
+  submittedAt: string;
 }
 
-interface AppealDetailDTO extends AppealSummaryDTO {
-  reason: string;
-  adminResponse?: string;
-  updatedGrade?: number;
-  processedAt?: string;
-  attachments: AppealAttachmentDTO[];
+interface AppealDetailResponse {
+  appealId: number;
+  studentId: number;
+  courseCode: string;
+  courseName: string;
+  term: string;
+  expectedGrade: number;
+  appealReason: string;
+  supportingDocumentUrl?: string;
+  status: string;
+  reviewerComments?: string;
+  deadline?: string;
+  submittedAt: string;
 }
 ```
 
@@ -183,8 +168,8 @@ interface AppealDetailDTO extends AppealSummaryDTO {
 
 | Method | Endpoint | Description | Request | Response |
 |---------|----------|-------------|---------|----------|
-| GET | `/api/v1/appeals/my-appeals` | Retrieve all appeal summaries for the authenticated student | JWT Authentication | `200 OK` + `AppealSummaryDTO[]` |
-| GET | `/api/v1/appeals/{trackingCode}` | Retrieve complete appeal details, attachments, and administrative feedback | JWT Authentication | `200 OK` + `AppealDetailDTO` |
+| GET | `/api/v1/appeals/my-appeals` | Retrieve all appeal summaries for the authenticated student | JWT Authentication | `200 OK` + `AppealSummaryResponse[]` |
+| GET | `/api/v1/appeals/{trackingCode}` | Retrieve complete appeal details and administrative feedback | JWT Authentication | `200 OK` + `AppealDetailResponse` |
 
 ---
 
