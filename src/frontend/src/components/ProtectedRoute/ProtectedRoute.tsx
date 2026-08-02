@@ -28,6 +28,9 @@ export default function ProtectedRoute({
   requiredPermission,
   ucReference,
 }: ProtectedRouteProps) {
+}
+
+export default function ProtectedRoute({ children, requiredRole }: ProtectedRouteProps) {
   const { isLoggedIn, user } = useAuth();
   const location = useLocation();
 
@@ -47,6 +50,13 @@ export default function ProtectedRoute({
         />
       );
     }
+    // Redirect to login, preserving the attempted URL for post-login redirect.
+    return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
+  }
+
+  if (requiredRole && user?.role !== requiredRole) {
+    // Authenticated but wrong role – redirect to dashboard.
+    return <Navigate to={ROUTES.DASHBOARD} replace />;
   }
 
   return children;

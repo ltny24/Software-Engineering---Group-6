@@ -63,6 +63,7 @@
     ],
     "rules": {
       "prettier/prettier": "off",
+      "prettier/prettier": "error",
       "no-console": "warn",
       "react/prop-types": "off"
     }
@@ -74,6 +75,7 @@
     "trailingComma": "es5",
     "printWidth": 100,
     "endOfLine": "auto"
+    "printWidth": 100
   },
   "browserslist": {
     "production": [
@@ -89,3 +91,6 @@
   }
 }
 
+  },
+  "proxy": "http://localhost:8080"
+}

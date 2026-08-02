@@ -28,6 +28,15 @@ import java.util.stream.Collectors;
 /**
  * Implementation of {@link AppealService} providing the full
  * grade appeal workflow for both students and administrators.
+ *
+ * <p>Business rules enforced:</p>
+ * <ul>
+ *   <li>A student cannot submit duplicate appeals for the same grade</li>
+ *   <li>Only the grade owner can submit an appeal</li>
+ *   <li>Only appeals in "Submitted" status can be withdrawn</li>
+ *   <li>Status transitions are validated:
+ *       Submitted → Under Review → Approved/Denied</li>
+ * </ul>
  */
 @Slf4j
 @Service
@@ -61,14 +70,17 @@ public class AppealServiceImpl implements AppealService {
     public AppealResponse submitAppeal(String username, AppealSubmitRequest request) {
         Student student = findStudentByUsername(username);
 
+        // Validate that the grade exists
         Grade grade = gradeRepository.findById(request.getGradeId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Grade not found with ID: " + request.getGradeId()));
 
+        // Validate that the grade belongs to the student
         if (!grade.getStudent().getStudentId().equals(student.getStudentId())) {
             throw new AppealException("You can only appeal grades that belong to you.");
         }
 
+        // Check for duplicate active appeal on the same grade
         boolean duplicateExists = appealRepository
                 .existsByStudentStudentIdAndGradeGradeIdAndStatusNot(
                         student.getStudentId(), grade.getGradeId(), "Withdrawn");
@@ -78,6 +90,7 @@ public class AppealServiceImpl implements AppealService {
                     + "You must withdraw the existing appeal before submitting a new one.");
         }
 
+        // Create the appeal
         Appeal appeal = new Appeal();
         appeal.setStudent(student);
         appeal.setGrade(grade);
@@ -205,6 +218,7 @@ public class AppealServiceImpl implements AppealService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Administrator not found: " + adminUsername));
 
+        // Validate status transition
         String currentStatus = appeal.getStatus();
         String newStatus = request.getStatus();
         Set<String> allowed = VALID_TRANSITIONS.get(currentStatus);
@@ -217,6 +231,7 @@ public class AppealServiceImpl implements AppealService {
                     + (allowed != null ? allowed : "none (appeal is in a terminal state)"));
         }
 
+        // Apply the review
         appeal.setStatus(newStatus);
         appeal.setReviewerAdmin(admin);
 
@@ -228,6 +243,7 @@ public class AppealServiceImpl implements AppealService {
             appeal.setDeadline(request.getDeadline());
         }
 
+        // If the status is terminal (Approved/Denied), set resolution fields
         if ("Approved".equals(newStatus) || "Denied".equals(newStatus)) {
             appeal.setResolvedAt(LocalDateTime.now());
             appeal.setResolutionCode(newStatus.toUpperCase() + "_BY_ADMIN");
@@ -248,6 +264,10 @@ public class AppealServiceImpl implements AppealService {
                         "Student not found for username: " + username));
     }
 
+    /**
+     * Maps an {@link Appeal} entity to an {@link AppealResponse} DTO.
+     * Includes denormalized grade and course information.
+     */
     private AppealResponse mapToResponse(Appeal appeal) {
         AppealResponse response = new AppealResponse();
         response.setAppealId(appeal.getAppealId());
@@ -263,6 +283,7 @@ public class AppealServiceImpl implements AppealService {
         response.setResolvedAt(appeal.getResolvedAt());
         response.setResolutionCode(appeal.getResolutionCode());
 
+        // Include grade and course info if grade is available
         if (appeal.getGrade() != null) {
             Grade grade = appeal.getGrade();
             response.setGradeId(grade.getGradeId());

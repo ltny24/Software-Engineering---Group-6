@@ -89,6 +89,22 @@ export default function Sidebar() {
               </li>
             );
           })}
+          {navItems.map(({ label, to, icon }) => (
+            <li key={to} className="sidebar__item">
+              <NavLink
+                to={to}
+                end={to === ROUTES.DASHBOARD}
+                className={({ isActive }) =>
+                  `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
+                }
+              >
+                <span className="sidebar__icon" aria-hidden="true">
+                  {icon}
+                </span>
+                <span className="sidebar__label">{label}</span>
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </nav>
 

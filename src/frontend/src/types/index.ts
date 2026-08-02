@@ -131,6 +131,7 @@ export interface Appeal {
 // ----- FAQ -----
 export interface FAQArticle {
   faqId: string | number;
+  faqId: string;
   question: string;
   answer: string;
   category: string;
@@ -140,6 +141,8 @@ export interface FAQArticle {
   helpfulCount?: number;
   notHelpfulCount?: number;
   relatedQuestions?: FAQArticle[];
+  updatedAt: string;
+  published: boolean;
 }
 
 // ----- Class Transfer -----
