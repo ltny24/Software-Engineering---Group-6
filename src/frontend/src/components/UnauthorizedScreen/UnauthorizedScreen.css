@@ -1,0 +1,282 @@
+/* ============================================================
+   UnauthorizedScreen – Access Denied UI
+   Tone: uses the global design token palette (--color-*)
+   ============================================================ */
+
+.unauth-root {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  min-height: 60vh;
+  background: var(--color-bg, #f4f7fb);
+}
+
+/* ── Card ──────────────────────────────────────────────────── */
+.unauth-card {
+  max-width: 440px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+  animation: unauth-fade-in 0.35s ease both;
+}
+
+@keyframes unauth-fade-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Lock icon ─────────────────────────────────────────────── */
+.unauth-icon-wrap {
+  position: relative;
+  display: inline-flex;
+}
+
+.unauth-lock-circle {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: #fef2f2;
+  border: 2px solid #fecaca;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f87171;
+}
+
+.unauth-lock-circle svg {
+  width: 40px;
+  height: 40px;
+}
+
+.unauth-x-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #ef4444;
+  border: 2.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+}
+
+.unauth-x-badge svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ── Heading ───────────────────────────────────────────────── */
+.unauth-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.unauth-title {
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.unauth-desc {
+  font-size: 0.875rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 360px;
+}
+
+.unauth-desc strong {
+  color: #334155;
+  font-weight: 600;
+}
+
+/* ── Detail card ───────────────────────────────────────────── */
+.unauth-detail-card {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #fee2e2;
+  border-radius: 14px;
+  overflow: hidden;
+  text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.unauth-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1.25rem;
+  border-bottom: 1px solid #fff1f2;
+}
+
+.unauth-detail-row:last-child {
+  border-bottom: none;
+}
+
+.unauth-detail-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.unauth-detail-value {
+  font-size: 0.78rem;
+  color: #334155;
+  text-align: right;
+}
+
+.unauth-mono {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+}
+
+.unauth-violet {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  color: #7c3aed;
+}
+
+.unauth-role-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #be123c;
+  background: #fff1f2;
+  border: 1px solid #fecdd3;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Warning note ──────────────────────────────────────────── */
+.unauth-note {
+  width: 100%;
+  background: #f5f3ff;
+  border: 1px solid #ddd6fe;
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  text-align: left;
+}
+
+.unauth-note-icon {
+  flex-shrink: 0;
+  color: #7c3aed;
+  margin-top: 1px;
+}
+
+.unauth-note-icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.unauth-note-text {
+  font-size: 0.78rem;
+  color: #4c1d95;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.unauth-note-text strong {
+  font-weight: 700;
+}
+
+/* ── Actions ───────────────────────────────────────────────── */
+.unauth-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.unauth-btn-primary {
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  border: none;
+  background: #7c3aed;
+  color: #ffffff;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+}
+
+.unauth-btn-primary:hover {
+  background: #6d28d9;
+  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.38);
+  transform: translateY(-1px);
+}
+
+.unauth-btn-primary:active {
+  transform: translateY(0);
+}
+
+.unauth-btn-ghost {
+  width: 100%;
+  padding: 0.55rem 1rem;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans, 'Inter', sans-serif);
+  font-size: 0.875rem;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: color 0.15s ease;
+  border-radius: 8px;
+}
+
+.unauth-btn-ghost:hover {
+  color: #475569;
+  background: #f1f5f9;
+}
+
+/* ── Error ref ─────────────────────────────────────────────── */
+.unauth-error-ref {
+  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-size: 0.68rem;
+  color: #cbd5e1;
+  margin: 0;
+}
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 480px) {
+  .unauth-root {
+    padding: 1rem;
+    align-items: flex-start;
+    padding-top: 2.5rem;
+  }
+
+  .unauth-lock-circle {
+    width: 80px;
+    height: 80px;
+  }
+
+  .unauth-lock-circle svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .unauth-title {
+    font-size: 1.35rem;
+  }
+}

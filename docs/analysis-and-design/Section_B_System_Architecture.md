@@ -462,19 +462,19 @@ flowchart TB
     classDef external fill:#999999,stroke:#666666,stroke-width:2px,color:#ffffff,font-style:italic
 
     %% Primary Actors (People)
-    Student["<<Person>><br><b>Student</b><br>Undergraduate learners executing academic self-service, course registration, grade tracking, digital appeals, and AI advising."]:::person
+    Student["<<Person>><br/><b>Student</b><br/>Undergraduate learners executing academic self-service, course registration, grade tracking, digital appeals, and AI advising."]:::person
 
-    Admin["<<Person>><br><b>Administrator</b><br>Academic Affairs officers managing bulk data imports, class controls, grade appeal workflows, and student records."]:::person
+    Admin["<<Person>><br/><b>Administrator</b><br/>Academic Affairs officers managing bulk data imports, class controls, grade appeal workflows, and student records."]:::person
 
     %% Target Software System
-    MyUS["<<Software System>><br><b>MyUS University Portal System</b><br>Centralized academic platform digitalizing university operations, providing unified self-service workflows, automated grade appeal tracking, and intelligent curriculum counseling."]:::system
+    MyUS["<<Software System>><br/><b>MyUS University Portal System</b><br/>Centralized academic platform digitalizing university operations, providing unified self-service workflows, automated grade appeal tracking, and intelligent curriculum counseling."]:::system
 
     %% External Software Systems
-    GeminiAI["<<External System>><br><b>Google Gemini / OpenAI LLM API</b><br>Cloud-based Large Language Model service providing natural language understanding and smart course recommendations."]:::external
+    GeminiAI["<<External System>><br/><b>Google Gemini / OpenAI LLM API</b><br/>Cloud-based Large Language Model service providing natural language understanding and smart course recommendations."]:::external
 
-    EmailGateway["<<External System>><br><b>Campus SMTP Email Gateway</b><br>University notification server for dispatching transactional emails and fee deadline alerts."]:::external
+    EmailGateway["<<External System>><br/><b>Campus SMTP Email Gateway</b><br/>University notification server for dispatching transactional emails and fee deadline alerts."]:::external
 
-    FileStorage["<<External System>><br><b>Local File System / Object Storage</b><br>Binary file storage infrastructure for persisting grade appeal evidentiary documents."]:::external
+    FileStorage["<<External System>><br/><b>Local File System / Object Storage</b><br/>Binary file storage infrastructure for persisting grade appeal evidentiary documents."]:::external
 
     %% Human-to-System Interactions
     Student -->|"Registers courses, views grades/timetables, submits digital appeals with evidence, and queries AI advisor"| MyUS

@@ -1,0 +1,21 @@
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = 'myus'
+      AND TABLE_NAME = 'FAQArticle'
+      AND COLUMN_NAME = 'helpfulCount'
+)
+BEGIN
+    ALTER TABLE myus.FAQArticle ADD helpfulCount INT NOT NULL DEFAULT 0;
+END;
+
+IF NOT EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = 'myus'
+      AND TABLE_NAME = 'FAQArticle'
+      AND COLUMN_NAME = 'notHelpfulCount'
+)
+BEGIN
+    ALTER TABLE myus.FAQArticle ADD notHelpfulCount INT NOT NULL DEFAULT 0;
+END;
