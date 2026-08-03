@@ -3765,8 +3765,5 @@ INSERT INTO myus.FAQArticle (question, answer, category, tags, published) VALUES
 (N'I forgot my portal password. How do I reset it?', N'Click "Forgot password" on the login page and follow the email verification steps. If you no longer have access to your registered email, contact the IT Helpdesk directly.', N'IT/Technical Support', N'password, login, reset, account', 1),
 (N'The student portal is not loading correctly. What should I do?', N'Try clearing your browser cache or using an updated browser (Chrome, Edge, Firefox). If the issue persists, submit a ticket to the IT Helpdesk with a screenshot of the error.', N'IT/Technical Support', N'portal, technical_issue, browser, error', 1),
 (N'How do I update my contact information or address?', N'Go to My Profile, click Edit, update your phone number, address, or emergency contact, then click Save.', N'Academic Policies', N'profile, contact_info, address, update', 1);
-(N'How to register for courses online?', N'Students go to the Course Registration section, select a course from the Course Offerings list, and click Register.', N'Academic Affairs', N'course_registration, course', 1),
-(N'How to appeal a course grade?', N'Go to the Grade Appeal section, select the course to appeal, enter the reason, and attach supporting documents.', N'Examination & Assessment', N'grade_appeal, grade', 1),
-(N'What is the process for paying tuition online?', N'Students can check their balance in the Tuition section and transfer payment using the format StudentID - TuitionHKx to the university account.', N'Finance', N'tuition, payment', 1);
 
 SET NOCOUNT OFF;
