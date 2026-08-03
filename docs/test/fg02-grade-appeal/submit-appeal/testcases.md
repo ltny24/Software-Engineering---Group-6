@@ -1,0 +1,27 @@
+# FG02 – Grade Appeal: Submit Appeal – Test Cases
+
+## Overview
+
+The **Submit Appeal** feature allows students to submit a grade appeal application on the MyUS portal. Students can select the course to appeal, enter a reason, attach evidence documents, and submit the application within the specified deadline. The system must strictly control the submission deadline, attachment formats, and input data validity.
+
+---
+
+## Test Cases Table
+
+| Test Case ID | Test Scenario | Pre-conditions | Test Steps | Input Data | Expected Output | Test Type | Priority |
+|---|---|---|---|---|---|---|---|
+| TC_APP_SUB_01 | Submit valid appeal within deadline | Student is logged in; within submission deadline; has course to appeal | 1. Go to "Submit Appeal" <br>2. Select course from list <br>3. Enter appeal reason <br>4. Click "Submit" | Course: `Discrete Math`, Reason: `Grading incorrect for exam` | System records application successfully, displays "Appeal submitted successfully", application ID is auto-generated | Positive | High |
+| TC_APP_SUB_02 | Submit appeal with attached evidence file (PDF) | Student is logged in; within deadline | 1. Go to "Submit Appeal" <br>2. Select course <br>3. Enter reason <br>4. Attach PDF file <br>5. Click "Submit" | Course: `OOP Programming`, File: `evidence.pdf` (2MB) | Application submitted successfully with attachment; system confirms valid file | Positive | High |
+| TC_APP_SUB_03 | Submit appeal with attached image file (JPG) | Student is logged in; within deadline | 1. Select course <br>2. Enter reason <br>3. Attach JPG file <br>4. Click "Submit" | Course: `Calculus`, File: `exam_paper.jpg` (1.5MB) | Application submitted successfully; JPG file accepted | Positive | Medium |
+| TC_APP_SUB_04 | Submit appeal after deadline expired | Student is logged in; submission deadline has ended | 1. Go to "Submit Appeal" <br>2. Select course <br>3. Enter reason <br>4. Click "Submit" | Course: `General Physics`; Submission date: after expiry date | System displays error: "The appeal submission deadline for this semester has ended." Application not recorded | Negative | High |
+| TC_APP_SUB_05 | Submit without selecting course | Student is logged in; within deadline | 1. Go to "Submit Appeal" <br>2. Skip selecting course <br>3. Enter reason <br>4. Click "Submit" | Course: _(not selected)_ | System displays error: "Please select a course to appeal." | Negative | High |
+| TC_APP_SUB_06 | Submit with blank appeal reason | Student is logged in; within deadline | 1. Select course <br>2. Leave "Appeal reason" field blank <br>3. Click "Submit" | Reason: _(empty)_ | System displays error: "Appeal reason cannot be empty." | Negative | High |
+| TC_APP_SUB_07 | Attach unsupported file format (EXE) | Student is logged in; within deadline | 1. Select course <br>2. Enter reason <br>3. Attach .exe file <br>4. Click "Submit" | File: `virus.exe` | System rejects file, displays error: "File format not supported. Only PDF, JPG, PNG, DOCX accepted." | Negative | High |
+| TC_APP_SUB_08 | Attach file exceeding size limit (>5MB) | Student is logged in; within deadline | 1. Select course <br>2. Enter reason <br>3. Attach PDF file > 5MB <br>4. Click "Submit" | File: `large_file.pdf` (6MB) | System displays error: "Attached file cannot exceed 5MB." | Negative | Medium |
+| TC_APP_SUB_09 | Submit appeal for previously submitted course | Student has processing appeal for course X | 1. Go to "Submit Appeal" <br>2. Re-select appealed course <br>3. Enter reason <br>4. Click "Submit" | Course: _(course with processing appeal)_ | System warns: "You already have a processing appeal application for this course." | Negative | High |
+| TC_APP_SUB_10 | Enter appeal reason within character limit (500 chars) | Student is logged in; within deadline | 1. Enter exactly 500 characters <br>2. Click "Submit" | Reason: _(500-character string)_ | System accepts and submits successfully | Boundary | Medium |
+| TC_APP_SUB_11 | Enter appeal reason exceeding character limit (>500 chars) | Student is logged in; within deadline | 1. Enter over 500 characters <br>2. Click "Submit" | Reason: _(501+ character string)_ | System displays error: "Appeal reason cannot exceed 500 characters." | Boundary | Low |
+| TC_APP_SUB_12 | Submit exactly on final day of deadline (boundary) | Student is logged in; submission date = expiry date | 1. Access on final day of deadline <br>2. Fill all information <br>3. Click "Submit" | Submission date: _(final deadline day, before 23:59)_ | System accepts application and records successfully | Boundary | High |
+| TC_APP_SUB_13 | Attach multiple files simultaneously (if supported) | Student is logged in; within deadline | 1. Attach 2 valid files <br>2. Click "Submit" | File 1: `evidence1.pdf`, File 2: `exam.jpg` | System accepts both files and submits successfully | Positive | Low |
+| TC_APP_SUB_14 | Preview application before submitting | Student is logged in; fully populated information | 1. Fill all application info <br>2. Click "Preview" | Full application info | System displays preview of appeal application with full details | Positive | Medium |
+| TC_APP_SUB_15 | Cancel application after entering data (not submitted) | Student is filling form | 1. Fill partial info <br>2. Click "Cancel" | Incomplete info | System does not save application, returns to previous page; displays cancel confirmation warning | Positive | Medium |
