@@ -81,7 +81,7 @@ CREATE TABLE myus.CourseRegistration (
     CONSTRAINT FK_CourseRegistration_Offering FOREIGN KEY(offeringId) REFERENCES myus.CourseOffering(offeringId) ON DELETE CASCADE
 );
 
--- Grades (Đã sửa NO ACTION cho studentId và courseId để tránh Cascade Cycle)
+-- Grades (NO ACTION cho studentId và courseId để tránh Cascade Cycle)
 CREATE TABLE myus.Grade (
     gradeId BIGINT IDENTITY(1,1) PRIMARY KEY,
     registrationId BIGINT NULL,
@@ -181,9 +181,7 @@ CREATE TABLE myus.FAQArticle (
     category NVARCHAR(255),
     tags NVARCHAR(500),
     updatedAt DATETIME2 NULL,
-    [published] BIT NOT NULL DEFAULT 0,
-    helpfulCount INT NOT NULL DEFAULT 0,
-    notHelpfulCount INT NOT NULL DEFAULT 0
+    published BIT NOT NULL DEFAULT 0
 );
 
 -- Class Transfer Requests
@@ -218,6 +216,10 @@ ALTER TABLE myus.Survey ADD CONSTRAINT CHK_Survey_Status CHECK (status IN ('Draf
 ALTER TABLE myus.ClassTransferRequest ADD CONSTRAINT CHK_Transfer_Status CHECK (status IN ('Requested','Reviewing','Approved','Denied'));
 
 CREATE UNIQUE INDEX UX_CourseRegistration_Student_Offering ON myus.CourseRegistration(studentId, offeringId) WHERE status IN ('Requested','Enrolled','Waitlisted');
+
+-- Schema Updates / Adjustments
+ALTER TABLE myus.Grade ADD midtermGrade DECIMAL(4,2) NULL, finalGrade DECIMAL(4,2) NULL;
+ALTER TABLE myus.Appeal ADD expectedGrade DECIMAL(4,2) NULL;
 
 GO
 SET NOCOUNT OFF;
