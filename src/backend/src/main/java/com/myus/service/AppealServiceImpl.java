@@ -328,11 +328,7 @@ public class AppealServiceImpl implements AppealService {
         if (appeal.getGrade() != null) {
             Grade g = appeal.getGrade();
             res.setExamType("Final Exam");
-            if (g.getGradePoint() != null) {
-                res.setCurrentGrade(g.getGradePoint().doubleValue());
-            } else {
-                res.setCurrentGrade(8.0);
-            }
+            res.setCurrentGrade(g.getGradePoint() != null ? g.getGradePoint().doubleValue() : null);
 
             if (appeal.getExpectedGrade() != null) {
                 res.setExpectedGrade(appeal.getExpectedGrade());
@@ -344,15 +340,15 @@ public class AppealServiceImpl implements AppealService {
                 res.setCourseCode(g.getCourse().getCourseCode());
                 res.setCourseName(g.getCourse().getCourseName());
             } else {
-                res.setCourseCode("CSC10009");
-                res.setCourseName("Computer Systems");
+                res.setCourseCode(null);
+                res.setCourseName(null);
             }
         } else {
-            res.setExamType("Final Exam");
-            res.setCurrentGrade(8.0);
-            res.setExpectedGrade(appeal.getExpectedGrade() != null ? appeal.getExpectedGrade() : 8.0);
-            res.setCourseCode("CSC10009");
-            res.setCourseName("Computer Systems");
+            res.setExamType("N/A");
+            res.setCurrentGrade(null);
+            res.setExpectedGrade(appeal.getExpectedGrade() != null ? appeal.getExpectedGrade() : null);
+            res.setCourseCode(null);
+            res.setCourseName(null);
         }
 
         res.setFeeStatus("PENDING".equals(status) ? "UNPAID" : "PAID");

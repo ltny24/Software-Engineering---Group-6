@@ -49,10 +49,16 @@ public class AuthController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String token = jwtTokenProvider.generateToken(authentication);
             Long userId = null;
-            if (userDetails instanceof Student) {
-                userId = ((Student) userDetails).getStudentId();
-            } else if (userDetails instanceof Administrator) {
-                userId = ((Administrator) userDetails).getAdminId();
+            String username = null;
+            String displayName = null;
+            if (userDetails instanceof Student student) {
+                userId = student.getStudentId();
+                username = student.getUsername();
+                displayName = student.getFirstName() + " " + student.getLastName();
+            } else if (userDetails instanceof Administrator admin) {
+                userId = admin.getAdminId();
+                username = admin.getUsername();
+                displayName = admin.getDisplayName() != null ? admin.getDisplayName() : admin.getUsername();
             }
 
             String role = authentication.getAuthorities().stream()
@@ -60,7 +66,7 @@ public class AuthController {
                     .findFirst()
                     .orElse(null);
 
-            AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo(userId, role);
+            AuthResponse.UserInfo userInfo = new AuthResponse.UserInfo(userId, username, role, displayName);
             AuthResponse response = new AuthResponse(token, jwtTokenProvider.getExpirationMs(), userInfo);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException ex) {

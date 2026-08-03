@@ -62,7 +62,6 @@
       "prettier"
     ],
     "rules": {
-      "prettier/prettier": "off",
       "prettier/prettier": "error",
       "no-console": "warn",
       "react/prop-types": "off"

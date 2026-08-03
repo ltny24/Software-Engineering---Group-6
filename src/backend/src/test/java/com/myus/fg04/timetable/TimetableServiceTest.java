@@ -1,5 +1,6 @@
 package com.myus.fg04.timetable;
 
+import com.myus.service.TimetableService;
 import com.myus.service.TimetableServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,14 @@ class TimetableServiceTest {
     private TimetableServiceImpl timetableService;
 
     @Test
-    @DisplayName("Test getting timetable (stub)")
+    @DisplayName("Test getting timetable (stub returns empty list)")
     void testGetStudentTimetable() {
-        assertThat(timetableService.getStudentTimetable(1L, "2024-1")).isNull();
+        assertThat(timetableService.getStudentTimetable(1L, "2024-1")).isEmpty();
+    }
+
+    @Test
+    @DisplayName("Test implementing TimetableService interface")
+    void testImplementsInterface() {
+        assertThat(timetableService).isInstanceOf(TimetableService.class);
     }
 }

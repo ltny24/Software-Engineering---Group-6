@@ -4,11 +4,16 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -23,16 +28,22 @@ import java.util.stream.Collectors;
 /**
  * Filter that executes once per request to validate the JWT token.
  * Extends {@link OncePerRequestFilter}.
- * Uses stateless token validation by extracting roles directly from the JWT
- * without querying the database.
+ * Extracts the username from a valid JWT, loads the full {@link UserDetails}
+ * from the database, and sets the Spring Security authentication context.
+ * This enables {@code @AuthenticationPrincipal} injection in controllers.
  */
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtTokenProvider tokenProvider;
+    private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
-    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider) {
+    private final JwtTokenProvider tokenProvider;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtTokenProvider tokenProvider,
+                                   UserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -40,7 +51,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
             @NonNull FilterChain filterChain) throws ServletException, IOException {
-        
+
         try {
             String jwt = getJwtFromRequest(request);
 
@@ -56,15 +67,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                             .collect(Collectors.toList());
                 }
 
+                // Load the full UserDetails (Student or Administrator) so that
+                // @AuthenticationPrincipal resolves to the actual entity.
+                Object principal;
+                try {
+                    principal = userDetailsService.loadUserByUsername(username);
+                } catch (UsernameNotFoundException e) {
+                    // Token is valid but user no longer exists in DB.
+                    log.warn("JWT valid but user '{}' not found in database", username);
+                    principal = username;
+                }
+
                 UsernamePasswordAuthenticationToken authentication =
-                        new UsernamePasswordAuthenticationToken(username, null, authorities);
-                
+                        new UsernamePasswordAuthenticationToken(principal, null, authorities);
+
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         } catch (Exception ex) {
-            logger.error("Could not set user authentication in security context", ex);
+            log.error("Could not set user authentication in security context", ex);
         }
 
         filterChain.doFilter(request, response);

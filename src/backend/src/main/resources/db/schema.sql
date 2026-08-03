@@ -211,7 +211,7 @@ CREATE TABLE myus.ChatbotSession (
 
 -- Additional constraints: status enumerations
 ALTER TABLE myus.CourseRegistration ADD CONSTRAINT CHK_CourseRegistration_Status CHECK (status IN ('Requested','Enrolled','Waitlisted','Dropped'));
-ALTER TABLE myus.Appeal ADD CONSTRAINT CHK_Appeal_Status CHECK (status IN ('Submitted','Under Review','Approved','Denied','Withdrawn'));
+ALTER TABLE myus.Appeal ADD CONSTRAINT CHK_Appeal_Status CHECK (status IN ('Submitted','Under Review','Approved','Denied','Withdrawn','CANCELED'));
 ALTER TABLE myus.Survey ADD CONSTRAINT CHK_Survey_Status CHECK (status IN ('Draft','Open','Closed'));
 ALTER TABLE myus.ClassTransferRequest ADD CONSTRAINT CHK_Transfer_Status CHECK (status IN ('Requested','Reviewing','Approved','Denied'));
 
