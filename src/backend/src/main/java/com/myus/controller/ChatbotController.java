@@ -8,7 +8,6 @@ import com.myus.service.ai.GraduationTrackingService;
 import com.myus.service.ai.ProfileAnalysisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -40,10 +39,6 @@ public class ChatbotController {
     public ResponseEntity<ChatResponseDTO> chat(
             @AuthenticationPrincipal Student student,
             @RequestBody ChatRequestDTO request) {
-        if (student == null) {
-            log.warn("No authenticated Student principal resolved");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
         log.info("POST /api/v1/chatbot/chat — student={}", student.getUsername());
         ChatResponseDTO response = chatbotService.processChat(student, request);
         return ResponseEntity.ok(response);
@@ -56,10 +51,6 @@ public class ChatbotController {
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<List<CourseSuggestionDTO>> getRecommendations(
             @AuthenticationPrincipal Student student) {
-        if (student == null) {
-            log.warn("No authenticated Student principal resolved");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
         log.info("GET /api/v1/chatbot/recommendations — student={}", student.getUsername());
         List<CourseSuggestionDTO> recommendations = courseRecommendationService.recommendCourses(student);
         return ResponseEntity.ok(recommendations);
@@ -73,10 +64,6 @@ public class ChatbotController {
     public ResponseEntity<GraduationProgressDTO> getProgress(
             @AuthenticationPrincipal Student student,
             @RequestParam(defaultValue = "15") int creditsPerTerm) {
-        if (student == null) {
-            log.warn("No authenticated Student principal resolved");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
         log.info("GET /api/v1/chatbot/progress — student={}, creditsPerTerm={}",
                 student.getUsername(), creditsPerTerm);
         GraduationProgressDTO progress = graduationTrackingService.projectGraduation(student, creditsPerTerm);

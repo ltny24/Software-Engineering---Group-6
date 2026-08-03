@@ -35,79 +35,6 @@ public class ChatbotServiceImpl implements ChatbotService {
     private final GeminiProperties geminiProps;
     private final ObjectMapper objectMapper;
 
-    /**
-     * Academic keywords used to determine if a question is relevant.
-     * Messages that don't match any of these are politely declined.
-     */
-    private static final List<String> ACADEMIC_KEYWORDS = List.of(
-            "course", "class", "subject", "credit", "semester", "term",
-            "major", "minor", "degree", "graduat", "diploma", "gpa", "grade",
-            "prerequisite", "requirement", "corequisite", "elective",
-            "register", "enroll", "drop", "withdraw", "add", "swap",
-            "schedule", "timetable", "catalog", "curriculum", "syllabus",
-            "professor", "instructor", "lecture", "lab", "tutorial",
-            "transcript", "audit", "progress", "timeline", "plan",
-            "recommend", "suggest", "eligible", "qualify",
-            "tuition", "fee", "payment", "financial", "scholarship",
-            "policy", "academic", "study", "campus", "exam", "test",
-            "transfer", "credit", "appeal", "probation", "honor",
-            "program", "requirement", "milestone", "complete", "remaining",
-            "my progress", "my courses", "my degree", "my major", "my grades",
-            "what should i take", "what courses", "how many credits",
-            "when can i", "how do i register", "need to graduate",
-            "next semester", "this semester", "course selection",
-            "help", "hello", "hi", "hey", "thanks", "thank you"
-    );
-
-    /** Topics that are explicitly out of scope for the academic advisor. */
-    private static final List<String> OFF_TOPIC_PATTERNS = List.of(
-            "weather", "recipe", "cook", "sport", "game", "movie", "music",
-            "song", "dance", "joke", "funny", "story", "news", "politics",
-            "election", "war", "stock", "crypto", "bitcoin", "price",
-            "dating", "girlfriend", "boyfriend", "relationship", "love",
-            "hack", "exploit", "illegal", "cheat", "steal",
-            "code", "program", "debug", "compile", "server", "database",
-            "write a poem", "write a story", "tell me about",
-            "who is", "what is the meaning of life"
-    );
-
-    /**
-     * Check whether the user's message is relevant to academic advising.
-     * Returns {@code true} if the question should be answered.
-     */
-    private boolean isRelevantQuestion(String message) {
-        if (message == null || message.isBlank()) {
-            return false;
-        }
-        String lower = message.toLowerCase().trim();
-
-        // 1. Check off-topic patterns first (strong rejection)
-        for (String pattern : OFF_TOPIC_PATTERNS) {
-            if (lower.contains(pattern)) {
-                log.info("Off-topic question detected, pattern='{}', message='{}'", pattern, lower);
-                return false;
-            }
-        }
-
-        // 2. Check academic keywords (at least one match required for long messages)
-        long matchCount = ACADEMIC_KEYWORDS.stream()
-                .filter(lower::contains)
-                .count();
-
-        // Short greetings (≤20 chars) are always allowed
-        if (lower.length() <= 20) {
-            return true;
-        }
-
-        // For longer messages, require at least 1 academic keyword match
-        if (matchCount == 0) {
-            log.info("No academic keywords matched, message='{}'", lower);
-            return false;
-        }
-
-        return true;
-    }
-
     @Override
     public ChatResponseDTO processChat(Student student, ChatRequestDTO request) {
         String contextType = request.getContextType() != null
@@ -115,17 +42,6 @@ public class ChatbotServiceImpl implements ChatbotService {
                 : "GENERAL";
 
         log.info("Processing chat for student={}, contextType={}", student.getUsername(), contextType);
-
-        // 0. Reject off-topic / non-academic questions
-        if (!isRelevantQuestion(request.getMessage())) {
-            log.info("Rejected irrelevant question from student={}: {}", student.getUsername(), request.getMessage());
-            return ChatResponseDTO.builder()
-                    .responseId(UUID.randomUUID().toString())
-                    .replyText(buildRejectionResponse(student))
-                    .timestamp(LocalDateTime.now())
-                    .intent("REJECTED")
-                    .build();
-        }
 
         // 1. Gather rule-based data
         GraduationProgressDTO progress = profileAnalysisService.getGraduationProgress(student);
@@ -148,20 +64,6 @@ public class ChatbotServiceImpl implements ChatbotService {
                 .graduationProgress(contextType.equals("GRADUATION_AUDIT") ? progress : null)
                 .intent(contextType)
                 .build();
-    }
-
-    /**
-     * Build a polite rejection message for off-topic questions.
-     */
-    private String buildRejectionResponse(Student student) {
-        return "🙏 **Sorry, " + student.getFirstName() + "!**\n\n"
-                + "I'm your **academic advisor assistant**, so I can only help with topics related to:\n\n"
-                + "📚 **Course recommendations** — finding the best courses for your next semester\n"
-                + "🎓 **Graduation tracking** — checking your progress and estimated timeline\n"
-                + "📋 **Registration guidance** — prerequisites, requirements, and policies\n"
-                + "💰 **Tuition & payments** — questions about fees and financial matters\n\n"
-                + "Could you rephrase your question around your academic journey? "
-                + "I'd be happy to help with course selection, degree planning, or any university-related topic! 🎯";
     }
 
     /**
