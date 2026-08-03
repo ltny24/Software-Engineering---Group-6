@@ -66,6 +66,7 @@ public class SecurityConfig {
                     .requestMatchers("/api/v1/grades/**", "/api/grades/**").hasAnyAuthority("STUDENT", "ROLE_STUDENT", "ADMINISTRATOR", "ROLE_ADMINISTRATOR")
                     .requestMatchers("/api/student/**", "/api/v1/student/**").hasAnyAuthority("STUDENT", "ROLE_STUDENT")
                     .requestMatchers("/api/admin/**", "/api/v1/admin/**").hasAnyAuthority("ADMINISTRATOR", "ROLE_ADMINISTRATOR")
+                    .requestMatchers("/api/v1/chatbot/**").hasAnyAuthority("STUDENT", "ROLE_STUDENT")
 
                     .anyRequest().authenticated()
             );
