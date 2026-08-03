@@ -2,6 +2,9 @@
 // AIChatbotPage – AI Learning Path Chatbot (T037)
 // Combines rule-based degree audit with Gemini-powered
 // conversational academic advising.
+//
+// Chat history is persisted in localStorage so messages survive
+// page navigation. History is cleared only on explicit reset.
 // ============================================================
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
@@ -12,11 +15,48 @@ import type { ChatMessage, ContextType } from '../../types/chatbot.types';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
 
+const CHAT_STORAGE_KEY = 'myus_chat_history';
+
+/** Load chat history from localStorage */
+function loadChatHistory(): ChatMessage[] {
+  try {
+    const stored = localStorage.getItem(CHAT_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed) && parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch {
+    // Corrupted data — ignore and start fresh
+  }
+  return [];
+}
+
+/** Save chat history to localStorage */
+function saveChatHistory(messages: ChatMessage[]) {
+  try {
+    localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+  } catch {
+    // Storage full or unavailable — silently ignore
+  }
+}
+
+/** Clear chat history from localStorage */
+function clearChatHistory() {
+  try {
+    localStorage.removeItem(CHAT_STORAGE_KEY);
+  } catch {
+    // silently ignore
+  }
+}
+
 export default function AIChatbotPage() {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => loadChatHistory());
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
@@ -29,25 +69,36 @@ export default function AIChatbotPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Welcome message on first render
+  // Persist messages to localStorage whenever they change
   useEffect(() => {
-    if (messages.length === 0) {
-      const welcome: ChatMessage = {
-        id: 'welcome',
-        role: 'assistant',
-        content: `👋 Hello ${user?.displayName || 'there'}! I'm your AI academic advisor.\n\nI can help you with:\n📚 **Course recommendations** — find the best courses for your next semester\n🎓 **Graduation tracking** — check your progress and estimated timeline\n❓ **Academic questions** — ask about prerequisites, requirements, or policies\n\nSelect a quick action below or type your question!`,
-        timestamp: new Date().toISOString(),
-        progress: {
-          totalRequiredCredits: 135,
-          completedCredits: 0,
-          remainingCredits: 0,
-          estimatedSemestersLeft: 0,
-          completionPercentage: 0,
-          criticalMilestonesPending: [],
-          completedMilestones: [],
-        },
-      };
-      setMessages([welcome]);
+    if (messages.length > 0) {
+      saveChatHistory(messages);
+    }
+  }, [messages]);
+
+  // Welcome message on first render (only if no saved history)
+  useEffect(() => {
+    if (!initialized) {
+      setInitialized(true);
+      const existing = loadChatHistory();
+      if (existing.length === 0) {
+        const welcome: ChatMessage = {
+          id: 'welcome',
+          role: 'assistant',
+          content: `👋 Hello ${user?.displayName || 'there'}! I'm your AI academic advisor.\n\nI can help you with:\n📚 **Course recommendations** — find the best courses for your next semester\n🎓 **Graduation tracking** — check your progress and estimated timeline\n❓ **Academic questions** — ask about prerequisites, requirements, or policies\n\nSelect a quick action below or type your question!`,
+          timestamp: new Date().toISOString(),
+          progress: {
+            totalRequiredCredits: 135,
+            completedCredits: 0,
+            remainingCredits: 0,
+            estimatedSemestersLeft: 0,
+            completionPercentage: 0,
+            criticalMilestonesPending: [],
+            completedMilestones: [],
+          },
+        };
+        setMessages([welcome]);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -140,9 +191,10 @@ export default function AIChatbotPage() {
   };
 
   const handleReset = () => {
+    clearChatHistory();
     setMessages([]);
     setInput('');
-    // Re-trigger welcome message via re-render
+    // Re-show welcome message
     setTimeout(() => {
       const welcome: ChatMessage = {
         id: `welcome-${Date.now()}`,
