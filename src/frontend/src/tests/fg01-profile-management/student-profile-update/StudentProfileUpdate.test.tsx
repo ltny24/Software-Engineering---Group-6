@@ -12,18 +12,18 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import toast from 'react-hot-toast';
+import api from '../../../services/api';
+import ProfilePage from '../../../pages/profile/ProfilePage';
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
-import toast from 'react-hot-toast';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn(), put: jest.fn() },
 }));
-import api from '../../../services/api';
 
 jest.mock('../../../pages/profile/ProfilePage.css', () => ({}), { virtual: true });
-import ProfilePage from '../../../pages/profile/ProfilePage';
 
 // -- Fixture ------------------------------------------------------------------
 const MOCK_PROFILE = {
@@ -51,7 +51,7 @@ beforeEach(() => jest.clearAllMocks());
 async function renderLoadedPage() {
   mockApiGet.mockResolvedValueOnce(MOCK_PROFILE);
   render(<ProfilePage />);
-  await waitFor(() => screen.getByText('SV001'));
+  await screen.findByText('SV001');
 }
 
 async function openEditMode() {
@@ -63,14 +63,13 @@ async function openEditMode() {
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG01 - Student Profile Update', () => {
-
   // -- TC_PROF_01: Update valid phone number -----------------------------------
   it('TC_PROF_01: update valid phone number -> success message and saved to DB', async () => {
     mockApiGet.mockResolvedValueOnce(MOCK_PROFILE);
     mockApiPut.mockResolvedValueOnce({ ...MOCK_PROFILE, phone: '0912345678' });
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
 
     const phoneInput = screen.getByPlaceholderText(/enter phone number/i);
@@ -109,7 +108,7 @@ describe('FG01 - Student Profile Update', () => {
     mockApiPut.mockResolvedValueOnce({ ...MOCK_PROFILE, address: '123 Le Loi, District 1, HCMC' });
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
 
     const addressInput = screen.getByPlaceholderText(/enter home address/i);
@@ -194,7 +193,7 @@ describe('FG01 - Student Profile Update', () => {
     mockApiPut.mockResolvedValueOnce(MOCK_PROFILE);
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
     await userEvent.click(screen.getByRole('button', { name: /save changes/i }));
 
@@ -226,7 +225,9 @@ describe('FG01 - Student Profile Update', () => {
     await renderLoadedPage();
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
     // Verify no emergency contact form -> this TC is pending
-    expect(screen.queryByPlaceholderText(/emergency contact|người liên hệ/i)).not.toBeInTheDocument();
+    expect(
+      screen.queryByPlaceholderText(/emergency contact|người liên hệ/i)
+    ).not.toBeInTheDocument();
   });
 
   // -- TC_PROF_12: Phone number exactly 10 digits - min boundary ---------------
@@ -235,7 +236,7 @@ describe('FG01 - Student Profile Update', () => {
     mockApiPut.mockResolvedValueOnce({ ...MOCK_PROFILE, phone: '0123456789' });
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
 
     const phoneInput = screen.getByPlaceholderText(/enter phone number/i);
@@ -291,7 +292,7 @@ describe('FG01 - Student Profile Update', () => {
     mockApiPut.mockResolvedValueOnce({ ...MOCK_PROFILE, address: specialAddress });
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
 
     const addressInput = screen.getByPlaceholderText(/enter home address/i);
@@ -311,10 +312,14 @@ describe('FG01 - Student Profile Update', () => {
   // -- TC_PROF_17: Update multiple fields simultaneously -----------------------
   it('TC_PROF_17: update multiple fields simultaneously -> all saved successfully', async () => {
     mockApiGet.mockResolvedValueOnce(MOCK_PROFILE);
-    mockApiPut.mockResolvedValueOnce({ ...MOCK_PROFILE, phone: '0911223344', address: '456 Nguyen Trai' });
+    mockApiPut.mockResolvedValueOnce({
+      ...MOCK_PROFILE,
+      phone: '0911223344',
+      address: '456 Nguyen Trai',
+    });
 
     render(<ProfilePage />);
-    await waitFor(() => screen.getByText('SV001'));
+    await screen.findByText('SV001');
     await userEvent.click(screen.getByRole('button', { name: /edit contact info/i }));
 
     const phoneInput = screen.getByPlaceholderText(/enter phone number/i);

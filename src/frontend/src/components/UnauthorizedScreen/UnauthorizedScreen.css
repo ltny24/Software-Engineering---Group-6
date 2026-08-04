@@ -1,58 +1,57 @@
-/* ============================================================
-   UnauthorizedScreen – Access Denied UI
-   Tone: uses the global design token palette (--color-*)
-   ============================================================ */
-
+/* Unauthorized — Skylearn */
 .unauth-root {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: var(--space-8);
   min-height: 60vh;
-  background: var(--color-bg, #f4f7fb);
+  background: var(--color-bg);
 }
-
-/* ── Card ──────────────────────────────────────────────────── */
 .unauth-card {
-  max-width: 440px;
+  max-width: 460px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: var(--space-6);
   text-align: center;
   animation: unauth-fade-in 0.35s ease both;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-8);
 }
-
 @keyframes unauth-fade-in {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-/* ── Lock icon ─────────────────────────────────────────────── */
 .unauth-icon-wrap {
   position: relative;
   display: inline-flex;
 }
-
 .unauth-lock-circle {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: #fef2f2;
-  border: 2px solid #fecaca;
+  background: var(--color-error-soft);
+  border: 2px solid rgba(248, 113, 113, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #f87171;
+  color: var(--color-error);
 }
-
 .unauth-lock-circle svg {
   width: 40px;
   height: 40px;
 }
-
 .unauth-x-badge {
   position: absolute;
   top: -4px;
@@ -60,223 +59,188 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #ef4444;
-  border: 2.5px solid #ffffff;
+  background: var(--color-error);
+  border: 2.5px solid #fff;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(248, 113, 113, 0.4);
 }
-
 .unauth-x-badge svg {
   width: 14px;
   height: 14px;
 }
-
-/* ── Heading ───────────────────────────────────────────────── */
 .unauth-heading {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: var(--space-2);
 }
-
 .unauth-title {
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #0f172a;
-  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
   margin: 0;
 }
-
 .unauth-desc {
-  font-size: 0.875rem;
-  color: #64748b;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
   line-height: 1.6;
   margin: 0;
   max-width: 360px;
 }
-
 .unauth-desc strong {
-  color: #334155;
-  font-weight: 600;
+  color: var(--color-text);
+  font-weight: var(--font-semibold);
 }
-
-/* ── Detail card ───────────────────────────────────────────── */
 .unauth-detail-card {
   width: 100%;
-  background: #ffffff;
-  border: 1px solid #fee2e2;
-  border-radius: 14px;
+  background: var(--color-surface-elevated);
+  border: 1px solid var(--color-error-soft);
+  border-radius: var(--radius-lg);
   overflow: hidden;
   text-align: left;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
-
 .unauth-detail-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
-  padding: 0.85rem 1.25rem;
+  gap: var(--space-4);
+  padding: 12px 20px;
   border-bottom: 1px solid #fff1f2;
 }
-
 .unauth-detail-row:last-child {
   border-bottom: none;
 }
-
 .unauth-detail-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #94a3b8;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-  white-space: nowrap;
+  letter-spacing: 0.05em;
 }
-
 .unauth-detail-value {
-  font-size: 0.78rem;
-  color: #334155;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text);
   text-align: right;
 }
-
 .unauth-mono {
-  font-family: var(--font-mono, 'Fira Code', monospace);
+  font-family: var(--font-mono);
 }
-
 .unauth-violet {
-  font-family: var(--font-mono, 'Fira Code', monospace);
-  color: #7c3aed;
+  font-family: var(--font-mono);
+  color: var(--color-primary);
 }
-
 .unauth-role-badge {
   display: inline-flex;
   align-items: center;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: #be123c;
-  background: #fff1f2;
-  border: 1px solid #fecdd3;
-  padding: 0.25rem 0.65rem;
-  border-radius: 999px;
-  letter-spacing: 0.02em;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--font-bold);
+  color: #dc2626;
+  background: var(--color-error-soft);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
 }
-
-/* ── Warning note ──────────────────────────────────────────── */
 .unauth-note {
   width: 100%;
-  background: #f5f3ff;
-  border: 1px solid #ddd6fe;
-  border-radius: 12px;
-  padding: 1rem 1.1rem;
+  background: var(--color-primary-soft);
+  border: 1px solid rgba(36, 87, 184, 0.2);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4);
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
+  gap: var(--space-3);
   text-align: left;
 }
-
 .unauth-note-icon {
   flex-shrink: 0;
-  color: #7c3aed;
+  color: var(--color-primary);
   margin-top: 1px;
 }
-
 .unauth-note-icon svg {
   width: 16px;
   height: 16px;
 }
-
 .unauth-note-text {
-  font-size: 0.78rem;
-  color: #4c1d95;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-primary-hover);
   line-height: 1.6;
   margin: 0;
 }
-
 .unauth-note-text strong {
-  font-weight: 700;
+  font-weight: var(--font-bold);
 }
-
-/* ── Actions ───────────────────────────────────────────────── */
 .unauth-actions {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: var(--space-2);
 }
-
 .unauth-btn-primary {
   width: 100%;
-  padding: 0.7rem 1rem;
-  border-radius: 10px;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
   border: none;
-  background: #7c3aed;
-  color: #ffffff;
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  font-size: 0.875rem;
-  font-weight: 600;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
   cursor: pointer;
-  transition: background 0.18s ease, box-shadow 0.18s ease, transform 0.12s ease;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.28);
+  box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
+  min-height: 48px;
+  transition: all var(--transition-fast);
 }
-
 .unauth-btn-primary:hover {
-  background: #6d28d9;
-  box-shadow: 0 4px 14px rgba(109, 40, 217, 0.38);
+  background: var(--color-primary-hover);
+  box-shadow: 0 4px 16px rgba(36, 87, 184, 0.3);
   transform: translateY(-1px);
 }
-
-.unauth-btn-primary:active {
-  transform: translateY(0);
-}
-
 .unauth-btn-ghost {
   width: 100%;
-  padding: 0.55rem 1rem;
+  padding: var(--space-2) var(--space-4);
   border: none;
   background: transparent;
-  font-family: var(--font-sans, 'Inter', sans-serif);
-  font-size: 0.875rem;
-  color: #94a3b8;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
   cursor: pointer;
-  transition: color 0.15s ease;
-  border-radius: 8px;
+  min-height: 44px;
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
 }
-
 .unauth-btn-ghost:hover {
-  color: #475569;
-  background: #f1f5f9;
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
 }
-
-/* ── Error ref ─────────────────────────────────────────────── */
 .unauth-error-ref {
-  font-family: var(--font-mono, 'Fira Code', monospace);
-  font-size: 0.68rem;
-  color: #cbd5e1;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
   margin: 0;
 }
-
-/* ── Responsive ────────────────────────────────────────────── */
 @media (max-width: 480px) {
   .unauth-root {
-    padding: 1rem;
+    padding: var(--space-4);
     align-items: flex-start;
-    padding-top: 2.5rem;
+    padding-top: var(--space-8);
   }
-
+  .unauth-card {
+    padding: var(--space-6);
+  }
   .unauth-lock-circle {
     width: 80px;
     height: 80px;
   }
-
   .unauth-lock-circle svg {
     width: 32px;
     height: 32px;
-  }
-
-  .unauth-title {
-    font-size: 1.35rem;
   }
 }

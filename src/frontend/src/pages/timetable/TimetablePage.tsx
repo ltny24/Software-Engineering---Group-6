@@ -3,6 +3,7 @@ import toast from 'react-hot-toast';
 import api from '../../services/api';
 import { useAuth } from '../../auth';
 import { ROLES } from '../../utils/constants';
+import './TimetablePage.css';
 
 interface TimetableItem {
   id: number;
@@ -51,8 +52,6 @@ function TimetablePage() {
           const res = await api.get<any[]>('/api/registrations/me');
           rawData = res || [];
         }
-
-        console.log(' Dữ liệu thô từ Backend:', rawData);
 
         const mappedSchedule: TimetableItem[] = rawData.map((item: any, index: number) => {
           const offering = item.offering || item.courseOffering || item;
@@ -107,19 +106,12 @@ function TimetablePage() {
     };
 
     fetchTimetableData();
-  }, []);
+  }, [isAdmin]);
 
   if (loading) {
     return (
-      <div
-        style={{
-          padding: '40px',
-          textAlign: 'center',
-          color: '#64748b',
-          fontFamily: 'system-ui, -apple-system, sans-serif',
-        }}
-      >
-        Loading timetable...
+      <div className="timetable-loading">
+        <span className="spinner" /> Loading timetable...
       </div>
     );
   }
@@ -129,152 +121,56 @@ function TimetablePage() {
   const totalPeriods = filteredSchedule.reduce((sum, item) => sum + item.periods, 0);
 
   const renderWeeklyTable = (title: string, schedulesToRender: TimetableItem[]) => (
-    <div
-      key={title}
-      style={{
-        backgroundColor: '#ffffff',
-        borderRadius: '8px',
-        boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-        border: '1px solid #e2e8f0',
-        overflow: 'hidden',
-        marginBottom: '32px',
-      }}
-    >
-      <div
-        style={{
-          padding: '16px 24px',
-          borderBottom: '1px solid #e2e8f0',
-          backgroundColor: '#f8fafc',
-        }}
-      >
-        <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-          {title}
-        </h2>
+    <div className="timetable-weekly-table" key={title}>
+      <div className="timetable-weekly-table__header">
+        <h2>{title}</h2>
       </div>
-
-      <div style={{ overflowX: 'auto' }}>
-        <table
-          style={{
-            width: '100%',
-            borderCollapse: 'collapse',
-            textAlign: 'left',
-            fontSize: '13px',
-          }}
-        >
+      <div className="timetable-weekly-table__wrapper">
+        <table className="timetable-weekly-table__grid">
           <thead>
-            <tr
-              style={{
-                backgroundColor: '#f8fafc',
-                borderBottom: '2px solid #e2e8f0',
-                color: '#64748b',
-                fontSize: '12px',
-                textTransform: 'uppercase',
-              }}
-            >
+            <tr>
               {DAYS_OF_WEEK.map((dayName) => (
-                <th
-                  key={dayName}
-                  style={{
-                    padding: '14px 12px',
-                    fontWeight: '600',
-                    borderRight: '1px solid #e2e8f0',
-                    minWidth: '150px',
-                  }}
-                >
-                  {dayName}
-                </th>
+                <th key={dayName}>{dayName}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            <tr style={{ backgroundColor: '#ffffff' }}>
+            <tr>
               {DAYS_OF_WEEK.map((dayName) => {
                 const coursesOnDay = schedulesToRender.filter((item) => item.day === dayName);
                 return (
                   <td
                     key={dayName}
-                    style={{
-                      padding: '12px',
-                      borderRight: '1px solid #e2e8f0',
-                      borderBottom: '1px solid #f1f5f9',
-                      verticalAlign: 'top',
-                      backgroundColor: coursesOnDay.length > 0 ? '#ffffff' : '#fcfcfd',
-                    }}
+                    className={
+                      coursesOnDay.length > 0 ? 'timetable-cell--filled' : 'timetable-cell--empty'
+                    }
                   >
-                    {coursesOnDay.length > 0 ? (
-                      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        {coursesOnDay.map((course) => (
-                          <div
-                            key={course.id}
-                            style={{
-                              padding: '8px 10px',
-                              borderRadius: '6px',
-                              backgroundColor: '#eff6ff',
-                              border: '1px solid #bfdbfe',
-                              borderLeft: '3px solid #2563eb',
-                            }}
-                          >
+                    {coursesOnDay.length > 0
+                      ? coursesOnDay.map((course) => (
+                          <div key={course.id} className="timetable-course-block">
                             {isAdmin ? (
-                              <div
-                                style={{
-                                  fontSize: '11px',
-                                  color: '#1e293b',
-                                  fontWeight: '600',
-                                }}
-                              >
+                              <div className="timetable-course-block__name">
                                 {course.courseName} {getTimeSlot(course.periods)}
                               </div>
                             ) : (
                               <>
-                                <div
-                                  style={{
-                                    fontSize: '12px',
-                                    fontWeight: '600',
-                                    color: '#1e40af',
-                                    marginBottom: '4px',
-                                  }}
-                                >
+                                <div className="timetable-course-block__code">
                                   {course.courseCode}
                                 </div>
-                                <div
-                                  style={{
-                                    fontSize: '11px',
-                                    color: '#1e293b',
-                                    fontWeight: '500',
-                                    marginBottom: '2px',
-                                  }}
-                                >
+                                <div className="timetable-course-block__name">
                                   {course.courseName}
                                 </div>
-                                <div
-                                  style={{
-                                    fontSize: '10px',
-                                    color: '#64748b',
-                                    marginBottom: '4px',
-                                  }}
-                                >
+                                <div className="timetable-course-block__time">
                                   {getTimeSlot(course.periods)}
                                 </div>
-                                <div style={{ fontSize: '10px', color: '#64748b' }}>
+                                <div className="timetable-course-block__detail">
                                   {course.room} | {course.periods} periods
                                 </div>
                               </>
                             )}
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <div
-                        style={{
-                          color: '#cbd5e1',
-                          fontSize: '12px',
-                          padding: '20px 0',
-                          textAlign: 'center',
-                        }}
-                      >
-                        —
-                      </div>
-                    )}
+                        ))
+                      : '—'}
                   </td>
                 );
               })}
@@ -286,269 +182,104 @@ function TimetablePage() {
   );
 
   return (
-    <div
-      style={{
-        backgroundColor: '#f8fafc',
-        minHeight: '100vh',
-        padding: '32px 24px',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-        width: '100%',
-      }}
-    >
-      <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            borderBottom: '1px solid #e2e8f0',
-            paddingBottom: '20px',
-            marginBottom: '32px',
-            flexWrap: 'wrap',
-            gap: '16px',
-          }}
-        >
-          <div>
-            <h1
-              style={{ fontSize: '24px', fontWeight: '600', color: '#1e293b', margin: '0 0 4px 0' }}
-            >
-              Academic Timetable
-            </h1>
-            <p style={{ fontSize: '14px', color: '#64748b', margin: 0 }}>
-              Track study schedules by semester and classrooms
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: '#ffffff',
-              border: '1px solid #cbd5e1',
-              borderRadius: '6px',
-              padding: '6px 12px',
-              boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
-            }}
-          >
-            <label
-              htmlFor="timetable-term-select"
-              style={{ fontSize: '14px', fontWeight: '500', color: '#475569', marginRight: '8px' }}
-            >
-              Semester:
-            </label>
-            <select
-              id="timetable-term-select"
-              value={selectedTerm}
-              onChange={(e) => setSelectedTerm(e.target.value)}
-              style={{
-                border: 'none',
-                backgroundColor: 'transparent',
-                fontSize: '14px',
-                fontWeight: '500',
-                color: '#1e293b',
-                outline: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <option value="2024-2025-HK2">Semester 2 (2024 - 2025)</option>
-              <option value="2024-2025-HK1">Semester 1 (2024 - 2025)</option>
-            </select>
-          </div>
+    <div className="timetable-page">
+      {/* Header */}
+      <div className="timetable-page__header">
+        <div>
+          <h1 className="timetable-page__title">Academic Timetable</h1>
+          <p className="timetable-page__subtitle">
+            Track study schedules by semester and classrooms
+          </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '24px', marginBottom: '32px', flexWrap: 'wrap' }}>
-          <div
-            style={{
-              flex: '1',
-              minWidth: '250px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: '4px solid #6366f1',
-            }}
+        <div className="timetable-page__term-select">
+          <label htmlFor="timetable-term-select">Semester:</label>
+          <select
+            id="timetable-term-select"
+            value={selectedTerm}
+            onChange={(e) => setSelectedTerm(e.target.value)}
           >
-            <div
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
-              }}
-            >
-              Total Courses
-            </div>
-            <div style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
-              {totalCourses}
-            </div>
-          </div>
+            <option value="2024-2025-HK2">Semester 2 (2024 - 2025)</option>
+            <option value="2024-2025-HK1">Semester 1 (2024 - 2025)</option>
+          </select>
+        </div>
+      </div>
 
-          <div
-            style={{
-              flex: '1',
-              minWidth: '250px',
-              backgroundColor: '#ffffff',
-              borderRadius: '8px',
-              padding: '24px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-              border: '1px solid #e2e8f0',
-              borderTop: '4px solid #0ea5e9',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '12px',
-                fontWeight: '600',
-                color: '#64748b',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px',
-                marginBottom: '8px',
-              }}
-            >
-              Total Periods / Week
-            </div>
-            <div style={{ fontSize: '30px', fontWeight: '700', color: '#1e293b' }}>
-              {totalPeriods}
-            </div>
-          </div>
+      {/* Stat cards */}
+      <div className="timetable-stats">
+        <div className="timetable-stat-card">
+          <div className="timetable-stat-label">Total Courses</div>
+          <div className="timetable-stat-number">{totalCourses}</div>
         </div>
 
-        {/* Weekly Timetable */}
-        {isAdmin ? (
-          <>
-            {renderWeeklyTable(
-              'Weekly Timetable - Morning',
-              filteredSchedule.filter((item) => item.periods <= 3)
-            )}
-            {renderWeeklyTable(
-              'Weekly Timetable - Afternoon',
-              filteredSchedule.filter((item) => item.periods > 3)
-            )}
-          </>
-        ) : (
-          <>
-            {renderWeeklyTable('Weekly Timetable', filteredSchedule)}
-            <div
-              style={{
-                backgroundColor: '#ffffff',
-                borderRadius: '8px',
-                boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
-                border: '1px solid #e2e8f0',
-                overflow: 'hidden',
-                marginTop: '32px',
-              }}
-            >
-              <div
-                style={{
-                  padding: '16px 24px',
-                  borderBottom: '1px solid #e2e8f0',
-                  backgroundColor: '#f8fafc',
-                }}
-              >
-                <h2 style={{ fontSize: '15px', fontWeight: '600', color: '#334155', margin: 0 }}>
-                  Detailed Timetable
-                </h2>
-              </div>
+        <div className="timetable-stat-card timetable-stat-card--blue">
+          <div className="timetable-stat-label">Total Periods / Week</div>
+          <div className="timetable-stat-number">{totalPeriods}</div>
+        </div>
+      </div>
 
-              <div style={{ overflowX: 'auto' }}>
-                <table
-                  style={{
-                    width: '100%',
-                    borderCollapse: 'collapse',
-                    textAlign: 'left',
-                    fontSize: '14px',
-                  }}
-                >
-                  <thead>
-                    <tr
-                      style={{
-                        backgroundColor: '#ffffff',
-                        borderBottom: '2px solid #e2e8f0',
-                        color: '#64748b',
-                        fontSize: '12px',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Day</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Code</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Course Name</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Time</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Room</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Lecturer</th>
-                      <th style={{ padding: '14px 24px', fontWeight: '600' }}>Type</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredSchedule.length > 0 ? (
-                      filteredSchedule.map((item, index) => (
-                        <tr
-                          key={item.id}
-                          style={{
-                            borderBottom: '1px solid #f1f5f9',
-                            backgroundColor: index % 2 === 0 ? '#ffffff' : '#fcfcfd',
-                          }}
-                        >
-                          <td style={{ padding: '16px 24px', color: '#1e293b', fontWeight: '600' }}>
-                            {item.day}
-                          </td>
-                          <td
-                            style={{
-                              padding: '16px 24px',
-                              fontFamily: 'monospace',
-                              color: '#475569',
-                              fontWeight: '500',
-                            }}
-                          >
-                            {item.courseCode}
-                          </td>
-                          <td style={{ padding: '16px 24px', fontWeight: '600', color: '#1e293b' }}>
-                            {item.courseName}
-                          </td>
-                          <td style={{ padding: '16px 24px', color: '#475569' }}>
-                            {getTimeSlot(item.periods)}
-                          </td>
-                          <td style={{ padding: '16px 24px', color: '#475569' }}>{item.room}</td>
-                          <td style={{ padding: '16px 24px', color: '#475569' }}>
-                            {item.lecturer}
-                          </td>
-                          <td style={{ padding: '16px 24px' }}>
-                            <span
-                              style={{
-                                display: 'inline-block',
-                                padding: '4px 10px',
-                                borderRadius: '6px',
-                                fontWeight: '600',
-                                fontSize: '13px',
-                                backgroundColor: '#eff6ff',
-                                color: '#2563eb',
-                                border: '1px solid #bfdbfe',
-                              }}
-                            >
-                              {item.classType}
-                            </span>
-                          </td>
-                        </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        <td
-                          colSpan={8}
-                          style={{ padding: '48px', textAlign: 'center', color: '#94a3b8' }}
-                        >
-                          No timetable data available for this semester.
+      {/* Weekly Timetable */}
+      {isAdmin ? (
+        <>
+          {renderWeeklyTable(
+            'Weekly Timetable - Morning',
+            filteredSchedule.filter((item) => item.periods <= 3)
+          )}
+          {renderWeeklyTable(
+            'Weekly Timetable - Afternoon',
+            filteredSchedule.filter((item) => item.periods > 3)
+          )}
+        </>
+      ) : (
+        <>
+          {renderWeeklyTable('Weekly Timetable', filteredSchedule)}
+
+          {/* Detailed table */}
+          <div className="timetable-detailed-table">
+            <div className="timetable-detailed-table__header">
+              <h2>Detailed Timetable</h2>
+            </div>
+            <div className="timetable-detailed-table__wrapper">
+              <table className="timetable-detailed-table__grid">
+                <thead>
+                  <tr>
+                    <th>Day</th>
+                    <th>Course Code</th>
+                    <th>Course Name</th>
+                    <th>Time</th>
+                    <th>Room</th>
+                    <th>Lecturer</th>
+                    <th>Type</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredSchedule.length > 0 ? (
+                    filteredSchedule.map((item) => (
+                      <tr key={item.id}>
+                        <td className="cell-day">{item.day}</td>
+                        <td className="cell-mono">{item.courseCode}</td>
+                        <td className="cell-name">{item.courseName}</td>
+                        <td className="cell-text">{getTimeSlot(item.periods)}</td>
+                        <td className="cell-text">{item.room}</td>
+                        <td className="cell-text">{item.lecturer}</td>
+                        <td>
+                          <span className="timetable-type-badge">{item.classType}</span>
                         </td>
                       </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={8} className="timetable-empty">
+                        No timetable data available for this semester.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

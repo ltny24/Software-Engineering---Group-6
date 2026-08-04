@@ -156,7 +156,12 @@ export interface ClassTransferRequest {
 }
 
 // ----- Grade Appeal (from appeal.types) -----
-export type { AppealSummaryDTO, AppealDetailDTO, AppealStatus as AppealDisplayStatus, FeeStatus } from './appeal.types';
+export type {
+  AppealSummaryDTO,
+  AppealDetailDTO,
+  AppealStatus as AppealDisplayStatus,
+  FeeStatus,
+} from './appeal.types';
 
 // ----- Chatbot -----
 export interface ChatbotMessage {

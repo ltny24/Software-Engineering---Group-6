@@ -15,28 +15,31 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import toast from 'react-hot-toast';
+import api from '../../../services/api';
+import AppealsPage from '../../../pages/appeals/AppealsPage';
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
-import toast from 'react-hot-toast';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn(), post: jest.fn(), put: jest.fn() },
 }));
-import api from '../../../services/api';
 
 // Mock PlaceholderPage
 jest.mock('../../../components/PlaceholderPage/PlaceholderPage', () => ({
   __esModule: true,
   default: ({ title, description }: { title: string; description: string }) => (
-    <div><h1>{title}</h1><p>{description}</p></div>
+    <div>
+      <h1>{title}</h1>
+      <p>{description}</p>
+    </div>
   ),
 }));
-import AppealsPage from '../../../pages/appeals/AppealsPage';
 
 const mockApiPost = api.post as jest.Mock;
-const mockApiGet  = api.get  as jest.Mock;
-const mockApiPut  = api.put  as jest.Mock;
+const mockApiGet = api.get as jest.Mock;
+const mockApiPut = api.put as jest.Mock;
 
 // -- Fixtures ------------------------------------------------------------------
 const VALID_APPEAL_RESPONSE = {
@@ -71,7 +74,6 @@ beforeEach(() => jest.clearAllMocks());
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG02 - Submit Appeal', () => {
-
   // -- TC_APP_SUB_01: Submit valid appeal within deadline -----------------------
   it('TC_APP_SUB_01: submit appeal for Discrete Math with valid reason -> 201 Created and success message', async () => {
     mockApiPost.mockResolvedValueOnce(VALID_APPEAL_RESPONSE);
@@ -96,7 +98,10 @@ describe('FG02 - Submit Appeal', () => {
       appealReason: 'Proof of incorrect grading',
       supportingDocumentUrl: 'https://storage.myus.edu/docs/evidence.pdf',
     };
-    mockApiPost.mockResolvedValueOnce({ ...VALID_APPEAL_RESPONSE, supportingDocumentUrl: pdfPayload.supportingDocumentUrl });
+    mockApiPost.mockResolvedValueOnce({
+      ...VALID_APPEAL_RESPONSE,
+      supportingDocumentUrl: pdfPayload.supportingDocumentUrl,
+    });
 
     // Validate file type
     expect(isValidFileType('evidence.pdf')).toBe(true);
@@ -105,9 +110,12 @@ describe('FG02 - Submit Appeal', () => {
 
     const result = await api.post('/api/appeals', pdfPayload);
 
-    expect(mockApiPost).toHaveBeenCalledWith('/api/appeals', expect.objectContaining({
-      supportingDocumentUrl: expect.stringContaining('.pdf'),
-    }));
+    expect(mockApiPost).toHaveBeenCalledWith(
+      '/api/appeals',
+      expect.objectContaining({
+        supportingDocumentUrl: expect.stringContaining('.pdf'),
+      })
+    );
     expect((result as any).supportingDocumentUrl).toContain('evidence.pdf');
   });
 
@@ -126,9 +134,12 @@ describe('FG02 - Submit Appeal', () => {
     mockApiPost.mockResolvedValueOnce({ ...VALID_APPEAL_RESPONSE, ...payload });
 
     await api.post('/api/appeals', payload);
-    expect(mockApiPost).toHaveBeenCalledWith('/api/appeals', expect.objectContaining({
-      supportingDocumentUrl: expect.stringContaining('.jpg'),
-    }));
+    expect(mockApiPost).toHaveBeenCalledWith(
+      '/api/appeals',
+      expect.objectContaining({
+        supportingDocumentUrl: expect.stringContaining('.jpg'),
+      })
+    );
   });
 
   // -- TC_APP_SUB_04: Submit after deadline -------------------------------------
@@ -140,12 +151,16 @@ describe('FG02 - Submit Appeal', () => {
     expect(isWithinDeadline(submittedDate, pastDeadline)).toBe(false);
 
     const deadlineError = Object.assign(new Error('Bad Request'), {
-      response: { status: 400, data: { message: 'Appeal submission deadline for this semester has passed.' } },
+      response: {
+        status: 400,
+        data: { message: 'Appeal submission deadline for this semester has passed.' },
+      },
     });
     mockApiPost.mockRejectedValueOnce(deadlineError);
 
-    await expect(api.post('/api/appeals', { gradeId: 101, appealReason: 'Test' }))
-      .rejects.toMatchObject({ response: { status: 400 } });
+    await expect(
+      api.post('/api/appeals', { gradeId: 101, appealReason: 'Test' })
+    ).rejects.toMatchObject({ response: { status: 400 } });
   });
 
   // -- TC_APP_SUB_05: Submit without selecting course ---------------------------

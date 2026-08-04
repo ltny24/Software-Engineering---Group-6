@@ -408,19 +408,6 @@ export default function CoursesPage() {
                                       : 'Register'}
                               </button>
                             )}
-                            <button
-                              className="btn-edit register-btn"
-                              disabled={registered || full || registeringId === offering.offeringId}
-                              onClick={() => handleRegister(offering)}
-                            >
-                              {registered
-                                ? 'Registered ✓'
-                                : registeringId === offering.offeringId
-                                  ? 'Registering...'
-                                  : full
-                                    ? 'Full'
-                                    : 'Register'}
-                            </button>
                           </td>
                         </tr>
                       );

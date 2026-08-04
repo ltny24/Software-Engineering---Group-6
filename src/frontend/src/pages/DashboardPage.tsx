@@ -1,102 +1,32 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../auth';
-import { ROUTES, ROLES } from '../utils/constants';
+import { ROLES } from '../utils/constants';
 import './DashboardPage.css';
 
-// ── Student quick-access cards ──────────────────────────────
-
-const studentCards = [
+const scheduleTable = [
   {
-    id: 'dash-card-profile',
-    icon: '👤',
-    title: 'My Profile',
-    desc: 'View and update your personal information.',
-    to: ROUTES.PROFILE,
+    time: 'Morning',
+    Mon: 'CS101 - R204',
+    Tue: 'MATH230 - R108',
+    Wed: '—',
+    Thu: 'CS101 - R204',
+    Fri: 'PHYS140 - Lab3',
+    Sat: '—',
   },
   {
-    id: 'dash-card-courses',
-    icon: '📚',
-    title: 'Course Registration',
-    desc: 'Browse available courses and register for the semester.',
-    to: ROUTES.COURSES,
-  },
-  {
-    id: 'dash-card-timetable',
-    icon: '🗓️',
-    title: 'Timetable',
-    desc: 'View your weekly class schedule.',
-    to: ROUTES.TIMETABLE,
-  },
-  {
-    id: 'dash-card-grades',
-    icon: '📊',
-    title: 'Grades & GPA',
-    desc: 'Check your academic performance and GPA.',
-    to: ROUTES.GRADES,
-  },
-  {
-    id: 'dash-card-tuition',
-    icon: '💳',
-    title: 'Tuition & Fees',
-    desc: 'Review your tuition balance and payment history.',
-    to: ROUTES.TUITION,
-  },
-  {
-    id: 'dash-card-appeals',
-    icon: '📝',
-    title: 'Grade Appeals',
-    desc: 'Submit or track a grade appeal request.',
-    to: ROUTES.APPEALS,
-  },
-  {
-    id: 'dash-card-support',
-    icon: '💬',
-    title: 'Support & FAQs',
-    desc: 'Access FAQs and the AI learning path chatbot.',
-    to: ROUTES.SUPPORT,
+    time: 'Afternoon',
+    Mon: '—',
+    Tue: 'ENG201 - R305',
+    Wed: 'MATH230 - R108',
+    Thu: '—',
+    Fri: 'ENG201 - R305',
+    Sat: '—',
   },
 ];
-
-// ── Admin quick-access cards ─────────────────────────────────
-
-const adminCards = [
-  {
-    id: 'dash-card-students',
-    icon: '👥',
-    title: 'Student Records',
-    desc: 'Search and view detailed student records.',
-    to: ROUTES.ADMIN_STUDENTS,
-  },
-  {
-    id: 'dash-card-import',
-    icon: '📥',
-    title: 'Bulk Import',
-    desc: 'Import student, course, and enrollment data in bulk.',
-    to: ROUTES.ADMIN_IMPORT,
-  },
-  {
-    id: 'dash-card-transfers',
-    icon: '🔄',
-    title: 'Class Transfers',
-    desc: 'Review and manage class transfer requests.',
-    to: ROUTES.ADMIN_TRANSFERS,
-  },
-  {
-    id: 'dash-card-admin-appeals',
-    icon: '⚖️',
-    title: 'Grade Appeals',
-    desc: 'Process pending grade appeals and record decisions.',
-    to: ROUTES.ADMIN_APPEALS,
-  },
-];
-
-// ── Component ─────────────────────────────────────────────────
 
 export default function DashboardPage() {
   const { user } = useAuth();
-  const isAdmin = user?.role === ROLES.ADMIN;
-  const cards = isAdmin ? adminCards : studentCards;
+  const displayName = user?.displayName ?? 'User';
 
   const greeting = (() => {
     const hour = new Date().getHours();
@@ -106,46 +36,100 @@ export default function DashboardPage() {
   })();
 
   return (
-    <div className="dashboard">
-      {/* Hero banner */}
-      <div className="dashboard__hero">
-        <div className="dashboard__hero-text">
-          <h1 className="dashboard__greeting">
-            {greeting}, {user?.displayName ?? 'User'} 👋
+    <div className="dash">
+      <div className="dash__welcome">
+        <div>
+          <h1 className="dash__title">
+            {greeting}, {displayName}!
           </h1>
-          <p className="dashboard__tagline">
-            {isAdmin
-              ? 'Manage student records, bulk imports, class transfers, and grade appeals.'
-              : 'Manage your courses, grades, tuition, and support resources in one place.'}
-          </p>
+          <p className="dash__subtitle">Here&apos;s your academic overview for this semester.</p>
         </div>
-        <div className="dashboard__hero-badge">
-          <span className="badge badge--primary">{user?.role}</span>
+        <span className="dash__semester-badge"> Semester 2 · 2024-2025</span>
+      </div>
+
+      <div className="dash__stats">
+        <div className="dash__stat-card">
+          <div className="dash__stat-icon dash__stat-icon--blue"></div>
+          <div>
+            <div className="dash__stat-label">Registered Courses</div>
+            <div className="dash__stat-value">5</div>
+          </div>
+          <span className="dash__stat-badge dash__stat-badge--up">Enrolled</span>
+        </div>
+        <div className="dash__stat-card">
+          <div className="dash__stat-icon dash__stat-icon--clock"></div>
+          <div>
+            <div className="dash__stat-label">Total Credits</div>
+            <div className="dash__stat-value">17</div>
+          </div>
+          <span className="dash__stat-badge dash__stat-badge--info">Current</span>
+        </div>
+        <div className="dash__stat-card">
+          <div className="dash__stat-icon dash__stat-icon--star"></div>
+          <div>
+            <div className="dash__stat-label">Current GPA</div>
+            <div className="dash__stat-value">7.8</div>
+          </div>
+          <span className="dash__stat-badge dash__stat-badge--trend">Cumulative</span>
+        </div>
+        <div className="dash__stat-card">
+          <div className="dash__stat-icon dash__stat-icon--check"></div>
+          <div>
+            <div className="dash__stat-label">Completion</div>
+            <div className="dash__stat-value">62%</div>
+          </div>
+          <div className="dash__mini-progress">
+            <div className="dash__mini-fill" style={{ width: '62%' }} />
+          </div>
         </div>
       </div>
 
-      {/* Quick-access grid */}
-      <section aria-labelledby="dashboard-section-heading">
-        <h2 id="dashboard-section-heading" className="dashboard__section-title">
-          Quick Access
-        </h2>
-        <div className="dashboard__grid">
-          {cards.map(({ id, icon, title, desc, to }) => (
-            <Link key={id} id={id} to={to} className="dashboard__card">
-              <span className="dashboard__card-icon" aria-hidden="true">
-                {icon}
-              </span>
-              <div>
-                <p className="dashboard__card-title">{title}</p>
-                <p className="dashboard__card-desc">{desc}</p>
-              </div>
-              <span className="dashboard__card-arrow" aria-hidden="true">
-                →
-              </span>
-            </Link>
-          ))}
+      <div className="dash__schedule">
+        <div className="dash__schedule-header">
+          <h3 className="dash__schedule-title">Weekly Class Schedule</h3>
+          <span className="dash__schedule-sub">Semester 2 · 2024-2025</span>
         </div>
-      </section>
+        <div className="dash__schedule-table-wrapper">
+          <table className="dash__schedule-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Mon</th>
+                <th>Tue</th>
+                <th>Wed</th>
+                <th>Thu</th>
+                <th>Fri</th>
+                <th>Sat</th>
+              </tr>
+            </thead>
+            <tbody>
+              {scheduleTable.map((row) => (
+                <tr key={row.time}>
+                  <td className="dash__time-cell">{row.time}</td>
+                  <td className={row.Mon !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Mon}
+                  </td>
+                  <td className={row.Tue !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Tue}
+                  </td>
+                  <td className={row.Wed !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Wed}
+                  </td>
+                  <td className={row.Thu !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Thu}
+                  </td>
+                  <td className={row.Fri !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Fri}
+                  </td>
+                  <td className={row.Sat !== '—' ? 'dash__class-cell' : 'dash__empty-cell'}>
+                    {row.Sat}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 }

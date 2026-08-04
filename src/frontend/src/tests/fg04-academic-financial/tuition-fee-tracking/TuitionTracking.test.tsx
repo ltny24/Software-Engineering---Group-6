@@ -11,24 +11,26 @@
 
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
+import toast from 'react-hot-toast';
+import api from '../../../services/api';
+
+import TuitionPage from '../../../pages/tuition/TuitionPage';
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
-import toast from 'react-hot-toast';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn() },
 }));
-import api from '../../../services/api';
-
-import TuitionPage from '../../../pages/tuition/TuitionPage';
 
 const mockApiGet = api.get as jest.Mock;
 
 // -- Helper: format VND (mirrors TuitionPage.tsx) ------------------------------
 function formatVND(value: number): string {
   return new Intl.NumberFormat('en-US', {
-    style: 'currency', currency: 'VND', maximumFractionDigits: 0,
+    style: 'currency',
+    currency: 'VND',
+    maximumFractionDigits: 0,
   }).format(value || 0);
 }
 function isPaymentOverdue(deadline: Date): boolean {
@@ -40,9 +42,9 @@ const MOCK_FINANCE_HK1 = {
   studentId: 1,
   term: 'HK1 2024-2025',
   totalCharges: 12000000,
-  payments:      7000000,
+  payments: 7000000,
   scholarshipAmount: 2000000,
-  balance:       3000000,
+  balance: 3000000,
   financialHold: false,
   paymentHistory: [
     {
@@ -92,7 +94,6 @@ beforeEach(() => jest.clearAllMocks());
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG04 - Tuition Fee Tracking', () => {
-
   // -- TC_TUI_01: View current total tuition debt -------------------------------
   it('TC_TUI_01: go to Tuition, select HK1 2024-2025 -> displays total tuition, paid, remaining, deadline', async () => {
     mockApiGet.mockResolvedValueOnce(MOCK_FINANCE_HK1);
@@ -156,7 +157,7 @@ describe('FG04 - Tuition Fee Tracking', () => {
     mockApiGet.mockResolvedValueOnce(MOCK_FINANCE_HK1);
 
     render(<TuitionPage />);
-    await waitFor(() => screen.getByText(/HK1 2024-2025/i));
+    await screen.findByText(/HK1 2024-2025/i);
 
     // scholarshipAmount should be displayed
     expect(MOCK_FINANCE_HK1.scholarshipAmount).toBe(2000000);
@@ -167,19 +168,20 @@ describe('FG04 - Tuition Fee Tracking', () => {
     mockApiGet.mockResolvedValueOnce(MOCK_FINANCE_WITH_SCHOLARSHIP);
 
     render(<TuitionPage />);
-    await waitFor(() => screen.getByText(/HK1 2024-2025/i));
+    await screen.findByText(/HK1 2024-2025/i);
 
     // balance = totalCharges - scholarshipAmount - payments = 10M - 5M - 5M = 0
     expect(MOCK_FINANCE_WITH_SCHOLARSHIP.balance).toBe(0);
-    expect(MOCK_FINANCE_WITH_SCHOLARSHIP.totalCharges - MOCK_FINANCE_WITH_SCHOLARSHIP.scholarshipAmount)
-      .toBe(5000000);
+    expect(
+      MOCK_FINANCE_WITH_SCHOLARSHIP.totalCharges - MOCK_FINANCE_WITH_SCHOLARSHIP.scholarshipAmount
+    ).toBe(5000000);
   });
 
   // -- TC_TUI_07: Scholarship history across multiple semesters -----------------
   it('TC_TUI_07: Full scholarship history -> API returns list sorted newest first', async () => {
     const scholarshipHistory = [
       { term: 'HK1 2024-2025', amount: 2000000, type: 'Merit Scholarship', date: '2024-09-01' },
-      { term: 'HK2 2023-2024', amount: 1500000, type: 'Policy Scholarship',  date: '2024-01-10' },
+      { term: 'HK2 2023-2024', amount: 1500000, type: 'Policy Scholarship', date: '2024-01-10' },
     ];
     mockApiGet.mockResolvedValueOnce(scholarshipHistory);
 
@@ -196,7 +198,9 @@ describe('FG04 - Tuition Fee Tracking', () => {
     render(<TuitionPage />);
 
     await waitFor(() => {
-      expect(screen.getByText(/no balance data found|not updated yet|no balance/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/no balance data found|not updated yet|no balance/i)
+      ).toBeInTheDocument();
     });
   });
 
@@ -226,15 +230,13 @@ describe('FG04 - Tuition Fee Tracking', () => {
   // -- TC_TUI_11: Debt decreases after making payment ---------------------------
   it('TC_TUI_11: pay 5,000,000 VND -> debt decreases correctly, history updates with new transaction', async () => {
     // Before: balance = 8,000,000 -> after paying 5M: balance = 3,000,000
-    const beforePayment  = { ...MOCK_FINANCE_HK1, balance: 8000000, payments: 4000000 };
-    const afterPayment   = { ...MOCK_FINANCE_HK1, balance: 3000000, payments: 9000000 };
+    const beforePayment = { ...MOCK_FINANCE_HK1, balance: 8000000, payments: 4000000 };
+    const afterPayment = { ...MOCK_FINANCE_HK1, balance: 3000000, payments: 9000000 };
 
-    mockApiGet
-      .mockResolvedValueOnce(beforePayment)
-      .mockResolvedValueOnce(afterPayment);
+    mockApiGet.mockResolvedValueOnce(beforePayment).mockResolvedValueOnce(afterPayment);
 
     const before = await api.get('/api/v1/finance/tuition/balance');
-    const after  = await api.get('/api/v1/finance/tuition/balance');
+    const after = await api.get('/api/v1/finance/tuition/balance');
 
     const reduction = (before as any).balance - (after as any).balance;
     expect(reduction).toBe(5000000);
@@ -253,7 +255,7 @@ describe('FG04 - Tuition Fee Tracking', () => {
     mockApiGet.mockResolvedValueOnce(freeFinance);
 
     render(<TuitionPage />);
-    await waitFor(() => screen.getByText(/HK1 2024-2025/i));
+    await screen.findByText(/HK1 2024-2025/i);
 
     expect(freeFinance.balance).toBe(0);
     expect(freeFinance.totalCharges - freeFinance.scholarshipAmount).toBe(0);
@@ -287,9 +289,9 @@ describe('FG04 - Tuition Fee Tracking', () => {
   // -- TC_TUI_15: Filter history by date range ----------------------------------
   it('TC_TUI_15: filter from 01/09/2024 to 31/01/2025 -> only displays transactions in that range', async () => {
     const from = new Date('2024-09-01');
-    const to   = new Date('2025-01-31');
+    const to = new Date('2025-01-31');
 
-    const filteredHistory = MOCK_FINANCE_HK1.paymentHistory.filter(p => {
+    const filteredHistory = MOCK_FINANCE_HK1.paymentHistory.filter((p) => {
       const d = new Date(p.paymentDate);
       return d >= from && d <= to;
     });

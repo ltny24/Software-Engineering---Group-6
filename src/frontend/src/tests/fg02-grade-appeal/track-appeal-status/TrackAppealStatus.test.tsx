@@ -12,12 +12,12 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import api from '../../../services/api';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn(), put: jest.fn() },
 }));
-import api from '../../../services/api';
 
 const mockApiGet = api.get as jest.Mock;
 const mockApiPut = api.put as jest.Mock;
@@ -25,21 +25,21 @@ const mockApiPut = api.put as jest.Mock;
 // -- Status badge helper (mirrors TKB badge logic) -----------------------------
 function getStatusLabel(status: string): string {
   const map: Record<string, string> = {
-    'Submitted':    'Pending',
+    Submitted: 'Pending',
     'Under Review': 'Processing',
-    'Approved':     'Resolved',
-    'Denied':       'Rejected',
-    'Withdrawn':    'Withdrawn',
+    Approved: 'Resolved',
+    Denied: 'Rejected',
+    Withdrawn: 'Withdrawn',
   };
   return map[status] ?? status;
 }
 function getStatusBadgeClass(status: string): string {
   const map: Record<string, string> = {
-    'Submitted':    'badge-pending',
+    Submitted: 'badge-pending',
     'Under Review': 'badge-inprogress',
-    'Approved':     'badge-resolved',
-    'Denied':       'badge-denied',
-    'Withdrawn':    'badge-withdrawn',
+    Approved: 'badge-resolved',
+    Denied: 'badge-denied',
+    Withdrawn: 'badge-withdrawn',
   };
   return map[status] ?? 'badge-default';
 }
@@ -78,11 +78,41 @@ function AppealStatusList({ appeals }: { appeals: AppealItem[] }) {
 
 // -- Fixtures ------------------------------------------------------------------
 const APPEALS: AppealItem[] = [
-  { appealId: 1, courseName: 'Discrete Math',     status: 'Submitted',    submittedAt: '2025-01-10', trackingCode: 'APP-2024-001' },
-  { appealId: 2, courseName: 'OOP Programming',   status: 'Under Review', submittedAt: '2025-01-08', trackingCode: 'APP-2024-002' },
-  { appealId: 3, courseName: 'Calculus',          status: 'Approved',     submittedAt: '2024-12-20', trackingCode: 'APP-2024-003' },
-  { appealId: 4, courseName: 'General Physics',   status: 'Denied',       submittedAt: '2024-12-15', trackingCode: 'APP-2024-004' },
-  { appealId: 5, courseName: 'Chemistry',         status: 'Withdrawn',    submittedAt: '2024-11-01', trackingCode: 'APP-2024-005' },
+  {
+    appealId: 1,
+    courseName: 'Discrete Math',
+    status: 'Submitted',
+    submittedAt: '2025-01-10',
+    trackingCode: 'APP-2024-001',
+  },
+  {
+    appealId: 2,
+    courseName: 'OOP Programming',
+    status: 'Under Review',
+    submittedAt: '2025-01-08',
+    trackingCode: 'APP-2024-002',
+  },
+  {
+    appealId: 3,
+    courseName: 'Calculus',
+    status: 'Approved',
+    submittedAt: '2024-12-20',
+    trackingCode: 'APP-2024-003',
+  },
+  {
+    appealId: 4,
+    courseName: 'General Physics',
+    status: 'Denied',
+    submittedAt: '2024-12-15',
+    trackingCode: 'APP-2024-004',
+  },
+  {
+    appealId: 5,
+    courseName: 'Chemistry',
+    status: 'Withdrawn',
+    submittedAt: '2024-11-01',
+    trackingCode: 'APP-2024-005',
+  },
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -91,7 +121,6 @@ beforeEach(() => jest.clearAllMocks());
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG02 - Track Appeal Status', () => {
-
   // -- TC_APP_TRK_01: View list of appeal applications ---------------------------
   it('TC_APP_TRK_01: view list of appeal applications -> displays application ID, course name, submit date, status', async () => {
     mockApiGet.mockResolvedValueOnce(APPEALS);
@@ -169,7 +198,7 @@ describe('FG02 - Track Appeal Status', () => {
 
   // -- TC_APP_TRK_10: Search application by course name -------------------------
   it('TC_APP_TRK_10: search Discrete Math -> list only contains related applications', async () => {
-    const filtered = APPEALS.filter(a => a.courseName.includes('Discrete Math'));
+    const filtered = APPEALS.filter((a) => a.courseName.includes('Discrete Math'));
     render(<AppealStatusList appeals={filtered} />);
 
     expect(screen.getByText('Discrete Math')).toBeInTheDocument();
@@ -178,7 +207,7 @@ describe('FG02 - Track Appeal Status', () => {
 
   // -- TC_APP_TRK_11: Search keyword not found ----------------------------------
   it('TC_APP_TRK_11: search xyz_khong_ton_tai -> displays No appeal applications found', async () => {
-    const filtered = APPEALS.filter(a => a.courseName.includes('xyz_khong_ton_tai'));
+    const filtered = APPEALS.filter((a) => a.courseName.includes('xyz_khong_ton_tai'));
     render(<AppealStatusList appeals={filtered} />);
 
     expect(screen.getByText('You have no appeal applications.')).toBeInTheDocument();
@@ -186,7 +215,7 @@ describe('FG02 - Track Appeal Status', () => {
 
   // -- TC_APP_TRK_12: Filter application by status ------------------------------
   it('TC_APP_TRK_12: filter status Approved -> only displays Resolved applications', async () => {
-    const approvedOnly = APPEALS.filter(a => a.status === 'Approved');
+    const approvedOnly = APPEALS.filter((a) => a.status === 'Approved');
     render(<AppealStatusList appeals={approvedOnly} />);
 
     expect(screen.getByText('Calculus')).toBeInTheDocument();
@@ -223,9 +252,13 @@ describe('FG02 - Track Appeal Status', () => {
     const appealWithTimeline = {
       ...APPEALS[4],
       statusHistory: [
-        { status: 'Submitted',    changedAt: '2024-11-01T08:00:00', changedBy: 'SV001' },
-        { status: 'Under Review', changedAt: '2024-11-05T10:00:00', changedBy: 'admin@myus.edu.vn' },
-        { status: 'Withdrawn',    changedAt: '2024-11-10T14:00:00', changedBy: 'SV001' },
+        { status: 'Submitted', changedAt: '2024-11-01T08:00:00', changedBy: 'SV001' },
+        {
+          status: 'Under Review',
+          changedAt: '2024-11-05T10:00:00',
+          changedBy: 'admin@myus.edu.vn',
+        },
+        { status: 'Withdrawn', changedAt: '2024-11-10T14:00:00', changedBy: 'SV001' },
       ],
     };
     mockApiGet.mockResolvedValueOnce(appealWithTimeline);

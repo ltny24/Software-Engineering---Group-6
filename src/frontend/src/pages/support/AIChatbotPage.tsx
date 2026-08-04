@@ -1,26 +1,35 @@
 // ============================================================
-// AIChatbotPage – AI Learning Path Chatbot (T037)
-// Combines rule-based degree audit with Gemini-powered
-// conversational academic advising.
+// AIChatbotPage – AI Learning Path Chatbot
+// Skylearn: persistent history, school-only filter, big frame
 // ============================================================
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../auth';
 import { sendChatMessage } from '../../services/chatbotService';
+import { useChatbot } from '../../components/chatbot/ChatbotContext';
 import type { ChatMessage, ContextType } from '../../types/chatbot.types';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
+import './AIChatbotPage.css';
+
+const WELCOME_TEXT = `Hello! I'm your HCMUS academic advisor. I can help you with:
+
+• Course recommendations — find the best courses for your next semester
+• Graduation tracking — check your progress and estimated timeline
+• Academic questions — prerequisites, requirements, policies
+• Registration help — how to enroll, drop deadlines, and more
+
+Please ask me anything about your studies at HCMUS!`;
 
 export default function AIChatbotPage() {
   const { user } = useAuth();
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const { messages, setMessages, clearMessages, filterMessage } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-scroll to bottom
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, []);
@@ -29,23 +38,14 @@ export default function AIChatbotPage() {
     scrollToBottom();
   }, [messages, scrollToBottom]);
 
-  // Welcome message on first render
+  // Welcome message only if no history exists
   useEffect(() => {
     if (messages.length === 0) {
       const welcome: ChatMessage = {
         id: 'welcome',
         role: 'assistant',
-        content: `👋 Hello ${user?.displayName || 'there'}! I'm your AI academic advisor.\n\nI can help you with:\n📚 **Course recommendations** — find the best courses for your next semester\n🎓 **Graduation tracking** — check your progress and estimated timeline\n❓ **Academic questions** — ask about prerequisites, requirements, or policies\n\nSelect a quick action below or type your question!`,
+        content: WELCOME_TEXT,
         timestamp: new Date().toISOString(),
-        progress: {
-          totalRequiredCredits: 135,
-          completedCredits: 0,
-          remainingCredits: 0,
-          estimatedSemestersLeft: 0,
-          completionPercentage: 0,
-          criticalMilestonesPending: [],
-          completedMilestones: [],
-        },
       };
       setMessages([welcome]);
     }
@@ -82,6 +82,20 @@ export default function AIChatbotPage() {
     const text = (messageText ?? input).trim();
     if (!text || loading) return;
 
+    // Filter: only school-related questions
+    const filterResult = filterMessage(text);
+    if (!filterResult.allowed) {
+      const rejectedMsg: ChatMessage = {
+        id: `rejected-${Date.now()}`,
+        role: 'assistant',
+        content: `${filterResult.reason}`,
+        timestamp: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, rejectedMsg]);
+      setInput('');
+      return;
+    }
+
     const userMsg: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -95,10 +109,7 @@ export default function AIChatbotPage() {
 
     try {
       const contextType = detectContextType(text);
-      const response = await sendChatMessage({
-        message: text,
-        contextType,
-      });
+      const response = await sendChatMessage({ message: text, contextType });
 
       const aiMsg: ChatMessage = {
         id: response.responseId || `ai-${Date.now()}`,
@@ -118,7 +129,7 @@ export default function AIChatbotPage() {
       const fallback: ChatMessage = {
         id: `error-${Date.now()}`,
         role: 'assistant',
-        content: `⚠️ I'm having trouble connecting to the academic engine right now. Error: ${errorMsg}\n\nPlease try again in a moment, or contact the IT support desk if the problem persists.`,
+        content: `I'm having trouble connecting right now. Error: ${errorMsg}\n\nPlease try again in a moment, or contact the IT support desk.`,
         timestamp: new Date().toISOString(),
       };
       setMessages((prev) => [...prev, fallback]);
@@ -140,113 +151,44 @@ export default function AIChatbotPage() {
   };
 
   const handleReset = () => {
-    setMessages([]);
+    clearMessages();
     setInput('');
-    // Re-trigger welcome message via re-render
-    setTimeout(() => {
-      const welcome: ChatMessage = {
-        id: `welcome-${Date.now()}`,
-        role: 'assistant',
-        content: `👋 Hello ${user?.displayName || 'there'}! Conversation has been reset. How can I help you today?`,
-        timestamp: new Date().toISOString(),
-      };
-      setMessages([welcome]);
-    }, 0);
+    const welcome: ChatMessage = {
+      id: `welcome-${Date.now()}`,
+      role: 'assistant',
+      content: WELCOME_TEXT,
+      timestamp: new Date().toISOString(),
+    };
+    setMessages([welcome]);
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: 'calc(100vh - 64px)',
-        maxWidth: '800px',
-        margin: '0 auto',
-        backgroundColor: '#f8fafc',
-        fontFamily: 'system-ui, -apple-system, sans-serif',
-      }}
-    >
+    <div className="chatbot-page">
       {/* Header */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          padding: '16px 24px',
-          borderBottom: '1px solid #e2e8f0',
-          backgroundColor: '#ffffff',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontSize: '28px' }}>🤖</span>
+      <div className="chatbot-header">
+        <div className="chatbot-header__left">
+          <span className="chatbot-header__icon">🤖</span>
           <div>
-            <h1
-              style={{
-                margin: 0,
-                fontSize: '18px',
-                fontWeight: '600',
-                color: '#1e293b',
-              }}
-            >
-              AI Academic Assistant
-            </h1>
-            <span
-              style={{
-                fontSize: '12px',
-                color: '#22c55e',
-                fontWeight: '500',
-              }}
-            >
-              🟢 Online — Connected to Degree Audit
-            </span>
+            <h1 className="chatbot-header__title">AI Academic Assistant</h1>
+            <span className="chatbot-header__status">Online — HCMUS Academic Advisor</span>
           </div>
         </div>
-        <button
-          onClick={handleReset}
-          style={{
-            padding: '6px 14px',
-            borderRadius: '8px',
-            border: '1px solid #e2e8f0',
-            backgroundColor: '#ffffff',
-            color: '#64748b',
-            fontSize: '12px',
-            cursor: 'pointer',
-            fontWeight: '500',
-          }}
-        >
-          🔄 Reset
+        <button className="chatbot-reset-btn" onClick={handleReset}>
+          Reset Chat
         </button>
       </div>
 
       {/* Messages area */}
-      <div
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          padding: '20px 24px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
+      <div className="chatbot-messages">
         {messages.map((msg) => (
           <ChatMessageBubble key={msg.id} message={msg} />
         ))}
 
-        {/* Typing indicator */}
         {loading && (
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '12px 16px',
-              color: '#94a3b8',
-              fontSize: '14px',
-            }}
-          >
+          <div className="chatbot-typing">
             <span>🤖</span>
             <span className="spinner" style={{ width: '16px', height: '16px' }} />
-            <span>Analyzing your academic profile...</span>
+            <span>Thinking...</span>
           </div>
         )}
 
@@ -254,78 +196,34 @@ export default function AIChatbotPage() {
       </div>
 
       {/* Quick actions */}
-      <div style={{ padding: '0 24px' }}>
+      <div className="chatbot-quick-actions">
         <QuickActionChips onSelect={handleQuickAction} disabled={loading} />
       </div>
 
       {/* Input area */}
-      <div
-        style={{
-          padding: '12px 24px 20px',
-          borderTop: '1px solid #e2e8f0',
-          backgroundColor: '#ffffff',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'flex-end',
-          }}
-        >
+      <div className="chatbot-input-area">
+        <div className="chatbot-input-row">
           <textarea
             ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Ask about courses, graduation, or prerequisites..."
+            placeholder="Ask about courses, graduation, registration, or academic policies..."
             rows={2}
             disabled={loading}
-            style={{
-              flex: 1,
-              padding: '12px 16px',
-              borderRadius: '12px',
-              border: '1px solid #cbd5e1',
-              fontSize: '14px',
-              fontFamily: 'inherit',
-              resize: 'none',
-              outline: 'none',
-              backgroundColor: loading ? '#f8fafc' : '#ffffff',
-              color: '#1e293b',
-              lineHeight: '1.5',
-            }}
+            className="chatbot-input"
           />
           <button
             onClick={() => handleSend()}
             disabled={loading || !input.trim()}
-            style={{
-              padding: '12px 20px',
-              borderRadius: '12px',
-              border: 'none',
-              backgroundColor: loading || !input.trim() ? '#94a3b8' : '#1e3a8a',
-              color: '#ffffff',
-              fontSize: '14px',
-              fontWeight: '600',
-              cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
-              transition: 'background-color 0.2s',
-              whiteSpace: 'nowrap',
-            }}
+            className="chatbot-send-btn"
           >
-            {loading ? '...' : 'Send 📤'}
+            {loading ? '...' : 'Send'}
           </button>
         </div>
-
-        {/* Disclaimer */}
-        <p
-          style={{
-            margin: '8px 0 0 0',
-            fontSize: '11px',
-            color: '#94a3b8',
-            textAlign: 'center',
-          }}
-        >
-          ⚠️ AI recommendations are for advisory purposes only. Please verify official academic
-          regulations in the university course catalog.
+        <p className="chatbot-disclaimer">
+          I only answer questions related to your studies at HCMUS. For other topics, please contact
+          the support desk.
         </p>
       </div>
     </div>

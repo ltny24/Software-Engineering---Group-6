@@ -26,7 +26,7 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
 
   // Map the backend UserInfo to the frontend AuthUser shape
   if (data.user) {
-    const backendUser = data.user as Record<string, unknown>;
+    const backendUser = data.user as unknown as Record<string, unknown>;
     const mappedUser: AuthUser = {
       id: String(backendUser.id ?? ''),
       username: String(backendUser.username ?? credentials.username),

@@ -1,9 +1,11 @@
 // ============================================================
 // QuickActionChips – horizontal scrollable quick-action
 // buttons that trigger common chatbot queries.
+// Genesis Design: pill-shaped chips with indigo hover
 // ============================================================
 
 import React from 'react';
+import './QuickActionChips.css';
 
 interface QuickAction {
   label: string;
@@ -44,51 +46,15 @@ export default function QuickActionChips({ onSelect, disabled, actions }: Props)
   const chips = actions ?? DEFAULT_ACTIONS;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        gap: '8px',
-        overflowX: 'auto',
-        padding: '8px 0',
-        WebkitOverflowScrolling: 'touch',
-        scrollbarWidth: 'none',
-      }}
-    >
+    <div className="quick-chips">
       {chips.map((action) => (
         <button
           key={action.label}
+          className="quick-chip"
           onClick={() => onSelect(action.message)}
           disabled={disabled}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '6px',
-            padding: '8px 14px',
-            borderRadius: '20px',
-            border: '1px solid #cbd5e1',
-            backgroundColor: disabled ? '#f8fafc' : '#ffffff',
-            color: disabled ? '#94a3b8' : '#334155',
-            fontSize: '13px',
-            fontWeight: '500',
-            whiteSpace: 'nowrap',
-            cursor: disabled ? 'not-allowed' : 'pointer',
-            transition: 'all 0.2s',
-            opacity: disabled ? 0.6 : 1,
-          }}
-          onMouseEnter={(e) => {
-            if (!disabled) {
-              e.currentTarget.style.backgroundColor = '#eff6ff';
-              e.currentTarget.style.borderColor = '#3b82f6';
-            }
-          }}
-          onMouseLeave={(e) => {
-            if (!disabled) {
-              e.currentTarget.style.backgroundColor = '#ffffff';
-              e.currentTarget.style.borderColor = '#cbd5e1';
-            }
-          }}
         >
-          <span style={{ fontSize: '16px' }}>{action.icon}</span>
+          <span className="quick-chip__icon">{action.icon}</span>
           <span>{action.label}</span>
         </button>
       ))}

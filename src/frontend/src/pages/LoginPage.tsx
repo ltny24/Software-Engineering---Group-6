@@ -47,7 +47,7 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-card__header">
-          <span className="login-card__logo">🎓</span>
+          <img src="/hcmus-logo.png" alt="HCMUS Logo" className="login-card__logo" />
           <h1 className="login-card__title">MyUS University Portal</h1>
           <p className="login-card__subtitle">Sign in to access your academic workspace</p>
         </div>

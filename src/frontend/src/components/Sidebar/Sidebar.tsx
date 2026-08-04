@@ -7,35 +7,29 @@ import './Sidebar.css';
 interface NavItem {
   label: string;
   to: string;
-  icon: string;
   disabled?: boolean;
 }
 
 const studentNav: NavItem[] = [
-  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
-  { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤' },
-  { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
-  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: '🗓️' },
-  { label: 'Grades', to: ROUTES.GRADES, icon: '📊' },
-  { label: 'Tuition', to: ROUTES.TUITION, icon: '💳' },
-  { label: 'Appeals', to: ROUTES.APPEALS, icon: '📝' },
-  { label: 'Support', to: ROUTES.SUPPORT, icon: '💬' },
-  { label: 'Help & FAQ', to: ROUTES.SUPPORT_FAQ, icon: '❓' },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD },
+  { label: 'Profile', to: ROUTES.PROFILE },
+  { label: 'Courses', to: ROUTES.COURSES },
+  { label: 'Timetable', to: ROUTES.TIMETABLE },
+  { label: 'Grades', to: ROUTES.GRADES },
+  { label: 'Tuition', to: ROUTES.TUITION },
+  { label: 'Appeals', to: ROUTES.APPEALS },
+  { label: 'Support', to: ROUTES.SUPPORT },
 ];
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: '🏠' },
-  { label: 'My Profile', to: ROUTES.PROFILE, icon: '👤', disabled: true },
-  { label: 'Courses', to: ROUTES.COURSES, icon: '📚' },
-  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: '🗓️' },
-  { label: 'Grades', to: ROUTES.GRADES, icon: '📊', disabled: true },
-  { label: 'Tuition', to: ROUTES.TUITION, icon: '💳', disabled: true },
-  { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: '👥' },
-  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: '📥' },
-  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: '🔄' },
-  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: '⚖️' },
-  { label: 'Support', to: ROUTES.SUPPORT, icon: '💬', disabled: true },
-  { label: 'Help & FAQ', to: ROUTES.SUPPORT_FAQ, icon: '❓', disabled: true },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD },
+  { label: 'Students', to: ROUTES.ADMIN_STUDENTS },
+  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT },
+  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS },
+  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS },
+  { label: 'Courses', to: ROUTES.COURSES },
+  { label: 'Timetable', to: ROUTES.TIMETABLE },
+  { label: 'Support', to: ROUTES.SUPPORT },
 ];
 
 export default function Sidebar() {
@@ -46,8 +40,8 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await logout();
-    } catch (error) {
-      console.warn('Backend không có API logout, tự động xóa session local.');
+    } catch {
+      /* fallback */
     } finally {
       localStorage.clear();
       navigate(ROUTES.LOGIN);
@@ -55,62 +49,36 @@ export default function Sidebar() {
   };
 
   return (
-    <aside className="sidebar" aria-label="Main navigation">
+    <aside className="sidebar">
       <div className="sidebar__brand">
-        <span className="sidebar__logo">🎓</span>
+        <img src="/hcmus-logo.png" alt="HCMUS Logo" className="sidebar__logo-img" />
         <span className="sidebar__app-name">MyUS Portal</span>
       </div>
-
       <nav className="sidebar__nav">
-        <ul className="sidebar__list">
-          {navItems.map(({ label, to, icon, disabled }) => {
-            if (disabled) {
-              return (
-                <li key={label} className="sidebar__item">
-                  <div
-                    className="sidebar__link sidebar__link--disabled"
-                    title="Not available for Administrator"
-                  >
-                    <span className="sidebar__icon" aria-hidden="true">
-                      {icon}
-                    </span>
-                    <span className="sidebar__label">{label}</span>
-                  </div>
-                </li>
-              );
-            }
+        {navItems.map(({ label, to, disabled }) => {
+          if (disabled)
             return (
-              <li key={to} className="sidebar__item">
-                <NavLink
-                  to={to}
-                  end={to === ROUTES.DASHBOARD}
-                  className={({ isActive }) =>
-                    `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
-                  }
-                >
-                  <span className="sidebar__icon" aria-hidden="true">
-                    {icon}
-                  </span>
-                  <span className="sidebar__label">{label}</span>
-                </NavLink>
-              </li>
+              <span key={label} className="sidebar__link sidebar__link--disabled">
+                {label}
+              </span>
             );
-          })}
-        </ul>
+          return (
+            <NavLink
+              key={to}
+              to={to}
+              end={to === ROUTES.DASHBOARD}
+              className={({ isActive }) =>
+                `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
+              }
+            >
+              {label}
+            </NavLink>
+          );
+        })}
       </nav>
-
       <div className="sidebar__footer">
-        <div className="sidebar__user">
-          <span className="sidebar__user-name">{user?.displayName}</span>
-          <span className="sidebar__user-role">{user?.role}</span>
-        </div>
-        <button
-          id="btn-logout"
-          className="sidebar__logout"
-          onClick={handleLogout}
-          aria-label="Logout"
-        >
-          🚪 Logout
+        <button className="sidebar__logout" onClick={handleLogout}>
+          Logout
         </button>
       </div>
     </aside>

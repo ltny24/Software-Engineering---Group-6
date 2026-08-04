@@ -1,5 +1,5 @@
 /* ============================================================
-   404 Not Found Page
+   404 — Skylearn: gentle sky blue
    ============================================================ */
 
 .not-found {
@@ -7,7 +7,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 60vh;
   gap: var(--space-4);
   padding: var(--space-8);
   text-align: center;
@@ -15,44 +15,52 @@
 }
 
 .not-found__code {
-  font-size: 6rem;
+  font-family: var(--font-display);
+  font-size: var(--text-hero);
   font-weight: var(--font-bold);
-  color: var(--color-primary-light);
+  color: var(--color-primary);
   line-height: 1;
-  letter-spacing: -0.04em;
 }
 
 .not-found__title {
-  font-size: var(--text-2xl);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
   font-weight: var(--font-bold);
   color: var(--color-text);
 }
 
 .not-found__message {
-  font-size: var(--text-base);
-  color: var(--color-text-muted);
-  max-width: 400px;
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  color: var(--color-text-secondary);
+  max-width: 420px;
+  line-height: 1.6;
 }
 
 .not-found__btn {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  padding: var(--space-2) var(--space-6);
+  padding: 12px 28px;
   background-color: var(--color-primary);
   color: #fff;
   border-radius: var(--radius-md);
-  font-weight: var(--font-medium);
-  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-small);
   text-decoration: none;
+  box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
   transition:
     background-color var(--transition-fast),
-    box-shadow var(--transition-fast);
-  margin-top: var(--space-2);
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
+  margin-top: var(--space-5);
 }
 
 .not-found__btn:hover {
-  background-color: var(--color-primary-light);
-  box-shadow: var(--shadow-md);
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 4px 16px rgba(36, 87, 184, 0.3);
+  transform: translateY(-1px);
   text-decoration: none;
+  color: #fff;
 }

@@ -1,358 +1,389 @@
-/* Container chính - Tone nền sáng nhẹ, đồng bộ với ProfilePage */
+/* Courses — Skylearn */
 .courses-container {
-  max-width: 1100px;
-  margin: 2rem auto;
-  padding: 2rem;
-  font-family: 'Inter', sans-serif;
+  max-width: var(--container-max);
+  margin: 0 auto;
 }
-
-/* Header & Tabs */
 .courses-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
 }
-
 .courses-header h2 {
-  color: #5c4b51;
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
   margin: 0;
-  font-size: 1.8rem;
 }
 
 .tab-switch {
   display: flex;
-  gap: 0.5rem;
-  background-color: #fff9f9;
-  padding: 0.35rem;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  gap: 0;
+  background-color: var(--color-bg);
+  padding: 4px;
+  border-radius: var(--radius-full);
 }
-
 .tab-btn {
   cursor: pointer;
   border: none;
-  border-radius: 999px;
-  padding: 0.55rem 1.2rem;
-  font-weight: 600;
-  font-size: 0.9rem;
+  border-radius: var(--radius-full);
+  padding: 10px 24px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-regular);
   background: transparent;
-  color: #a39b9e;
-  transition: all 0.2s ease;
+  color: var(--color-text-secondary);
+  transition: all var(--transition-fast);
+  min-height: 44px;
 }
-
 .tab-btn:hover {
-  color: #5c4b51;
+  color: var(--color-text);
 }
-
 .tab-btn-active {
-  background-color: #e2d9f3; /* Pastel purple */
-  color: #564779;
+  background-color: var(--color-surface-elevated);
+  color: var(--color-primary);
+  font-weight: var(--font-semibold);
+  box-shadow: var(--shadow-sm);
 }
 
-/* Card wrapper dùng chung cho cả 2 tab */
 .courses-card {
-  background-color: #fff9f9;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
 }
 
-/* Thanh tìm kiếm / bộ lọc */
 .filter-bar {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr auto;
-  gap: 1rem;
+  gap: var(--space-4);
   align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px dashed #f0e6e6;
+  margin-bottom: var(--space-6);
+  padding-bottom: var(--space-6);
+  border-bottom: 1px solid var(--color-border);
 }
-
 .filter-actions {
   display: flex;
-  gap: 0.6rem;
+  gap: var(--space-2);
 }
-
 .result-count {
-  color: #8b7d84;
-  font-size: 0.9rem;
-  margin: 0 0 1rem;
-}
-
-/* Buttons - kế thừa style của ProfilePage */
-button {
-  cursor: pointer;
-  border: none;
-  border-radius: 8px;
-  padding: 0.6rem 1.2rem;
-  font-weight: 600;
-  transition: all 0.2s ease;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-4);
 }
 
 .btn-edit {
-  background-color: #d4e4ec; /* Pastel blue */
-  color: #3f5b66;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
+  min-height: 44px;
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
-
 .btn-edit:hover:not(:disabled) {
-  background-color: #c0d6e4;
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 4px 16px rgba(36, 87, 184, 0.3);
   transform: translateY(-1px);
+}
+.btn-edit:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .btn-cancel {
-  background-color: #f3f4f6;
-  color: #6b7280;
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-regular);
+  cursor: pointer;
+  min-height: 44px;
+  transition: background-color var(--transition-fast);
+}
+.btn-cancel:hover:not(:disabled) {
+  background-color: var(--color-bg);
+}
+.btn-cancel:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
 }
 
 .btn-save {
-  background-color: #e2d9f3; /* Pastel purple */
-  color: #564779;
+  background-color: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 10px 20px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
+  min-height: 44px;
+  transition:
+    background-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    transform var(--transition-fast);
 }
-
 .btn-save:hover:not(:disabled) {
-  background-color: #d1c4e9;
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 4px 16px rgba(36, 87, 184, 0.3);
+  transform: translateY(-1px);
 }
-
-button:disabled {
-  opacity: 0.55;
+.btn-save:disabled {
+  opacity: 0.45;
   cursor: not-allowed;
-  transform: none !important;
+  transform: none;
 }
 
-/* Grid danh sách khóa học */
 .course-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1.5rem;
+  gap: var(--space-5);
 }
-
 .course-card {
   display: flex;
   flex-direction: column;
-  gap: 0.9rem;
-  background-color: #ffffff;
-  border: 1px solid #f0e6e6;
-  border-radius: 14px;
-  padding: 1.4rem;
+  gap: var(--space-3);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
   transition:
-    box-shadow 0.2s ease,
-    transform 0.2s ease;
+    box-shadow var(--transition-base),
+    transform var(--transition-base);
 }
-
 .course-card:hover {
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-card-hover);
   transform: translateY(-2px);
 }
-
 .course-card-top {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 0.75rem;
+  gap: var(--space-3);
 }
-
 .course-code {
   margin: 0;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #a39b9e;
+  font-family: var(--font-mono);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
-
 .course-name {
-  margin: 0.2rem 0 0;
-  font-size: 1.1rem;
-  color: #4a4a4a;
-  font-weight: 600;
+  margin: 4px 0 0;
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  color: var(--color-text);
+  font-weight: var(--font-semibold);
 }
-
 .course-desc {
   margin: 0;
-  font-size: 0.88rem;
-  color: #8b7d84;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
 .course-meta-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0.8rem 1rem;
+  gap: var(--space-3) var(--space-4);
 }
-
 .meta-item label {
   display: block;
-  font-size: 0.75rem;
-  color: #a39b9e;
-  margin-bottom: 0.2rem;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  margin-bottom: 2px;
 }
-
 .meta-item p {
   margin: 0;
-  font-size: 0.9rem;
-  color: #4a4a4a;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text);
 }
-
 .meta-item.full-width {
   grid-column: 1 / -1;
 }
-
 .register-btn {
-  margin-top: 0.4rem;
+  margin-top: var(--space-2);
   width: 100%;
 }
 
-/* Badge số chỗ trống */
 .seat-badge {
   flex-shrink: 0;
-  padding: 0.3rem 0.7rem;
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--font-regular);
   white-space: nowrap;
 }
-
 .seat-badge.open {
-  background-color: #d1f2eb; /* Pastel green */
-  color: #1a7f64;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-deep);
 }
-
 .seat-badge.low {
-  background-color: #fdecc8; /* Pastel amber */
-  color: #92650f;
+  background-color: #fef3c7;
+  color: var(--color-sun-deep);
 }
-
 .seat-badge.full {
-  background-color: #fbdada; /* Pastel red */
-  color: #9c3b3b;
-}
-
-/* Trạng thái Badge (dùng chung, đồng bộ ProfilePage) */
-.badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  background-color: var(--color-error-soft);
+  color: #dc2626;
 }
 
 .badge.active {
-  background-color: #d1f2eb;
-  color: #1a7f64;
+  background-color: var(--color-success-soft);
+  color: var(--color-success-deep);
 }
-
 .badge.dropped {
-  background-color: #f3f4f6;
-  color: #6b7280;
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
 }
-
 .badge.requested {
-  background-color: #fdecc8;
-  color: #92650f;
+  background-color: #fef3c7;
+  color: var(--color-sun-deep);
 }
 
-/* Phân trang */
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: var(--space-4);
+  margin-top: var(--space-8);
 }
-
 .pagination-info {
-  color: #8b7d84;
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
 }
 
-/* Danh sách "My Registrations" - dạng bảng theo hàng */
 .registration-table-wrapper {
   overflow-x: auto;
-  border: 1px solid #f0e6e6;
-  border-radius: 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
 }
-
 .registration-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #ffffff;
-  font-size: 0.9rem;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
 }
-
 .registration-table thead th {
-  background-color: #fff9f9;
-  color: #5c4b51;
-  text-align: left;
-  font-weight: 700;
-  font-size: 0.82rem;
-  letter-spacing: 0.02em;
-  padding: 0.85rem 1rem;
-  white-space: nowrap;
-  border-bottom: 2px solid #f0e6e6;
+  background-color: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-semibold);
+  font-size: var(--text-caption);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 12px 16px;
+  border-bottom: 2px solid var(--color-border);
 }
-
 .registration-table tbody td {
-  padding: 0.85rem 1rem;
-  color: #4a4a4a;
-  vertical-align: middle;
-  border-bottom: 1px solid #f5efef;
+  padding: 12px 16px;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
 }
-
 .registration-table tbody tr:last-child td {
   border-bottom: none;
 }
-
-.registration-table tbody tr.registration-row:hover {
-  background-color: #fff9f9;
+.registration-table tbody tr:hover {
+  background-color: var(--color-primary-soft);
 }
-
 .registration-course-name {
   display: block;
-  font-weight: 600;
-  color: #4a4a4a;
+  font-family: var(--font-display);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
 }
-
 .registration-sub {
-  margin: 0.2rem 0 0;
-  font-size: 0.85rem;
-  color: #6b6066;
+  margin: 4px 0 0;
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
 }
-
 .registration-sub.muted {
-  display: block;
-  color: #a39b9e;
-  font-size: 0.78rem;
+  color: var(--color-text-muted);
 }
-
 .registration-action-cell {
   text-align: center;
 }
-
-.registration-action-cell .register-btn {
-  width: auto;
-  margin-top: 0;
-  white-space: nowrap;
-}
-
 .drop-btn {
   flex-shrink: 0;
 }
 
-/* Responsive: chuyển bảng thành dạng thẻ xếp chồng trên màn hình nhỏ */
+.empty-state {
+  text-align: center;
+  padding: var(--space-12);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+}
+.profile-loading {
+  text-align: center;
+  padding: var(--space-16);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+.edit-input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--text-body);
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text);
+  outline: none;
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+.edit-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
 @media (max-width: 720px) {
+  .filter-bar {
+    grid-template-columns: 1fr;
+  }
+  .course-meta-grid {
+    grid-template-columns: 1fr;
+  }
   .registration-table thead {
     display: none;
   }
-
   .registration-table,
   .registration-table tbody,
   .registration-table tr,
@@ -360,77 +391,21 @@ button:disabled {
     display: block;
     width: 100%;
   }
-
-  .registration-table tr.registration-row {
-    border-bottom: 1px solid #f0e6e6;
-    padding: 0.8rem 1rem;
+  .registration-table tr {
+    border-bottom: 1px solid var(--color-border);
+    padding: 12px 16px;
   }
-
   .registration-table td {
     border: none;
-    padding: 0.3rem 0;
+    padding: 4px 0;
     display: flex;
     justify-content: space-between;
-    gap: 1rem;
+    gap: var(--space-4);
   }
-
   .registration-table td::before {
     content: attr(data-label);
-    font-weight: 600;
-    color: #a39b9e;
-    font-size: 0.78rem;
-  }
-
-  .registration-action-cell {
-    text-align: left;
-    justify-content: flex-start !important;
-  }
-}
-
-/* Trạng thái rỗng / loading */
-.empty-state {
-  text-align: center;
-  color: #a39b9e;
-  padding: 3rem 1rem;
-  font-size: 1rem;
-}
-
-.profile-loading {
-  text-align: center;
-  padding: 4rem;
-  color: #8b7d84;
-  font-size: 1.2rem;
-}
-
-/* Inputs */
-.edit-input {
-  width: 100%;
-  padding: 0.6rem;
-  border: 1px solid #e0d8d8;
-  border-radius: 8px;
-  font-family: inherit;
-  font-size: 1rem;
-  background-color: #ffffff;
-  color: #4a4a4a;
-}
-
-.edit-input:focus {
-  outline: none;
-  border-color: #d4e4ec;
-  box-shadow: 0 0 0 3px rgba(212, 228, 236, 0.4);
-}
-
-/* Responsive */
-@media (max-width: 720px) {
-  .filter-bar {
-    grid-template-columns: 1fr;
-  }
-
-  .course-meta-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .registration-row {
-    flex-direction: column;
+    font-weight: var(--font-semibold);
+    color: var(--color-text-muted);
+    font-size: var(--text-caption);
   }
 }

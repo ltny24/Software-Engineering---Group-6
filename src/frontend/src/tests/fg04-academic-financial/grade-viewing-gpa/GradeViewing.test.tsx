@@ -12,17 +12,17 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import toast from 'react-hot-toast';
+import api from '../../../services/api';
+
+import GradesPage from '../../../pages/grades/GradesPage';
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
-import toast from 'react-hot-toast';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn() },
 }));
-import api from '../../../services/api';
-
-import GradesPage from '../../../pages/grades/GradesPage';
 
 const mockApiGet = api.get as jest.Mock;
 
@@ -42,19 +42,67 @@ function getAcademicRank(cpa: number): string {
 
 // -- Fixtures ------------------------------------------------------------------
 const HK1_2024 = [
-  { gradeId: 1, term: 'HK1 2024-2025', courseCode: 'CSE101', courseName: 'Discrete Math',   credits: 3, gradeValue: 'A',   gradePoint: 8.5 },
-  { gradeId: 2, term: 'HK1 2024-2025', courseCode: 'CSE102', courseName: 'OOP Programming', credits: 4, gradeValue: 'B+',  gradePoint: 7.0 },
-  { gradeId: 3, term: 'HK1 2024-2025', courseCode: 'CSE103', courseName: 'Calculus',     credits: 3, gradeValue: 'B',   gradePoint: 9.0 },
+  {
+    gradeId: 1,
+    term: 'HK1 2024-2025',
+    courseCode: 'CSE101',
+    courseName: 'Discrete Math',
+    credits: 3,
+    gradeValue: 'A',
+    gradePoint: 8.5,
+  },
+  {
+    gradeId: 2,
+    term: 'HK1 2024-2025',
+    courseCode: 'CSE102',
+    courseName: 'OOP Programming',
+    credits: 4,
+    gradeValue: 'B+',
+    gradePoint: 7.0,
+  },
+  {
+    gradeId: 3,
+    term: 'HK1 2024-2025',
+    courseCode: 'CSE103',
+    courseName: 'Calculus',
+    credits: 3,
+    gradeValue: 'B',
+    gradePoint: 9.0,
+  },
 ];
 const HK2_2023 = [
-  { gradeId: 4, term: 'HK2 2023-2024', courseCode: 'CSE001', courseName: 'Intro to IT',   credits: 2, gradeValue: 'A',   gradePoint: 9.5 },
+  {
+    gradeId: 4,
+    term: 'HK2 2023-2024',
+    courseCode: 'CSE001',
+    courseName: 'Intro to IT',
+    credits: 2,
+    gradeValue: 'A',
+    gradePoint: 9.5,
+  },
 ];
 const MOCK_GRADES_ALL = [...HK1_2024, ...HK2_2023];
 
 // Grades with F
 const GRADES_WITH_F = [
-  { gradeId: 1, term: 'HK1 2024-2025', courseCode: 'MAT101', courseName: 'Calculus', credits: 3, gradeValue: 'F', gradePoint: 3.5 },
-  { gradeId: 2, term: 'HK1 2024-2025', courseCode: 'CSE101', courseName: 'OOP',       credits: 4, gradeValue: 'A', gradePoint: 9.0 },
+  {
+    gradeId: 1,
+    term: 'HK1 2024-2025',
+    courseCode: 'MAT101',
+    courseName: 'Calculus',
+    credits: 3,
+    gradeValue: 'F',
+    gradePoint: 3.5,
+  },
+  {
+    gradeId: 2,
+    term: 'HK1 2024-2025',
+    courseCode: 'CSE101',
+    courseName: 'OOP',
+    credits: 4,
+    gradeValue: 'A',
+    gradePoint: 9.0,
+  },
 ];
 
 beforeEach(() => jest.clearAllMocks());
@@ -63,7 +111,6 @@ beforeEach(() => jest.clearAllMocks());
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG04 - Grade Viewing & GPA', () => {
-
   // -- TC_GRADE_01: View current semester grades --------------------------------
   it('TC_GRADE_01: select HK1 2024-2025 -> displays correct list of courses, component grades, final grade, classification', async () => {
     mockApiGet.mockResolvedValueOnce(HK1_2024);
@@ -84,7 +131,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(MOCK_GRADES_ALL);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Discrete Math'));
+    await screen.findByText('Discrete Math');
 
     const termSelect = screen.getByRole('combobox');
     await userEvent.selectOptions(termSelect, 'HK2 2023-2024');
@@ -98,7 +145,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(HK1_2024);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Discrete Math'));
+    await screen.findByText('Discrete Math');
 
     const gpa10 = calculateGPA(HK1_2024);
     const gpa4 = gpa10 * 0.4;
@@ -111,7 +158,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(MOCK_GRADES_ALL);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Discrete Math'));
+    await screen.findByText('Discrete Math');
 
     const cpa10 = calculateGPA(MOCK_GRADES_ALL);
     const rank = getAcademicRank(cpa10);
@@ -136,7 +183,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(HK1_2024);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('OOP Programming'));
+    await screen.findByText('OOP Programming');
     // Since it's a table, grade details are rendered in columns
     expect(screen.getByText('7.00')).toBeInTheDocument();
   });
@@ -146,7 +193,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(GRADES_WITH_F);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Calculus'));
+    await screen.findByText('Calculus');
 
     const failGrade = screen.getByText('3.5');
     // Assuming failed grades have text-danger or red color class
@@ -156,12 +203,20 @@ describe('FG04 - Grade Viewing & GPA', () => {
   // -- TC_GRADE_09: Missing component grade -------------------------------------
   it.skip('TC_GRADE_09: final grade is null/empty -> Total grade displays TBD or empty, not 0', async () => {
     const missingGrades = [
-      { gradeId: 1, term: 'HK1', courseCode: 'CSE101', courseName: 'Discrete Math', credits: 3, gradeValue: null, gradePoint: null },
+      {
+        gradeId: 1,
+        term: 'HK1',
+        courseCode: 'CSE101',
+        courseName: 'Discrete Math',
+        credits: 3,
+        gradeValue: null,
+        gradePoint: null,
+      },
     ];
     mockApiGet.mockResolvedValueOnce(missingGrades);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Discrete Math'));
+    await screen.findByText('Discrete Math');
 
     expect(screen.getByText('TBD')).toBeInTheDocument();
   });
@@ -179,12 +234,20 @@ describe('FG04 - Grade Viewing & GPA', () => {
   // -- TC_GRADE_11: Grade updated after appeal ----------------------------------
   it.skip('TC_GRADE_11: OOP grade updated to 8.0 (from 6.5) -> displays new grade, recalculates GPA', async () => {
     const updatedGrades = [
-      { gradeId: 2, term: 'HK1', courseCode: 'CSE102', courseName: 'OOP Programming', credits: 4, gradeValue: 'B', gradePoint: 8.0 },
+      {
+        gradeId: 2,
+        term: 'HK1',
+        courseCode: 'CSE102',
+        courseName: 'OOP Programming',
+        credits: 4,
+        gradeValue: 'B',
+        gradePoint: 8.0,
+      },
     ];
     mockApiGet.mockResolvedValueOnce(updatedGrades);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('OOP Programming'));
+    await screen.findByText('OOP Programming');
 
     // New grade 8.0 must be displayed
     expect(screen.getByText('8.0')).toBeInTheDocument();
@@ -193,12 +256,28 @@ describe('FG04 - Grade Viewing & GPA', () => {
   // -- TC_GRADE_12: Boundary - all A's ------------------------------------------
   it('TC_GRADE_12: all courses achieve 10/10 -> GPA = 4.0, does not exceed 4.0', async () => {
     const perfectGrades = [
-      { gradeId: 1, term: 'HK1', courseCode: 'A', courseName: 'Course A', credits: 3, gradeValue: 'A', gradePoint: 10 },
-      { gradeId: 2, term: 'HK1', courseCode: 'B', courseName: 'Course B', credits: 4, gradeValue: 'A', gradePoint: 10 },
+      {
+        gradeId: 1,
+        term: 'HK1',
+        courseCode: 'A',
+        courseName: 'Course A',
+        credits: 3,
+        gradeValue: 'A',
+        gradePoint: 10,
+      },
+      {
+        gradeId: 2,
+        term: 'HK1',
+        courseCode: 'B',
+        courseName: 'Course B',
+        credits: 4,
+        gradeValue: 'A',
+        gradePoint: 10,
+      },
     ];
 
     const gpa10 = calculateGPA(perfectGrades);
-    const gpa4  = gpa10 * 0.4;
+    const gpa4 = gpa10 * 0.4;
 
     expect(gpa10).toBe(10);
     expect(gpa4).toBe(4.0);
@@ -208,8 +287,24 @@ describe('FG04 - Grade Viewing & GPA', () => {
   // -- TC_GRADE_13: Boundary - all F's ------------------------------------------
   it('TC_GRADE_13: all courses failed (<4/10) -> GPA = 0, displays academic warning', async () => {
     const failGrades = [
-      { gradeId: 1, term: 'HK1', courseCode: 'A', courseName: 'Course A', credits: 3, gradeValue: 'F', gradePoint: 2.0 },
-      { gradeId: 2, term: 'HK1', courseCode: 'B', courseName: 'Course B', credits: 4, gradeValue: 'F', gradePoint: 1.5 },
+      {
+        gradeId: 1,
+        term: 'HK1',
+        courseCode: 'A',
+        courseName: 'Course A',
+        credits: 3,
+        gradeValue: 'F',
+        gradePoint: 2.0,
+      },
+      {
+        gradeId: 2,
+        term: 'HK1',
+        courseCode: 'B',
+        courseName: 'Course B',
+        credits: 4,
+        gradeValue: 'F',
+        gradePoint: 1.5,
+      },
     ];
 
     const gpa = calculateGPA(failGrades);
@@ -222,7 +317,7 @@ describe('FG04 - Grade Viewing & GPA', () => {
     mockApiGet.mockResolvedValueOnce(HK1_2024);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Discrete Math'));
+    await screen.findByText('Discrete Math');
 
     // Validate page load, download button might be pending
     // Positive TC - validates grade data is valid for export
@@ -233,13 +328,29 @@ describe('FG04 - Grade Viewing & GPA', () => {
   // -- TC_GRADE_15: Display retaken courses -------------------------------------
   it.skip('TC_GRADE_15: Calculus retaken 2nd time -> 2 separate rows, GPA uses highest grade', async () => {
     const retakeGrades = [
-      { gradeId: 1, term: 'HK1 2023-2024', courseCode: 'MAT101', courseName: 'Calculus (1st time)', credits: 3, gradeValue: 'F', gradePoint: 3.0 },
-      { gradeId: 5, term: 'HK1 2024-2025', courseCode: 'MAT101', courseName: 'Calculus (2nd time)', credits: 3, gradeValue: 'B', gradePoint: 7.0 },
+      {
+        gradeId: 1,
+        term: 'HK1 2023-2024',
+        courseCode: 'MAT101',
+        courseName: 'Calculus (1st time)',
+        credits: 3,
+        gradeValue: 'F',
+        gradePoint: 3.0,
+      },
+      {
+        gradeId: 5,
+        term: 'HK1 2024-2025',
+        courseCode: 'MAT101',
+        courseName: 'Calculus (2nd time)',
+        credits: 3,
+        gradeValue: 'B',
+        gradePoint: 7.0,
+      },
     ];
     mockApiGet.mockResolvedValueOnce(retakeGrades);
 
     render(<GradesPage />);
-    await waitFor(() => screen.getByText('Calculus (1st time)'));
+    await screen.findByText('Calculus (1st time)');
 
     expect(screen.getByText('Calculus (1st time)')).toBeInTheDocument();
     expect(screen.getByText('Calculus (2nd time)')).toBeInTheDocument();

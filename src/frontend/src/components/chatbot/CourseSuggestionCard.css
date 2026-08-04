@@ -1,0 +1,85 @@
+/* Course suggestion — Skylearn */
+.course-suggestion {
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: 16px;
+  margin-bottom: 10px;
+  transition: box-shadow var(--transition-base);
+}
+.course-suggestion:hover {
+  box-shadow: var(--shadow-card-hover);
+}
+.course-suggestion--eligible {
+  border-left: 4px solid var(--color-primary);
+}
+.course-suggestion--blocked {
+  border-left: 4px solid var(--color-sun);
+}
+.course-suggestion__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.course-suggestion__info {
+  flex: 1;
+}
+.course-suggestion__title {
+  margin: 0 0 4px 0;
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+.course-suggestion__credits {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+.course-suggestion__badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  white-space: nowrap;
+}
+.course-suggestion__badge--eligible {
+  background-color: var(--color-success-soft);
+  color: var(--color-success-deep);
+}
+.course-suggestion__badge--blocked {
+  background-color: #fef3c7;
+  color: var(--color-sun-deep);
+}
+.course-suggestion__reason {
+  margin: 8px 0 0 0;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+.course-suggestion__save-btn {
+  margin-top: 10px;
+  padding: 8px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  cursor: pointer;
+  min-height: 40px;
+  transition: all var(--transition-fast);
+}
+.course-suggestion__save-btn:hover:not(:disabled) {
+  background-color: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+.course-suggestion__save-btn--saved {
+  background-color: var(--color-success-soft);
+  color: var(--color-success-deep);
+  cursor: default;
+  border-color: rgba(34, 197, 94, 0.25);
+}

@@ -12,15 +12,17 @@
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import toast from 'react-hot-toast';
+import api from '../../../services/api';
+
+import TimetablePage from '../../../pages/timetable/TimetablePage';
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
-import toast from 'react-hot-toast';
 
 jest.mock('../../../services/api', () => ({
   __esModule: true,
   default: { get: jest.fn() },
 }));
-import api from '../../../services/api';
 
 jest.mock('../../../auth', () => ({
   useAuth: () => ({ user: { role: 'STUDENT', username: 'SV001' } }),
@@ -29,15 +31,17 @@ jest.mock('../../../utils/constants', () => ({
   ROLES: { ADMIN: 'ADMIN', STUDENT: 'STUDENT' },
 }));
 
-import TimetablePage from '../../../pages/timetable/TimetablePage';
-
 const mockApiGet = api.get as jest.Mock;
 
 // -- Helpers (mirrors TimetablePage logic) -------------------------------------
 function getTimeSlot(periods: number): string {
   const slots: Record<number, string> = {
-    1: '7:00 - 8:30',   2: '8:45 - 10:15',  3: '10:30 - 12:00',
-    4: '13:00 - 14:30', 5: '14:45 - 16:15', 6: '16:30 - 18:00',
+    1: '7:00 - 8:30',
+    2: '8:45 - 10:15',
+    3: '10:30 - 12:00',
+    4: '13:00 - 14:30',
+    5: '14:45 - 16:15',
+    6: '16:30 - 18:00',
     7: '18:15 - 19:45',
   };
   return slots[periods] || 'N/A';
@@ -57,29 +61,43 @@ const MOCK_HK1_SCHEDULE = [
   {
     offering: {
       course: { courseCode: 'CSE101', courseName: 'OOP Programming', credits: 4 },
-      day: 'Monday', periods: 2, room: 'T306',
-      lecturer: 'Dr. Nguyen Van A', classType: 'Lecture', term: 'HK1 2024-2025',
+      day: 'Monday',
+      periods: 2,
+      room: 'T306',
+      lecturer: 'Dr. Nguyen Van A',
+      classType: 'Lecture',
+      term: 'HK1 2024-2025',
     },
   },
   {
     offering: {
       course: { courseCode: 'MAT101', courseName: 'Calculus', credits: 3 },
-      day: 'Wednesday', periods: 1, room: 'A301',
-      lecturer: 'Prof. Tran Thi B', classType: 'Lecture', term: 'HK1 2024-2025',
+      day: 'Wednesday',
+      periods: 1,
+      room: 'A301',
+      lecturer: 'Prof. Tran Thi B',
+      classType: 'Lecture',
+      term: 'HK1 2024-2025',
     },
   },
 ];
 
 const MOCK_EXAM_SCHEDULE = [
   {
-    courseCode: 'CSE101', courseName: 'OOP Programming',
-    examDate: '2025-01-15', session: 'Morning (7:30-9:30)',
-    room: 'B201', examType: 'Final Exam',
+    courseCode: 'CSE101',
+    courseName: 'OOP Programming',
+    examDate: '2025-01-15',
+    session: 'Morning (7:30-9:30)',
+    room: 'B201',
+    examType: 'Final Exam',
   },
   {
-    courseCode: 'MAT101', courseName: 'Calculus',
-    examDate: '2025-01-18', session: 'Afternoon (13:00-15:00)',
-    room: 'B205', examType: 'Final Exam',
+    courseCode: 'MAT101',
+    courseName: 'Calculus',
+    examDate: '2025-01-18',
+    session: 'Afternoon (13:00-15:00)',
+    room: 'B205',
+    examType: 'Final Exam',
   },
 ];
 
@@ -89,7 +107,6 @@ beforeEach(() => jest.clearAllMocks());
 // TEST SUITE - mapped 1-1 with testcases.md
 // =============================================================================
 describe('FG04 - Timetable & Exam Schedule', () => {
-
   // -- TC_TKB_01: View current week timetable -----------------------------------
   it('TC_TKB_01: go to Timetable -> displays timetable grid (Mon-Sun, Period 1-15), correct course/room/lecturer', async () => {
     mockApiGet.mockResolvedValueOnce(MOCK_HK1_SCHEDULE);
@@ -154,7 +171,7 @@ describe('FG04 - Timetable & Exam Schedule', () => {
 
   it('TC_TKB_05: no schedule conflict -> returns false', () => {
     const nonConflict = [
-      { day: 'Monday',  periods: 1 },
+      { day: 'Monday', periods: 1 },
       { day: 'Tuesday', periods: 1 },
     ];
     expect(hasScheduleConflict(nonConflict)).toBe(false);
@@ -174,7 +191,7 @@ describe('FG04 - Timetable & Exam Schedule', () => {
 
   // -- TC_TKB_07: View midterm exam schedule ------------------------------------
   it('TC_TKB_07: go to Midterm Exam Schedule -> displays full midterm schedule for each course', async () => {
-    const midtermExams = MOCK_EXAM_SCHEDULE.map(e => ({ ...e, examType: 'Midterm Exam' }));
+    const midtermExams = MOCK_EXAM_SCHEDULE.map((e) => ({ ...e, examType: 'Midterm Exam' }));
     mockApiGet.mockResolvedValueOnce(midtermExams);
 
     const result = await api.get('/api/timetable/exams?term=HK1+2024-2025&type=midterm');
@@ -200,8 +217,11 @@ describe('FG04 - Timetable & Exam Schedule', () => {
     ];
 
     // Detect conflict: same date + same session
-    const hasExamConflict = conflictExams.length >= 2 &&
-      conflictExams.every(e => e.examDate === conflictExams[0].examDate && e.session === conflictExams[0].session);
+    const hasExamConflict =
+      conflictExams.length >= 2 &&
+      conflictExams.every(
+        (e) => e.examDate === conflictExams[0].examDate && e.session === conflictExams[0].session
+      );
 
     expect(hasExamConflict).toBe(true);
   });
@@ -209,7 +229,7 @@ describe('FG04 - Timetable & Exam Schedule', () => {
   // -- TC_TKB_10: Filter timetable by specific date -----------------------------
   it('TC_TKB_10: filter by date 15/01/2025 -> only displays classes/exams on that day', async () => {
     const targetDate = '2025-01-15';
-    const filtered = MOCK_EXAM_SCHEDULE.filter(e => e.examDate === targetDate);
+    const filtered = MOCK_EXAM_SCHEDULE.filter((e) => e.examDate === targetDate);
 
     expect(filtered.length).toBe(1);
     expect(filtered[0].courseName).toBe('OOP Programming');
@@ -269,8 +289,8 @@ describe('FG04 - Timetable & Exam Schedule', () => {
       expect(screen.queryByText(/loading/i)).not.toBeInTheDocument();
     });
 
-    const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
-    days.forEach(d => expect(screen.getAllByText(d)[0]).toBeInTheDocument());
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    days.forEach((d) => expect(screen.getAllByText(d)[0]).toBeInTheDocument());
   });
 
   // -- TC_TKB_15: Boundary - last period (period 15 / period 7 = 18:15-19:45) ---
