@@ -1,5 +1,19 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import {
+  FaHouse,
+  FaUser,
+  FaBookOpen,
+  FaCalendarDays,
+  FaGraduationCap,
+  FaMoneyBillWave,
+  FaFilePen,
+  FaCircleQuestion,
+  FaUsers,
+  FaUpload,
+  FaRightLeft,
+  FaRightFromBracket,
+} from 'react-icons/fa6';
 import { useAuth } from '../../auth';
 import { ROUTES, ROLES } from '../../utils/constants';
 import './Sidebar.css';
@@ -7,29 +21,30 @@ import './Sidebar.css';
 interface NavItem {
   label: string;
   to: string;
+  icon: React.ReactNode;
   disabled?: boolean;
 }
 
 const studentNav: NavItem[] = [
-  { label: 'Dashboard', to: ROUTES.DASHBOARD },
-  { label: 'Profile', to: ROUTES.PROFILE },
-  { label: 'Courses', to: ROUTES.COURSES },
-  { label: 'Timetable', to: ROUTES.TIMETABLE },
-  { label: 'Grades', to: ROUTES.GRADES },
-  { label: 'Tuition', to: ROUTES.TUITION },
-  { label: 'Appeals', to: ROUTES.APPEALS },
-  { label: 'Support', to: ROUTES.SUPPORT },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: <FaHouse /> },
+  { label: 'Profile', to: ROUTES.PROFILE, icon: <FaUser /> },
+  { label: 'Courses', to: ROUTES.COURSES, icon: <FaBookOpen /> },
+  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: <FaCalendarDays /> },
+  { label: 'Grades', to: ROUTES.GRADES, icon: <FaGraduationCap /> },
+  { label: 'Tuition', to: ROUTES.TUITION, icon: <FaMoneyBillWave /> },
+  { label: 'Appeals', to: ROUTES.APPEALS, icon: <FaFilePen /> },
+  { label: 'Support', to: ROUTES.SUPPORT, icon: <FaCircleQuestion /> },
 ];
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard', to: ROUTES.DASHBOARD },
-  { label: 'Students', to: ROUTES.ADMIN_STUDENTS },
-  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT },
-  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS },
-  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS },
-  { label: 'Courses', to: ROUTES.COURSES },
-  { label: 'Timetable', to: ROUTES.TIMETABLE },
-  { label: 'Support', to: ROUTES.SUPPORT },
+  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: <FaHouse /> },
+  { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: <FaUsers /> },
+  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: <FaUpload /> },
+  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: <FaRightLeft /> },
+  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: <FaFilePen /> },
+  { label: 'Courses', to: ROUTES.COURSES, icon: <FaBookOpen /> },
+  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: <FaCalendarDays /> },
+  { label: 'Support', to: ROUTES.SUPPORT, icon: <FaCircleQuestion /> },
 ];
 
 export default function Sidebar() {
@@ -55,10 +70,11 @@ export default function Sidebar() {
         <span className="sidebar__app-name">MyUS Portal</span>
       </div>
       <nav className="sidebar__nav">
-        {navItems.map(({ label, to, disabled }) => {
+        {navItems.map(({ label, to, icon, disabled }) => {
           if (disabled)
             return (
               <span key={label} className="sidebar__link sidebar__link--disabled">
+                <span className="sidebar__link-icon">{icon}</span>
                 {label}
               </span>
             );
@@ -71,6 +87,7 @@ export default function Sidebar() {
                 `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
               }
             >
+              <span className="sidebar__link-icon">{icon}</span>
               {label}
             </NavLink>
           );
@@ -78,7 +95,7 @@ export default function Sidebar() {
       </nav>
       <div className="sidebar__footer">
         <button className="sidebar__logout" onClick={handleLogout}>
-          Logout
+          <FaRightFromBracket /> Logout
         </button>
       </div>
     </aside>

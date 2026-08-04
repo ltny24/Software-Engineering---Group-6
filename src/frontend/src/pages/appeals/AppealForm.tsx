@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaPaperPlane } from 'react-icons/fa6';
 import api from '../../services/api';
 import { getAppealErrorMessage, validateSupportingFile } from './appealSubmissionUtils';
 import type { AppealConfigResponse, AppealFormValues } from './types';
@@ -27,11 +28,11 @@ const formatDeadline = (value: Date) =>
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
-  border: '1px solid #cbd5e1',
+  border: '1px solid rgba(100,140,200,0.2)',
   borderRadius: 8,
   padding: '10px 12px',
   fontSize: 14,
-  color: '#0f172a',
+  color: '#E2E8F0',
   backgroundColor: '#fff',
   outline: 'none',
   boxSizing: 'border-box',
@@ -244,12 +245,12 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           justifyContent: 'space-between',
           padding: '16px 18px',
           borderRadius: 12,
-          border: '1px solid #e2e8f0',
-          backgroundColor: '#f8fafc',
+          border: '1px solid rgba(100,140,200,0.15)',
+          backgroundColor: 'rgba(15,23,50,0.3)',
         }}
       >
         <div>
-          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#0f172a' }}>
+          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#E2E8F0' }}>
             Submit a grade appeal
           </h3>
           <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
@@ -296,8 +297,8 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           marginBottom: 20,
           padding: 16,
           borderRadius: 12,
-          border: '1px solid #e2e8f0',
-          backgroundColor: '#f8fafc',
+          border: '1px solid rgba(100,140,200,0.15)',
+          backgroundColor: 'rgba(15,23,50,0.3)',
         }}
       >
         <div
@@ -326,7 +327,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
               color: '#334155',
               fontSize: 13,
               fontWeight: 600,
-              border: '1px solid #e2e8f0',
+              border: '1px solid rgba(100,140,200,0.15)',
             }}
           >
             {form.reason.trim().length < 50 ? 'Drafting' : 'Ready to submit'}
@@ -494,12 +495,12 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
             style={{
               display: 'block',
               width: '100%',
-              border: '1px solid #cbd5e1',
+              border: '1px solid rgba(100,140,200,0.2)',
               borderRadius: 8,
               padding: '10px 12px',
               fontSize: 14,
-              color: '#0f172a',
-              backgroundColor: '#f8fafc',
+              color: '#E2E8F0',
+              backgroundColor: 'rgba(15,23,50,0.3)',
             }}
             onChange={(event) => {
               setSubmitError(null);
@@ -520,7 +521,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
             display: 'flex',
             flexDirection: 'column',
             gap: 12,
-            borderTop: '1px solid #e2e8f0',
+            borderTop: '1px solid rgba(100,140,200,0.15)',
             paddingTop: 16,
             alignItems: 'flex-start',
             justifyContent: 'space-between',
@@ -534,16 +535,20 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
             style={{
               border: 'none',
               borderRadius: 8,
-              backgroundColor: '#0f172a',
+              backgroundColor: '#4DA8FF',
               color: '#fff',
               padding: '10px 16px',
               fontSize: 14,
               fontWeight: 700,
               cursor: formDisabled || submitting ? 'not-allowed' : 'pointer',
               opacity: formDisabled || submitting ? 0.7 : 1,
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
             }}
             disabled={formDisabled || submitting}
           >
+            <FaPaperPlane />
             {submitting ? 'Submitting…' : 'Submit New Appeal'}
           </button>
         </div>

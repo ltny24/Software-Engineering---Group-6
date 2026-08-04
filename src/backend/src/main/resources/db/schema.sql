@@ -198,6 +198,15 @@ CREATE TABLE myus.ClassTransferRequest (
     CONSTRAINT FK_Transfer_ToOffering FOREIGN KEY(toOfferingId) REFERENCES myus.CourseOffering(offeringId) ON DELETE NO ACTION
 );
 
+-- Password Reset Tokens
+CREATE TABLE myus.PasswordResetToken (
+    id BIGINT IDENTITY(1,1) PRIMARY KEY,
+    username NVARCHAR(150) NOT NULL,
+    token NVARCHAR(10) NOT NULL,
+    expiresAt DATETIME2 NOT NULL,
+    used BIT NOT NULL DEFAULT 0
+);
+
 -- Chatbot Sessions
 CREATE TABLE myus.ChatbotSession (
     sessionId BIGINT IDENTITY(1,1) PRIMARY KEY,

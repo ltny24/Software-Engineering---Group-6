@@ -115,7 +115,8 @@ INSERT INTO myus.Student (username, password, role, firstName, middleName, lastN
 ('24127097', '24127097123', 'STUDENT', N'Trinh', N'Duy', N'Dao', '24127097@student.myus.edu.vn', '0901230097', N'808 Ba Thang Hai Street, Ward 14, District 10, Ho Chi Minh City', '2005-02-14', N'High Quality', N'Software Engineering', 'Enrolled', 'Active'),
 ('24127098', '24127098123', 'STUDENT', N'Nhu', N'Hồng', N'Dinh', '24127098@student.myus.edu.vn', '0901230098', N'909 Ly Thuong Kiet Street, Ward 7, Tan Binh District, Ho Chi Minh City', '2005-03-15', N'Talented Program', N'Information Technology', 'Enrolled', 'Active'),
 ('24127099', '24127099123', 'STUDENT', N'Kien', N'Mong', N'Truong', '24127099@student.myus.edu.vn', '0901230099', N'111 Hoang Van Thu Street, Ward 8, Phu Nhuan District, Ho Chi Minh City', '2005-04-16', N'Regular', N'Artificial Intelligence', 'Enrolled', 'Active'),
-('24127100', '24127100123', 'STUDENT', N'Tri', N'Nhat', N'Trinh', '24127100@student.myus.edu.vn', '0901230100', N'222 Phan Xich Long Street, Ward 2, Phu Nhuan District, Ho Chi Minh City', '2005-05-17', N'Regular - Advanced English', N'Data Science', 'Enrolled', 'Active');
+('24127100', '24127100123', 'STUDENT', N'Tri', N'Nhat', N'Trinh', '24127100@student.myus.edu.vn', '0901230100', N'222 Phan Xich Long Street, Ward 2, Phu Nhuan District, Ho Chi Minh City', '2005-05-17', N'Regular - Advanced English', N'Data Science', 'Enrolled', 'Active'),
+('24127192', '24127192123', 'STUDENT', N'Denver', N'Van', N'Nguyen', '24127192@student.hcmus.edu.vn', '0901230192', N'227 Nguyen Van Cu Street, Ward 4, District 5, Ho Chi Minh City', '2005-06-15', N'High Quality', N'Software Engineering', 'Enrolled', 'Active');
 
 -- 3. INSERT COURSES (15 courses for 2025-2026)
 INSERT INTO myus.Course (courseCode, courseName, description, credits, prerequisites, department, semester, capacity) VALUES

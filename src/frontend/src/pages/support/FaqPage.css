@@ -20,9 +20,9 @@
   font-size: var(--text-body);
 }
 .faq-demo-banner {
-  background-color: #fef3c7;
-  color: var(--color-sun-deep);
-  border: 1px solid rgba(251, 191, 36, 0.25);
+  background-color: rgba(251, 191, 36, 0.10);
+  color: #FCD34D;
+  border: 1px solid rgba(251, 191, 36, 0.2);
   border-radius: var(--radius-lg);
   padding: 12px 16px;
   font-family: var(--font-body);
@@ -69,6 +69,9 @@
   font-weight: var(--font-regular);
   cursor: pointer;
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition: all var(--transition-fast);
 }
 .faq-bookmark-toggle:hover {
@@ -232,6 +235,9 @@
   font-size: var(--text-small);
   cursor: pointer;
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-fast);
 }
 .faq-vote-btn:hover:not(:disabled) {
@@ -254,6 +260,9 @@
   font-size: var(--text-small);
   cursor: pointer;
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-fast);
 }
 .faq-bookmark-btn:hover {
@@ -261,8 +270,8 @@
   background-color: var(--color-border);
 }
 .faq-bookmark-btn-active {
-  background-color: #fef3c7;
-  color: var(--color-sun-deep);
+  background-color: rgba(251, 191, 36, 0.12);
+  color: #FCD34D;
 }
 
 .faq-related {

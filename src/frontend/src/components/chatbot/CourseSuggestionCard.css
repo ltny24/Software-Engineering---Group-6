@@ -37,7 +37,9 @@
   color: var(--color-text-secondary);
 }
 .course-suggestion__badge {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 6px 14px;
   border-radius: var(--radius-full);
   font-family: var(--font-body);
@@ -49,8 +51,8 @@
   color: var(--color-success-deep);
 }
 .course-suggestion__badge--blocked {
-  background-color: #fef3c7;
-  color: var(--color-sun-deep);
+  background-color: rgba(251, 191, 36, 0.12);
+  color: #FCD34D;
 }
 .course-suggestion__reason {
   margin: 8px 0 0 0;
@@ -70,6 +72,9 @@
   font-size: var(--text-small);
   cursor: pointer;
   min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-fast);
 }
 .course-suggestion__save-btn:hover:not(:disabled) {

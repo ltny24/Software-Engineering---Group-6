@@ -11,6 +11,7 @@ import { ROUTES, ROLES } from './utils/constants';
 // ============================================================
 
 const LoginPage = lazy(() => import('./pages/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('./pages/ForgotPasswordPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 const DashboardPage = lazy(() => import('./pages/DashboardPage'));
 
@@ -72,6 +73,7 @@ export default function App() {
             <Routes>
               {/* ── Public ── */}
               <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+              <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
 
               {/* ── Protected student & shared routes ── */}
               <Route

@@ -5,6 +5,7 @@
 // ============================================================
 
 import React from 'react';
+import { FaGraduationCap, FaTriangleExclamation } from 'react-icons/fa6';
 import type { GraduationProgress } from '../../types/chatbot.types';
 import './GraduationRoadmapCard.css';
 
@@ -23,7 +24,9 @@ export default function GraduationRoadmapCard({ progress }: Props) {
 
   return (
     <div className="graduation-card">
-      <h3 className="graduation-card__title">🎓 Graduation Progress</h3>
+      <h3 className="graduation-card__title">
+        <FaGraduationCap /> Graduation Progress
+      </h3>
 
       {/* Progress bar */}
       <div className="graduation-card__progress">
@@ -60,7 +63,9 @@ export default function GraduationRoadmapCard({ progress }: Props) {
       {/* Critical milestones */}
       {progress.criticalMilestonesPending.length > 0 && (
         <div className="graduation-card__milestones">
-          <h4 className="graduation-card__milestones-title">⚠️ Pending Milestones</h4>
+          <h4 className="graduation-card__milestones-title">
+            <FaTriangleExclamation /> Pending Milestones
+          </h4>
           <ul className="graduation-card__milestones-list">
             {progress.criticalMilestonesPending.map((m, i) => (
               <li key={i}>{m}</li>

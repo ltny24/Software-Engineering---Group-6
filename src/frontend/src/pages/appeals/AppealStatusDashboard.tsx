@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaArrowRight } from 'react-icons/fa6';
 import { getMyAppealHistory, getAppealDetail } from '../../services/appealService';
 import type { AppealSummaryDTO, AppealDetailDTO } from '../../types';
 import AppealStatusBadge from '../../components/appeals/AppealStatusBadge';
@@ -85,10 +86,10 @@ export const AppealStatusDashboard: React.FC = () => {
   const resolvedCount = appeals.filter((a) => a.status === 'RESOLVED').length;
 
   return (
-    <div style={{ padding: '32px 24px', backgroundColor: '#f8fafc', minHeight: '100vh' }}>
+    <div style={{ padding: '32px 24px', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
         <div style={{ marginBottom: '24px' }}>
-          <h1 style={{ margin: 0, fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
+          <h1 style={{ margin: 0, fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
             Track Grade Appeal Status
           </h1>
           <p style={{ marginTop: '8px', color: '#64748b' }}>
@@ -101,7 +102,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'rgba(22, 32, 65, 0.85)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -118,7 +119,7 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Active Appeals
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
+            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
               {activeAppealsCount}
             </div>
           </div>
@@ -126,7 +127,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'rgba(22, 32, 65, 0.85)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -143,7 +144,7 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Pending Fee Payments
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
+            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
               {pendingPaymentsCount}
             </div>
           </div>
@@ -151,7 +152,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: '#ffffff',
+              backgroundColor: 'rgba(22, 32, 65, 0.85)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -168,7 +169,7 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Resolved Appeals
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#0f172a' }}>
+            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
               {resolvedCount}
             </div>
           </div>
@@ -177,7 +178,7 @@ export const AppealStatusDashboard: React.FC = () => {
         {/* Filter Toolbar */}
         <div
           style={{
-            backgroundColor: '#ffffff',
+            backgroundColor: 'rgba(22, 32, 65, 0.85)',
             borderRadius: '12px',
             padding: '20px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -213,7 +214,7 @@ export const AppealStatusDashboard: React.FC = () => {
                 <thead>
                   <tr
                     style={{
-                      borderBottom: '2px solid #e2e8f0',
+                      borderBottom: '2px solid rgba(100,140,200,0.15)',
                       color: '#64748b',
                       fontSize: '12px',
                       textTransform: 'uppercase',
@@ -232,8 +233,9 @@ export const AppealStatusDashboard: React.FC = () => {
                     <tr
                       key={item.appealId}
                       style={{
-                        borderBottom: '1px solid #f1f5f9',
-                        backgroundColor: index % 2 === 0 ? '#ffffff' : '#f8fafc',
+                        borderBottom: '1px solid rgba(100,140,200,0.12)',
+                        backgroundColor:
+                          index % 2 === 0 ? 'rgba(22,32,65,0.4)' : 'rgba(15,23,50,0.3)',
                         cursor: 'pointer',
                       }}
                       onClick={() => handleRowClick(item.trackingCode)}
@@ -249,7 +251,7 @@ export const AppealStatusDashboard: React.FC = () => {
                         {item.trackingCode}
                       </td>
                       <td style={{ padding: '16px' }}>
-                        <div style={{ fontWeight: '600', color: '#0f172a' }}>{item.courseCode}</div>
+                        <div style={{ fontWeight: '600', color: '#E2E8F0' }}>{item.courseCode}</div>
                         <div style={{ fontSize: '12px', color: '#64748b' }}>{item.courseName}</div>
                       </td>
                       <td style={{ padding: '16px' }}>
@@ -281,7 +283,7 @@ export const AppealStatusDashboard: React.FC = () => {
                             cursor: 'pointer',
                           }}
                         >
-                          View Details →
+                          View Details <FaArrowRight />
                         </button>
                       </td>
                     </tr>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { FaXmark, FaPaperclip } from 'react-icons/fa6';
 import type { AppealDetailDTO } from '../../types/appeal.types';
 import AppealStatusBadge from './AppealStatusBadge';
 
@@ -34,7 +35,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         style={{
           width: '100%',
           maxWidth: '540px',
-          backgroundColor: '#ffffff',
+          backgroundColor: 'rgba(22, 32, 65, 0.85)',
           height: '100%',
           boxShadow: '-4px 0 24px rgba(0,0,0,0.15)',
           display: 'flex',
@@ -47,11 +48,11 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         <div
           style={{
             padding: '24px',
-            borderBottom: '1px solid #e2e8f0',
+            borderBottom: '1px solid rgba(100,140,200,0.15)',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: '#f8fafc',
+            backgroundColor: 'rgba(15,23,50,0.5)',
           }}
         >
           <div>
@@ -59,7 +60,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               TRACKING CODE: {appeal.trackingCode}
             </div>
             <h2
-              style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '700', color: '#0f172a' }}
+              style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '700', color: '#E2E8F0' }}
             >
               {appeal.courseCode} - {appeal.courseName}
             </h2>
@@ -72,9 +73,15 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               fontSize: '20px',
               cursor: 'pointer',
               color: '#64748b',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '4px',
+              borderRadius: '6px',
             }}
+            aria-label="Close drawer"
           >
-            ✕
+            <FaXmark />
           </button>
         </div>
 
@@ -108,15 +115,15 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: '#f8fafc',
+                backgroundColor: 'rgba(15,23,50,0.3)',
                 padding: '12px 16px',
                 borderRadius: '8px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid rgba(100,140,200,0.15)',
               }}
             >
               <div style={{ fontSize: '12px', color: '#64748b' }}>Original Grade</div>
               <div
-                style={{ fontSize: '20px', fontWeight: '700', color: '#0f172a', marginTop: '4px' }}
+                style={{ fontSize: '20px', fontWeight: '700', color: '#E2E8F0', marginTop: '4px' }}
               >
                 {appeal.currentGrade}
               </div>
@@ -124,10 +131,10 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: '#f8fafc',
+                backgroundColor: 'rgba(15,23,50,0.3)',
                 padding: '12px 16px',
                 borderRadius: '8px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid rgba(100,140,200,0.15)',
               }}
             >
               <div style={{ fontSize: '12px', color: '#64748b' }}>Expected Grade</div>
@@ -177,9 +184,9 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 margin: '8px 0 0',
                 padding: '14px',
-                backgroundColor: '#f8fafc',
+                backgroundColor: 'rgba(15,23,50,0.3)',
                 borderRadius: '8px',
-                border: '1px solid #e2e8f0',
+                border: '1px solid rgba(100,140,200,0.15)',
                 color: '#334155',
                 fontSize: '14px',
                 lineHeight: '1.5',
@@ -242,9 +249,12 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
                         fontSize: '14px',
                         textDecoration: 'underline',
                         fontWeight: '500',
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '4px',
                       }}
                     >
-                      📎 {hrefUrl}
+                      <FaPaperclip size={12} /> {hrefUrl}
                     </a>
                   );
                 })
@@ -258,9 +268,12 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
                     fontSize: '14px',
                     textDecoration: 'underline',
                     fontWeight: '500',
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '4px',
                   }}
                 >
-                  📎 https://ktdbcl.hcmus.edu.vn/
+                  <FaPaperclip size={12} /> https://ktdbcl.hcmus.edu.vn/
                 </a>
               )}
             </div>

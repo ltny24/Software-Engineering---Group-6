@@ -5,6 +5,7 @@
 // ============================================================
 
 import React, { useState } from 'react';
+import { FaCircleCheck, FaTriangleExclamation, FaFloppyDisk, FaCheck } from 'react-icons/fa6';
 import type { CourseSuggestion } from '../../types/chatbot.types';
 import './CourseSuggestionCard.css';
 
@@ -27,7 +28,8 @@ export default function CourseSuggestionCard({ course, onSave }: Props) {
   const badgeClass = isAvailable
     ? 'course-suggestion__badge--eligible'
     : 'course-suggestion__badge--blocked';
-  const badgeLabel = isAvailable ? '✅ Eligible' : '⚠️ Prerequisite Missing';
+  const badgeIcon = isAvailable ? <FaCircleCheck /> : <FaTriangleExclamation />;
+  const badgeLabel = isAvailable ? 'Eligible' : 'Prerequisite Missing';
 
   return (
     <div className={`course-suggestion ${statusClass}`}>
@@ -39,7 +41,9 @@ export default function CourseSuggestionCard({ course, onSave }: Props) {
           <span className="course-suggestion__credits">{course.credits} credits</span>
         </div>
 
-        <span className={`course-suggestion__badge ${badgeClass}`}>{badgeLabel}</span>
+        <span className={`course-suggestion__badge ${badgeClass}`}>
+          {badgeIcon} {badgeLabel}
+        </span>
       </div>
 
       <p className="course-suggestion__reason">{course.reasonForRecommendation}</p>
@@ -49,7 +53,15 @@ export default function CourseSuggestionCard({ course, onSave }: Props) {
         disabled={saved}
         className={`course-suggestion__save-btn ${saved ? 'course-suggestion__save-btn--saved' : ''}`}
       >
-        {saved ? '✓ Saved to Wishlist' : '💾 Save to Wishlist'}
+        {saved ? (
+          <>
+            <FaCheck /> Saved to Wishlist
+          </>
+        ) : (
+          <>
+            <FaFloppyDisk /> Save to Wishlist
+          </>
+        )}
       </button>
     </div>
   );

@@ -51,6 +51,34 @@ export async function login(credentials: LoginRequest): Promise<LoginResponse> {
 }
 
 /**
+ * POST /api/auth/forgot-password
+ * Sends a verification code to the email associated with the username.
+ */
+export async function forgotPassword(
+  username: string
+): Promise<{ message: string; maskedEmail: string; verificationCode: string }> {
+  const { data } = await axiosInstance.post('/api/auth/forgot-password', { username });
+  return data;
+}
+
+/**
+ * POST /api/auth/reset-password
+ * Resets the password using the verification code.
+ */
+export async function resetPassword(
+  username: string,
+  token: string,
+  newPassword: string
+): Promise<{ message: string }> {
+  const { data } = await axiosInstance.post('/api/auth/reset-password', {
+    username,
+    token,
+    newPassword,
+  });
+  return data;
+}
+
+/**
  * POST /api/auth/logout
  * Clears local session regardless of server response.
  */

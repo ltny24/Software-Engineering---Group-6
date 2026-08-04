@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
+import { FaRightToBracket } from 'react-icons/fa6';
 import { login, useAuth } from '../auth';
 import { ROUTES } from '../utils/constants';
 import './LoginPage.css';
@@ -94,9 +95,19 @@ export default function LoginPage() {
             className="btn btn--primary btn--full"
             disabled={isLoading}
           >
-            {isLoading ? 'Signing in…' : 'Sign In'}
+            {isLoading ? (
+              'Signing in…'
+            ) : (
+              <>
+                <FaRightToBracket /> Sign In
+              </>
+            )}
           </button>
         </form>
+
+        <Link to={ROUTES.FORGOT_PASSWORD} className="login-card__forgot-link">
+          Forgot your password?
+        </Link>
 
         <p className="login-card__help">
           Having trouble? Contact your academic office or IT support.

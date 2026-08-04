@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { FaBookOpen, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa6';
 import {
   dropRegistration,
   getCourses,
@@ -259,7 +260,9 @@ export default function CoursesPage() {
   return (
     <div className="courses-container">
       <div className="courses-header">
-        <h2>📚 Course Catalog</h2>
+        <h2>
+          <FaBookOpen /> Course Catalog
+        </h2>
         <div className="tab-switch">
           <button
             className={`tab-btn ${activeTab === 'browse' ? 'tab-btn-active' : ''}`}
@@ -399,13 +402,17 @@ export default function CoursesPage() {
                                 }
                                 onClick={() => handleRegister(offering)}
                               >
-                                {registered
-                                  ? 'Registered ✓'
-                                  : registeringId === offering.offeringId
-                                    ? 'Registering...'
-                                    : full
-                                      ? 'Full'
-                                      : 'Register'}
+                                {registered ? (
+                                  <>
+                                    <FaCheck /> Registered
+                                  </>
+                                ) : registeringId === offering.offeringId ? (
+                                  'Registering...'
+                                ) : full ? (
+                                  'Full'
+                                ) : (
+                                  'Register'
+                                )}
                               </button>
                             )}
                           </td>
@@ -422,7 +429,7 @@ export default function CoursesPage() {
                   disabled={currentPage <= 0}
                   onClick={() => goToPage(currentPage - 1)}
                 >
-                  ‹ Prev
+                  <FaChevronLeft /> Prev
                 </button>
                 <span className="pagination-info">
                   Page {currentPage + 1} of {Math.max(totalPages, 1)}
@@ -432,7 +439,7 @@ export default function CoursesPage() {
                   disabled={currentPage >= totalPages - 1}
                   onClick={() => goToPage(currentPage + 1)}
                 >
-                  Next ›
+                  Next <FaChevronRight />
                 </button>
               </div>
             </>
