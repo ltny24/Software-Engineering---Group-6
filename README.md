@@ -620,6 +620,7 @@ npm install
 
 **MyUS Portal Development Team**
 
+Nhóm 06 - 24C11
 Khoa Công Nghệ Thông Tin — Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM
 
 ---
