@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaCircleQuestion, FaRobot } from 'react-icons/fa6';
 import { ROUTES } from '../../utils/constants';
 import './SupportPage.css';
 
@@ -12,14 +13,14 @@ export default function SupportPage() {
   return (
     <div className="support-hub">
       <div className="support-hub-header">
-        <h2>💬 Help &amp; Support</h2>
+        <h2>Help &amp; Support</h2>
         <p>Get instant answers or chat with our AI learning assistant.</p>
       </div>
 
       <div className="support-hub-grid">
         <Link to={ROUTES.SUPPORT_FAQ} className="support-hub-card">
           <span className="support-hub-icon" aria-hidden="true">
-            ❓
+            <FaCircleQuestion />
           </span>
           <h3>Help &amp; FAQ</h3>
           <p>Search university policies, academic rules, and IT support answers.</p>
@@ -27,7 +28,7 @@ export default function SupportPage() {
 
         <Link to={ROUTES.SUPPORT_AI_CHATBOT} className="support-hub-card">
           <span className="support-hub-icon" aria-hidden="true">
-            🤖
+            <FaRobot />
           </span>
           <h3>AI Learning Assistant</h3>
           <p>Personalized course suggestions and graduation roadmaps.</p>

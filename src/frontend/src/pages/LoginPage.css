@@ -1,5 +1,5 @@
 /* ============================================================
-   Login Page — Skylearn: clean white card, sky blue CTA
+   Login Page — Galaxy Navy theme with glass-morphism
    ============================================================ */
 
 .login-page {
@@ -7,18 +7,51 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg);
+  background: transparent;
   padding: var(--space-6);
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Shooting star accent ── */
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: 18%;
+  right: 15%;
+  width: 120px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.9), transparent);
+  border-radius: 1px;
+  z-index: 0;
+  pointer-events: none;
+  animation: shootingStar 4s ease-in-out infinite;
+  animation-delay: 1.5s;
 }
 
 .login-card {
   background: var(--color-surface-elevated);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(100, 140, 200, 0.1) inset,
+    0 0 60px rgba(77, 168, 255, 0.06);
   padding: var(--space-12) var(--space-8);
   width: 100%;
   max-width: 440px;
+  position: relative;
+  z-index: 2;
+  transition: box-shadow var(--transition-slow);
+}
+
+.login-card:hover {
+  box-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(100, 140, 200, 0.12) inset,
+    0 0 80px rgba(77, 168, 255, 0.10);
 }
 
 .login-card__header {
@@ -31,19 +64,20 @@
   width: auto;
   display: block;
   margin: 0 auto var(--space-4);
+  filter: drop-shadow(0 0 12px rgba(77, 168, 255, 0.3));
 }
 
 .login-card__title {
   font-family: var(--font-display);
   font-size: var(--text-h3);
   font-weight: var(--font-bold);
-  color: var(--color-text);
+  color: #E2E8F0;
   margin: 0 0 var(--space-2);
 }
 
 .login-card__subtitle {
   font-family: var(--font-body);
-  color: var(--color-text-secondary);
+  color: #94A3B8;
   font-size: var(--text-body);
   margin: 0;
 }
@@ -54,10 +88,27 @@
   gap: var(--space-5);
 }
 
+.login-card__forgot-link {
+  display: block;
+  text-align: center;
+  margin-top: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: var(--font-medium);
+  transition: color var(--transition-fast);
+}
+
+.login-card__forgot-link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}
+
 .login-card__help {
   text-align: center;
   margin-top: var(--space-6);
   font-family: var(--font-body);
   font-size: var(--text-small);
-  color: var(--color-text-muted);
+  color: #64748B;
 }

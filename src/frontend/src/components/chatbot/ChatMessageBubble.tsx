@@ -5,6 +5,7 @@
 // ============================================================
 
 import React from 'react';
+import { FaRobot } from 'react-icons/fa6';
 import type { ChatMessage } from '../../types/chatbot.types';
 import CourseSuggestionCard from './CourseSuggestionCard';
 import GraduationRoadmapCard from './GraduationRoadmapCard';
@@ -21,7 +22,15 @@ export default function ChatMessageBubble({ message }: Props) {
   return (
     <div className={`chat-bubble ${roleClass}`}>
       {/* Role label */}
-      <span className="chat-bubble__role">{isUser ? 'You' : '🤖 AI Assistant'}</span>
+      <span className="chat-bubble__role">
+        {isUser ? (
+          'You'
+        ) : (
+          <>
+            <FaRobot /> AI Assistant
+          </>
+        )}
+      </span>
 
       {/* Message bubble */}
       <div className="chat-bubble__content">{message.content}</div>

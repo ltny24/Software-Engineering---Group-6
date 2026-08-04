@@ -5,34 +5,35 @@
 // ============================================================
 
 import React from 'react';
+import { FaBookOpen, FaGraduationCap, FaCircleCheck, FaClipboardList } from 'react-icons/fa6';
 import './QuickActionChips.css';
 
 interface QuickAction {
   label: string;
   message: string;
-  icon: string;
+  icon: React.ReactNode;
 }
 
 const DEFAULT_ACTIONS: QuickAction[] = [
   {
     label: 'Suggest next term courses',
     message: 'What courses should I take next semester?',
-    icon: '📚',
+    icon: <FaBookOpen />,
   },
   {
     label: 'Check graduation audit',
     message: 'Show me my graduation progress and when I can graduate.',
-    icon: '🎓',
+    icon: <FaGraduationCap />,
   },
   {
     label: 'Am I eligible for a course?',
     message: 'Can I take advanced courses next term?',
-    icon: '✅',
+    icon: <FaCircleCheck />,
   },
   {
     label: 'Explain degree prerequisites',
     message: 'What are the prerequisite requirements for my remaining courses?',
-    icon: '📋',
+    icon: <FaClipboardList />,
   },
 ];
 

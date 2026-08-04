@@ -5,6 +5,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
+import { FaRobot, FaRotateRight, FaPaperPlane } from 'react-icons/fa6';
 import { useAuth } from '../../auth';
 import { sendChatMessage } from '../../services/chatbotService';
 import { useChatbot } from '../../components/chatbot/ChatbotContext';
@@ -167,14 +168,16 @@ export default function AIChatbotPage() {
       {/* Header */}
       <div className="chatbot-header">
         <div className="chatbot-header__left">
-          <span className="chatbot-header__icon">🤖</span>
+          <span className="chatbot-header__icon">
+            <FaRobot />
+          </span>
           <div>
             <h1 className="chatbot-header__title">AI Academic Assistant</h1>
             <span className="chatbot-header__status">Online — HCMUS Academic Advisor</span>
           </div>
         </div>
         <button className="chatbot-reset-btn" onClick={handleReset}>
-          Reset Chat
+          <FaRotateRight /> Reset Chat
         </button>
       </div>
 
@@ -186,7 +189,9 @@ export default function AIChatbotPage() {
 
         {loading && (
           <div className="chatbot-typing">
-            <span>🤖</span>
+            <span>
+              <FaRobot />
+            </span>
             <span className="spinner" style={{ width: '16px', height: '16px' }} />
             <span>Thinking...</span>
           </div>
@@ -218,7 +223,13 @@ export default function AIChatbotPage() {
             disabled={loading || !input.trim()}
             className="chatbot-send-btn"
           >
-            {loading ? '...' : 'Send'}
+            {loading ? (
+              '...'
+            ) : (
+              <>
+                <FaPaperPlane /> Send
+              </>
+            )}
           </button>
         </div>
         <p className="chatbot-disclaimer">

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
+import { FaBan } from 'react-icons/fa6';
 import api from '../../services/api';
 import type { AppealRecord } from './types';
 
@@ -76,7 +77,7 @@ const AppealStatusTracking: React.FC = () => {
 
     if (normalized === 'withdrawn') {
       return (
-        <span style={{ ...baseStyle, backgroundColor: '#e2e8f0', color: '#334155' }}>
+        <span style={{ ...baseStyle, backgroundColor: 'rgba(100,140,200,0.15)', color: '#94A3B8' }}>
           Withdrawn
         </span>
       );
@@ -95,12 +96,12 @@ const AppealStatusTracking: React.FC = () => {
     return (
       <div
         style={{
-          border: '1px dashed #cbd5e1',
+          border: '1px dashed rgba(100,140,200,0.2)',
           borderRadius: 12,
-          backgroundColor: '#f8fafc',
+          backgroundColor: 'rgba(15,23,50,0.3)',
           padding: 24,
           textAlign: 'center',
-          color: '#64748b',
+          color: '#94A3B8',
         }}
       >
         You have no appeals yet. Submit your first request to start tracking it here.
@@ -152,12 +153,12 @@ const AppealStatusTracking: React.FC = () => {
               <tr
                 key={appeal.appealId ?? `${appeal.courseCode}-${appeal.gradeId}`}
                 style={{
-                  borderTop: index === 0 ? '1px solid #e2e8f0' : 'none',
-                  backgroundColor: index % 2 === 0 ? '#fff' : '#f8fafc',
+                  borderTop: index === 0 ? '1px solid rgba(100,140,200,0.15)' : 'none',
+                  backgroundColor: index % 2 === 0 ? 'rgba(22,32,65,0.4)' : 'rgba(15,23,50,0.3)',
                 }}
               >
                 <td style={{ padding: '16px 16px', verticalAlign: 'top' }}>
-                  <div style={{ fontWeight: 700, color: '#0f172a' }}>
+                  <div style={{ fontWeight: 700, color: '#E2E8F0' }}>
                     {appeal.courseCode || 'Course appeal'}
                   </div>
                   <div style={{ marginTop: 4, color: '#64748b', fontSize: 13 }}>
@@ -191,17 +192,21 @@ const AppealStatusTracking: React.FC = () => {
                       disabled={withdrawingId === appeal.appealId}
                       style={{
                         marginTop: 10,
-                        border: '1px solid #cbd5e1',
+                        border: '1px solid rgba(239,68,68,0.3)',
                         borderRadius: 8,
-                        backgroundColor: '#fff',
-                        color: '#b91c1c',
-                        padding: '8px 10px',
+                        backgroundColor: 'rgba(239,68,68,0.08)',
+                        color: '#EF4444',
+                        padding: '8px 12px',
                         fontSize: 12,
                         fontWeight: 700,
                         cursor: withdrawingId === appeal.appealId ? 'not-allowed' : 'pointer',
                         opacity: withdrawingId === appeal.appealId ? 0.7 : 1,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
                       }}
                     >
+                      <FaBan size={11} />
                       {withdrawingId === appeal.appealId ? 'Withdrawing…' : 'Cancel appeal'}
                     </button>
                   )}

@@ -33,7 +33,7 @@ export const AppealFilterToolbar: React.FC<AppealFilterToolbarProps> = ({
             width: '100%',
             padding: '8px 14px',
             borderRadius: '6px',
-            border: '1px solid #cbd5e1',
+            border: '1px solid rgba(100,140,200,0.2)',
             fontSize: '14px',
             outline: 'none',
           }}
@@ -48,10 +48,10 @@ export const AppealFilterToolbar: React.FC<AppealFilterToolbarProps> = ({
             width: '100%',
             padding: '8px 14px',
             borderRadius: '6px',
-            border: '1px solid #cbd5e1',
+            border: '1px solid rgba(100,140,200,0.2)',
             fontSize: '14px',
             color: '#1e293b',
-            backgroundColor: '#ffffff',
+            backgroundColor: 'rgba(22, 32, 65, 0.85)',
             outline: 'none',
             cursor: 'pointer',
           }}

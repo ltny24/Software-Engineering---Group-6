@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa6';
 import { ROUTES } from '../utils/constants';
 import './NotFoundPage.css';
 
@@ -13,7 +14,7 @@ export default function NotFoundPage() {
         The page you're looking for doesn't exist or you don't have permission to access it.
       </p>
       <Link id="link-go-home" to={ROUTES.DASHBOARD} className="not-found__btn">
-        ← Back to Dashboard
+        <FaArrowLeft /> Back to Dashboard
       </Link>
     </div>
   );

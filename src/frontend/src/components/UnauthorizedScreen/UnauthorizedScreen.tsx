@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft, FaPaperPlane } from 'react-icons/fa6';
 import { useAuth } from '../../auth/useAuth';
 import { ROUTES } from '../../utils/constants';
 import './UnauthorizedScreen.css';
@@ -156,10 +157,10 @@ export default function UnauthorizedScreen({
         {/* ── Actions ── */}
         <div className="unauth-actions">
           <button className="unauth-btn-primary" onClick={handleRequestAccess}>
-            Request Access from Administrator
+            <FaPaperPlane /> Request Access from Administrator
           </button>
           <button className="unauth-btn-ghost" onClick={() => navigate(ROUTES.DASHBOARD)}>
-            ← Return to Dashboard
+            <FaArrowLeft /> Return to Dashboard
           </button>
         </div>
 

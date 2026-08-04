@@ -1,6 +1,19 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import toast from 'react-hot-toast';
 import {
+  FaCircleQuestion,
+  FaBookmark,
+  FaRegBookmark,
+  FaThumbsUp,
+  FaThumbsDown,
+  FaStar,
+  FaRegStar,
+  FaChevronDown,
+  FaChevronUp,
+  FaChevronLeft,
+  FaChevronRight,
+} from 'react-icons/fa6';
+import {
   getFaqById,
   getFaqCategories,
   getPopularFaqs,
@@ -344,7 +357,9 @@ export default function FaqPage() {
   return (
     <div className="faq-container">
       <div className="faq-header">
-        <h2>❓ Help &amp; FAQ</h2>
+        <h2>
+          <FaCircleQuestion style={{ marginRight: '8px' }} /> Help &amp; FAQ
+        </h2>
         <p className="faq-subtitle">
           Search university policies, academic rules, and IT support answers for instant
           self-service help.
@@ -370,7 +385,7 @@ export default function FaqPage() {
           className={`faq-bookmark-toggle ${showBookmarksOnly ? 'faq-bookmark-toggle-active' : ''}`}
           onClick={() => setShowBookmarksOnly((prev) => !prev)}
         >
-          🔖 Bookmarked {bookmarks.length > 0 && `(${bookmarks.length})`}
+          <FaBookmark /> Bookmarked {bookmarks.length > 0 && `(${bookmarks.length})`}
         </button>
       </div>
 
@@ -456,7 +471,9 @@ export default function FaqPage() {
                       <span className="faq-question-text">{faq.question}</span>
                       <span className="faq-question-meta">
                         <span className="badge faq-category-badge">{faq.category}</span>
-                        <span className="faq-chevron">{expanded ? '▲' : '▼'}</span>
+                        <span className="faq-chevron">
+                          {expanded ? <FaChevronUp /> : <FaChevronDown />}
+                        </span>
                       </span>
                     </button>
 
@@ -488,7 +505,7 @@ export default function FaqPage() {
                                   disabled={voted}
                                   onClick={() => handleFeedback(faq, true)}
                                 >
-                                  👍 Helpful{' '}
+                                  <FaThumbsUp /> Helpful{' '}
                                   {display.helpfulCount != null && `(${display.helpfulCount})`}
                                 </button>
                                 <button
@@ -496,7 +513,7 @@ export default function FaqPage() {
                                   disabled={voted}
                                   onClick={() => handleFeedback(faq, false)}
                                 >
-                                  👎 Not Helpful{' '}
+                                  <FaThumbsDown /> Not Helpful{' '}
                                   {display.notHelpfulCount != null &&
                                     `(${display.notHelpfulCount})`}
                                 </button>
@@ -505,7 +522,15 @@ export default function FaqPage() {
                                 className={`faq-bookmark-btn ${bookmarked ? 'faq-bookmark-btn-active' : ''}`}
                                 onClick={() => toggleBookmark(faq)}
                               >
-                                {bookmarked ? '★ Bookmarked' : '☆ Bookmark'}
+                                {bookmarked ? (
+                                  <>
+                                    <FaStar /> Bookmarked
+                                  </>
+                                ) : (
+                                  <>
+                                    <FaRegStar /> Bookmark
+                                  </>
+                                )}
                               </button>
                             </div>
 
@@ -550,7 +575,7 @@ export default function FaqPage() {
                   disabled={page <= 0}
                   onClick={() => goToPage(page - 1)}
                 >
-                  ‹ Prev
+                  <FaChevronLeft /> Prev
                 </button>
                 <span className="faq-pagination-info">
                   Page {page + 1} of {Math.max(totalPages, 1)}
@@ -560,7 +585,7 @@ export default function FaqPage() {
                   disabled={page >= totalPages - 1}
                   onClick={() => goToPage(page + 1)}
                 >
-                  Next ›
+                  Next <FaChevronRight />
                 </button>
               </div>
             )}

@@ -23,6 +23,7 @@ export const APP_NAME = process.env.REACT_APP_APP_NAME ?? 'MyUS University Porta
 export const ROUTES = {
   // Public
   LOGIN: '/login',
+  FORGOT_PASSWORD: '/forgot-password',
 
   // Shared / root
   DASHBOARD: '/',

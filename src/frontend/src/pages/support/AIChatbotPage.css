@@ -1,4 +1,4 @@
-/* Chatbot — Skylearn: messages area white for contrast */
+/* Chatbot — Galaxy Navy theme */
 .chatbot-page {
   display: flex;
   flex-direction: column;
@@ -6,6 +6,8 @@
   max-width: 960px;
   margin: 0 auto;
   background-color: var(--color-surface-elevated);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-card);
@@ -17,7 +19,7 @@
   justify-content: space-between;
   padding: var(--space-4) var(--space-6);
   border-bottom: 1px solid var(--color-border);
-  background-color: var(--color-surface-elevated);
+  background-color: rgba(15, 23, 50, 0.6);
 }
 .chatbot-header__left {
   display: flex;
@@ -26,38 +28,44 @@
 }
 .chatbot-header__icon {
   font-size: 32px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary);
 }
 .chatbot-header__title {
   margin: 0;
   font-family: var(--font-display);
   font-size: var(--text-h4);
   font-weight: var(--font-semibold);
-  color: var(--color-text);
+  color: #E2E8F0;
 }
 .chatbot-header__status {
   font-family: var(--font-body);
   font-size: var(--text-caption);
-  color: var(--color-success-deep);
+  color: #4ADE80;
 }
 .chatbot-reset-btn {
   padding: 8px 18px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
-  background-color: var(--color-surface-elevated);
+  background-color: transparent;
   color: var(--color-text-secondary);
   font-family: var(--font-body);
   font-size: var(--text-small);
   cursor: pointer;
   min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   transition: all var(--transition-fast);
 }
 .chatbot-reset-btn:hover {
-  background-color: var(--color-error-soft);
-  color: #dc2626;
-  border-color: rgba(248, 113, 113, 0.3);
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #F87171;
+  border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* Messages area - white bg so bubbles are clearly visible */
+/* Messages area - dark surface for contrast with bubbles */
 .chatbot-messages {
   flex: 1;
   overflow-y: auto;
@@ -65,7 +73,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  background-color: #f8fafc;
+  background-color: rgba(10, 16, 35, 0.5);
 }
 
 .chatbot-typing {
@@ -83,7 +91,7 @@
 .chatbot-input-area {
   padding: var(--space-3) var(--space-6) var(--space-5);
   border-top: 1px solid var(--color-border);
-  background-color: var(--color-surface-elevated);
+  background-color: rgba(15, 23, 50, 0.6);
 }
 .chatbot-input-row {
   display: flex;
@@ -99,13 +107,14 @@
   font-size: var(--text-body);
   resize: none;
   outline: none;
-  background-color: #fff;
-  color: var(--color-text);
+  background-color: rgba(15, 23, 50, 0.6);
+  color: #E2E8F0;
   line-height: 1.5;
   transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast);
 }
+.chatbot-input::placeholder { color: #64748B; }
 .chatbot-input:focus {
   border-color: var(--color-primary);
   box-shadow: var(--focus-ring);
@@ -117,28 +126,33 @@
   padding: 14px 28px;
   border-radius: var(--radius-md);
   border: none;
-  background-color: var(--color-primary);
+  background: linear-gradient(135deg, #4DA8FF, #A78BFA);
   color: #fff;
   font-family: var(--font-body);
   font-size: var(--text-small);
   font-weight: var(--font-semibold);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
+  box-shadow: 0 2px 12px rgba(77, 168, 255, 0.25);
   min-height: 48px;
   min-width: 80px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
 .chatbot-send-btn:hover:not(:disabled) {
-  background-color: var(--color-primary-hover);
-  box-shadow: 0 4px 16px rgba(36, 87, 184, 0.3);
+  background: linear-gradient(135deg, #7ABFFF, #C4B5FD);
+  box-shadow: 0 4px 20px rgba(77, 168, 255, 0.4);
   transform: translateY(-1px);
 }
 .chatbot-send-btn:disabled {
-  background-color: var(--color-text-faint);
+  background: rgba(255,255,255,0.06);
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
+  color: #475569;
 }
 .chatbot-disclaimer {
   margin: var(--space-2) 0 0 0;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import { FaUser, FaPenToSquare, FaXmark, FaFloppyDisk } from 'react-icons/fa6';
 import api from '../../services/api';
 import './ProfilePage.css'; // Lát nữa mình tạo thêm file CSS này nha
 
@@ -86,18 +87,26 @@ export default function ProfilePage() {
   return (
     <div className="profile-container">
       <div className="profile-header">
-        <h2> Student Profile</h2>
+        <h2>
+          <FaUser /> Student Profile
+        </h2>
         {!isEditing ? (
           <button className="btn-edit" onClick={() => setIsEditing(true)}>
-            Edit Contact Info
+            <FaPenToSquare /> Edit Contact Info
           </button>
         ) : (
           <div className="edit-actions">
             <button className="btn-cancel" onClick={() => setIsEditing(false)} disabled={isSaving}>
-              Cancel
+              <FaXmark /> Cancel
             </button>
             <button className="btn-save" onClick={handleSave} disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save Changes'}
+              {isSaving ? (
+                'Saving...'
+              ) : (
+                <>
+                  <FaFloppyDisk /> Save Changes
+                </>
+              )}
             </button>
           </div>
         )}

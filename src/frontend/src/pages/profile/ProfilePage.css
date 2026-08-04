@@ -40,6 +40,9 @@
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition:
     background-color var(--transition-fast),
     box-shadow var(--transition-fast),
@@ -62,6 +65,9 @@
   font-weight: var(--font-regular);
   cursor: pointer;
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition: background-color var(--transition-fast);
 }
 .btn-cancel:hover {
@@ -80,6 +86,9 @@
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(36, 87, 184, 0.2);
   min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   transition:
     background-color var(--transition-fast),
     box-shadow var(--transition-fast),
