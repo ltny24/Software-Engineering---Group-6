@@ -21,11 +21,8 @@
 
 | # | Change | Details |
 |---|---|---|
-| 1 | **New use case added: UC-11.3 – Perform Student Class Transfer** | Full spec written: Brief Description, Preconditions, Basic Flow (7 steps), 5 Alternative Flows (destination full, schedule conflict, administrative hold, cancel, permission denied), Postconditions, Special Requirements, Extension Points, and Prototype Requirements (8 screens). |
-| 2 | **UC-11 (Admin Bulk Data and Class Control) updated** | - Brief Description reworded to cover both import and class transfer.<br>- Step 2 of Basic Flow now lists both available functions.<br>- New **AF4 – Class transfer instead of import** added to Alternative Flows.<br>- Postconditions updated to reference UC-11.3 as a possible outcome.<br>- Extension Points updated from "None" to reference UC-11.3. |
-| 3 | **Table of Contents updated** | Added row: `UC-11.3 \| Perform Student Class Transfer \| Administrator`. |
-| 4 | **UC-01 to UC-09 Prototype Requirements updated** | Replaced and updated all UI prototype pictures (full screens and mockups) for Use Cases UC-01 through UC-09 to match the latest design. |
-| 5 | **UC-07 (Submit Grade Appeal) updated** | - Added logic to automatically sync the current grade and validate/suggest the expected appeal grade in the Basic Flow.<br>- Added suggested justification templates to the Basic Flow.<br>- Updated AF6 to include the condition allowing appeal withdrawal/cancellation only before the deadline.<br>- Updated Prototype Requirement to include UI designs for Grade Sync/Suggestion, Justification Template/Hints, and Cancel-Appeal Option/Confirmation Modal. |
+| 1 | **UC-01 to UC-09 Prototype Requirements updated** | Replaced and updated all UI prototype pictures (full screens and mockups) for Use Cases UC-01 through UC-09 to match the latest design. |
+| 2 | **UC-07 (Submit Grade Appeal) updated** | - Added logic to automatically sync the current grade and validate/suggest the expected appeal grade in the Basic Flow.<br>- Added suggested justification templates to the Basic Flow.<br>- Updated AF6 to include the condition allowing appeal withdrawal/cancellation only before the deadline.<br>- Updated Prototype Requirement to include UI designs for Grade Sync/Suggestion, Justification Template/Hints, and Cancel-Appeal Option/Confirmation Modal. |
 
 ---
 
