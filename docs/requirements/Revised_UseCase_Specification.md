@@ -913,7 +913,7 @@ Screens to design:
 **Actor(s):** Administrator
 
 ## 1. Brief Description
-This use case allows the Administrator to manage student, course, and class data in bulk from a centralized Class Control page, covering both bulk data import and manual student class transfers.
+This use case allows the Administrator to manage student, course, and class data in bulk from a centralized Class Control page.
 
 ## 2. Preconditions
 - Administrator is authenticated and has permission to access Class Control.
@@ -921,7 +921,7 @@ This use case allows the Administrator to manage student, course, and class data
 ## 3. Flow of Events
 ### 3.1 Basic Flow
 1. The Administrator selects **Class Control**.
-2. The system displays the available bulk-data management functions: **Import Student/Course Data** and **Perform Student Class Transfer**.
+2. The system displays the available bulk-data management functions.
 3. The Administrator selects **Import Student/Course Data**.
 4. The system performs **UC-11.1 – Import Student/Course Data**.
 5. If the import is completed successfully:
@@ -949,17 +949,16 @@ This use case allows the Administrator to manage student, course, and class data
    ![](Prototype_Req/admin/UC11/unauthorized.jpg)
 
 - **3.2.3 AF3 – Duplicate or conflicting records found:** If duplicate or conflicting records are detected, the system identifies the affected records and lets the Administrator choose to skip or update them before proceeding.
-- **3.2.4 AF4 – Class transfer instead of import (branches at step 3):** The Administrator selects **Perform Student Class Transfer** instead of Import; the system performs **UC-11.3 – Perform Student Class Transfer** and rejoins this flow at step 7 (audit logging).
 
 ## 4. Postconditions
-- The academic data is added, updated, or left unchanged, and the operation is recorded, according to the outcome of UC-11.1 – Import Student/Course Data or UC-11.3 – Perform Student Class Transfer.
+- The academic data is added, updated, or left unchanged, and the operation is recorded, according to the outcome of UC-11.1 – Import Student/Course Data.
 
 ## 5. Special Requirements
 - Only authorized Administrators may access this function.
 - All data changes must be recorded in the audit log.
 
 ## 6. Extension Points
-- **6.1 Perform Student Class Transfer (UC-11.3):** Triggered when the Administrator selects "Perform Student Class Transfer" instead of "Import Student/Course Data" at step 3.
+- None.
 
 ## 7. Prototype Requirement
 Screens to design:
@@ -1082,80 +1081,6 @@ This use case checks whether an uploaded file follows the required structure and
 Screens to design:
 - Validation-Result Screen
 - Validation-Error Detail
-
----
-# UC-11.3. Perform Student Class Transfer
-
-**Use-Case ID:** UC-11.3
-
-**Actor(s):** Administrator
-
-## 1. Brief Description
-Allows the Administrator to manually move a student from one class section to another (e.g., to resolve a scheduling conflict, balance class sizes, or accommodate a student request), with the student's timetable and enrollment records updated automatically. This directly satisfies Vision Document Feature 7 ("manually execute student class transfers") and Acceptance Criterion AC-05.3.
-
-## 2. Preconditions
-- The Administrator is authenticated and has permission to access Class Control.
-- The student is currently enrolled in at least one class section for the target term.
-- The destination class section exists for the same course (or an equivalent, university-approved substitute course).
-
-## 3. Flow of Events
-### 3.1 Basic Flow
-1. The Administrator selects **Perform Student Class Transfer**.
-2. The system asks the Administrator to identify the student (by Student ID or name) and the course to transfer.
-3. The Administrator selects the student's current section and the destination section.
-
-   ![](Prototype_Req/admin/UC11/transfer_select.jpg)
-
-4. The system checks the destination section for available seats and schedule conflicts against the student's other registered courses.
-5. If the transfer is valid:
-
-   5.1. The system displays a transfer summary (student, course, current section, destination section) for confirmation.
-
-   ![](Prototype_Req/admin/UC11/transfer_preview.jpg)
-
-   5.2. The Administrator confirms the transfer.
-   5.3. The system removes the student from the current section, enrolls the student in the destination section, and updates the student's timetable (UC-04) accordingly.
-   5.4. The system displays a transfer success confirmation.
-
-   ![](Prototype_Req/admin/UC11/transfer_success.jpg)
-
-6. Else:
-
-   6.1. The system explains why the transfer cannot proceed (e.g., destination section full, schedule conflict) and does not change any enrollment record.
-
-   ![](Prototype_Req/admin/UC11/transfer_failed.jpg)
-
-7. The system records the transfer in the audit log and notifies the student of the schedule change.
-
-### 3.2 Alternative Flows
-- **3.2.1 AF1 – Destination section full:** If the destination section has no available seats, the system blocks the transfer and offers to waitlist the student or select a different section.
-- **3.2.2 AF2 – Schedule conflict created (branches at step 4):** If the destination section's meeting time overlaps another of the student's registered courses, the system blocks the transfer and identifies the conflicting course.
-- **3.2.3 AF3 – Student has an administrative hold:** If the student has a hold that blocks enrollment changes, the system denies the transfer and explains the hold.
-- **3.2.4 AF4 – Cancel before confirmation:** At any time before confirming, the Administrator may cancel; the system discards the pending transfer and leaves the student's enrollment unchanged.
-- **3.2.5 AF5 – Permission denied:** If the Administrator lacks sufficient permission, the system denies access and displays an authorization error.
-
-## 4. Postconditions
-- Success: the student is enrolled in the destination section and no longer in the original section; the student's timetable is updated without manual database intervention; the change is recorded in the audit log and the student is notified.
-- Failure: no change is made to the student's enrollment or timetable.
-
-## 5. Special Requirements
-- The transfer must run the same schedule-conflict validation logic used during standard registration (UC-03a), so a transfer can never silently create a conflict.
-- The affected student's timetable (UC-04) must reflect the change without requiring any manual database update (Vision Doc AC-05.3).
-- Only authorized Administrators may perform transfers, and every transfer must be recorded in the audit log with Administrator, date, time, and reason.
-
-## 6. Extension Points
-- None.
-
-## 7. Prototype Requirement
-Screens to design:
-- Student & Course Identification Screen
-- Section Selection Screen
-- Transfer-Preview / Confirmation Screen
-- Transfer-Success Screen
-- Destination-Full / Waitlist Prompt
-- Schedule-Conflict Error
-- Administrative-Hold Notice
-- Unauthorized Access Screen
 
 ---
 # UC-12. Appeal Processing Management
