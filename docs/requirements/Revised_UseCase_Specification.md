@@ -1,9 +1,5 @@
 # MyUS Portal - Use-Case Specification
 
-### Revision Notes (v1.0 → v1.1)
-- **Added UC-11.3 – Perform Student Class Transfer.** Vision Document Feature 7 ("Administrators can utilize file upload capabilities to quickly import massive volumes of system data... and **manually execute student class transfers**") and Acceptance Criterion AC-05.3 both require a manual class-transfer capability, but v1.0 of this specification and the Use-Case Model did not define one. It is now specified below and cross-referenced from UC-11.
-- **Updated UC-11 (Admin Bulk Data and Class Control)** basic flow and extension points to reference the new UC-11.3, since the Class Control page offers both bulk import and manual class transfer as alternative operations.
-
 ---
 
 # Table of Contents
