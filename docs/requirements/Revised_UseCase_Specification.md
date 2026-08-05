@@ -48,10 +48,13 @@ Describes how a registered undergraduate student logs into the MyUS portal with 
 1. Student navigates to the MyUS login page.
 2. System displays the login form (Student ID/email + password fields).
 3. Student enters their Student ID and password, then submits.
+
+![](Prototype_Req/student/Login.jpg)
+   
 4. System validates the credentials against the user database.
 5. System issues a JWT access token and refresh token, and establishes an authenticated session.
 6. System redirects the student to their personalized Dashboard, showing quick-access widgets (upcoming classes, pending appeals, tuition due).
-![](Prototype_Req/student/Login.jpg)
+
 ![](Prototype_Req/student/Dashboard.jpg)
 
 ### 3.2 Alternative Flows
