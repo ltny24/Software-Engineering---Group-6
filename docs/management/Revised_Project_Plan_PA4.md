@@ -252,14 +252,3 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 | --- | --- | --- | --- | --- | --- | --- |
 | **T051** | End-of-semester Evaluation Survey submission endpoint (FG5) | Ý | Vi | 16/08 | None | Vi |
 | **T052** | Frontend evaluation survey form & feedback UI (FG5) | Ý | Vi | 16/08 | T051 | Vi |
-
-**Documentation & Cross-Cutting Work**
-
-| Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
-| --- | --- | --- | --- | --- | --- | --- |
-| **T053** | Document backend REST APIs, auth flows & AI chatbot endpoints | Khôi | Ngọc | 17/08 | None | Vi |
-| **T054** | Document frontend user guide, survey & AI support workflows | Kiên | Ý | 17/08 | None | Ngọc |
-| **T055** | Document deployment, cloud DB setup & environment configuration | Vi | Khôi | 17/08 | None | Ý |
-| **T056** | Review application-wide security, privacy & sensitive student data handling | Ngọc | Vi | 17/08 | None | Khôi |
-| **T057** | End-to-end UAT covering all 9 Functional Groups + AI Chatbot | Ngọc | Ý | 17/08 | T040, T041, T042–T056 | Kiên |
-| **T058** | Final logging, error reporting & UI/UX accessibility improvements | Kiên | Khôi | 17/08 | T057 | Vi |
