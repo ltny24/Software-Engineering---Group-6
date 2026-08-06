@@ -8,6 +8,7 @@ MyUS là hệ thống cổng thông tin sinh viên được xây dựng cho Trư
 
 - [Tính Năng](#tính-năng)
 - [Công Nghệ Sử Dụng](#công-nghệ-sử-dụng)
+- [Yêu Cầu Về UI & Styling](#yêu-cầu-về-ui--styling)
 - [Cấu Trúc Dự Án](#cấu-trúc-dự-án)
 - [Yêu Cầu Hệ Thống](#yêu-cầu-hệ-thống)
 - [Hướng Dẫn Cài Đặt & Chạy](#hướng-dẫn-cài-đặt--chạy)
@@ -62,6 +63,51 @@ MyUS là hệ thống cổng thông tin sinh viên được xây dựng cho Trư
 - **Zustand** (State management)
 - **Recharts** (Biểu đồ)
 - **React Hot Toast** (Thông báo)
+- **Tailwind CSS** (Utility-first CSS framework)
+- **PostCSS** + **Autoprefixer** (CSS processing & vendor prefixes)
+
+---
+
+## Yêu Cầu Về UI & Styling
+
+Giao diện người dùng được xây dựng với **Tailwind CSS** và **PostCSS**, tuân thủ các yêu cầu sau:
+
+### Công Cụ & Cấu Hình
+
+| Công Cụ | Phiên Bản | Vai Trò |
+|---------|-----------|---------|
+| Tailwind CSS | ^3.4.19 | Utility-first CSS framework — cung cấp các lớp utility để xây dựng giao diện nhanh chóng và nhất quán |
+| PostCSS | ^8.5.25 | CSS post-processor — xử lý và biên dịch CSS hiện đại |
+| Autoprefixer | ^10.5.4 | Tự động thêm vendor prefixes cho CSS |
+
+### Cấu Trúc File Cấu Hình
+
+```
+src/frontend/
+├── tailwind.config.js    # Cấu hình Tailwind (theme, colors, fonts, plugins...)
+├── postcss.config.js     # Cấu hình PostCSS (tailwindcss, autoprefixer plugins)
+└── src/
+    └── index.css         # Entry point CSS với @tailwind directives
+```
+
+### Yêu Cầu Khi Chỉnh Sửa UI
+
+1. **Luôn sử dụng utility classes của Tailwind** thay vì CSS thuần hoặc inline styles — đảm bảo tính nhất quán trong toàn bộ dự án.
+2. **Màu sắc và theme** được định nghĩa tập trung trong `tailwind.config.js` — khi cần thêm màu mới, mở rộng trong file cấu hình thay vì hard-code.
+3. **Responsive Design** — sử dụng các breakpoint có sẵn của Tailwind (`sm`, `md`, `lg`, `xl`, `2xl`) để đảm bảo giao diện hoạt động trên mọi kích thước màn hình.
+4. **Dark Mode** (nếu có) — sử dụng variant `dark:` của Tailwind để hỗ trợ giao diện tối.
+5. **PostCSS** tự động xử lý:
+   - Biên dịch các `@tailwind` directives thành CSS thuần
+   - Thêm vendor prefixes qua Autoprefixer
+   - Xóa các CSS không sử dụng trong production build (tree-shaking)
+6. **Không ghi đè CSS framework** — hạn chế viết CSS thuần; nếu bắt buộc, sử dụng `@apply` trong file CSS để tận dụng các lớp Tailwind.
+7. **Production build** — khi build production (`npm run build`), PostCSS sẽ tự động purge các lớp Tailwind không sử dụng để tối ưu kích thước file CSS.
+
+### Quy Trước Đặt Tên & Tổ Chức
+
+- Component styles: sử dụng `className` với Tailwind utility classes trực tiếp trong JSX
+- Custom styles (nếu cần): đặt trong `src/index.css` hoặc CSS module `.module.css`
+- Màu tùy chỉnh: khai báo trong `tailwind.config.js → theme.extend.colors`
 
 ---
 
