@@ -24,7 +24,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'rgba(15, 23, 42, 0.5)',
+        backgroundColor: 'var(--color-input-bg)',
         zIndex: 1000,
         display: 'flex',
         justifyContent: 'flex-end',
@@ -35,7 +35,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         style={{
           width: '100%',
           maxWidth: '540px',
-          backgroundColor: 'rgba(22, 32, 65, 0.85)',
+          backgroundColor: 'var(--color-surface-elevated)',
           height: '100%',
           boxShadow: '-4px 0 24px rgba(0,0,0,0.15)',
           display: 'flex',
@@ -52,7 +52,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: 'rgba(15,23,50,0.5)',
+            backgroundColor: 'var(--color-input-bg)',
           }}
         >
           <div>
@@ -115,7 +115,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: 'rgba(15,23,50,0.3)',
+                backgroundColor: 'var(--color-primary-soft)',
                 padding: '12px 16px',
                 borderRadius: '8px',
                 border: '1px solid rgba(100,140,200,0.15)',
@@ -131,7 +131,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: 'rgba(15,23,50,0.3)',
+                backgroundColor: 'var(--color-primary-soft)',
                 padding: '12px 16px',
                 borderRadius: '8px',
                 border: '1px solid rgba(100,140,200,0.15)',
@@ -184,7 +184,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 margin: '8px 0 0',
                 padding: '14px',
-                backgroundColor: 'rgba(15,23,50,0.3)',
+                backgroundColor: 'var(--color-primary-soft)',
                 borderRadius: '8px',
                 border: '1px solid rgba(100,140,200,0.15)',
                 color: '#334155',

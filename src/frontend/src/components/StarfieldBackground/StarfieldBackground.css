@@ -1,0 +1,176 @@
+/* ============================================================
+   StarfieldBackground — Configurable star density via CSS var
+   --star-density: 0-1 (controls opacity multiplier)
+   --star-speed: multiplier for animation speed
+   ============================================================ */
+
+.starfield {
+  @apply fixed inset-0 overflow-hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Nebula layer ── */
+.starfield__nebula {
+  @apply absolute;
+  inset: -10%;
+  background:
+    radial-gradient(ellipse 70% 55% at 20% 20%, rgba(30, 90, 160, 0.35) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 45% at 75% 15%, rgba(70, 50, 140, 0.25) 0%, transparent 50%),
+    radial-gradient(ellipse 55% 40% at 15% 78%, rgba(20, 130, 150, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 35% at 55% 50%, rgba(50, 50, 150, 0.20) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 70% 65%, rgba(140, 50, 120, 0.15) 0%, transparent 50%);
+  background-size: 140% 140%;
+  opacity: calc(var(--star-density, 0.5) * 0.8);
+  animation: nebulaDrift calc(20s * var(--star-speed, 1)) ease-in-out infinite,
+             nebulaPulse calc(8s * var(--star-speed, 1)) ease-in-out infinite;
+}
+
+/* ── Star layers ── */
+.starfield__layer {
+  @apply absolute;
+  pointer-events: none;
+}
+.starfield__layer--tiny {
+  inset: -5%;
+  opacity: calc(var(--star-density, 0.5) * 0.85);
+  animation: twinkleB calc(2.6s * var(--star-speed, 1)) ease-in-out infinite,
+             driftSlow calc(22s * var(--star-speed, 1)) ease-in-out infinite;
+}
+.starfield__layer--medium {
+  inset: -3%;
+  opacity: calc(var(--star-density, 0.5) * 0.9);
+  animation: twinkleC calc(3.2s * var(--star-speed, 1)) ease-in-out infinite,
+             driftMedium calc(28s * var(--star-speed, 1)) ease-in-out infinite;
+}
+.starfield__layer--bright {
+  inset: -2%;
+  opacity: calc(var(--star-density, 0.5) * 0.95);
+  animation: twinkleD calc(3.8s * var(--star-speed, 1)) ease-in-out infinite,
+             diamondPulse calc(16s * var(--star-speed, 1)) ease-in-out infinite;
+}
+
+/* ── Meteors ── */
+.starfield__meteor {
+  @apply absolute;
+  width: 2px;
+  height: 80px;
+  top: -10%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255, 255, 255, 0.3) 30%,
+    rgba(255, 255, 255, 0.95) 55%,
+    rgba(200, 220, 255, 0.6) 70%,
+    transparent 100%
+  );
+  border-radius: 999px;
+  transform: rotate(25deg);
+  opacity: 0;
+  box-shadow: 0 0 6px 2px rgba(200, 220, 255, 0.4);
+}
+.starfield__meteor--1 {
+  left: 20%;
+  animation: meteorCycle calc(14s * var(--star-speed, 1)) linear infinite;
+  animation-delay: 0s;
+}
+.starfield__meteor--2 {
+  left: 50%;
+  animation: meteorCycle calc(12s * var(--star-speed, 1)) linear infinite;
+  animation-delay: 5s;
+  transform: rotate(32deg);
+  height: 60px;
+}
+.starfield__meteor--3 {
+  left: 70%;
+  animation: meteorCycle calc(16s * var(--star-speed, 1)) linear infinite;
+  animation-delay: 9s;
+  transform: rotate(20deg);
+  height: 100px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   KEYFRAMES (shared with SkyBackground)
+   ═══════════════════════════════════════════════════════════ */
+@keyframes twinkleB {
+  0%, 100% { opacity: 0.35; }
+  10%  { opacity: 0.98; }
+  22%  { opacity: 0.12; }
+  35%  { opacity: 0.90; }
+  48%  { opacity: 0.22; }
+  60%  { opacity: 0.95; }
+  72%  { opacity: 0.18; }
+  85%  { opacity: 0.78; }
+}
+@keyframes twinkleC {
+  0%, 100% { opacity: 0.25; }
+  18%  { opacity: 0.95; }
+  36%  { opacity: 0.15; }
+  54%  { opacity: 0.88; }
+  72%  { opacity: 0.20; }
+  90%  { opacity: 0.92; }
+}
+@keyframes twinkleD {
+  0%, 100% { opacity: 0.40; }
+  15%  { opacity: 0.98; }
+  30%  { opacity: 0.15; }
+  50%  { opacity: 0.95; }
+  65%  { opacity: 0.18; }
+  80%  { opacity: 0.92; }
+}
+@keyframes diamondPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.35) rotate(0.5deg); }
+  50%  { transform: scale(0.85) rotate(0deg); }
+  75%  { transform: scale(1.25) rotate(-0.5deg); }
+}
+@keyframes driftSlow {
+  0%   { transform: translate(0, 0); }
+  20%  { transform: translate(25px, -15px); }
+  40%  { transform: translate(-18px, -28px); }
+  55%  { transform: translate(-30px, 8px); }
+  70%  { transform: translate(15px, 20px); }
+  85%  { transform: translate(-10px, -5px); }
+  100% { transform: translate(0, 0); }
+}
+@keyframes driftMedium {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  22%  { transform: translate(35px, 18px) rotate(0.5deg); }
+  44%  { transform: translate(-22px, -28px) rotate(-0.4deg); }
+  66%  { transform: translate(15px, -10px) rotate(0.3deg); }
+  88%  { transform: translate(-30px, 12px) rotate(-0.5deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+@keyframes nebulaDrift {
+  0%   { background-position: 0% 50%, 100% 40%, 50% 60%; }
+  20%  { background-position: 25% 35%, 75% 60%, 40% 40%; }
+  40%  { background-position: 10% 65%, 95% 35%, 60% 55%; }
+  60%  { background-position: 30% 40%, 70% 65%, 45% 50%; }
+  80%  { background-position: 15% 55%, 85% 45%, 55% 35%; }
+  100% { background-position: 0% 50%, 100% 40%, 50% 60%; }
+}
+@keyframes nebulaPulse {
+  0%, 100% { opacity: 0.42; }
+  20%  { opacity: 0.82; }
+  40%  { opacity: 0.48; }
+  60%  { opacity: 0.78; }
+  80%  { opacity: 0.55; }
+}
+@keyframes meteorCycle {
+  0%   { transform: translateY(0) translateX(0) rotate(25deg); opacity: 0; }
+  2%   { opacity: 0; }
+  4%   { opacity: 1; }
+  8%   { opacity: 1; }
+  12%  { transform: translateY(70vh) translateX(-35vw) rotate(25deg); opacity: 0.3; }
+  14%  { opacity: 0; }
+  100% { transform: translateY(70vh) translateX(-35vw) rotate(25deg); opacity: 0; }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .starfield__nebula,
+  .starfield__layer,
+  .starfield__meteor {
+    animation: none !important;
+  }
+}

@@ -2,8 +2,12 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider, ProtectedRoute } from './auth';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
 import Layout from './components/Layout/Layout';
 import { ChatbotProvider } from './components/chatbot/ChatbotContext';
+import SkyBackground from './components/SkyBackground/SkyBackground';
+import ClickEffect from './components/ClickEffect/ClickEffect';
+import AtomBackground from './components/AtomBackground/AtomBackground';
 import { ROUTES, ROLES } from './utils/constants';
 
 // ============================================================
@@ -52,155 +56,178 @@ function PageLoader() {
 // App – routing configuration
 // ============================================================
 
+function AppInner() {
+  const { mode, bgDensity } = useTheme();
+
+  return (
+    <>
+      {/* Particle background — only in dark mode */}
+      {mode === 'night' && <AtomBackground density={bgDensity} speed={1} />}
+
+      {/* Animated sky background — day/night */}
+      <SkyBackground />
+
+      {/* Click ripple/sparkle effects */}
+      <ClickEffect />
+    </>
+  );
+}
+
 export default function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <ChatbotProvider>
-          {/* Global toast notifications */}
-          <Toaster
-            position="top-right"
-            toastOptions={{
-              duration: 4000,
-              style: {
-                fontFamily: 'var(--font-sans)',
-                fontSize: '0.875rem',
-              },
-            }}
-          />
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <ChatbotProvider>
+            <AppInner />
 
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* ── Public ── */}
-              <Route path={ROUTES.LOGIN} element={<LoginPage />} />
-              <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
+            {/* Global toast notifications */}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 4000,
+                style: {
+                  background: 'var(--color-surface-elevated)',
+                  color: 'var(--color-text)',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.875rem',
+                },
+              }}
+            />
 
-              {/* ── Protected student & shared routes ── */}
-              <Route
-                path={ROUTES.DASHBOARD}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <DashboardPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.PROFILE}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <ProfilePage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.COURSES}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <CoursesPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.TIMETABLE}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <TimetablePage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.GRADES}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <GradesPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.TUITION}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <TuitionPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={`${ROUTES.APPEALS}/*`}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <AppealsPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.SUPPORT}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <SupportPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.SUPPORT_FAQ}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <FaqPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path={ROUTES.SUPPORT_AI_CHATBOT}
-                element={
-                  <ProtectedRoute>
-                    <Layout>
-                      <AIChatbotPage />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
+                {/* ── Public ── */}
+                <Route path={ROUTES.LOGIN} element={<LoginPage />} />
+                <Route path={ROUTES.FORGOT_PASSWORD} element={<ForgotPasswordPage />} />
 
-              {/* ── Protected admin routes ── */}
-              <Route
-                path={`${ROUTES.ADMIN}/*`}
-                element={
-                  <Layout>
-                    <ProtectedRoute
-                      requiredRole={ROLES.ADMIN}
-                      resourceName="Admin Bulk Data & Class Control"
-                      requiredPermission="bulk_data.import"
-                      ucReference="UC07 · Alt Flow 2.1"
-                    >
-                      <AdminPage />
+                {/* ── Protected student & shared routes ── */}
+                <Route
+                  path={ROUTES.DASHBOARD}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <DashboardPage />
+                      </Layout>
                     </ProtectedRoute>
-                  </Layout>
-                }
-              />
+                  }
+                />
+                <Route
+                  path={ROUTES.PROFILE}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <ProfilePage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.COURSES}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <CoursesPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.TIMETABLE}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <TimetablePage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.GRADES}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <GradesPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.TUITION}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <TuitionPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={`${ROUTES.APPEALS}/*`}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <AppealsPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.SUPPORT}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <SupportPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.SUPPORT_FAQ}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <FaqPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.SUPPORT_AI_CHATBOT}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <AIChatbotPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
 
-              {/* ── Fallbacks ── */}
-              <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
-              <Route path="*" element={<Navigate to={ROUTES.NOT_FOUND} replace />} />
-            </Routes>
-          </Suspense>
-        </ChatbotProvider>
-      </AuthProvider>
-    </BrowserRouter>
+                {/* ── Protected admin routes ── */}
+                <Route
+                  path={`${ROUTES.ADMIN}/*`}
+                  element={
+                    <Layout>
+                      <ProtectedRoute
+                        requiredRole={ROLES.ADMIN}
+                        resourceName="Admin Bulk Data & Class Control"
+                        requiredPermission="bulk_data.import"
+                        ucReference="UC07 · Alt Flow 2.1"
+                      >
+                        <AdminPage />
+                      </ProtectedRoute>
+                    </Layout>
+                  }
+                />
+
+                {/* ── Fallbacks ── */}
+                <Route path={ROUTES.NOT_FOUND} element={<NotFoundPage />} />
+                <Route path="*" element={<Navigate to={ROUTES.NOT_FOUND} replace />} />
+              </Routes>
+            </Suspense>
+          </ChatbotProvider>
+        </AuthProvider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }

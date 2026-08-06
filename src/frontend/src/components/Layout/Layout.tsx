@@ -2,6 +2,8 @@ import React from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar';
 import { useAuth } from '../../auth';
+import { useTheme } from '../../context/ThemeContext';
+import { FaStar } from 'react-icons/fa6';
 import { ROUTES } from '../../utils/constants';
 import './Layout.css';
 
@@ -32,6 +34,7 @@ export default function Layout({ children }: LayoutProps) {
   const subPath = location.pathname;
   const title = PAGE_TITLES[subPath] || 'Dashboard';
 
+  const { mode, bgDensity, setBgDensity } = useTheme();
   const userInitial = user?.displayName?.charAt(0)?.toUpperCase() ?? 'A';
 
   return (
@@ -40,6 +43,21 @@ export default function Layout({ children }: LayoutProps) {
       <div className="layout__main">
         <header className="layout__topbar">
           <h1 className="layout__topbar-title">{title}</h1>
+          <div className="flex items-center gap-4 ml-auto mr-4">
+            {mode === 'night' && (
+              <div className="flex items-center gap-2 bg-surface-elevated/60 backdrop-blur rounded-full px-3 py-1 border border-border-card shadow-sm">
+                <FaStar className="text-primary-container text-sm" />
+                <input
+                  type="range"
+                  min="5"
+                  max="100"
+                  value={bgDensity}
+                  onChange={(e) => setBgDensity(Number(e.target.value))}
+                  className="w-20 h-1.5 rounded-full accent-primary cursor-pointer"
+                />
+              </div>
+            )}
+          </div>
           <div className="topbar__actions">
             <Link to={ROUTES.PROFILE} className="topbar__user">
               <div className="topbar__user-avatar">{userInitial}</div>
