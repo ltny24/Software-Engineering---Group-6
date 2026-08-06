@@ -1,11 +1,13 @@
 // ============================================================
-// AIChatbotPage — AI Academic Chatbot with Gemini + local fallback
+// AIChatbotPage — AI Academic Chatbot with Gemini streaming
+// All questions go to Gemini; Gemini decides what to answer.
+// Course questions answered via RAG (courses.json).
 // ============================================================
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { FaRobot, FaRotateRight, FaPaperPlane } from 'react-icons/fa6';
 import { useChatbot } from '../../components/chatbot/ChatbotContext';
-import { askGemini } from '../../services/geminiService';
+import { askGeminiStream } from '../../services/geminiService';
 import type { ChatMessage } from '../../types/chatbot.types';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
@@ -21,48 +23,17 @@ const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. 
 
 Hãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!`;
 
-// ── Local responses for common queries ──
-function getLocalResponse(message: string, _history: ChatMessage[]): string | null {
-  const lower = message.toLowerCase();
-
-  if (
-    lower.includes('lộ trình') ||
-    (lower.includes('học') && (lower.includes('kỳ') || lower.includes('kì')))
-  ) {
-    return `📚 **Lộ trình học tập đề xuất:**\n\n**Học kỳ tới bạn nên đăng ký:**\n• Cấu trúc dữ liệu & Giải thuật (CS201) — 4 tín chỉ\n• Hệ điều hành (CS301) — 4 tín chỉ\n• Cơ sở dữ liệu nâng cao (CS302) — 3 tín chỉ\n• Toán rời rạc (MATH250) — 3 tín chỉ\n\n📊 **Tiến độ:** 96/120 tín chỉ (80%)\n⏱️ **Dự kiến:** Còn 2 học kỳ để tốt nghiệp.`;
-  }
-
-  if (lower.includes('học phí') || lower.includes('thanh toán') || lower.includes('nợ')) {
-    return `📋 **Thông tin học phí:**\n\n• Tổng học phí: **15,000,000 VND**\n• Đã thanh toán: 10,000,000 VND\n• Còn nợ: **5,000,000 VND**\n• Hạn: **15/10/2023**\n\n⚠️ Vui lòng thanh toán trước hạn để tránh bị phạt.`;
-  }
-
-  if (lower.includes('điểm') || lower.includes('gpa') || lower.includes('bảng điểm')) {
-    return `📊 **Kết quả học tập:**\n\n• CGPA: **3.85/4.0** — Xuất sắc\n• Tín chỉ: 96/120 (80%)\n\n📈 **Điểm gần đây:**\n• CS201 - Cấu trúc dữ liệu: A (8.5)\n• MATH230 - Đại số tuyến tính: B+ (7.8)\n• SE401 - Công nghệ phần mềm: A- (8.2)`;
-  }
-
-  if (lower.includes('tốt nghiệp') || lower.includes('ra trường') || lower.includes('graduation')) {
-    return `🎓 **Tiến độ tốt nghiệp:**\n\n• Đã hoàn thành: 96/120 tín chỉ (80%)\n• Còn thiếu: 24 tín chỉ\n• Dự kiến tốt nghiệp: **Học kỳ 2, 2025**\n• Các mốc quan trọng còn lại:\n  - Thực tập tốt nghiệp (6 tín chỉ)\n  - Khóa luận tốt nghiệp (6 tín chỉ)\n  - Môn tự chọn (12 tín chỉ)\n\nBạn đang đi đúng tiến độ!`;
-  }
-
-  if (
-    lower.includes('môn') &&
-    (lower.includes('gợi') ||
-      lower.includes('đề xuất') ||
-      lower.includes('nên') ||
-      lower.includes('recommend'))
-  ) {
-    return `📗 **CS201 - Cấu trúc dữ liệu & Giải thuật** (4 tín chỉ)\n   ✅ Đã đáp ứng điều kiện\n   📅 Thứ 2,4 — 08:00-09:30\n\n📘 **CS301 - Hệ điều hành** (4 tín chỉ)\n   ✅ Đã đáp ứng điều kiện\n   📅 Thứ 3,5 — 13:30-15:00\n\n📙 **MATH250 - Toán rời rạc** (3 tín chỉ)\n   ⚠️ Cần MATH101`;
-  }
-
-  return null; // no local match — use Gemini
-}
-
 export default function AIChatbotPage() {
-  const { messages, setMessages, clearMessages, filterMessage } = useChatbot();
+  const { messages, setMessages, clearMessages } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Ref to keep stable reference to messages for history building.
+  // Avoids stale closure issues when streaming updates trigger re-renders.
+  const messagesRef = useRef(messages);
+  messagesRef.current = messages;
 
   const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -88,25 +59,11 @@ export default function AIChatbotPage() {
   }, []);
 
   const handleSend = useCallback(
-    (messageText?: string) => {
+    async (messageText?: string) => {
       const text = (messageText ?? input).trim();
       if (!text || loading) return;
 
-      // Check school-related filter
-      const filterResult = filterMessage(text);
-      if (!filterResult.allowed) {
-        const rejected: ChatMessage = {
-          id: `rejected-${Date.now()}`,
-          role: 'assistant',
-          content: `Xin lỗi, ${filterResult.reason}`,
-          timestamp: new Date().toISOString(),
-        };
-        setMessages((prev) => [...prev, rejected]);
-        setInput('');
-        return;
-      }
-
-      // Add user message
+      // Add user message to chat
       const userMsg: ChatMessage = {
         id: `user-${Date.now()}`,
         role: 'user',
@@ -117,51 +74,53 @@ export default function AIChatbotPage() {
       setInput('');
       setLoading(true);
 
-      // Respond after a short delay
-      setTimeout(async () => {
-        try {
-          // Get updated messages for context
-          let responseText: string;
+      // Create empty assistant placeholder for streaming
+      const assistantId = `ai-${Date.now()}`;
+      const placeholder: ChatMessage = {
+        id: assistantId,
+        role: 'assistant',
+        content: '',
+        timestamp: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, placeholder]);
 
-          // Try local response first
-          const local = getLocalResponse(text, []);
-          if (local) {
-            responseText = local;
-          } else {
-            // Build conversation history for Gemini
-            const history = messages.map((m) => ({
-              role: (m.role === 'user' ? 'user' : 'model') as 'user' | 'model',
-              parts: [{ text: m.content }],
-            }));
-            responseText = await askGemini(text, history);
-          }
+      try {
+        // Build conversation history from before this turn (stable ref)
+        const currentMessages = messagesRef.current;
+        const history = currentMessages.map((m) => ({
+          role: (m.role === 'user' ? 'user' : 'model') as 'user' | 'model',
+          parts: [{ text: m.content }],
+        }));
 
-          const aiMsg: ChatMessage = {
-            id: `ai-${Date.now()}`,
-            role: 'assistant',
-            content: responseText,
-            timestamp: new Date().toISOString(),
-          };
-          setMessages((prev) => [...prev, aiMsg]);
-        } catch {
-          // Gemini failed — use local fallback
-          const local = getLocalResponse(text, []);
-          const fallback: ChatMessage = {
-            id: `ai-${Date.now()}`,
-            role: 'assistant',
-            content:
-              local ||
-              `Cảm ơn câu hỏi của bạn! Tôi có thể giúp bạn với:\n\n📚 **Tư vấn môn học** — gợi ý môn phù hợp\n📊 **Tốt nghiệp** — kiểm tra tiến độ\n📖 **Giải thích môn học** — nội dung, ứng dụng\n💰 **Học phí** — thông tin thanh toán\n📝 **Điểm số** — kết quả học tập\n\nHãy thử hỏi chi tiết hơn nhé!`,
-            timestamp: new Date().toISOString(),
-          };
-          setMessages((prev) => [...prev, fallback]);
-        } finally {
-          setLoading(false);
-          inputRef.current?.focus();
-        }
-      }, 600);
+        // Stream response: onChunk receives full accumulated text
+        await askGeminiStream(text, history, (fullText) => {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? { ...m, content: fullText }
+                : m,
+            ),
+          );
+        });
+      } catch (err) {
+        // Show the specific error message from Gemini (already formatted in the service)
+        const errorMsg = err instanceof Error ? err.message : '⚠️ Lỗi kết nối không xác định. Vui lòng thử lại sau.';
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === assistantId
+              ? { ...m, content: errorMsg }
+              : m,
+          ),
+        );
+      } finally {
+        setLoading(false);
+        inputRef.current?.focus();
+      }
     },
-    [input, loading, filterMessage, messages, setMessages]
+    // NOTE: intentionally NOT including `messages` in deps — we use messagesRef
+    // to avoid recreating handleSend on every streaming chunk.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [input, loading, setMessages],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -251,7 +210,9 @@ export default function AIChatbotPage() {
             )}
           </button>
         </div>
-        <p className="chatbot-disclaimer">Tôi chỉ trả lời câu hỏi về học tập tại HCMUS.</p>
+        <p className="chatbot-disclaimer">
+          Trợ lý AI có thể trả lời các câu hỏi về học tập. Hãy đặt câu hỏi rõ ràng để nhận được câu trả lời chính xác nhất.
+        </p>
       </div>
     </div>
   );

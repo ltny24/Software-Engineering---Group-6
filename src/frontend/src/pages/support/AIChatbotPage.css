@@ -1,10 +1,11 @@
-/* Chatbot — Galaxy Navy theme */
+/* Chatbot — Galaxy Navy theme, 0.8x scale, perfectly centered */
 .chatbot-page {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 56px - 48px);
+  width: 80%;
   max-width: 960px;
-  margin: 0 auto;
+  height: 82vh;
+  margin: 4vh auto 0 auto;              /* centered horizontally, slight top offset */
   background-color: var(--color-surface-elevated);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
@@ -13,21 +14,24 @@
   box-shadow: var(--shadow-card);
   overflow: hidden;
 }
+
+/* Header — fixed at top */
 .chatbot-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-3) var(--space-5);
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-header);
+  flex-shrink: 0;
 }
 .chatbot-header__left {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 .chatbot-header__icon {
-  font-size: 32px;
+  font-size: 28px;
   display: inline-flex;
   align-items: center;
   color: var(--color-primary);
@@ -35,7 +39,7 @@
 .chatbot-header__title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: var(--text-h4);
+  font-size: var(--text-body);
   font-weight: var(--font-semibold);
   color: var(--color-text);
 }
@@ -45,18 +49,18 @@
   color: #4ADE80;
 }
 .chatbot-reset-btn {
-  padding: 8px 18px;
+  padding: 6px 14px;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
   background-color: transparent;
   color: var(--color-text-secondary);
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-caption);
   cursor: pointer;
-  min-height: 40px;
+  min-height: 32px;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   transition: all var(--transition-fast);
 }
 .chatbot-reset-btn:hover {
@@ -65,14 +69,14 @@
   border-color: rgba(239, 68, 68, 0.3);
 }
 
-/* Messages area - dark surface for contrast with bubbles */
+/* Messages — scrollable area between header and input */
 .chatbot-messages {
   flex: 1;
   overflow-y: auto;
-  padding: var(--space-5) var(--space-6);
+  padding: var(--space-3) var(--space-5);
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-2);
   background-color: var(--color-bg);
 }
 
@@ -80,35 +84,36 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  padding: 12px 16px;
+  padding: 8px 12px;
   color: var(--color-text-secondary);
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-caption);
 }
+
 .chatbot-quick-actions {
-  padding: 0 var(--space-6);
+  padding: var(--space-2) var(--space-5);
+  flex-shrink: 0;
 }
+
+/* Input area — fixed at bottom of chatbot */
 .chatbot-input-area {
   flex-shrink: 0;
-  padding: var(--space-3) var(--space-6) var(--space-5);
+  padding: var(--space-2) var(--space-5) var(--space-4);
   border-top: 1px solid var(--color-border);
   background-color: var(--color-header);
-  position: sticky;
-  bottom: 0;
-  z-index: 5;
 }
 .chatbot-input-row {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: flex-end;
 }
 .chatbot-input {
   flex: 1;
-  padding: 14px 20px;
+  padding: 12px 16px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   font-family: var(--font-body);
-  font-size: var(--text-body);
+  font-size: var(--text-small);
   resize: none;
   outline: none;
   background-color: var(--color-input-bg);
@@ -127,22 +132,22 @@
   opacity: 0.5;
 }
 .chatbot-send-btn {
-  padding: 14px 28px;
+  padding: 12px 24px;
   border-radius: 9999px;
   border: none;
   background: linear-gradient(135deg, #0061a4, #2196f3);
   color: #fff;
   font-family: var(--font-body);
-  font-size: var(--text-small);
+  font-size: var(--text-caption);
   font-weight: var(--font-semibold);
   cursor: pointer;
   box-shadow: 0 2px 12px rgba(0, 97, 164, 0.25);
-  min-height: 48px;
-  min-width: 80px;
+  min-height: 44px;
+  min-width: 70px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   transition: all var(--transition-fast);
   white-space: nowrap;
 }
@@ -159,9 +164,9 @@
   color: var(--color-text-faint);
 }
 .chatbot-disclaimer {
-  margin: var(--space-2) 0 0 0;
+  margin: var(--space-1) 0 0 0;
   font-family: var(--font-body);
-  font-size: var(--text-caption);
+  font-size: 10px;
   color: var(--color-text-muted);
   text-align: center;
 }
