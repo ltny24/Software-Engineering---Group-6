@@ -19,14 +19,13 @@
 | UC-09 | Submit Evaluation Surveys | Student |
 | UC-10 | Access FAQs & Support | Student |
 | UC-11 | Admin Bulk Data and Class Control | Administrator |
-| UC-11.1 | Import Student/Course Data | Administrator |
-| UC-11.2 | Validate Data Format | Administrator |
-| UC-11.3 | Perform Student Class Transfer | Administrator |
-| UC-12 | Appeal Processing Management | Administrator |
-| UC-12.1 | Set Fee Payment Deadline | Administrator |
-| UC-12.2 | Update Appeal Status | Administrator |
-| UC-13 | Student Data Administration | Administrator |
-| UC-13.1 | Search Student Records | Administrator |
+| UC-12 | Import Student/Course Data | Administrator |
+| UC-13 | Validate Data Format | Administrator |
+| UC-14 | Appeal Processing Management | Administrator |
+| UC-15 | Set Fee Payment Deadline | Administrator |
+| UC-16 | Update Appeal Status | Administrator |
+| UC-17 | Student Data Administration | Administrator |
+| UC-18 | Search Student Records | Administrator |
 
 ---
 
