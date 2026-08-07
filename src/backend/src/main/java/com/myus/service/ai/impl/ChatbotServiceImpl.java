@@ -53,7 +53,7 @@ public class ChatbotServiceImpl implements ChatbotService {
             replyText = callGemini(student, request.getMessage(), contextType, progress, recommendations);
         } catch (Exception e) {
             log.warn("Gemini API unavailable, falling back to rule-based response: {}", e.getMessage());
-            replyText = buildFallbackResponse(student, contextType, progress, recommendations);
+            replyText = buildFallbackResponse(student, contextType, progress, recommendations, request.getMessage());
         }
 
         return ChatResponseDTO.builder()
@@ -188,11 +188,12 @@ public class ChatbotServiceImpl implements ChatbotService {
      */
     private String buildFallbackResponse(Student student, String contextType,
                                          GraduationProgressDTO progress,
-                                         List<CourseSuggestionDTO> recommendations) {
+                                         List<CourseSuggestionDTO> recommendations,
+                                         String userMessage) {
         return switch (contextType) {
             case "COURSE_SUGGESTION" -> buildCourseRecommendationFallback(recommendations);
             case "GRADUATION_AUDIT" -> buildGraduationFallback(student, progress);
-            default -> buildGeneralFallback(student, progress);
+            default -> buildGeneralFallback(student, progress, userMessage);
         };
     }
 
@@ -229,14 +230,35 @@ public class ChatbotServiceImpl implements ChatbotService {
                 + "\n\n💡 _Keep up the great work, " + student.getFirstName() + "!_";
     }
 
-    private String buildGeneralFallback(Student student, GraduationProgressDTO progress) {
-        return "👋 Hello " + student.getFirstName() + "! I'm your AI academic advisor.\n\n"
-                + "I can help you with:\n"
-                + "📚 **Course recommendations** — find the best courses for your next semester\n"
-                + "🎓 **Graduation tracking** — check your progress and estimated timeline\n"
-                + "❓ **Academic questions** — ask about prerequisites, requirements, or policies\n\n"
-                + "You've completed **" + progress.getCompletedCredits() + " credits** so far "
-                + "(" + String.format("%.1f", progress.getCompletionPercentage()) + "% toward graduation).\n\n"
-                + "What would you like help with today?";
+    private String buildGeneralFallback(Student student, GraduationProgressDTO progress, String userMessage) {
+        // If the message looks like a greeting or very short, show the welcome overview
+        String msg = userMessage != null ? userMessage.trim().toLowerCase() : "";
+        boolean isGreeting = msg.length() < 20
+                && (msg.contains("hello") || msg.contains("hi") || msg.contains("chào")
+                    || msg.contains("chao") || msg.isEmpty());
+
+        if (isGreeting || msg.isEmpty()) {
+            return "👋 Chào " + student.getFirstName() + "! Tôi là trợ lý học tập AI của bạn.\n\n"
+                    + "Tôi có thể giúp bạn:\n"
+                    + "📚 **Gợi ý môn học** — tìm môn học phù hợp cho học kỳ tới\n"
+                    + "🎓 **Theo dõi tốt nghiệp** — kiểm tra tiến độ và thời gian dự kiến\n"
+                    + "❓ **Thông tin học tập** — hỏi về môn học, điều kiện tiên quyết, quy định\n\n"
+                    + "Bạn đã hoàn thành **" + progress.getCompletedCredits() + " tín chỉ** "
+                    + "(" + String.format("%.1f", progress.getCompletionPercentage()) + "% chương trình).\n\n"
+                    + "Bạn cần tôi giúp gì hôm nay?";
+        }
+
+        // For specific questions, give a helpful response acknowledging the question
+        // The frontend offline mode handles detailed course lookups
+        return "👋 Chào " + student.getFirstName() + "!\n\n"
+                + "Cảm ơn câu hỏi của bạn. Bạn đã hoàn thành **"
+                + progress.getCompletedCredits() + " tín chỉ** ("
+                + String.format("%.1f", progress.getCompletionPercentage())
+                + "%).\n\n"
+                + "💡 Để có câu trả lời chi tiết hơn, bạn có thể:\n"
+                + "• Hỏi về một **môn học cụ thể** (VD: \"Cấu trúc dữ liệu\", \"CSC10004\")\n"
+                + "• Hỏi về **tiến độ tốt nghiệp** — \"Khi nào tôi tốt nghiệp?\"\n"
+                + "• Hỏi về **gợi ý môn học** — \"Nên học môn nào học kỳ tới?\"\n\n"
+                + "📚 *Lưu ý: Hệ thống đang dùng chế độ phản hồi cục bộ do API Gemini chưa khả dụng.*";
     }
 }

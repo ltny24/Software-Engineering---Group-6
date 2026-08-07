@@ -43,12 +43,9 @@ export function ChatbotProvider({ children }: { children: ReactNode }) {
 
   // Gemini now handles content filtering via system prompt.
   // This always returns allowed=true — no client-side keyword check.
-  const filterMessage = useCallback(
-    (_text: string): { allowed: boolean; reason?: string } => {
-      return { allowed: true };
-    },
-    [],
-  );
+  const filterMessage = useCallback((_text: string): { allowed: boolean; reason?: string } => {
+    return { allowed: true };
+  }, []);
 
   const value: ChatbotContextValue = {
     isOpen,

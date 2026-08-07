@@ -23,24 +23,31 @@
   padding-left: 4px;
 }
 
+/* ── Bubble content ── */
 .chat-bubble__content {
-  max-width: 80%;
-  padding: 14px 20px;
+  max-width: 70%;
+  padding: 16px 24px;
   font-size: var(--text-small);
-  line-height: 1.6;
-  white-space: pre-wrap;
-  word-break: break-word;
+  line-height: 1.7;
   font-family: var(--font-body);
 }
+.chat-bubble__text {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
 
+/* User bubble — max 50% width, right-aligned, compact */
 .chat-bubble--user .chat-bubble__content {
+  max-width: 50%;
   border-radius: var(--radius-lg) var(--radius-lg) var(--radius-sm) var(--radius-lg);
-  background: linear-gradient(135deg, #4DA8FF, #A78BFA);
+  background: linear-gradient(135deg, #4da8ff, #a78bfa);
   color: #fff;
   box-shadow: 0 2px 12px rgba(77, 168, 255, 0.25);
 }
 
+/* Assistant bubble — wider than user but still contained */
 .chat-bubble--assistant .chat-bubble__content {
+  max-width: 65%;
   border-radius: var(--radius-lg) var(--radius-lg) var(--radius-lg) var(--radius-sm);
   background-color: var(--color-surface-elevated);
   color: var(--color-text);
@@ -48,11 +55,128 @@
   box-shadow: var(--shadow-sm);
 }
 
+/* ── Markdown: Bold / Highlight ── */
+.chat-bubble__content .md-strong {
+  font-weight: 700;
+  color: #2196f3;
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.12), rgba(33, 150, 243, 0.06));
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+/* User bubble — bold in white */
+.chat-bubble--user .chat-bubble__content .md-strong {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── Markdown: Italic / Emphasis ── */
+.chat-bubble__content .md-em {
+  font-style: italic;
+  color: var(--color-text-secondary);
+}
+
+/* ── Markdown: Inline Code ── */
+.chat-bubble__content .md-code--inline {
+  background-color: rgba(128, 128, 128, 0.15);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.875em;
+  color: #e83e8c;
+}
+.chat-bubble--user .chat-bubble__content .md-code--inline {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  color: #ffe484;
+}
+
+/* ── Markdown: Lists ── */
+.chat-bubble__content .md-list {
+  margin: 8px 0;
+  padding-left: 20px;
+}
+.chat-bubble__content .md-list--ordered {
+  list-style-type: decimal;
+}
+.chat-bubble__content .md-li {
+  margin-bottom: 4px;
+}
+.chat-bubble__content .md-li::marker {
+  color: #2196f3;
+}
+
+/* ── Markdown: Paragraphs ── */
+.chat-bubble__content .md-p {
+  margin: 4px 0;
+}
+.chat-bubble__content .md-p:first-child {
+  margin-top: 0;
+}
+.chat-bubble__content .md-p:last-child {
+  margin-bottom: 0;
+}
+
+/* ── Markdown: Links ── */
+.chat-bubble__content .md-link {
+  color: #2196f3;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.chat-bubble__content .md-link:hover {
+  color: #1976d2;
+}
+.chat-bubble--user .chat-bubble__content .md-link {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.5);
+}
+
+/* ── Markdown: Headings ── */
+.chat-bubble__content .md-heading {
+  margin: 12px 0 6px 0;
+  font-weight: 700;
+  font-family: var(--font-display);
+  color: var(--color-text);
+  line-height: 1.4;
+}
+.chat-bubble__content .md-h1 {
+  font-size: 1.15em;
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: 4px;
+}
+.chat-bubble__content .md-h2 {
+  font-size: 1.08em;
+}
+.chat-bubble__content .md-h3 {
+  font-size: 1.02em;
+}
+
+/* ── Markdown: Blockquote ── */
+.chat-bubble__content .md-blockquote {
+  margin: 8px 0;
+  padding: 8px 14px;
+  border-left: 3px solid #2196f3;
+  background-color: rgba(33, 150, 243, 0.06);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--color-text-secondary);
+}
+
+/* ── Markdown: Horizontal Rule ── */
+.chat-bubble__content .md-hr {
+  margin: 12px 0;
+  border: none;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ── Embeds ── */
 .chat-bubble__embeds {
   margin-top: 12px;
   width: 100%;
-  max-width: 80%;
+  max-width: 65%;
 }
+
+/* ── Timestamp ── */
 .chat-bubble__time {
   font-family: var(--font-body);
   font-size: 11px;

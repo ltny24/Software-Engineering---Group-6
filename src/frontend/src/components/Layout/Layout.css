@@ -99,6 +99,69 @@
   width: 100%;
 }
 
+/* ── Chatbot page topbar — merged chatbot header ── */
+.topbar__chatbot-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.topbar__chatbot-icon {
+  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-primary);
+}
+.topbar__chatbot-info {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+.topbar__chatbot-title {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+.topbar__chatbot-status {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: #4ade80;
+}
+.topbar__chatbot-reset {
+  margin-left: 8px;
+  padding: 4px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: transparent;
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  cursor: pointer;
+  min-height: 28px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.topbar__chatbot-reset:hover {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Chatbot page — remove content padding, let chatbot fill */
+.layout__content--chatbot {
+  padding: 0;
+  overflow: hidden;
+}
+.layout__container--chatbot {
+  max-width: none;
+  margin: 0;
+  height: 100%;
+}
+
 /* ── Mobile responsive ── */
 @media (max-width: 768px) {
   .layout {

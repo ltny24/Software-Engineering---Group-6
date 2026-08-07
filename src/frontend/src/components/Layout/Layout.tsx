@@ -3,7 +3,8 @@ import { useLocation, Link } from 'react-router-dom';
 import Sidebar from '../Sidebar/Sidebar';
 import { useAuth } from '../../auth';
 import { useTheme } from '../../context/ThemeContext';
-import { FaStar } from 'react-icons/fa6';
+import { useChatbot } from '../chatbot/ChatbotContext';
+import { FaStar, FaRobot, FaRotateRight } from 'react-icons/fa6';
 import { ROUTES } from '../../utils/constants';
 import './Layout.css';
 
@@ -24,6 +25,46 @@ const PAGE_TITLES: Record<string, string> = {
   [ROUTES.ADMIN_APPEALS]: 'Appeals',
 };
 
+// ============================================================
+// ChatbotTopbarLeft — rendered inside topbar on chatbot page.
+// Separate component so useChatbot hook is at top level.
+// ============================================================
+function ChatbotTopbarLeft() {
+  const { clearMessages, setMessages } = useChatbot();
+
+  const handleReset = () => {
+    clearMessages();
+    setMessages([
+      {
+        id: `welcome-${Date.now()}`,
+        role: 'assistant' as const,
+        content:
+          'Xin chào! Tôi là trợ lý học tập AI của HCMUS. Tôi có thể giúp bạn:\n\n• Tư vấn môn học — gợi ý môn phù hợp cho học kỳ tới\n• Theo dõi tốt nghiệp — kiểm tra tiến độ học tập\n• Giải thích môn học — nội dung, điều kiện, ứng dụng\n• Học phí & điểm số — thông tin thanh toán, GPA\n• Chính sách học vụ — quy định, thủ tục\n\nHãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!',
+        timestamp: new Date().toISOString(),
+      },
+    ]);
+  };
+
+  return (
+    <div className="topbar__chatbot-left">
+      <span className="topbar__chatbot-icon">
+        <FaRobot />
+      </span>
+      <div className="topbar__chatbot-info">
+        <span className="topbar__chatbot-title">AI Academic Assistant</span>
+        <span className="topbar__chatbot-status">Online — HCMUS Academic Advisor</span>
+      </div>
+      <button className="topbar__chatbot-reset" onClick={handleReset} title="Reset Chat">
+        <FaRotateRight /> Reset Chat
+      </button>
+    </div>
+  );
+}
+
+// ============================================================
+// Layout
+// ============================================================
+
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -33,16 +74,24 @@ export default function Layout({ children }: LayoutProps) {
   const { user } = useAuth();
   const subPath = location.pathname;
   const title = PAGE_TITLES[subPath] || 'Dashboard';
+  const isChatbotPage = subPath === ROUTES.SUPPORT_AI_CHATBOT;
 
   const { mode, bgDensity, setBgDensity } = useTheme();
   const userInitial = user?.displayName?.charAt(0)?.toUpperCase() ?? 'A';
 
   return (
-    <div className="layout">
+    <div className={`layout ${isChatbotPage ? 'layout--chatbot' : ''}`}>
       <Sidebar />
       <div className="layout__main">
-        <header className="layout__topbar">
-          <h1 className="layout__topbar-title">{title}</h1>
+        <header className={`layout__topbar ${isChatbotPage ? 'layout__topbar--chatbot' : ''}`}>
+          {/* Left side — title or chatbot header */}
+          {isChatbotPage ? (
+            <ChatbotTopbarLeft />
+          ) : (
+            <h1 className="layout__topbar-title">{title}</h1>
+          )}
+
+          {/* Right side — controls */}
           <div className="flex items-center gap-4 ml-auto mr-4">
             {mode === 'night' && (
               <div className="flex items-center gap-2 bg-surface-elevated/60 backdrop-blur rounded-full px-3 py-1 border border-border-card shadow-sm">
@@ -68,8 +117,13 @@ export default function Layout({ children }: LayoutProps) {
             </Link>
           </div>
         </header>
-        <main id="main-content" className="layout__content">
-          <div className="layout__container">{children}</div>
+        <main
+          id="main-content"
+          className={`layout__content ${isChatbotPage ? 'layout__content--chatbot' : ''}`}
+        >
+          <div className={`layout__container ${isChatbotPage ? 'layout__container--chatbot' : ''}`}>
+            {children}
+          </div>
         </main>
       </div>
     </div>

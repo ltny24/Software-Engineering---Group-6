@@ -5,7 +5,7 @@
 // ============================================================
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { FaRobot, FaRotateRight, FaPaperPlane } from 'react-icons/fa6';
+import { FaRobot, FaPaperPlane } from 'react-icons/fa6';
 import { useChatbot } from '../../components/chatbot/ChatbotContext';
 import { askGeminiStream } from '../../services/geminiService';
 import type { ChatMessage } from '../../types/chatbot.types';
@@ -24,7 +24,7 @@ const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. 
 Hãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!`;
 
 export default function AIChatbotPage() {
-  const { messages, setMessages, clearMessages } = useChatbot();
+  const { messages, setMessages } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -95,22 +95,17 @@ export default function AIChatbotPage() {
         // Stream response: onChunk receives full accumulated text
         await askGeminiStream(text, history, (fullText) => {
           setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantId
-                ? { ...m, content: fullText }
-                : m,
-            ),
+            prev.map((m) => (m.id === assistantId ? { ...m, content: fullText } : m))
           );
         });
       } catch (err) {
         // Show the specific error message from Gemini (already formatted in the service)
-        const errorMsg = err instanceof Error ? err.message : '⚠️ Lỗi kết nối không xác định. Vui lòng thử lại sau.';
+        const errorMsg =
+          err instanceof Error
+            ? err.message
+            : '⚠️ Lỗi kết nối không xác định. Vui lòng thử lại sau.';
         setMessages((prev) =>
-          prev.map((m) =>
-            m.id === assistantId
-              ? { ...m, content: errorMsg }
-              : m,
-          ),
+          prev.map((m) => (m.id === assistantId ? { ...m, content: errorMsg } : m))
         );
       } finally {
         setLoading(false);
@@ -120,7 +115,7 @@ export default function AIChatbotPage() {
     // NOTE: intentionally NOT including `messages` in deps — we use messagesRef
     // to avoid recreating handleSend on every streaming chunk.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [input, loading, setMessages],
+    [input, loading, setMessages]
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -130,37 +125,8 @@ export default function AIChatbotPage() {
     }
   };
 
-  const handleReset = () => {
-    clearMessages();
-    setInput('');
-    setMessages([
-      {
-        id: `welcome-${Date.now()}`,
-        role: 'assistant',
-        content: WELCOME_TEXT,
-        timestamp: new Date().toISOString(),
-      },
-    ]);
-  };
-
   return (
     <div className="chatbot-page">
-      {/* Header */}
-      <div className="chatbot-header">
-        <div className="chatbot-header__left">
-          <span className="chatbot-header__icon">
-            <FaRobot />
-          </span>
-          <div>
-            <h1 className="chatbot-header__title">AI Academic Assistant</h1>
-            <span className="chatbot-header__status">Online — HCMUS Academic Advisor</span>
-          </div>
-        </div>
-        <button className="chatbot-reset-btn" onClick={handleReset}>
-          <FaRotateRight /> Reset Chat
-        </button>
-      </div>
-
       {/* Messages area */}
       <div className="chatbot-messages">
         {messages.map((msg) => (
@@ -211,7 +177,8 @@ export default function AIChatbotPage() {
           </button>
         </div>
         <p className="chatbot-disclaimer">
-          Trợ lý AI có thể trả lời các câu hỏi về học tập. Hãy đặt câu hỏi rõ ràng để nhận được câu trả lời chính xác nhất.
+          Trợ lý AI có thể trả lời các câu hỏi về học tập. Hãy đặt câu hỏi rõ ràng để nhận được câu
+          trả lời chính xác nhất.
         </p>
       </div>
     </div>
