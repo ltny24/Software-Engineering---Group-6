@@ -409,3 +409,32 @@
     font-size: var(--text-caption);
   }
 }
+
+/* ── Credits summary bar (My Registrations tab) ── */
+.credits-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  color: var(--color-text);
+}
+
+.credits-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: #dc2626;
+  font-weight: var(--font-semibold);
+}
+
+.credits-near-limit {
+  color: #f59e0b;
+  font-weight: var(--font-medium);
+}

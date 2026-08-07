@@ -12,6 +12,8 @@ interface GradeDTO {
   gradeValue: string;
   gradePoint: number;
   overallScore: number;
+  midtermGrade?: number;
+  finalGrade?: number;
 }
 
 function GradesPage() {
@@ -134,9 +136,10 @@ function GradesPage() {
                 <th>Course Code</th>
                 <th>Course Name</th>
                 <th className="cell-center">Credits</th>
+                <th className="cell-right">Mid-term Grade</th>
+                <th className="cell-right">Final Grade</th>
                 <th className="cell-right">Score</th>
                 <th className="cell-right">Grade Point</th>
-                <th className="cell-center">Letter Grade</th>
               </tr>
             </thead>
             <tbody>
@@ -146,16 +149,19 @@ function GradesPage() {
                     <td className="cell-code">{item.courseCode}</td>
                     <td className="cell-name">{item.courseName}</td>
                     <td className="cell-text cell-center">{item.credits}</td>
+                    <td className="cell-text cell-right">
+                      {item.midtermGrade != null ? item.midtermGrade.toFixed(1) : '—'}
+                    </td>
+                    <td className="cell-text cell-right">
+                      {item.finalGrade != null ? item.finalGrade.toFixed(1) : '—'}
+                    </td>
                     <td className="cell-text cell-right">{item.overallScore.toFixed(1)}</td>
                     <td className="cell-text cell-right">{item.gradePoint.toFixed(2)}</td>
-                    <td className="cell-center">
-                      <span className="grades-grade-badge">{item.gradeValue}</span>
-                    </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={6} className="grades-empty">
+                  <td colSpan={7} className="grades-empty">
                     No course grade data is available for this term.
                   </td>
                 </tr>

@@ -16,6 +16,8 @@ import {
   FaMoon,
   FaSun,
 } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from '../utils/constants';
 import './DashboardPage.css';
 
 // ── Demo schedule data ──────────────────────────────────────────────
@@ -37,84 +39,6 @@ interface ScheduleRow {
   cells: Record<DayKey, ScheduleCell | null>;
 }
 
-const DEMO_SCHEDULE: ScheduleRow[] = [
-  {
-    timeLabel: 'Morning',
-    cells: {
-      Mon: {
-        courseName: 'Advanced Database Systems',
-        courseCode: 'CS301',
-        timeRange: '08:00 - 09:30',
-        room: 'Room 304, Building A',
-        colorIndex: 0,
-      },
-      Tue: {
-        courseName: 'Linear Algebra',
-        courseCode: 'MATH230',
-        timeRange: '08:00 - 09:30',
-        room: 'B108',
-        colorIndex: 1,
-      },
-      Wed: null,
-      Thu: {
-        courseName: 'Advanced Database Systems',
-        courseCode: 'CS301',
-        timeRange: '08:00 - 09:30',
-        room: 'Room 304, Building A',
-        colorIndex: 0,
-      },
-      Fri: {
-        courseName: 'Physics Lab',
-        courseCode: 'PHYS140',
-        timeRange: '10:00 - 12:00',
-        room: 'Lab 3',
-        colorIndex: 3,
-      },
-      Sat: null,
-    },
-  },
-  {
-    timeLabel: 'Afternoon',
-    cells: {
-      Mon: null,
-      Tue: {
-        courseName: 'Software Engineering',
-        courseCode: 'SE401',
-        timeRange: '13:30 - 15:00',
-        room: 'Lab 2, Building C',
-        colorIndex: 2,
-      },
-      Wed: {
-        courseName: 'Linear Algebra',
-        courseCode: 'MATH230',
-        timeRange: '14:00 - 15:30',
-        room: 'B108',
-        colorIndex: 1,
-      },
-      Thu: null,
-      Fri: {
-        courseName: 'Software Engineering',
-        courseCode: 'SE401',
-        timeRange: '13:30 - 15:00',
-        room: 'Lab 2, Building C',
-        colorIndex: 2,
-      },
-      Sat: null,
-    },
-  },
-  {
-    timeLabel: 'Evening',
-    cells: {
-      Mon: null,
-      Tue: null,
-      Wed: null,
-      Thu: null,
-      Fri: null,
-      Sat: null,
-    },
-  },
-];
-
 // ── Helpers ─────────────────────────────────────────────────────────
 function parseDayAbbr(day: string): DayKey | null {
   const map: Record<string, DayKey> = {
@@ -135,6 +59,7 @@ function parseDayAbbr(day: string): DayKey | null {
 }
 
 function parseSchedule(scheduleStr: string): { days: DayKey[]; timeRange: string } | null {
+  if (!scheduleStr) return null;
   const match = scheduleStr
     .trim()
     .match(/^([A-Za-z/,\s]+?)\s+(\d{1,2}:\d{2}\s*[-–—]\s*\d{1,2}:\d{2})$/);
@@ -160,7 +85,7 @@ function buildScheduleRows(registrations: CourseRegistration[]): ScheduleRow[] {
     timeLabel: label,
     cells: Object.fromEntries(DAYS.map((d) => [d, null])) as Record<DayKey, ScheduleCell | null>,
   }));
-  const enrolled = registrations.filter((r) => r.status === 'ENROLLED');
+  const enrolled = registrations.filter((r) => r.status?.toLowerCase() === 'enrolled');
   let colorIdx = 0;
   const courseColorMap = new Map<string, number>();
   enrolled.forEach((reg) => {
@@ -190,10 +115,11 @@ function buildScheduleRows(registrations: CourseRegistration[]): ScheduleRow[] {
 // ── Component ───────────────────────────────────────────────────────
 export default function DashboardPage() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const displayName = user?.displayName ?? 'Nguyen Anh Tuan';
-  const [scheduleRows, setScheduleRows] = useState<ScheduleRow[]>(DEMO_SCHEDULE);
+  const [scheduleRows, setScheduleRows] = useState<ScheduleRow[]>([]);
   const [scheduleLoading, setScheduleLoading] = useState(false);
-  const [totalCredits, setTotalCredits] = useState(96);
+  const [totalCredits] = useState(63);
   const [registeredCount, setRegisteredCount] = useState(5);
   const [gpa] = useState(3.85);
   const { mode, toggle } = useTheme();
@@ -213,11 +139,12 @@ export default function DashboardPage() {
         const data = await getMyRegistrations();
         if (cancelled) return;
         if (Array.isArray(data) && data.length > 0) {
-          const enrolled = data.filter((r) => r.status === 'ENROLLED');
+          const enrolled = data.filter((r) => r.status?.toLowerCase() === 'enrolled');
           setRegisteredCount(enrolled.length);
-          const credits = enrolled.reduce((sum, r) => sum + (r.offering.course.credits || 0), 0);
-          setTotalCredits(credits);
           setScheduleRows(buildScheduleRows(data));
+        } else {
+          // No registrations yet — show empty schedule
+          setScheduleRows([]);
         }
       } catch {
         /* keep demo */
@@ -340,12 +267,17 @@ export default function DashboardPage() {
                 <span className="text-body-md opacity-90">Credits Earned</span>
                 <span className="text-title-md font-semibold">{totalCredits} / 120</span>
               </div>
-              <div className="w-full bg-white/15 rounded-full h-2">
+              <div className="w-full bg-white/15 rounded-full h-3 relative">
                 <div
-                  className="bg-surface-white h-2 rounded-full transition-all duration-500"
+                  className="bg-surface-white h-3 rounded-full transition-all duration-500"
                   style={{ width: `${Math.round((totalCredits / 120) * 100)}%` }}
                 />
+                <span
+                  className="absolute top-1/2 -translate-y-1/2 w-4 h-4 bg-white rounded-full border-2 border-primary-container shadow"
+                  style={{ left: `calc(${Math.round((totalCredits / 120) * 100)}% - 8px)` }}
+                />
               </div>
+              <p className="text-label-md text-center opacity-80">{totalCredits} credits</p>
             </div>
           </div>
         </div>
@@ -371,7 +303,10 @@ export default function DashboardPage() {
               <button className="flex-1 bg-primary-container text-white py-2.5 px-4 rounded-full text-title-md font-semibold hover:opacity-90 transition-opacity active:scale-95">
                 Pay Now
               </button>
-              <button className="flex-1 border-2 border-primary-container text-primary-container py-2.5 px-4 rounded-full text-title-md font-semibold hover:bg-surface-container-low transition-colors active:scale-95">
+              <button
+                className="flex-1 border-2 border-primary-container text-primary-container py-2.5 px-4 rounded-full text-title-md font-semibold hover:bg-surface-container-low transition-colors active:scale-95"
+                onClick={() => navigate(ROUTES.TUITION)}
+              >
                 Details
               </button>
             </div>
@@ -437,6 +372,10 @@ export default function DashboardPage() {
         {scheduleLoading ? (
           <div className="flex items-center justify-center gap-3 py-12 text-text-muted text-body-md">
             <span className="spinner" /> Loading schedule...
+          </div>
+        ) : scheduleRows.length === 0 ? (
+          <div className="flex items-center justify-center py-12 text-text-muted text-body-md">
+            No classes scheduled yet. Register for courses to see your weekly schedule.
           </div>
         ) : (
           <div className="overflow-x-auto">

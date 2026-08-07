@@ -78,6 +78,7 @@ export interface CourseRegistration {
   status: 'REQUESTED' | 'ENROLLED' | 'WAITLISTED' | 'DROPPED';
   registeredAt: string;
   offering: CourseOffering;
+  warnings?: string[];
 }
 
 // ----- Grades & Academic Records -----

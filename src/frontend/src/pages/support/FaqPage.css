@@ -6,6 +6,23 @@
 .faq-header {
   margin-bottom: var(--space-6);
 }
+.faq-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 6px 14px;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  margin-bottom: var(--space-3);
+  transition: background 0.2s;
+}
+.faq-back-btn:hover {
+  background: var(--color-surface-container-low);
+}
 .faq-header h2 {
   font-family: var(--font-display);
   font-size: var(--text-h2);

@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import toast from 'react-hot-toast';
-import { FaBookOpen, FaChevronLeft, FaChevronRight, FaCheck } from 'react-icons/fa6';
+import {
+  FaBookOpen,
+  FaChevronLeft,
+  FaChevronRight,
+  FaTriangleExclamation,
+} from 'react-icons/fa6';
 import {
   dropRegistration,
   getCourses,
@@ -14,63 +19,9 @@ import './CoursesPage.css';
 
 const PAGE_SIZE = 9;
 const DEPARTMENTS = ['Computer Science', 'Mathematics', 'Physics'];
-const TERMS = ['Fall2026', 'Spring2027'];
-
-const DEMO_OFFERINGS: CourseOffering[] = [
-  {
-    offeringId: '1001',
-    section: 'A',
-    term: 'Fall2026',
-    schedule: 'Mon/Wed 09:00 - 10:30',
-    instructor: 'Dr. Nguyễn',
-    location: 'Building A',
-    room: '204',
-    enrolledCount: 12,
-    availableSeats: 8,
-    course: {
-      courseId: '501',
-      courseCode: 'CS101',
-      courseName: 'Introduction to Algorithms',
-      description: 'Fundamentals of algorithms and problem solving.',
-      credits: 3,
-      prerequisites: ['None'],
-      department: 'Computer Science',
-      semester: 'Fall2026',
-      capacity: 20,
-    },
-  },
-  {
-    offeringId: '1002',
-    section: 'B',
-    term: 'Fall2026',
-    schedule: 'Tue/Thu 11:00 - 12:30',
-    instructor: 'Thầy Trần',
-    location: 'Building B',
-    room: '108',
-    enrolledCount: 18,
-    availableSeats: 2,
-    course: {
-      courseId: '502',
-      courseCode: 'MATH230',
-      courseName: 'Linear Algebra',
-      description: 'Matrix methods, vector spaces, and linear systems.',
-      credits: 4,
-      prerequisites: ['Precalculus'],
-      department: 'Mathematics',
-      semester: 'Fall2026',
-      capacity: 20,
-    },
-  },
-];
-
-const DEMO_REGISTRATIONS: CourseRegistration[] = DEMO_OFFERINGS.map((offering, index) => ({
-  registrationId: `2000${String(offering.offeringId)}`,
-  studentId: '12345',
-  offeringId: offering.offeringId,
-  status: 'ENROLLED',
-  registeredAt: new Date(Date.now() - (index + 1) * 86400000).toISOString(),
-  offering,
-}));
+const TERMS = ['HKI 2025-2026', 'HKII 2025-2026', 'HKIII 2025-2026'];
+const CURRENT_TERM = 'HKIII 2025-2026';
+const COMPLETED_TERMS = ['HKI 2025-2026', 'HKII 2025-2026'];
 
 type TabKey = 'browse' | 'mine';
 
@@ -114,23 +65,14 @@ export default function CoursesPage() {
 
         const data = await getCourses(params);
         const received = data.content ?? [];
-        const fallback =
-          received.length > 0 ||
-          page > 0 ||
-          appliedFilters.search ||
-          appliedFilters.department ||
-          appliedFilters.term
-            ? received
-            : DEMO_OFFERINGS;
 
-        setOfferings(fallback);
-        setTotalPages(received.length > 0 ? (data.totalPages ?? 0) : 1);
-        setTotalElements(
-          received.length > 0 ? (data.totalElements ?? fallback.length) : fallback.length
-        );
-        setCurrentPage(received.length > 0 ? (data.page ?? 0) : 0);
+        setOfferings(received);
+        setTotalPages(data.totalPages ?? 0);
+        setTotalElements(data.totalElements ?? 0);
+        setCurrentPage(data.page ?? 0);
       } catch (error) {
-        toast.error('Failed to load course catalog.');
+        toast.error('Failed to load course catalog. Please try again later.');
+        setOfferings([]);
         console.error(error);
       } finally {
         setLoadingOfferings(false);
@@ -146,13 +88,10 @@ export default function CoursesPage() {
     try {
       setLoadingRegs(true);
       const data = await getMyRegistrations();
-      const registrationsToShow =
-        Array.isArray(data) && data.length > 0 ? data : DEMO_REGISTRATIONS;
-
-      setRegistrations(registrationsToShow);
+      setRegistrations(Array.isArray(data) ? data : []);
     } catch (error) {
-      setRegistrations(DEMO_REGISTRATIONS);
-      toast.error('Failed to load your registrations. Showing demo registrations instead.');
+      setRegistrations([]);
+      toast.error('Failed to load your registrations. Please try again later.');
       console.error(error);
     } finally {
       setLoadingRegs(false);
@@ -193,16 +132,51 @@ export default function CoursesPage() {
 
   const isActiveRegistration = (offeringId: string | number) =>
     registrations.some(
-      (r) => String(r.offering.offeringId) === String(offeringId) && r.status !== 'DROPPED'
+      (r) => String(r.offering.offeringId) === String(offeringId) && r.status?.toLowerCase() !== 'dropped'
     );
+
+  const findRegistrationByOffering = (offeringId: string | number): CourseRegistration | undefined =>
+    registrations.find(
+      (r) => String(r.offering.offeringId) === String(offeringId) && r.status?.toLowerCase() !== 'dropped'
+    );
+
+  const handleCancelFromBrowse = async (offering: CourseOffering) => {
+    const reg = findRegistrationByOffering(offering.offeringId);
+    if (!reg) return;
+    await handleDrop(reg);
+  };
 
   const handleRegister = async (offering: CourseOffering) => {
     try {
       setRegisteringId(offering.offeringId);
-      await registerCourse(offering.offeringId);
+      const result = await registerCourse(offering.offeringId);
       toast.success(`Registered for ${offering.course.courseCode} successfully!`);
-      // Làm mới cả 2 danh sách để cập nhật số chỗ còn trống & trạng thái
-      await Promise.all([fetchOfferings(currentPage), fetchRegistrations()]);
+
+      // Optimistic update: add new registration + adjust seat counts locally
+      setRegistrations((prev) => [result, ...prev]);
+
+      setOfferings((prev) =>
+        prev.map((o) =>
+          String(o.offeringId) === String(offering.offeringId)
+            ? {
+                ...o,
+                enrolledCount: o.enrolledCount + 1,
+                availableSeats: Math.max(0, o.availableSeats - 1),
+              }
+            : o
+        )
+      );
+
+      // Show schedule conflict warnings via toast (plain string, no JSX)
+      if (result.warnings && result.warnings.length > 0) {
+        result.warnings.forEach((warning) => {
+          toast.error(warning, {
+            icon: '⚠️',
+            duration: 6000,
+            style: { background: '#fffbeb', border: '1px solid #f59e0b', color: '#92400e' },
+          });
+        });
+      }
     } catch (error: any) {
       const msg = error?.response?.data?.message || 'Failed to register for this course.';
       toast.error(msg);
@@ -219,7 +193,27 @@ export default function CoursesPage() {
       setDroppingId(registration.registrationId);
       await dropRegistration(registration.registrationId);
       toast.success(`Dropped ${courseLabel}.`);
-      await Promise.all([fetchRegistrations(), fetchOfferings(currentPage)]);
+
+      // Optimistic update: mark registration as dropped + adjust seat counts locally
+      setRegistrations((prev) =>
+        prev.map((r) =>
+          String(r.registrationId) === String(registration.registrationId)
+            ? { ...r, status: 'DROPPED' as const }
+            : r
+        )
+      );
+
+      setOfferings((prev) =>
+        prev.map((o) =>
+          String(o.offeringId) === String(registration.offering.offeringId)
+            ? {
+                ...o,
+                enrolledCount: Math.max(0, o.enrolledCount - 1),
+                availableSeats: o.availableSeats + 1,
+              }
+            : o
+        )
+      );
     } catch (error: any) {
       const msg = error?.response?.data?.message || 'Failed to drop this registration.';
       toast.error(msg);
@@ -255,7 +249,14 @@ export default function CoursesPage() {
     return 'badge requested';
   };
 
-  const activeRegistrationsCount = registrations.filter((r) => r.status !== 'DROPPED').length;
+  const activeRegistrationsCount = registrations.filter((r) => r.status?.toLowerCase() !== 'dropped').length;
+  const availableHK3Count = offerings.filter(
+    (o) => o.term === CURRENT_TERM && !isActiveRegistration(o.offeringId)
+  ).length;
+  const totalCredits = registrations
+    .filter((r) => r.status?.toLowerCase() !== 'dropped')
+    .reduce((sum, r) => sum + (r.offering.course.credits || 0), 0);
+  const MAX_CREDITS = 24;
 
   return (
     <div className="courses-container">
@@ -275,15 +276,9 @@ export default function CoursesPage() {
               className={`tab-btn ${activeTab === 'mine' ? 'tab-btn-active' : ''}`}
               onClick={() => setActiveTab('mine')}
             >
-              My Registrations {activeRegistrationsCount > 0 && `(${activeRegistrationsCount})`}
+              My Registrations {availableHK3Count > 0 && `(${availableHK3Count})`}
             </button>
           )}
-          <button
-            className={`tab-btn ${activeTab === 'mine' ? 'tab-btn-active' : ''}`}
-            onClick={() => setActiveTab('mine')}
-          >
-            My Registrations {activeRegistrationsCount > 0 && `(${activeRegistrationsCount})`}
-          </button>
         </div>
       </div>
 
@@ -362,6 +357,7 @@ export default function CoursesPage() {
                     {offerings.map((offering) => {
                       const registered = isActiveRegistration(offering.offeringId);
                       const full = offering.availableSeats <= 0;
+                      const isCompletedTerm = COMPLETED_TERMS.includes(offering.term);
                       return (
                         <tr className="registration-row" key={offering.offeringId}>
                           <td data-label="Code">{offering.course.courseCode}</td>
@@ -378,14 +374,20 @@ export default function CoursesPage() {
                           <td data-label="Department">{offering.course.department}</td>
                           <td data-label="Schedule">{offering.schedule}</td>
                           <td data-label="Seats">
-                            <span className={seatBadgeClass(offering)}>
-                              {offering.availableSeats > 0
-                                ? `${offering.availableSeats} seats left`
-                                : 'Full'}
-                            </span>
+                            {isCompletedTerm ? (
+                              <span>—</span>
+                            ) : (
+                              <span className={seatBadgeClass(offering)}>
+                                {offering.availableSeats > 0
+                                  ? `${offering.availableSeats} seats left`
+                                  : 'Full'}
+                              </span>
+                            )}
                           </td>
                           <td data-label="Action" className="registration-action-cell">
-                            {isAdmin ? (
+                            {isCompletedTerm ? (
+                              <span>—</span>
+                            ) : isAdmin ? (
                               <button
                                 className="btn-edit register-btn"
                                 disabled
@@ -394,25 +396,25 @@ export default function CoursesPage() {
                               >
                                 Admin View
                               </button>
+                            ) : registered ? (
+                              <button
+                                className="btn-cancel drop-btn"
+                                disabled={droppingId != null}
+                                onClick={() => handleCancelFromBrowse(offering)}
+                              >
+                                {droppingId != null ? 'Cancelling...' : 'Cancel'}
+                              </button>
                             ) : (
                               <button
                                 className="btn-edit register-btn"
-                                disabled={
-                                  registered || full || registeringId === offering.offeringId
-                                }
+                                disabled={full || registeringId === offering.offeringId}
                                 onClick={() => handleRegister(offering)}
                               >
-                                {registered ? (
-                                  <>
-                                    <FaCheck /> Registered
-                                  </>
-                                ) : registeringId === offering.offeringId ? (
-                                  'Registering...'
-                                ) : full ? (
-                                  'Full'
-                                ) : (
-                                  'Register'
-                                )}
+                                {registeringId === offering.offeringId
+                                  ? 'Registering...'
+                                  : full
+                                    ? 'Full'
+                                    : 'Register'}
                               </button>
                             )}
                           </td>
@@ -457,18 +459,33 @@ export default function CoursesPage() {
           ) : registrations.length === 0 ? (
             <p className="empty-state">You haven't registered for any courses yet.</p>
           ) : (
-            <div className="registration-table-wrapper">
-              <table className="registration-table">
-                <thead>
+            <>
+              <div className="credits-summary">
+                <span>
+                  Total credits this term:{' '}
+                  <strong>
+                    {totalCredits} / {MAX_CREDITS}
+                  </strong>
+                </span>
+                {totalCredits >= MAX_CREDITS && (
+                  <span className="credits-warning">
+                    <FaTriangleExclamation /> Credit limit reached
+                  </span>
+                )}
+                {totalCredits >= MAX_CREDITS - 4 && totalCredits < MAX_CREDITS && (
+                  <span className="credits-near-limit">Approaching credit limit</span>
+                )}
+              </div>
+              <div className="registration-table-wrapper">
+                <table className="registration-table">
+                  <thead>
                   <tr>
                     <th>Code</th>
                     <th>Course Name</th>
                     <th>Section</th>
                     <th>Credits</th>
                     <th>Capacity</th>
-                    <th>Enrolled</th>
                     <th>Schedule</th>
-                    <th>Location</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -487,18 +504,15 @@ export default function CoursesPage() {
                       </td>
                       <td data-label="Section">{reg.offering.section}</td>
                       <td data-label="Credits">{reg.offering.course.credits}</td>
-                      <td data-label="Capacity">{reg.offering.course.capacity}</td>
-                      <td data-label="Enrolled">{reg.offering.enrolledCount}</td>
-                      <td data-label="Schedule">{reg.offering.schedule}</td>
-                      <td data-label="Location">
-                        {reg.offering.location}
-                        {reg.offering.room ? ` – Room ${reg.offering.room}` : ''}
+                      <td data-label="Capacity">
+                        {reg.offering.enrolledCount}/{reg.offering.course.capacity}
                       </td>
+                      <td data-label="Schedule">{reg.offering.schedule}</td>
                       <td data-label="Status">
                         <span className={statusBadgeClass(reg.status)}>{reg.status}</span>
                       </td>
                       <td data-label="Action" className="registration-action-cell">
-                        {reg.status !== 'DROPPED' && (
+                        {reg.status?.toLowerCase() !== 'dropped' && (
                           <button
                             className="btn-cancel drop-btn"
                             disabled={droppingId === reg.registrationId}
@@ -513,6 +527,7 @@ export default function CoursesPage() {
                 </tbody>
               </table>
             </div>
+            </>
           )}
         </div>
       )}

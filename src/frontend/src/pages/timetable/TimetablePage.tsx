@@ -23,7 +23,7 @@ function TimetablePage() {
   const { user } = useAuth();
   const isAdmin = user?.role === ROLES.ADMIN;
   const [schedule, setSchedule] = useState<TimetableItem[]>([]);
-  const [selectedTerm, setSelectedTerm] = useState<string>('2024-2025-HK2');
+  const [selectedTerm, setSelectedTerm] = useState<string>('HKIII 2025-2026');
   const [loading, setLoading] = useState<boolean>(true);
 
   const getTimeSlot = (periods: number): string => {
@@ -85,7 +85,7 @@ function TimetablePage() {
 
           return {
             id: item.registrationId || item.id || index,
-            term: offering.term || offering.semester || item.term || '2024-2025-HK2',
+            term: offering.term || offering.semester || item.term || 'HKIII 2025-2026',
             day: rawDay,
             courseCode: course.courseCode || offering.courseCode || 'N/A',
             courseName: course.courseName || course.name || offering.courseName || 'N/A',
@@ -199,8 +199,9 @@ function TimetablePage() {
             value={selectedTerm}
             onChange={(e) => setSelectedTerm(e.target.value)}
           >
-            <option value="2024-2025-HK2">Semester 2 (2024 - 2025)</option>
-            <option value="2024-2025-HK1">Semester 1 (2024 - 2025)</option>
+            <option value="HKI 2025-2026">HKI 2025-2026</option>
+            <option value="HKII 2025-2026">HKII 2025-2026</option>
+            <option value="HKIII 2025-2026">HKIII 2025-2026</option>
           </select>
         </div>
       </div>

@@ -18,7 +18,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -44,6 +49,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         this.offeringRepository = offeringRepository;
         this.registrationRepository = registrationRepository;
     }
+
+    private static final int MAX_CREDITS_PER_TERM = 24;
 
     @Override
     public EnrollmentResponse registerCourse(String username, EnrollmentRequest request) {
@@ -78,7 +85,51 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                     + ", currently enrolled: " + enrolledCount);
         }
 
-        // 5. Create the registration record
+        // 5. Check credit limit for the term (max 24 credits per semester)
+        List<CourseRegistration> activeRegistrations =
+                registrationRepository.findByStudentIdWithOfferingAndCourse(student.getStudentId());
+        String targetTerm = offering.getTerm();
+
+        int currentCredits = activeRegistrations.stream()
+                .filter(r -> !"Dropped".equals(r.getStatus()))
+                .filter(r -> targetTerm != null && targetTerm.equals(r.getOffering().getTerm()))
+                .mapToInt(r -> {
+                    Integer credits = r.getOffering().getCourse().getCredits();
+                    return credits != null ? credits : 0;
+                })
+                .sum();
+        int newCourseCredits = offering.getCourse().getCredits() != null
+                ? offering.getCourse().getCredits() : 0;
+
+        if (currentCredits + newCourseCredits > MAX_CREDITS_PER_TERM) {
+            throw new EnrollmentException(
+                    "Credit limit exceeded for term " + targetTerm
+                    + ". Currently registered: " + currentCredits + " credits"
+                    + ", this course: " + newCourseCredits + " credits"
+                    + ", max allowed: " + MAX_CREDITS_PER_TERM + " credits.");
+        }
+
+        // 6. Detect schedule conflicts (do not block — collect warnings)
+        List<String> conflictWarnings = new java.util.ArrayList<>();
+        String newSchedule = offering.getSchedule();
+
+        if (newSchedule != null && !newSchedule.isBlank()) {
+            for (CourseRegistration activeReg : activeRegistrations) {
+                if (!"Dropped".equals(activeReg.getStatus())) {
+                    String existingSchedule = activeReg.getOffering().getSchedule();
+                    if (existingSchedule != null && !existingSchedule.isBlank()
+                            && hasScheduleConflict(newSchedule, existingSchedule)) {
+                        conflictWarnings.add(
+                                "Schedule conflict with "
+                                + activeReg.getOffering().getCourse().getCourseCode()
+                                + " - " + activeReg.getOffering().getSection()
+                                + " (" + existingSchedule + ")");
+                    }
+                }
+            }
+        }
+
+        // 7. Create the registration record
         CourseRegistration registration = new CourseRegistration();
         registration.setStudent(student);
         registration.setOffering(offering);
@@ -86,10 +137,11 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         registration.setRegisteredAt(LocalDateTime.now());
 
         CourseRegistration saved = registrationRepository.save(registration);
-        log.info("Registration created: id={}, student={}, offering={}, status={}",
-                saved.getRegistrationId(), username, offering.getOfferingId(), saved.getStatus());
+        log.info("Registration created: id={}, student={}, offering={}, status={}, warnings={}",
+                saved.getRegistrationId(), username, offering.getOfferingId(),
+                saved.getStatus(), conflictWarnings.size());
 
-        return mapToEnrollmentResponse(saved);
+        return mapToEnrollmentResponse(saved, conflictWarnings);
     }
 
     @Override
@@ -149,6 +201,14 @@ public class EnrollmentServiceImpl implements EnrollmentService {
      * Maps a CourseRegistration entity to its response DTO.
      */
     private EnrollmentResponse mapToEnrollmentResponse(CourseRegistration registration) {
+        return mapToEnrollmentResponse(registration, java.util.Collections.emptyList());
+    }
+
+    /**
+     * Maps a CourseRegistration entity to its response DTO, including schedule warnings.
+     */
+    private EnrollmentResponse mapToEnrollmentResponse(CourseRegistration registration,
+                                                        List<String> warnings) {
         CourseOfferingResponse offeringDto = mapToOfferingResponse(registration.getOffering());
 
         return new EnrollmentResponse(
@@ -156,7 +216,8 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 registration.getStudent().getStudentId(),
                 registration.getStatus(),
                 registration.getRegisteredAt(),
-                offeringDto
+                offeringDto,
+                warnings
         );
     }
 
@@ -199,5 +260,86 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 course.getSemester(),
                 course.getCapacity()
         );
+    }
+
+    // ── Schedule conflict helpers ──────────────────────────────
+
+    /**
+     * Checks whether two schedule strings overlap in both day and time.
+     *
+     * <p>Expected formats:</p>
+     * <ul>
+     *   <li>{@code "Mon/Wed 09:00 - 10:30"}</li>
+     *   <li>{@code "Tue/Thu 11:00 - 12:30"}</li>
+     *   <li>{@code "Fri 14:00 - 16:00"}</li>
+     * </ul>
+     *
+     * @param schedule1 the new offering's schedule
+     * @param schedule2 an existing registration's schedule
+     * @return true if the schedules overlap in both day and time
+     */
+    private boolean hasScheduleConflict(String schedule1, String schedule2) {
+        Set<String> days1 = extractDays(schedule1);
+        Set<String> days2 = extractDays(schedule2);
+
+        // If no common day, there is no conflict
+        Set<String> commonDays = new HashSet<>(days1);
+        commonDays.retainAll(days2);
+        if (commonDays.isEmpty()) {
+            return false;
+        }
+
+        // Check time range overlap
+        int[] time1 = extractTimeRange(schedule1);
+        int[] time2 = extractTimeRange(schedule2);
+
+        if (time1 == null || time2 == null) {
+            return false; // Cannot parse times — assume no conflict
+        }
+
+        // Two intervals overlap when: start1 < end2 AND start2 < end1
+        return time1[0] < time2[1] && time2[0] < time1[1];
+    }
+
+    /**
+     * Extracts day-of-week abbreviations from a schedule string.
+     *
+     * <p>Recognises standard 3-letter abbreviations:</p>
+     * {@code Mon, Tue, Wed, Thu, Fri, Sat, Sun}.
+     */
+    private Set<String> extractDays(String schedule) {
+        Set<String> days = new HashSet<>();
+        if (schedule == null || schedule.isBlank()) return days;
+
+        String[] parts = schedule.split("\\s+");
+        for (String part : parts) {
+            if (part.contains("/")) {
+                days.addAll(Arrays.asList(part.split("/")));
+            } else if (part.matches("^(Mon|Tue|Wed|Thu|Fri|Sat|Sun)$")) {
+                days.add(part);
+            }
+        }
+        return days;
+    }
+
+    /**
+     * Extracts start and end time from a schedule string as minutes since midnight.
+     *
+     * <p>Matches patterns like {@code "09:00 - 10:30"} and returns
+     * {@code [startMinutes, endMinutes]}, or {@code null} if no time range is found.</p>
+     */
+    private int[] extractTimeRange(String schedule) {
+        if (schedule == null || schedule.isBlank()) return null;
+
+        Pattern pattern = Pattern.compile("(\\d{1,2}):(\\d{2})\\s*-\\s*(\\d{1,2}):(\\d{2})");
+        Matcher matcher = pattern.matcher(schedule);
+        if (matcher.find()) {
+            int startMinutes = Integer.parseInt(matcher.group(1)) * 60
+                             + Integer.parseInt(matcher.group(2));
+            int endMinutes = Integer.parseInt(matcher.group(3)) * 60
+                           + Integer.parseInt(matcher.group(4));
+            return new int[]{startMinutes, endMinutes};
+        }
+        return null;
     }
 }

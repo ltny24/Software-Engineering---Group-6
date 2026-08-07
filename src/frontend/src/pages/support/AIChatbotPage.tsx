@@ -5,12 +5,14 @@
 // ============================================================
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { FaRobot, FaPaperPlane } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { FaRobot, FaPaperPlane, FaArrowLeft } from 'react-icons/fa6';
 import { useChatbot } from '../../components/chatbot/ChatbotContext';
 import { askGeminiStream } from '../../services/geminiService';
 import type { ChatMessage } from '../../types/chatbot.types';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
+import { ROUTES } from '../../utils/constants';
 import './AIChatbotPage.css';
 
 const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. Tôi có thể giúp bạn:
@@ -24,6 +26,7 @@ const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. 
 Hãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!`;
 
 export default function AIChatbotPage() {
+  const navigate = useNavigate();
   const { messages, setMessages } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -127,6 +130,17 @@ export default function AIChatbotPage() {
 
   return (
     <div className="chatbot-page">
+      {/* Back button */}
+      <div className="chatbot-top-bar">
+        <button
+          className="chatbot-back-btn"
+          onClick={() => navigate(ROUTES.SUPPORT)}
+          title="Back to Support"
+        >
+          <FaArrowLeft /> Back
+        </button>
+      </div>
+
       {/* Messages area */}
       <div className="chatbot-messages">
         {messages.map((msg) => (

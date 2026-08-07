@@ -11,6 +11,7 @@ export async function getCourses(params?: {
   size?: number;
   search?: string;
   department?: string;
+  term?: string;
 }): Promise<PagedResponse<CourseOffering>> {
   const { data } = await axiosInstance.get<PagedResponse<CourseOffering>>('/api/courses', {
     params,

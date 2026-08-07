@@ -1,6 +1,9 @@
 package com.myus.dto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Response DTO for enrollment (registration) results.
@@ -17,6 +20,7 @@ public class EnrollmentResponse {
     private String status;
     private LocalDateTime registeredAt;
     private CourseOfferingResponse offering;
+    private List<String> warnings;
 
     public EnrollmentResponse() {
     }
@@ -31,6 +35,21 @@ public class EnrollmentResponse {
         this.status = status;
         this.registeredAt = registeredAt;
         this.offering = offering;
+        this.warnings = Collections.emptyList();
+    }
+
+    public EnrollmentResponse(Long registrationId,
+                               Long studentId,
+                               String status,
+                               LocalDateTime registeredAt,
+                               CourseOfferingResponse offering,
+                               List<String> warnings) {
+        this.registrationId = registrationId;
+        this.studentId = studentId;
+        this.status = status;
+        this.registeredAt = registeredAt;
+        this.offering = offering;
+        this.warnings = warnings != null ? new ArrayList<>(warnings) : Collections.emptyList();
     }
 
     // ── Getters & Setters ──────────────────────────────────────
@@ -73,5 +92,13 @@ public class EnrollmentResponse {
 
     public void setOffering(CourseOfferingResponse offering) {
         this.offering = offering;
+    }
+
+    public List<String> getWarnings() {
+        return warnings;
+    }
+
+    public void setWarnings(List<String> warnings) {
+        this.warnings = warnings;
     }
 }

@@ -12,7 +12,9 @@ import {
   FaChevronUp,
   FaChevronLeft,
   FaChevronRight,
+  FaArrowLeft,
 } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
 import {
   getFaqById,
   getFaqCategories,
@@ -21,6 +23,7 @@ import {
   submitFaqFeedback,
 } from '../../services/faqService';
 import type { FAQArticle } from '../../types';
+import { ROUTES } from '../../utils/constants';
 import './FaqPage.css';
 
 const PAGE_SIZE = 8;
@@ -90,6 +93,7 @@ function loadBookmarks(): FAQArticle[] {
 }
 
 export default function FaqPage() {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchInput, setSearchInput] = useState<string>('');
@@ -357,6 +361,13 @@ export default function FaqPage() {
   return (
     <div className="faq-container">
       <div className="faq-header">
+        <button
+          className="faq-back-btn"
+          onClick={() => navigate(ROUTES.SUPPORT)}
+          title="Back to Support"
+        >
+          <FaArrowLeft /> Back
+        </button>
         <h2>
           <FaCircleQuestion style={{ marginRight: '8px' }} /> Help &amp; FAQ
         </h2>

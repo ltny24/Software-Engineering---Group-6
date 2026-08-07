@@ -28,12 +28,12 @@ const formatDeadline = (value: Date) =>
 
 const inputStyle: React.CSSProperties = {
   width: '100%',
-  border: '1px solid rgba(100,140,200,0.2)',
+  border: '1px solid var(--color-border, rgba(100,140,200,0.2))',
   borderRadius: 8,
   padding: '10px 12px',
   fontSize: 14,
-  color: '#E2E8F0',
-  backgroundColor: '#fff',
+  color: 'var(--color-text, #334155)',
+  backgroundColor: 'var(--color-surface, #fff)',
   outline: 'none',
   boxSizing: 'border-box',
 };
