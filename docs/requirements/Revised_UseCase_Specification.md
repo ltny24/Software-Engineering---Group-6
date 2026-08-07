@@ -1086,39 +1086,35 @@ This use case allows the Administrator to review and process student appeals.
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
-1. The Administrator selects **Appeal Processing Management**.
-2. The system displays the submitted appeals.
-3. The Administrator selects an appeal.
-4. The system displays the student information, appeal details, supporting documents, payment information, and current status.
+1. The Administrator accesses **Appeal Processing Management**.
+2. The system displays the list of submitted appeals.
 
-   ![](Prototype_Req/admin/appeal/appeal.jpg)
+   ![](Prototype_Req/admin/appeal_processing.jpg)
 
-5. The Administrator reviews the appeal.
-6. If the appeal requires a processing fee:
+3. The Administrator selects an appeal to view its details.
 
-   6.1. The Administrator performs **UC-12a – Set Fee Payment Deadline**.
+![](Prototype_Req/admin/appeal_detail.jpg)
 
-7. The Administrator performs **UC-12b – Update Appeal Status**.
-8. If the appeal information is updated successfully (Details in UC-16):
+4. The Administrator updates the appeal status (**UC-12b – Update Appeal Status**).
 
-   8.1. The system records the changes in the appeal history.
+![](Prototype_Req/admin/update_appeal.jpg)
 
-   8.2. The system notifies the student.
+5. If the update is successful, the system saves the changes, notifies the student, and displays the updated appeal.
 
-   8.3. The system displays the updated appeal.
+![](Prototype_Req/admin/update_appeal_success.jpg)
 
-9. Else:
+6. If the update fails, the system displays an error message and keeps the previous information unchanged.
 
-   9.1. The system displays an error message.
-
-   9.2. The system keeps the previous appeal information unchanged.
+![](Prototype_Req/admin/update_appeal_fail.jpg)
 
 ### 3.2 Alternative Flows
-- **3.2.1 AF1 – No matching appeal found:** If no appeal matches the Administrator’s search or filters, the system displays a no-results message and lets the Administrator refine the criteria.
-- **3.2.2 AF2 – Additional information required:** If the appeal needs more details, the Administrator requests it, the system updates the appeal record, and the student is notified to supply the missing information.
-- **3.2.3 AF3 – Appeal already finalized:** If the appeal has reached a final status, the system shows the final decision and prevents further changes unless the appeal is reopened by an authorized Administrator.
-- **3.2.4 AF4 – Cancel before save:** At any time before saving changes, the Administrator may cancel the operation; the system discards unsaved modifications and preserves the current appeal state.
-- **3.2.5 AF5 – Permission denied:** If the Administrator lacks permission to process the appeal, access is denied and the system displays an authorization error.
+- **3.2.1 AF1 – No matching appeal found:** If no appeal matches the search criteria, the system displays a no-results message.
+
+![](Prototype_Req/admin/no_appeal_search.jpg)
+
+- **3.2.2 AF2 – Appeal already finalized:** If the appeal has reached a final status, the system prevents further changes.
+
+![](Prototype_Req/admin/appeal_close.jpg)
 
 ## 4. Postconditions
 - The appeal’s payment deadline and/or processing status are updated, and the student is notified, according to the outcomes of UC-15 – Set Fee Payment Deadline and UC-16 – Update Appeal Status.
@@ -1148,41 +1144,33 @@ This use case allows the Administrator to set or change the payment deadline for
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
-1. The Administrator selects **Set Fee Payment Deadline**.
-2. The system displays the fee amount, payment status, and current deadline, if available.
+1. The Administrator accesses **Set Fee Payment Deadline** and enters a new deadline.
 
-   ![](Prototype_Req/admin/appeal/deadline.jpg)
+![](Prototype_Req/admin/fee_dl.jpg)
 
-3. The Administrator enters a payment deadline.
-4. The system validates the selected deadline.
-5. If the deadline is valid:
+2. The system validates the entered deadline.
 
-   5.1. The system displays the deadline for confirmation.
+![](Prototype_Req/admin/fee_dl_cf.jpg)
 
-   5.2. The Administrator confirms the deadline.
+3. If the deadline is valid, the system saves the deadline, updates the appeal history, and notifies the student.
 
-   5.3. The system saves the deadline.
+![](Prototype_Req/admin/fee_dl_success.jpg)
 
-   ![](Prototype_Req/admin/appeal/deadline_successful.jpg)
+4. If the deadline is invalid, the system displays an error message and asks the Administrator to re-enter.
 
-6. Else:
+![](Prototype_Req/admin/fee_dl_fail.jpg)
 
-   6.1. The system explains why the deadline is invalid.
-
-   6.2. The system asks the Administrator to enter another deadline.
-
-   ![](Prototype_Req/admin/appeal/deadline_failed.jpg)
-
-7. The system records the deadline in the appeal history.
-8. The system notifies the student.
-
-   ![](Prototype_Req/admin/appeal/deadline_done.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Existing deadline being changed:** If a payment deadline already exists, the Administrator enters a new deadline and a reason for the change; the system records both the prior and the updated deadline.
-- **3.2.2 AF2 – Fee already paid or no fee required:** If the fee has already been paid or is no longer required, the system prevents deadline setting and displays current payment status.
-- **3.2.3 AF3 – Invalid deadline:** If the chosen deadline is not valid (e.g., earlier than today or outside service hours), the system explains the issue and prompts for a corrected date/time.
-- **3.2.4 AF4 – Cancel before confirmation:** The Administrator may cancel before confirming; the system keeps the previous deadline unchanged.
+
+![](Prototype_Req/admin/fee_dl_reason.jpg)
+
+- **3.2.2 AF2 – Fee already paid or no fee required:** If the fee has already been paid, the system prevents deadline setting and displays current payment status.
+
+![](Prototype_Req/admin/fee_dl_status.jpg)
+
+- **3.2.3 AF3 – Cancel before confirmation:** The Administrator may cancel before confirming; the system keeps the previous deadline unchanged.
 
 ## 4. Postconditions
 - A valid payment deadline is associated with the appeal.
@@ -1212,42 +1200,28 @@ This use case allows the Administrator to change the processing status of an app
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
-1. The Administrator selects **Update Appeal Status**.
-2. The system displays the current status and the permitted next statuses.
+1. The Administrator accesses Update Appeal Status, selects a new status, and enters a processing note.
 
-   ![](Prototype_Req/admin/appeal/status.jpg)
+![](Prototype_Req/admin/update_appeal.jpg)
 
-3. The Administrator selects a new status.
-4. The Administrator enters a processing note.
-5. The system validates the selected status and required information.
-6. If the status change is valid:
+2. The system validates the selected status and information.
+3. If the update is valid, the system saves the new status, updates the appeal history, and notifies the student.
 
-   6.1. The system displays a summary of the change.
+![](Prototype_Req/admin/update_appeal_success.jpg)
 
-   6.2. The Administrator confirms the update.
+4. If the update is invalid (e.g., missing information), the system displays an error message and asks the Administrator to correct it.
 
-   6.3. The system saves the new status.
+![](Prototype_Req/admin/update_appeal_fail.jpg)
 
-   ![](Prototype_Req/admin/appeal/status_successful.jpg)
-
-7. Else:
-
-   7.1. The system identifies the invalid or missing information.
-
-   7.2. The system asks the Administrator to correct the update.
-
-   ![](Prototype_Req/admin/appeal/status_failed.jpg)
-
-8. The system records the status change in the appeal history.
-9. The system notifies the student.
-
-   ![](Prototype_Req/admin/appeal/updated.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Additional information requested:** If the Administrator needs more details before changing status, they request it and the system notifies the student of the required information.
+
+![](Prototype_Req/admin/appeal_request.jpg)
+
 - **3.2.2 AF2 – Reopen completed appeal:** If the Administrator reopens a completed appeal, the system verifies permission, captures a reopening reason, and moves the appeal back to an active status.
-- **3.2.3 AF3 – Invalid status transition:** If the selected status is not permitted from the current state, the system prevents the change and explains the allowed next statuses.
-- **3.2.4 AF4 – Cancel before confirmation:** The Administrator may cancel the update before confirmation; the system leaves the previous status unchanged.
+![](Prototype_Req/admin/appeal_reopen.jpg)
+
 
 ## 4. Postconditions
 - The appeal has the selected valid status.
@@ -1278,38 +1252,31 @@ Allows the Administrator to access and review student records through a searchab
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
-1. The Administrator selects **Student Data Administration**.
-2. The system displays the student search page.
-3. The Administrator performs **UC-13a – Search Student Records**.
-4. If one or more matching students are found:
+1. The Administrator accesses Student Data Administration and searches for students **(UC-13a – Search Student Records)**.
 
-   4.1. The system displays the matching student records.
+![](Prototype_Req/admin/student_data_per.jpg)
 
-   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
+2. If one or more matching students are found:
 
-   4.2. The Administrator selects a student.
+   2.1. The system displays the matching student records.
 
-   4.3. The system displays the student information permitted by the Administrator’s role.
+   ![](Prototype_Req/admin/student_data_search_match.jpg)
 
-   ![](Prototype_Req/admin/data_admin/info.jpg)
+   2.2. The Administrator selects a student.
 
-5. Else:
+   2.3. The system displays the student information permitted by the Administrator’s role.
 
-   5.1. The system informs the Administrator that no matching student was found.
+   ![](Prototype_Req/admin/data_admin/student_data_inf.jpg)
 
-   ![](Prototype_Req/admin/data_admin/no_results.jpg)
+3. Else: The system informs the Administrator that no matching student was found.
 
-6. The system records access to the student record when required.
+   ![](Prototype_Req/admin/data_admin/student_data_search_nomatch.jpg)
+
 
 ### 3.2 Alternative Flows
-- **3.2.1 AF1 – No search results:** If no matching students are found, the system displays a no-results message and suggests refining the criteria.
-- **3.2.2 AF2 – Restricted student record:** If a matching student’s record is restricted or archived, the system indicates the restriction and limits the displayed data accordingly.
+- **3.2.1 AF1 – Restricted student record:** If a matching student’s record is restricted or archived, the system indicates the restriction and limits the displayed data accordingly.
 
-   ![](Prototype_Req/admin/data_admin/restricted.jpg)
-
-- **3.2.3 AF3 – Permission denied:** If the Administrator does not have permission to view student records, the system denies access and displays an authorization error.
-
-   ![](Prototype_Req/admin/data_admin/unauthorized.jpg)
+   ![](Prototype_Req/admin/student_data_archive.jpg)
 
 ## 4. Postconditions
 - The selected student information may be displayed according to the Administrator’s permissions.
@@ -1339,48 +1306,38 @@ Allows the Administrator to search for students by one or more criteria and sele
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
-1. The system asks the Administrator for search criteria.
-2. The Administrator enters one or more criteria, such as student ID, name, program, class, or status.
-3. The system validates the search criteria.
-4. If the criteria are valid:
+1. The system asks the Administrator for search criteria (such as student ID, name, program, class, or status).
+2. The system validates the search criteria.
+3. If the criteria are valid: The system searches for matching student records.
 
-   4.1. The system searches for matching student records.
+   ![](Prototype_Req/admin/student_data_result.jpg)
 
-   ![](Prototype_Req/admin/data_admin/result.jpg)
+4. Else: The system identifies the invalid criteria and asks the Administrator to correct them.
 
-5. Else:
+5. If matching student records are found:
 
-   5.1. The system identifies the invalid criteria and asks the Administrator to correct them.
+   5.1. The system displays the student ID, name, program, class, and status of each matching student.
 
-6. If matching student records are found:
+   ![](Prototype_Req/admin/data_admin/student_data_search_match.jpg)
 
-   6.1. The system displays the student ID, name, program, class, and status of each matching student.
+   5.2. The Administrator may sort or filter the results.
 
-   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
+   5.3. The Administrator selects a student.
 
-   6.2. The Administrator may sort or filter the results.
+   5.4. The system displays the permitted student information.
 
-   6.3. The Administrator selects a student.
+   ![](Prototype_Req/admin/student_data_inf.jpg)
 
-   6.4. The system displays the permitted student information.
+6. Else: The system informs the Administrator that no matching student was found.
 
-   ![](Prototype_Req/admin/data_admin/info.jpg)
-
-7. Else:
-
-   7.1. The system informs the Administrator that no matching student was found.
-
-   ![](Prototype_Req/admin/data_admin/no_results.jpg)
+   ![](Prototype_Req/admin/student_data_search_nomatch.jpg)
 
 ### 3.2 Alternative Flows
-- **3.2.1 AF1 – Invalid search criteria:** If the input is incomplete or invalid, the system requests corrected criteria.
-- **3.2.2 AF2 – Too many results:** If a large result set is returned, the system paginates the results and suggests adding filters.
+- **3.2.1 AF1 – No search results:** If no matching students are found, the system displays a no-results message.
 
-   ![](Prototype_Req/admin/data_admin/multiple_results.jpg)
+- **3.2.2 AF2 – Restricted or archived record:** If the selected student record is restricted, the system limits the displayed data accordingly.
 
-- **3.2.3 AF3 – Restricted or archived record:** If a found student record is restricted or archived, the system hides unauthorized details and shows the restriction status.
-
-   ![](Prototype_Req/admin/data_admin/restricted.jpg)
+   ![](Prototype_Req/admin/student_data_archive.jpg)
 
 ## 4. Postconditions
 - Matching student records may be displayed.
