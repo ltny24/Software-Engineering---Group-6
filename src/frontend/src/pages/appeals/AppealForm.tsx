@@ -43,13 +43,13 @@ const labelStyle: React.CSSProperties = {
   marginBottom: 8,
   fontSize: 14,
   fontWeight: 600,
-  color: '#334155',
+  color: 'var(--color-text, #1e293b)',
 };
 
 const helperTextStyle: React.CSSProperties = {
   marginTop: 8,
   fontSize: 13,
-  color: '#64748b',
+  color: 'var(--color-text-secondary, #64748b)',
 };
 
 const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
@@ -95,7 +95,8 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
   const loadConfig = async () => {
     try {
       setLoadingConfig(true);
-      const data = await api.get<AppealConfigResponse>('/api/appeals/config');
+      const res: any = await api.get('/appeals/config').catch(() => api.get('/api/appeals/config'));
+      const data = res?.data ?? res;
       setConfig(data);
       setConfigLoaded(true);
     } catch {
@@ -108,18 +109,30 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
 
   const loadGradeOptions = async () => {
     try {
-      const data = await api.get<
-        Array<{
-          gradeId: number;
-          courseCode?: string;
-          courseName?: string;
-          currentGrade: string;
-          term?: string;
-          isFinalized?: boolean;
-          isEligibleForAppeal?: boolean;
-        }>
-      >('/api/v1/grades/me');
-      setGradeOptions(Array.isArray(data) ? data : []);
+      const res: any = await api
+        .get('/appeals/grades')
+        .catch(() => api.get('/api/v1/grades/me'))
+        .catch(() => api.get('/api/appeals/grades'));
+      const rawList = Array.isArray(res) ? res : Array.isArray(res?.data) ? res.data : [];
+      const mapped = rawList.map((item: any) => ({
+        gradeId: item.gradeId,
+        courseCode: item.courseCode || 'N/A',
+        courseName: item.courseName || 'N/A',
+        currentGrade:
+          item.currentGrade != null
+            ? String(item.currentGrade)
+            : item.gradeValue != null
+              ? String(item.gradeValue)
+              : item.gradePoint != null
+                ? String(item.gradePoint)
+                : item.overallScore != null
+                  ? String(item.overallScore)
+                  : 'N/A',
+        term: item.term,
+        isFinalized: item.isFinalized !== false,
+        isEligibleForAppeal: item.isEligibleForAppeal !== false,
+      }));
+      setGradeOptions(mapped);
     } catch {
       setGradeOptions([]);
     }
@@ -138,8 +151,11 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
   }, [config]);
 
   const deadlinePassed = useMemo(
-    () => effectiveDeadline.getTime() < Date.now(),
-    [effectiveDeadline]
+    () =>
+      config?.submissionDeadline || config?.deadline
+        ? effectiveDeadline.getTime() < Date.now()
+        : false,
+    [config, effectiveDeadline]
   );
   const deadlineLabel = useMemo(() => formatDeadline(effectiveDeadline), [effectiveDeadline]);
 
@@ -155,7 +171,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
   const blockingMessage = blockedByEligibility
     ? 'Không có môn học nào đủ điều kiện phúc khảo'
     : blockedByDeadline
-      ? 'Hạn phúc khảo đã kết thúc. Không thể gửi đơn mới.'
+      ? 'Hạn nộp đơn phúc khảo đã kết thúc. Không thể gửi đơn mới.'
       : null;
 
   const validate = () => {
@@ -245,15 +261,28 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           justifyContent: 'space-between',
           padding: '16px 18px',
           borderRadius: 12,
-          border: '1px solid rgba(100,140,200,0.15)',
-          backgroundColor: 'rgba(15,23,50,0.3)',
+          border: '1px solid var(--color-border, rgba(100,140,200,0.2))',
+          backgroundColor: 'var(--color-surface-elevated, #F0F4F9)',
         }}
       >
         <div>
-          <h3 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: '#E2E8F0' }}>
+          <h3
+            style={{
+              margin: 0,
+              fontSize: 20,
+              fontWeight: 700,
+              color: 'var(--color-text, #0F172A)',
+            }}
+          >
             Submit a grade appeal
           </h3>
-          <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: 14 }}>
+          <p
+            style={{
+              margin: '6px 0 0',
+              color: 'var(--color-text-secondary, #475569)',
+              fontSize: 14,
+            }}
+          >
             Submit an appeal for one of your own finalized grades and attach supporting evidence.
           </p>
         </div>
@@ -269,9 +298,7 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
               fontWeight: 600,
             }}
           >
-            {deadlinePassed
-              ? `Submission window closed. Deadline: ${deadlineLabel}`
-              : `Submission window: ${deadlineLabel}`}
+            Deadline / Hạn nộp đơn phúc khảo: {deadlineLabel}
           </div>
         )}
       </div>
@@ -297,8 +324,8 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           marginBottom: 20,
           padding: 16,
           borderRadius: 12,
-          border: '1px solid rgba(100,140,200,0.15)',
-          backgroundColor: 'rgba(15,23,50,0.3)',
+          border: '1px solid var(--color-border, rgba(100,140,200,0.15))',
+          backgroundColor: 'var(--color-surface-elevated, #EBF3FA)',
         }}
       >
         <div
@@ -310,10 +337,23 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           }}
         >
           <div>
-            <p style={{ margin: 0, fontSize: 14, fontWeight: 700, color: '#334155' }}>
+            <p
+              style={{
+                margin: 0,
+                fontSize: 14,
+                fontWeight: 700,
+                color: 'var(--color-text, #0F172A)',
+              }}
+            >
               What to include in your appeal
             </p>
-            <p style={{ margin: '6px 0 0', fontSize: 13, color: '#64748b' }}>
+            <p
+              style={{
+                margin: '6px 0 0',
+                fontSize: 13,
+                color: 'var(--color-text-secondary, #475569)',
+              }}
+            >
               Choose one of your own grades, explain the issue clearly, and attach a supporting
               document when possible.
             </p>
@@ -323,11 +363,11 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
               alignSelf: 'flex-start',
               padding: '6px 10px',
               borderRadius: 999,
-              backgroundColor: '#fff',
-              color: '#334155',
+              backgroundColor: 'var(--color-surface, #fff)',
+              color: 'var(--color-text, #1e293b)',
               fontSize: 13,
               fontWeight: 600,
-              border: '1px solid rgba(100,140,200,0.15)',
+              border: '1px solid var(--color-border, rgba(100,140,200,0.2))',
             }}
           >
             {form.reason.trim().length < 50 ? 'Drafting' : 'Ready to submit'}
@@ -412,14 +452,14 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
             <input
               id="currentGrade"
               type="text"
-              style={{ ...inputStyle, cursor: formDisabled ? 'not-allowed' : 'text' }}
-              placeholder="Example: 7.5 or B+"
-              value={form.currentGrade}
-              onChange={(event) => {
-                setSubmitError(null);
-                setForm((current) => ({ ...current, currentGrade: event.target.value }));
+              style={{
+                ...inputStyle,
+                cursor: 'not-allowed',
+                backgroundColor: 'rgba(100,140,200,0.1)',
               }}
-              disabled={formDisabled}
+              placeholder="Auto-filled when course is selected"
+              value={form.currentGrade}
+              readOnly
             />
             {errors.currentGrade && (
               <p style={{ marginTop: 8, fontSize: 13, color: '#dc2626' }}>{errors.currentGrade}</p>

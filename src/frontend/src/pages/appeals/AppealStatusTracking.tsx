@@ -24,8 +24,15 @@ const AppealStatusTracking: React.FC = () => {
   const loadAppeals = async () => {
     try {
       setLoading(true);
-      const data = await api.get<AppealRecord[]>('/api/appeals/me');
-      setAppeals(Array.isArray(data) ? data : []);
+      const res: any = await api.get('/api/appeals/me');
+      const list = Array.isArray(res)
+        ? res
+        : Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res?.content)
+            ? res.content
+            : [];
+      setAppeals(list);
     } catch {
       toast.error('Could not load your appeal history.');
     } finally {
@@ -96,12 +103,12 @@ const AppealStatusTracking: React.FC = () => {
     return (
       <div
         style={{
-          border: '1px dashed rgba(100,140,200,0.2)',
+          border: '1px dashed var(--color-border, rgba(100,140,200,0.2))',
           borderRadius: 12,
-          backgroundColor: 'rgba(15,23,50,0.3)',
+          backgroundColor: 'var(--color-surface-elevated, #F0F4F9)',
           padding: 24,
           textAlign: 'center',
-          color: '#94A3B8',
+          color: 'var(--color-text-secondary, #64748b)',
         }}
       >
         You have no appeals yet. Submit your first request to start tracking it here.
@@ -115,8 +122,8 @@ const AppealStatusTracking: React.FC = () => {
         <thead>
           <tr
             style={{
-              backgroundColor: '#fff',
-              color: '#64748b',
+              backgroundColor: 'var(--color-surface, #fff)',
+              color: 'var(--color-text-secondary, #64748b)',
               textTransform: 'uppercase',
               fontSize: 12,
             }}
@@ -153,37 +160,37 @@ const AppealStatusTracking: React.FC = () => {
               <tr
                 key={appeal.appealId ?? `${appeal.courseCode}-${appeal.gradeId}`}
                 style={{
-                  borderTop: index === 0 ? '1px solid rgba(100,140,200,0.15)' : 'none',
-                  backgroundColor: index % 2 === 0 ? 'rgba(22,32,65,0.4)' : 'rgba(15,23,50,0.3)',
+                  borderTop: index === 0 ? '1px solid var(--color-border, rgba(100,140,200,0.15))' : 'none',
+                  backgroundColor: index % 2 === 0 ? 'var(--color-surface-elevated, #F8FAFC)' : 'var(--color-surface, #fff)',
                 }}
               >
                 <td style={{ padding: '16px 16px', verticalAlign: 'top' }}>
-                  <div style={{ fontWeight: 700, color: '#E2E8F0' }}>
+                  <div style={{ fontWeight: 700, color: 'var(--color-text, #1e293b)' }}>
                     {appeal.courseCode || 'Course appeal'}
                   </div>
-                  <div style={{ marginTop: 4, color: '#64748b', fontSize: 13 }}>
+                  <div style={{ marginTop: 4, color: 'var(--color-text-secondary, #64748b)', fontSize: 13 }}>
                     {appeal.courseName || 'Grade review request'}
                   </div>
-                  <div style={{ marginTop: 6, color: '#64748b', fontSize: 12 }}>
+                  <div style={{ marginTop: 6, color: 'var(--color-text-secondary, #64748b)', fontSize: 12 }}>
                     Submitted {submittedAt}
                   </div>
                 </td>
                 <td style={{ padding: '16px 16px', verticalAlign: 'top' }}>
                   <div style={{ marginBottom: 8 }}>{renderStatusBadge(appeal.status)}</div>
-                  <div style={{ color: '#64748b', fontSize: 13 }}>{statusLabel}</div>
+                  <div style={{ color: 'var(--color-text-secondary, #64748b)', fontSize: 13 }}>{statusLabel}</div>
                 </td>
                 <td
                   style={{
                     padding: '16px 16px',
                     textAlign: 'right',
                     verticalAlign: 'top',
-                    color: '#334155',
+                    color: 'var(--color-text, #1e293b)',
                     fontWeight: 600,
                   }}
                 >
                   {appeal.gradeValue || 'Not provided'}
                 </td>
-                <td style={{ padding: '16px 16px', verticalAlign: 'top', color: '#334155' }}>
+                <td style={{ padding: '16px 16px', verticalAlign: 'top', color: 'var(--color-text, #1e293b)' }}>
                   <div style={{ fontSize: 13, lineHeight: 1.5 }}>{noteText}</div>
                   {canWithdraw && (
                     <button

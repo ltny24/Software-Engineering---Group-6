@@ -48,10 +48,10 @@ export const AppealFilterToolbar: React.FC<AppealFilterToolbarProps> = ({
             width: '100%',
             padding: '8px 14px',
             borderRadius: '6px',
-            border: '1px solid rgba(100,140,200,0.2)',
+            border: '1px solid var(--color-border, #CBD5E1)',
             fontSize: '14px',
-            color: '#1e293b',
-            backgroundColor: 'rgba(22, 32, 65, 0.85)',
+            color: 'var(--color-text, #1E293B)',
+            backgroundColor: 'var(--color-surface, #FFFFFF)',
             outline: 'none',
             cursor: 'pointer',
           }}

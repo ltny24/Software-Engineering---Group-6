@@ -52,7 +52,9 @@ public class GradeServiceImpl implements GradeService {
                 grade.getCourse() != null ? grade.getCourse().getCredits() : null,
                 grade.getGradeValue(),
                 grade.getGradePoint(),
-                grade.getGradePoint()
+                grade.getGradePoint(),
+                grade.getMidtermGrade(),
+                grade.getFinalGrade()
         );
     }
 }

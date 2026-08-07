@@ -1,8 +1,10 @@
 {
   "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": null,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "java.configuration.updateBuildConfiguration": "interactive"
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "css.lint.unknownAtRules": "ignore"
 }
+

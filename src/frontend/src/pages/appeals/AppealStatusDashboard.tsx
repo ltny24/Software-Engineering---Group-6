@@ -27,8 +27,15 @@ export const AppealStatusDashboard: React.FC = () => {
   const fetchAppeals = async () => {
     try {
       setLoading(true);
-      const data = await getMyAppealHistory();
-      setAppeals(data || []);
+      const res: any = await getMyAppealHistory();
+      const list = Array.isArray(res)
+        ? res
+        : Array.isArray(res?.data)
+          ? res.data
+          : Array.isArray(res?.content)
+            ? res.content
+            : [];
+      setAppeals(list);
     } catch (error) {
       toast.error('Failed to load grade appeal tracking data.');
       console.error(error);
@@ -44,7 +51,8 @@ export const AppealStatusDashboard: React.FC = () => {
       setDrawerOpen(true);
     } catch {
       // Fallback if detail call fails, map from summary
-      const item = appeals.find((a) => a.trackingCode === trackingCode);
+      const list = Array.isArray(appeals) ? appeals : [];
+      const item = list.find((a) => a.trackingCode === trackingCode);
       if (item) {
         setSelectedAppeal({
           ...item,
@@ -59,7 +67,8 @@ export const AppealStatusDashboard: React.FC = () => {
 
   // Filtered Appeals
   const filteredAppeals = useMemo(() => {
-    return appeals.filter((item) => {
+    const list = Array.isArray(appeals) ? appeals : [];
+    return list.filter((item) => {
       const query = searchQuery.trim().toLowerCase();
       const matchesSearch =
         !query ||
@@ -89,10 +98,17 @@ export const AppealStatusDashboard: React.FC = () => {
     <div style={{ padding: '32px 24px', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1152px', margin: '0 auto' }}>
         <div style={{ marginBottom: '24px' }}>
-          <h1 style={{ margin: 0, fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
+          <h1
+            style={{
+              margin: 0,
+              fontSize: '28px',
+              fontWeight: 700,
+              color: 'var(--color-text, #0F172A)',
+            }}
+          >
             Track Grade Appeal Status
           </h1>
-          <p style={{ marginTop: '8px', color: '#64748b' }}>
+          <p style={{ marginTop: '8px', color: 'var(--color-text-secondary, #64748b)' }}>
             Monitor appeal progress, fee payment deadlines, and administrative decisions
           </p>
         </div>
@@ -102,7 +118,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: 'rgba(22, 32, 65, 0.85)',
+              backgroundColor: 'var(--color-surface-elevated, #EBF3FA)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -111,7 +127,7 @@ export const AppealStatusDashboard: React.FC = () => {
           >
             <div
               style={{
-                color: '#64748b',
+                color: 'var(--color-text-secondary, #64748b)',
                 fontSize: '12px',
                 fontWeight: 700,
                 textTransform: 'uppercase',
@@ -119,7 +135,14 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Active Appeals
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
+            <div
+              style={{
+                marginTop: '8px',
+                fontSize: '28px',
+                fontWeight: 700,
+                color: 'var(--color-text, #0F172A)',
+              }}
+            >
               {activeAppealsCount}
             </div>
           </div>
@@ -127,7 +150,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: 'rgba(22, 32, 65, 0.85)',
+              backgroundColor: 'var(--color-surface-elevated, #EBF3FA)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -136,7 +159,7 @@ export const AppealStatusDashboard: React.FC = () => {
           >
             <div
               style={{
-                color: '#64748b',
+                color: 'var(--color-text-secondary, #64748b)',
                 fontSize: '12px',
                 fontWeight: 700,
                 textTransform: 'uppercase',
@@ -144,7 +167,14 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Pending Fee Payments
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
+            <div
+              style={{
+                marginTop: '8px',
+                fontSize: '28px',
+                fontWeight: 700,
+                color: 'var(--color-text, #0F172A)',
+              }}
+            >
               {pendingPaymentsCount}
             </div>
           </div>
@@ -152,7 +182,7 @@ export const AppealStatusDashboard: React.FC = () => {
           <div
             style={{
               flex: '1 1 240px',
-              backgroundColor: 'rgba(22, 32, 65, 0.85)',
+              backgroundColor: 'var(--color-surface-elevated, #EBF3FA)',
               borderRadius: '12px',
               padding: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
@@ -161,7 +191,7 @@ export const AppealStatusDashboard: React.FC = () => {
           >
             <div
               style={{
-                color: '#64748b',
+                color: 'var(--color-text-secondary, #64748b)',
                 fontSize: '12px',
                 fontWeight: 700,
                 textTransform: 'uppercase',
@@ -169,7 +199,14 @@ export const AppealStatusDashboard: React.FC = () => {
             >
               Resolved Appeals
             </div>
-            <div style={{ marginTop: '8px', fontSize: '28px', fontWeight: 700, color: '#E2E8F0' }}>
+            <div
+              style={{
+                marginTop: '8px',
+                fontSize: '28px',
+                fontWeight: 700,
+                color: 'var(--color-text, #0F172A)',
+              }}
+            >
               {resolvedCount}
             </div>
           </div>
@@ -178,10 +215,11 @@ export const AppealStatusDashboard: React.FC = () => {
         {/* Filter Toolbar */}
         <div
           style={{
-            backgroundColor: 'rgba(22, 32, 65, 0.85)',
+            backgroundColor: 'var(--color-surface-elevated, #F0F4F9)',
             borderRadius: '12px',
             padding: '20px',
             boxShadow: '0 1px 3px rgba(0,0,0,0.08)',
+            border: '1px solid var(--color-border, rgba(100,140,200,0.15))',
             marginBottom: '24px',
           }}
         >
@@ -233,9 +271,11 @@ export const AppealStatusDashboard: React.FC = () => {
                     <tr
                       key={item.appealId}
                       style={{
-                        borderBottom: '1px solid rgba(100,140,200,0.12)',
+                        borderBottom: '1px solid var(--color-border, rgba(100,140,200,0.12))',
                         backgroundColor:
-                          index % 2 === 0 ? 'rgba(22,32,65,0.4)' : 'rgba(15,23,50,0.3)',
+                          index % 2 === 0
+                            ? 'var(--color-surface-elevated, #F8FAFC)'
+                            : 'var(--color-surface, #fff)',
                         cursor: 'pointer',
                       }}
                       onClick={() => handleRowClick(item.trackingCode)}
@@ -244,19 +284,33 @@ export const AppealStatusDashboard: React.FC = () => {
                         style={{
                           padding: '16px',
                           fontWeight: '700',
-                          color: '#1e293b',
-                          fontFamily: 'monospace',
+                          color: 'var(--color-primary, #0061a4)',
+                          fontFamily:
+                            '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                          letterSpacing: '0.02em',
                         }}
                       >
                         {item.trackingCode}
                       </td>
                       <td style={{ padding: '16px' }}>
-                        <div style={{ fontWeight: '600', color: '#E2E8F0' }}>{item.courseCode}</div>
-                        <div style={{ fontSize: '12px', color: '#64748b' }}>{item.courseName}</div>
+                        <div style={{ fontWeight: '600', color: 'var(--color-text, #1e293b)' }}>
+                          {item.courseCode}
+                        </div>
+                        <div
+                          style={{
+                            fontSize: '12px',
+                            color: 'var(--color-text-secondary, #64748b)',
+                          }}
+                        >
+                          {item.courseName}
+                        </div>
                       </td>
                       <td style={{ padding: '16px' }}>
-                        <span style={{ color: '#64748b' }}>Current: {item.currentGrade}</span> →{' '}
-                        <span style={{ fontWeight: '600', color: '#2563eb' }}>
+                        <span style={{ color: 'var(--color-text-secondary, #64748b)' }}>
+                          Current: {item.currentGrade}
+                        </span>{' '}
+                        →{' '}
+                        <span style={{ fontWeight: '600', color: '#38BDF8' }}>
                           Exp: {item.expectedGrade}
                         </span>
                       </td>

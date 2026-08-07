@@ -37,4 +37,9 @@ public class AppealSubmitRequest {
      */
     @Size(max = 2048, message = "Supporting document URL must not exceed 2048 characters.")
     private String supportingDocumentUrl;
+
+    /**
+     * The expected grade submitted by student.
+     */
+    private java.math.BigDecimal expectedGrade;
 }

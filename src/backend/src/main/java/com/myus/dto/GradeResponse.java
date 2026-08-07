@@ -15,6 +15,8 @@ public class GradeResponse {
     private String gradeValue;
     private BigDecimal gradePoint;
     private BigDecimal overallScore;
+    private BigDecimal midtermGrade;
+    private BigDecimal finalGrade;
 
     public GradeResponse() {
     }
@@ -27,6 +29,19 @@ public class GradeResponse {
                          String gradeValue,
                          BigDecimal gradePoint,
                          BigDecimal overallScore) {
+        this(gradeId, term, courseCode, courseName, credits, gradeValue, gradePoint, overallScore, null, null);
+    }
+
+    public GradeResponse(Long gradeId,
+                         String term,
+                         String courseCode,
+                         String courseName,
+                         Integer credits,
+                         String gradeValue,
+                         BigDecimal gradePoint,
+                         BigDecimal overallScore,
+                         BigDecimal midtermGrade,
+                         BigDecimal finalGrade) {
         this.gradeId = gradeId;
         this.term = term;
         this.courseCode = courseCode;
@@ -35,6 +50,8 @@ public class GradeResponse {
         this.gradeValue = gradeValue;
         this.gradePoint = gradePoint;
         this.overallScore = overallScore;
+        this.midtermGrade = midtermGrade;
+        this.finalGrade = finalGrade;
     }
 
     public Long getGradeId() {
@@ -99,5 +116,21 @@ public class GradeResponse {
 
     public void setOverallScore(BigDecimal overallScore) {
         this.overallScore = overallScore;
+    }
+
+    public BigDecimal getMidtermGrade() {
+        return midtermGrade;
+    }
+
+    public void setMidtermGrade(BigDecimal midtermGrade) {
+        this.midtermGrade = midtermGrade;
+    }
+
+    public BigDecimal getFinalGrade() {
+        return finalGrade;
+    }
+
+    public void setFinalGrade(BigDecimal finalGrade) {
+        this.finalGrade = finalGrade;
     }
 }

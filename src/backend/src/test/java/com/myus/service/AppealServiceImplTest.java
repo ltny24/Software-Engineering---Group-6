@@ -24,6 +24,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -95,7 +96,7 @@ class AppealServiceImplTest {
         @DisplayName("Successfully submits an appeal")
         void submitAppealSuccessfully() {
             AppealSubmitRequest request = new AppealSubmitRequest(
-                    100L, "I believe my exam was graded incorrectly.", null);
+                    100L, "I believe my exam was graded incorrectly.", null, new BigDecimal("8.5"));
 
             when(studentRepository.findByUsername("student1")).thenReturn(Optional.of(testStudent));
             when(gradeRepository.findById(100L)).thenReturn(Optional.of(testGrade));
@@ -125,7 +126,7 @@ class AppealServiceImplTest {
         @DisplayName("Fails when grade does not exist")
         void submitAppealFailsGradeNotFound() {
             AppealSubmitRequest request = new AppealSubmitRequest(
-                    999L, "Some valid reason for appeal.", null);
+                    999L, "Some valid reason for appeal.", null, new BigDecimal("8.5"));
 
             when(studentRepository.findByUsername("student1")).thenReturn(Optional.of(testStudent));
             when(gradeRepository.findById(999L)).thenReturn(Optional.empty());
@@ -149,7 +150,7 @@ class AppealServiceImplTest {
             otherGrade.setStudent(otherStudent);
 
             AppealSubmitRequest request = new AppealSubmitRequest(
-                    100L, "Trying to appeal someone else's grade.", null);
+                    100L, "Trying to appeal someone else's grade.", null, new BigDecimal("8.5"));
 
             when(studentRepository.findByUsername("student1")).thenReturn(Optional.of(testStudent));
             when(gradeRepository.findById(100L)).thenReturn(Optional.of(otherGrade));
@@ -165,7 +166,7 @@ class AppealServiceImplTest {
         @DisplayName("Fails when duplicate active appeal exists for same grade")
         void submitAppealFailsDuplicate() {
             AppealSubmitRequest request = new AppealSubmitRequest(
-                    100L, "Duplicate appeal attempt for the same grade.", null);
+                    100L, "Duplicate appeal attempt for the same grade.", null, new BigDecimal("8.5"));
 
             when(studentRepository.findByUsername("student1")).thenReturn(Optional.of(testStudent));
             when(gradeRepository.findById(100L)).thenReturn(Optional.of(testGrade));

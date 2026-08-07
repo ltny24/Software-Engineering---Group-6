@@ -6,6 +6,39 @@ SET QUOTED_IDENTIFIER ON;
 -- ==========================================================
 SET NOCOUNT ON;
 
+-- 0. CLEANUP EXISTING DATA & RESET IDENTITY COLUMNS (IDEMPOTENT)
+IF OBJECT_ID('myus.SurveyResponse', 'U') IS NOT NULL DELETE FROM myus.SurveyResponse;
+IF OBJECT_ID('myus.Survey', 'U') IS NOT NULL DELETE FROM myus.Survey;
+IF OBJECT_ID('myus.ClassTransferRequest', 'U') IS NOT NULL DELETE FROM myus.ClassTransferRequest;
+IF OBJECT_ID('myus.ChatbotSession', 'U') IS NOT NULL DELETE FROM myus.ChatbotSession;
+IF OBJECT_ID('myus.FAQArticle', 'U') IS NOT NULL DELETE FROM myus.FAQArticle;
+IF OBJECT_ID('myus.Appeal', 'U') IS NOT NULL DELETE FROM myus.Appeal;
+IF OBJECT_ID('myus.TuitionPayment', 'U') IS NOT NULL DELETE FROM myus.TuitionPayment;
+IF OBJECT_ID('myus.TuitionAccount', 'U') IS NOT NULL DELETE FROM myus.TuitionAccount;
+IF OBJECT_ID('myus.Grade', 'U') IS NOT NULL DELETE FROM myus.Grade;
+IF OBJECT_ID('myus.AcademicRecord', 'U') IS NOT NULL DELETE FROM myus.AcademicRecord;
+IF OBJECT_ID('myus.CourseRegistration', 'U') IS NOT NULL DELETE FROM myus.CourseRegistration;
+IF OBJECT_ID('myus.CourseOffering', 'U') IS NOT NULL DELETE FROM myus.CourseOffering;
+IF OBJECT_ID('myus.Course', 'U') IS NOT NULL DELETE FROM myus.Course;
+IF OBJECT_ID('myus.Student', 'U') IS NOT NULL DELETE FROM myus.Student;
+IF OBJECT_ID('myus.Administrator', 'U') IS NOT NULL DELETE FROM myus.Administrator;
+
+IF OBJECT_ID('myus.Student', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Student', RESEED, 0);
+IF OBJECT_ID('myus.Administrator', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Administrator', RESEED, 0);
+IF OBJECT_ID('myus.Course', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Course', RESEED, 0);
+IF OBJECT_ID('myus.CourseOffering', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.CourseOffering', RESEED, 0);
+IF OBJECT_ID('myus.CourseRegistration', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.CourseRegistration', RESEED, 0);
+IF OBJECT_ID('myus.Grade', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Grade', RESEED, 0);
+IF OBJECT_ID('myus.AcademicRecord', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.AcademicRecord', RESEED, 0);
+IF OBJECT_ID('myus.Appeal', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Appeal', RESEED, 0);
+IF OBJECT_ID('myus.TuitionAccount', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.TuitionAccount', RESEED, 0);
+IF OBJECT_ID('myus.TuitionPayment', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.TuitionPayment', RESEED, 0);
+IF OBJECT_ID('myus.Survey', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Survey', RESEED, 0);
+IF OBJECT_ID('myus.SurveyResponse', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.SurveyResponse', RESEED, 0);
+IF OBJECT_ID('myus.FAQArticle', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.FAQArticle', RESEED, 0);
+IF OBJECT_ID('myus.ClassTransferRequest', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.ClassTransferRequest', RESEED, 0);
+IF OBJECT_ID('myus.ChatbotSession', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.ChatbotSession', RESEED, 0);
+
 -- 1. INSERT ADMINISTRATORS (5 admins)
 INSERT INTO myus.Administrator (username, password, role, email, displayName, department) VALUES
 ('admin001', 'admin001', 'ADMINISTRATOR', 'admin001@myus.edu.vn', N'Tran Tuong Vi', N'Academic Affairs Office'),

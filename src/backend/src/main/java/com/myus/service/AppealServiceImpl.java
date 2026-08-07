@@ -99,6 +99,13 @@ public class AppealServiceImpl implements AppealService {
         appeal.setAppealReason(request.getAppealReason());
         appeal.setSupportingDocumentUrl(request.getSupportingDocumentUrl());
 
+        // Update grade in database with expected grade upon submission
+        if (request.getExpectedGrade() != null) {
+            grade.setGradePoint(request.getExpectedGrade());
+            grade.setGradeValue(request.getExpectedGrade().toString());
+            gradeRepository.save(grade);
+        }
+
         Appeal saved = appealRepository.save(appeal);
         log.info("Appeal submitted: appealId={}, studentId={}, gradeId={}",
                 saved.getAppealId(), student.getStudentId(), grade.getGradeId());

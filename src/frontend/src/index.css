@@ -5,6 +5,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Course code typography — clean sans-serif (no slashed zeros) */
+.font-mono, .cell-mono, .cell-code {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  letter-spacing: 0.01em;
+  font-variant-numeric: normal;
+}
+
 /* ============================================================
    MyUS University Portal — Dual-Theme Design System
    Day (default): White + Sky Blue | Night: Navy Galaxy

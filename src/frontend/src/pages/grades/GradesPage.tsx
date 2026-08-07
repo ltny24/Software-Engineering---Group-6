@@ -35,10 +35,11 @@ function GradesPage() {
         }));
 
         setGrades(normalized);
-        const terms = normalized.map((item) => item.term).filter(Boolean) as string[];
+        const terms = Array.from(
+          new Set(normalized.map((item) => item.term).filter(Boolean))
+        ) as string[];
         if (terms.length > 0) {
-          // Select the most recently completed term (last in the list)
-          setSelectedTerm(terms[terms.length - 1]);
+          setSelectedTerm((prev) => (prev && terms.includes(prev) ? prev : terms[0]));
         }
 
         const validGrades = normalized.filter((item) => Number(item.gradePoint) > 0);
@@ -134,35 +135,38 @@ function GradesPage() {
           <table className="grades-table">
             <thead>
               <tr>
-                <th>Course Code</th>
-                <th>Course Name</th>
-                <th className="cell-center">Credits</th>
+                <th>Course</th>
+                <th className="cell-right">Grade</th>
                 <th className="cell-right">Mid-term Grade</th>
                 <th className="cell-right">Final Grade</th>
-                <th className="cell-right">Score</th>
                 <th className="cell-right">Grade Point</th>
               </tr>
             </thead>
             <tbody>
               {filteredGrades.length > 0 ? (
-                filteredGrades.map((item, index) => (
+                filteredGrades.map((item) => (
                   <tr key={item.gradeId}>
-                    <td className="cell-code">{item.courseCode}</td>
-                    <td className="cell-name">{item.courseName}</td>
-                    <td className="cell-text cell-center">{item.credits}</td>
-                    <td className="cell-text cell-right">
-                      {item.midtermGrade != null ? item.midtermGrade.toFixed(1) : '—'}
+                    <td className="cell-name">
+                      <div className="cell-code" style={{ fontWeight: 600 }}>
+                        {item.courseCode}
+                      </div>
+                      <div>{item.courseName}</div>
                     </td>
                     <td className="cell-text cell-right">
-                      {item.finalGrade != null ? item.finalGrade.toFixed(1) : '—'}
+                      {item.gradeValue || (item.overallScore ? item.overallScore.toFixed(1) : '—')}
                     </td>
-                    <td className="cell-text cell-right">{item.overallScore.toFixed(1)}</td>
-                    <td className="cell-text cell-right">{item.gradePoint.toFixed(2)}</td>
+                    <td className="cell-text cell-right">
+                      {item.midtermGrade != null ? Number(item.midtermGrade).toFixed(1) : '—'}
+                    </td>
+                    <td className="cell-text cell-right">
+                      {item.finalGrade != null ? Number(item.finalGrade).toFixed(1) : '—'}
+                    </td>
+                    <td className="cell-text cell-right">{Number(item.gradePoint).toFixed(2)}</td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="grades-empty">
+                  <td colSpan={5} className="grades-empty">
                     No course grade data is available for this term.
                   </td>
                 </tr>

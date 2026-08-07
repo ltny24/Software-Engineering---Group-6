@@ -116,14 +116,17 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         if (newSchedule != null && !newSchedule.isBlank()) {
             for (CourseRegistration activeReg : activeRegistrations) {
                 if (!"Dropped".equals(activeReg.getStatus())) {
-                    String existingSchedule = activeReg.getOffering().getSchedule();
-                    if (existingSchedule != null && !existingSchedule.isBlank()
-                            && hasScheduleConflict(newSchedule, existingSchedule)) {
-                        conflictWarnings.add(
-                                "Schedule conflict with "
-                                + activeReg.getOffering().getCourse().getCourseCode()
-                                + " - " + activeReg.getOffering().getSection()
-                                + " (" + existingSchedule + ")");
+                    String existingTerm = activeReg.getOffering().getTerm();
+                    if (targetTerm != null && targetTerm.equalsIgnoreCase(existingTerm)) {
+                        String existingSchedule = activeReg.getOffering().getSchedule();
+                        if (existingSchedule != null && !existingSchedule.isBlank()
+                                && hasScheduleConflict(newSchedule, existingSchedule)) {
+                            conflictWarnings.add(
+                                    "Schedule conflict with "
+                                    + activeReg.getOffering().getCourse().getCourseCode()
+                                    + " - " + activeReg.getOffering().getSection()
+                                    + " (" + existingSchedule + ")");
+                        }
                     }
                 }
             }
@@ -279,25 +282,37 @@ public class EnrollmentServiceImpl implements EnrollmentService {
      * @return true if the schedules overlap in both day and time
      */
     private boolean hasScheduleConflict(String schedule1, String schedule2) {
-        Set<String> days1 = extractDays(schedule1);
-        Set<String> days2 = extractDays(schedule2);
+        if (schedule1 == null || schedule2 == null) return false;
+        String[] parts1 = schedule1.split("\\|");
+        String[] parts2 = schedule2.split("\\|");
 
-        // If no common day, there is no conflict
+        for (String p1 : parts1) {
+            for (String p2 : parts2) {
+                if (hasSingleSessionConflict(p1.trim(), p2.trim())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean hasSingleSessionConflict(String session1, String session2) {
+        Set<String> days1 = extractDays(session1);
+        Set<String> days2 = extractDays(session2);
+
         Set<String> commonDays = new HashSet<>(days1);
         commonDays.retainAll(days2);
         if (commonDays.isEmpty()) {
             return false;
         }
 
-        // Check time range overlap
-        int[] time1 = extractTimeRange(schedule1);
-        int[] time2 = extractTimeRange(schedule2);
+        int[] time1 = extractTimeRange(session1);
+        int[] time2 = extractTimeRange(session2);
 
         if (time1 == null || time2 == null) {
-            return false; // Cannot parse times — assume no conflict
+            return false;
         }
 
-        // Two intervals overlap when: start1 < end2 AND start2 < end1
         return time1[0] < time2[1] && time2[0] < time1[1];
     }
 

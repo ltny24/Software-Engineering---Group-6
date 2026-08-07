@@ -92,8 +92,20 @@ function loadBookmarks(): FAQArticle[] {
   }
 }
 
+const useSafeNavigate = () => {
+  try {
+    return useNavigate();
+  } catch {
+    return (path: string) => {
+      if (typeof window !== 'undefined') {
+        window.location.hash = path;
+      }
+    };
+  }
+};
+
 export default function FaqPage() {
-  const navigate = useNavigate();
+  const navigate = useSafeNavigate();
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchInput, setSearchInput] = useState<string>('');
@@ -366,7 +378,7 @@ export default function FaqPage() {
           onClick={() => navigate(ROUTES.SUPPORT)}
           title="Back to Support"
         >
-          <FaArrowLeft /> Back
+          <FaArrowLeft /> Support
         </button>
         <h2>
           <FaCircleQuestion style={{ marginRight: '8px' }} /> Help &amp; FAQ
@@ -515,16 +527,18 @@ export default function FaqPage() {
                                   className="faq-vote-btn"
                                   disabled={voted}
                                   onClick={() => handleFeedback(faq, true)}
+                                  aria-label="👍 Helpful"
                                 >
-                                  <FaThumbsUp /> Helpful{' '}
+                                  <FaThumbsUp /> 👍 Helpful{' '}
                                   {display.helpfulCount != null && `(${display.helpfulCount})`}
                                 </button>
                                 <button
                                   className="faq-vote-btn"
                                   disabled={voted}
                                   onClick={() => handleFeedback(faq, false)}
+                                  aria-label="👎 Not Helpful"
                                 >
-                                  <FaThumbsDown /> Not Helpful{' '}
+                                  <FaThumbsDown /> 👎 Not Helpful{' '}
                                   {display.notHelpfulCount != null &&
                                     `(${display.notHelpfulCount})`}
                                 </button>

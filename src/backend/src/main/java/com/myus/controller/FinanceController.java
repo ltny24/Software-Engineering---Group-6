@@ -28,7 +28,7 @@ public class FinanceController {
         this.financeService = financeService;
     }
 
-    @GetMapping("/tuition/balance")
+    @GetMapping({"/tuition/balance", "/me"})
     @PreAuthorize("hasRole('STUDENT')")
     public ResponseEntity<TuitionBalanceResponse> getTuitionBalance(Principal principal) {
         if (principal == null) {

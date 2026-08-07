@@ -24,7 +24,8 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: 'var(--color-input-bg)',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backdropFilter: 'blur(4px)',
         zIndex: 1000,
         display: 'flex',
         justifyContent: 'flex-end',
@@ -35,7 +36,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         style={{
           width: '100%',
           maxWidth: '540px',
-          backgroundColor: 'var(--color-surface-elevated)',
+          backgroundColor: 'var(--color-surface-elevated, #ffffff)',
           height: '100%',
           boxShadow: '-4px 0 24px rgba(0,0,0,0.15)',
           display: 'flex',
@@ -48,19 +49,24 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
         <div
           style={{
             padding: '24px',
-            borderBottom: '1px solid rgba(100,140,200,0.15)',
+            borderBottom: '1px solid var(--color-border, rgba(100,140,200,0.15))',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: 'var(--color-input-bg)',
+            backgroundColor: 'var(--color-surface-elevated, #ffffff)',
           }}
         >
           <div>
-            <div style={{ fontSize: '12px', fontWeight: '700', color: '#64748b' }}>
+            <div style={{ fontSize: '12px', fontWeight: '700', color: '#94A3B8' }}>
               TRACKING CODE: {appeal.trackingCode}
             </div>
             <h2
-              style={{ margin: '4px 0 0', fontSize: '20px', fontWeight: '700', color: '#E2E8F0' }}
+              style={{
+                margin: '4px 0 0',
+                fontSize: '20px',
+                fontWeight: '700',
+                color: 'var(--color-text, #1E293B)',
+              }}
             >
               {appeal.courseCode} - {appeal.courseName}
             </h2>
@@ -72,7 +78,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               backgroundColor: 'transparent',
               fontSize: '20px',
               cursor: 'pointer',
-              color: '#64748b',
+              color: 'var(--color-text-secondary, #64748b)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -100,7 +106,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 fontSize: '12px',
                 fontWeight: '700',
-                color: '#64748b',
+                color: '#94A3B8',
                 textTransform: 'uppercase',
               }}
             >
@@ -115,15 +121,20 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: 'var(--color-primary-soft)',
+                backgroundColor: 'var(--color-primary-soft, #f1f5f9)',
                 padding: '12px 16px',
                 borderRadius: '8px',
-                border: '1px solid rgba(100,140,200,0.15)',
+                border: '1px solid var(--color-border, rgba(100,140,200,0.15))',
               }}
             >
-              <div style={{ fontSize: '12px', color: '#64748b' }}>Original Grade</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8' }}>Original Grade</div>
               <div
-                style={{ fontSize: '20px', fontWeight: '700', color: '#E2E8F0', marginTop: '4px' }}
+                style={{
+                  fontSize: '20px',
+                  fontWeight: '700',
+                  color: 'var(--color-text, #1e293b)',
+                  marginTop: '4px',
+                }}
               >
                 {appeal.currentGrade}
               </div>
@@ -131,15 +142,15 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
             <div
               style={{
                 flex: 1,
-                backgroundColor: 'var(--color-primary-soft)',
+                backgroundColor: 'var(--color-primary-soft, #f1f5f9)',
                 padding: '12px 16px',
                 borderRadius: '8px',
-                border: '1px solid rgba(100,140,200,0.15)',
+                border: '1px solid var(--color-border, rgba(100,140,200,0.15))',
               }}
             >
-              <div style={{ fontSize: '12px', color: '#64748b' }}>Expected Grade</div>
+              <div style={{ fontSize: '12px', color: '#94A3B8' }}>Expected Grade</div>
               <div
-                style={{ fontSize: '20px', fontWeight: '700', color: '#2563eb', marginTop: '4px' }}
+                style={{ fontSize: '20px', fontWeight: '700', color: '#38BDF8', marginTop: '4px' }}
               >
                 {appeal.expectedGrade}
               </div>
@@ -174,7 +185,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 fontSize: '12px',
                 fontWeight: '700',
-                color: '#64748b',
+                color: '#94A3B8',
                 textTransform: 'uppercase',
               }}
             >
@@ -184,10 +195,10 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 margin: '8px 0 0',
                 padding: '14px',
-                backgroundColor: 'var(--color-primary-soft)',
+                backgroundColor: 'var(--color-primary-soft, #f8fafc)',
                 borderRadius: '8px',
-                border: '1px solid rgba(100,140,200,0.15)',
-                color: '#334155',
+                border: '1px solid var(--color-border, rgba(100,140,200,0.15))',
+                color: 'var(--color-text, #1e293b)',
                 fontSize: '14px',
                 lineHeight: '1.5',
               }}
@@ -201,7 +212,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 fontSize: '12px',
                 fontWeight: '700',
-                color: '#64748b',
+                color: '#94A3B8',
                 textTransform: 'uppercase',
               }}
             >
@@ -211,10 +222,10 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 margin: '8px 0 0',
                 padding: '14px',
-                backgroundColor: '#eff6ff',
+                backgroundColor: 'var(--color-primary-soft, #eff6ff)',
                 borderRadius: '8px',
-                border: '1px solid #bfdbfe',
-                color: '#1e40af',
+                border: '1px solid var(--color-border, #bfdbfe)',
+                color: 'var(--color-text, #1e40af)',
                 fontSize: '14px',
                 lineHeight: '1.5',
               }}
@@ -228,7 +239,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
               style={{
                 fontSize: '12px',
                 fontWeight: '700',
-                color: '#64748b',
+                color: '#94A3B8',
                 textTransform: 'uppercase',
               }}
             >

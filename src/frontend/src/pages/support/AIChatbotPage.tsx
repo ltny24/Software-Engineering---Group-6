@@ -25,8 +25,20 @@ const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. 
 
 Hãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!`;
 
+const useSafeNavigate = () => {
+  try {
+    return useNavigate();
+  } catch {
+    return (path: string) => {
+      if (typeof window !== 'undefined') {
+        window.location.hash = path;
+      }
+    };
+  }
+};
+
 export default function AIChatbotPage() {
-  const navigate = useNavigate();
+  const navigate = useSafeNavigate();
   const { messages, setMessages } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -137,7 +149,7 @@ export default function AIChatbotPage() {
           onClick={() => navigate(ROUTES.SUPPORT)}
           title="Back to Support"
         >
-          <FaArrowLeft /> Back
+          <FaArrowLeft /> Support
         </button>
       </div>
 

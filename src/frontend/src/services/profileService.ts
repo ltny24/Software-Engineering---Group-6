@@ -5,14 +5,14 @@ import type { StudentProfile } from '../types';
 // Profile Service – wraps /api/students/me endpoints
 // ============================================================
 
-/** GET /api/students/me – fetch the authenticated student's profile. */
+/** GET /api/v1/profile – fetch the authenticated student's profile. */
 export async function getMyProfile(): Promise<StudentProfile> {
-  const { data } = await axiosInstance.get<StudentProfile>('/api/students/me');
+  const { data } = await axiosInstance.get<StudentProfile>('/api/v1/profile');
   return data;
 }
 
-/** PUT /api/students/me – update the authenticated student's profile. */
+/** PUT /api/v1/profile – update the authenticated student's profile. */
 export async function updateMyProfile(updates: Partial<StudentProfile>): Promise<StudentProfile> {
-  const { data } = await axiosInstance.put<StudentProfile>('/api/students/me', updates);
+  const { data } = await axiosInstance.put<StudentProfile>('/api/v1/profile', updates);
   return data;
 }

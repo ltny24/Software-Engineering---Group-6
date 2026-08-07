@@ -158,8 +158,8 @@ beforeEach(() => jest.clearAllMocks());
 
 // Helper: set up mocks for student timetable (2 API calls: registrations + grades)
 function mockStudentApis(registrations: any[], grades: any[]) {
-  mockApiGet.mockResolvedValueOnce(registrations);  // /api/registrations/me
-  mockApiGet.mockResolvedValueOnce(grades);          // /api/v1/grades/me
+  mockApiGet.mockResolvedValueOnce(registrations); // /api/registrations/me
+  mockApiGet.mockResolvedValueOnce(grades); // /api/v1/grades/me
 }
 
 // =============================================================================
