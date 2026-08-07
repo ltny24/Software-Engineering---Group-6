@@ -19,9 +19,7 @@ import './CoursesPage.css';
 
 const PAGE_SIZE = 9;
 const DEPARTMENTS = ['Computer Science', 'Mathematics', 'Physics'];
-const TERMS = ['HKI 2025-2026', 'HKII 2025-2026', 'HKIII 2025-2026'];
 const CURRENT_TERM = 'HKIII 2025-2026';
-const COMPLETED_TERMS = ['HKI 2025-2026', 'HKII 2025-2026'];
 
 type TabKey = 'browse' | 'mine';
 
@@ -40,8 +38,7 @@ export default function CoursesPage() {
   // Bộ lọc
   const [searchInput, setSearchInput] = useState<string>('');
   const [departmentInput, setDepartmentInput] = useState<string>('');
-  const [termInput, setTermInput] = useState<string>('');
-  const [appliedFilters, setAppliedFilters] = useState({ search: '', department: '', term: '' });
+  const [appliedFilters, setAppliedFilters] = useState({ search: '', department: '', term: CURRENT_TERM });
 
   // --- My registrations state ---
   const [registrations, setRegistrations] = useState<CourseRegistration[]>([]);
@@ -114,15 +111,14 @@ export default function CoursesPage() {
     setAppliedFilters({
       search: searchInput.trim(),
       department: departmentInput.trim(),
-      term: termInput.trim(),
+      term: CURRENT_TERM,
     });
   };
 
   const handleResetFilters = () => {
     setSearchInput('');
     setDepartmentInput('');
-    setTermInput('');
-    setAppliedFilters({ search: '', department: '', term: '' });
+    setAppliedFilters({ search: '', department: '', term: CURRENT_TERM });
   };
 
   const goToPage = (page: number) => {
@@ -276,7 +272,7 @@ export default function CoursesPage() {
               className={`tab-btn ${activeTab === 'mine' ? 'tab-btn-active' : ''}`}
               onClick={() => setActiveTab('mine')}
             >
-              My Registrations {availableHK3Count > 0 && `(${availableHK3Count})`}
+              My Registrations ({activeRegistrationsCount})
             </button>
           )}
         </div>
@@ -302,18 +298,6 @@ export default function CoursesPage() {
               {DEPARTMENTS.map((department) => (
                 <option key={department} value={department}>
                   {department}
-                </option>
-              ))}
-            </select>
-            <select
-              className="edit-input"
-              value={termInput}
-              onChange={(e) => setTermInput(e.target.value)}
-            >
-              <option value="">All terms</option>
-              {TERMS.map((term) => (
-                <option key={term} value={term}>
-                  {term}
                 </option>
               ))}
             </select>
@@ -357,7 +341,6 @@ export default function CoursesPage() {
                     {offerings.map((offering) => {
                       const registered = isActiveRegistration(offering.offeringId);
                       const full = offering.availableSeats <= 0;
-                      const isCompletedTerm = COMPLETED_TERMS.includes(offering.term);
                       return (
                         <tr className="registration-row" key={offering.offeringId}>
                           <td data-label="Code">{offering.course.courseCode}</td>
@@ -374,20 +357,14 @@ export default function CoursesPage() {
                           <td data-label="Department">{offering.course.department}</td>
                           <td data-label="Schedule">{offering.schedule}</td>
                           <td data-label="Seats">
-                            {isCompletedTerm ? (
-                              <span>—</span>
-                            ) : (
-                              <span className={seatBadgeClass(offering)}>
-                                {offering.availableSeats > 0
-                                  ? `${offering.availableSeats} seats left`
-                                  : 'Full'}
-                              </span>
-                            )}
+                            <span className={seatBadgeClass(offering)}>
+                              {offering.availableSeats > 0
+                                ? `${offering.availableSeats} seats left`
+                                : 'Full'}
+                            </span>
                           </td>
                           <td data-label="Action" className="registration-action-cell">
-                            {isCompletedTerm ? (
-                              <span>—</span>
-                            ) : isAdmin ? (
+                            {isAdmin ? (
                               <button
                                 className="btn-edit register-btn"
                                 disabled
@@ -456,7 +433,7 @@ export default function CoursesPage() {
             <div className="profile-loading">
               <span className="spinner" /> Loading your registrations...
             </div>
-          ) : registrations.length === 0 ? (
+          ) : registrations.filter(r => r.status?.toLowerCase() !== 'dropped').length === 0 ? (
             <p className="empty-state">You haven't registered for any courses yet.</p>
           ) : (
             <>
@@ -466,6 +443,10 @@ export default function CoursesPage() {
                   <strong>
                     {totalCredits} / {MAX_CREDITS}
                   </strong>
+                </span>
+                <span>
+                  Active registrations:{' '}
+                  <strong>{activeRegistrationsCount}</strong>
                 </span>
                 {totalCredits >= MAX_CREDITS && (
                   <span className="credits-warning">
@@ -491,7 +472,9 @@ export default function CoursesPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {registrations.map((reg) => (
+                  {registrations
+                    .filter(reg => reg.status?.toLowerCase() !== 'dropped')
+                    .map((reg) => (
                     <tr className="registration-row" key={reg.registrationId}>
                       <td data-label="Code">{reg.offering.course.courseCode}</td>
                       <td data-label="Course Name">

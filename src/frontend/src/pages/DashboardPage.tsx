@@ -32,7 +32,7 @@ interface ScheduleCell {
   colorIndex: number;
 }
 
-type TimeSlotKey = 'Morning' | 'Afternoon' | 'Evening';
+type TimeSlotKey = 'Morning' | 'Afternoon';
 
 interface ScheduleRow {
   timeLabel: string;
@@ -75,12 +75,11 @@ function parseSchedule(scheduleStr: string): { days: DayKey[]; timeRange: string
 function getTimeSlot(timeRange: string): TimeSlotKey {
   const startHour = parseInt(timeRange.split(':')[0], 10);
   if (startHour < 12) return 'Morning';
-  if (startHour < 17) return 'Afternoon';
-  return 'Evening';
+  return 'Afternoon'; // afternoon + evening courses all go into Afternoon row
 }
 
 function buildScheduleRows(registrations: CourseRegistration[]): ScheduleRow[] {
-  const timeSlots: TimeSlotKey[] = ['Morning', 'Afternoon', 'Evening'];
+  const timeSlots: TimeSlotKey[] = ['Morning', 'Afternoon'];
   const rows: ScheduleRow[] = timeSlots.map((label) => ({
     timeLabel: label,
     cells: Object.fromEntries(DAYS.map((d) => [d, null])) as Record<DayKey, ScheduleCell | null>,

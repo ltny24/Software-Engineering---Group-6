@@ -20,7 +20,7 @@ function GradesPage() {
   const [grades, setGrades] = useState<GradeDTO[]>([]);
   const [gpa, setGpa] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedTerm, setSelectedTerm] = useState<string>('2024-2025-HK2');
+  const [selectedTerm, setSelectedTerm] = useState<string>('');
 
   useEffect(() => {
     const fetchGrades = async () => {
@@ -37,7 +37,8 @@ function GradesPage() {
         setGrades(normalized);
         const terms = normalized.map((item) => item.term).filter(Boolean) as string[];
         if (terms.length > 0) {
-          setSelectedTerm(terms[0]);
+          // Select the most recently completed term (last in the list)
+          setSelectedTerm(terms[terms.length - 1]);
         }
 
         const validGrades = normalized.filter((item) => Number(item.gradePoint) > 0);
