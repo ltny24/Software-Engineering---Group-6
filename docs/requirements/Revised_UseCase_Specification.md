@@ -19,13 +19,13 @@
 | UC-09 | Submit Evaluation Surveys | Student |
 | UC-10 | Access FAQs & Support | Student |
 | UC-11 | Admin Bulk Data and Class Control | Administrator |
-| UC-12 | Import Student/Course Data | Administrator |
-| UC-13 | Validate Data Format | Administrator |
-| UC-14 | Appeal Processing Management | Administrator |
-| UC-15 | Set Fee Payment Deadline | Administrator |
-| UC-16 | Update Appeal Status | Administrator |
-| UC-17 | Student Data Administration | Administrator |
-| UC-18 | Search Student Records | Administrator |
+| UC-11a | Import Student/Course Data (include) | Administrator |
+| UC-11b | Validate Data Format (include) | Administrator |
+| UC-12 | Appeal Processing Management | Administrator |
+| UC-12a | Set Fee Payment Deadline (include) | Administrator |
+| UC-12b | Update Appeal Status (include) | Administrator |
+| UC-13 | Student Data Administration | Administrator |
+| UC-13a | Search Student Records (include) | Administrator |
 
 ---
 
@@ -791,42 +791,43 @@ Lets a student complete end-of-semester structured surveys evaluating course qua
 ## 3. Flow of Events
 ### 3.1 Basic Flow
 1. Student navigates to "Evaluations" (or follows a notification that evaluations are open).
-
-![](Prototype_Req/student/evadash.jpg)
-
 2. System displays pending surveys — one per enrolled course, plus any general campus-facilities survey.
-3. Student opens a survey.
 
-![](Prototype_Req/student/pendingsur.jpg)
+![](Prototype_Req/student/eval_page.jpg)
+
+3. Student opens a survey.
 
 4. System presents structured questions (rating scales for content, delivery, materials, facilities) plus optional open-text comments.
 
-![](Prototype_Req/student/surform.jpg)
+![](Prototype_Req/student/eval_rate.jpg)
 
 5. Student answers all required questions and selects "Submit."
 6. System validates that all required questions are answered.
 
-![](Prototype_Req/student/submitsur.jpg)
-
 7. System records the response and marks the survey **Completed** for that student.
-
-![](Prototype_Req/student/succsur.jpg)
 
 8. System returns to the survey list, showing updated completion status.
 
-![](Prototype_Req/student/completed.jpg)
+![](Prototype_Req/student/eval_completed.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Incomplete Submission (branches at step 6):** Unanswered required questions are highlighted and submission is blocked.
 
-![](Prototype_Req/student/noans.jpg)
+![](Prototype_Req/student/eval_missing.jpg)
 
-- **3.2.2 AF2 – Save and Continue Later (branches at step 5):** Partial progress is saved and can be resumed before the deadline.
-- **3.2.3 AF3 – Evaluation Period Closed (branches at step 1):** Completed vs. missed surveys are shown read-only; no further edits are allowed.
-![](Prototype_Req/student/read.jpg.jpg)
-- **3.2.4 AF4 – Already Submitted (branches at step 3):** A completed survey opens read-only, optionally showing the student's own past responses.
-- **3.2.5 AF5 – Deadline Reminder:** As the window nears its end, the system sends a reminder for any incomplete required surveys.
-![](Prototype_Req/student/clossSur.jpg)
+- **3.2.2 AF2 – Evaluation Period Closed (branches at step 1):** Completed vs. missed surveys are shown read-only; no further edits are allowed.
+- 
+![](Prototype_Req/student/eval_over.jpg)
+
+- **3.2.3 AF3 – Already Submitted (branches at step 3):** A completed survey opens read-only, optionally showing the student's own past responses.
+
+![](Prototype_Req/student/eval_success.jpg)
+
+- **3.2.4 AF4 – Deadline Reminder:** As the window nears its end, the system sends a reminder for any incomplete required surveys.
+- **3.2.5 AF5 – Save and Continue Later (branches at step 5):** Partial progress is saved and can be resumed before the deadline.
+
+![](Prototype_Req/student/eval_save.jpg)
+  
 - **3.2.6 AF6 – Skip an Optional Survey (branches at step 3):** A non-mandatory survey (e.g., general facilities) can be dismissed without penalty.
 
 ## 4. Postconditions
@@ -933,7 +934,7 @@ This use case allows the Administrator to manage student, course, and class data
 
    5.2. The system displays the import summary.
 
-   ![](Prototype_Req/admin/import_data/successful.jpg)
+   ![](Prototype_Req/admin/import_data/import_success.jpg)
 
 6. Else:
 
@@ -941,17 +942,17 @@ This use case allows the Administrator to manage student, course, and class data
 
    6.2. The system keeps the existing data unchanged.
 
-   ![](Prototype_Req/admin/import_data/failed.jpg)
+   ![](Prototype_Req/admin/import_data/import_failed.jpg)
 
 7. The system records the operation in the audit log.
 
-   ![](Prototype_Req/admin/import_data/log.jpg)
+   ![](Prototype_Req/admin/import_data/audit_log.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – Cancel before confirmation:** At any time before confirming the import, the Administrator may cancel the operation; the system discards the temporary import data and leaves existing academic records unchanged.
 - **3.2.2 AF2 – Permission denied:** If the Administrator does not have sufficient permission, the system denies access and displays an authorization error.
 
-   ![](Prototype_Req/admin/import_data/unauthorized.jpg)
+   ![](Prototype_Req/admin/import_data/import_unauthorized.jpg)
 
 - **3.2.3 AF3 – Duplicate or conflicting records found:** If duplicate or conflicting records are detected, the system identifies the affected records and lets the Administrator choose to skip or update them before proceeding.
 
@@ -966,9 +967,9 @@ This use case allows the Administrator to manage student, course, and class data
 - None.
 
 ---
-# UC-12. Import Student/Course Data
+# UC-11a. Import Student/Course Data
 
-**Use-Case ID:** UC-12
+**Use-Case ID:** UC-11a
 
 **Actor(s):** Administrator
 
@@ -984,16 +985,17 @@ This use case allows the Administrator to import student, course, or class data 
 2. The system asks the Administrator to select the data type and upload an import file.
 3. The Administrator selects student, course, or class data and uploads the file.
 
-   ![](Prototype_Req/admin/import_data/upload.jpg)
+   ![](Prototype_Req/admin/import_data/import_upload.jpg)
 
-4. The system performs **UC-13 – Validate Data Format**.
+4. The system performs **UC-11b – Validate Data Format**.
 5. If the uploaded data is valid:
 
    5.1. The system displays an import preview, including records to be added or updated.
 
-   ![](Prototype_Req/admin/import_data/preview.jpg)
-
 6. The Administrator reviews the preview and confirms the import.
+
+![](Prototype_Req/admin/import_data/import_confirm.jpg)
+
 7. The system imports the approved records.
 8. The system displays the number of added, updated, and skipped records.
 
@@ -1016,9 +1018,9 @@ This use case allows the Administrator to import student, course, or class data 
 - None.
 
 ---
-# UC-13. Validate Data Format
+# UC-11b. Validate Data Format
 
-**Use-Case ID:** UC-13
+**Use-Case ID:** UC-11b
 
 **Actor(s):** Administrator
 
@@ -1026,7 +1028,7 @@ This use case allows the Administrator to import student, course, or class data 
 This use case checks whether an uploaded file follows the required structure and data rules.
 
 ## 2. Preconditions
-- Invoked within UC-12, after a file has been uploaded.
+- Invoked within UC-11a, after a file has been uploaded.
 
 ## 3. Flow of Events
 ### 3.1 Basic Flow
@@ -1040,7 +1042,7 @@ This use case checks whether an uploaded file follows the required structure and
 
    5.2. The system allows the import process to continue.
 
-   ![](Prototype_Req/admin/import_data/preview.jpg)
+   ![](Prototype_Req/admin/import_data/import_changes.jpg)
 
 6. Else:
 
@@ -1049,7 +1051,7 @@ This use case checks whether an uploaded file follows the required structure and
    6.2. The system identifies the related rows, fields, and errors.
 7. The system displays the validation result.
 
-   ![](Prototype_Req/admin/import_data/confirmation.jpg)
+   ![](Prototype_Req/admin/import_data/import_confirm.jpg)
 
 ### 3.2 Alternative Flows
 - **3.2.1 AF1 – File unreadable:** If the system cannot read the uploaded file, it stops validation, shows an error message, and asks the Administrator to upload a corrected file.
@@ -1069,9 +1071,9 @@ This use case checks whether an uploaded file follows the required structure and
 - None.
 
 ---
-# UC-14. Appeal Processing Management
+# UC-12. Appeal Processing Management
 
-**Use-Case ID:** UC-14
+**Use-Case ID:** UC-12
 
 **Actor(s):** Administrator
 
@@ -1094,9 +1096,9 @@ This use case allows the Administrator to review and process student appeals.
 5. The Administrator reviews the appeal.
 6. If the appeal requires a processing fee:
 
-   6.1. The Administrator performs **UC-15 – Set Fee Payment Deadline**.
+   6.1. The Administrator performs **UC-12a – Set Fee Payment Deadline**.
 
-7. The Administrator performs **UC-16 – Update Appeal Status**.
+7. The Administrator performs **UC-12b – Update Appeal Status**.
 8. If the appeal information is updated successfully (Details in UC-16):
 
    8.1. The system records the changes in the appeal history.
@@ -1129,9 +1131,9 @@ This use case allows the Administrator to review and process student appeals.
 - None.
 
 ---
-# UC-15. Set Fee Payment Deadline
+# UC-12a. Set Fee Payment Deadline
 
-**Use-Case ID:** UC-15
+**Use-Case ID:** UC-12a
 
 **Actor(s):** Administrator
 
@@ -1195,9 +1197,9 @@ This use case allows the Administrator to set or change the payment deadline for
 - None.
 
 ---
-# UC-16. Update Appeal Status
+# UC-12b. Update Appeal Status
 
-**Use-Case ID:** UC-16
+**Use-Case ID:** UC-12b
 
 **Actor(s):** Administrator
 
@@ -1260,9 +1262,9 @@ This use case allows the Administrator to change the processing status of an app
 - None.
 
 ---
-# UC-17. Student Data Administration
+# UC-13. Student Data Administration
 
-**Use-Case ID:** UC-17
+**Use-Case ID:** UC-13
 
 **Actor(s):** Administrator
 
@@ -1278,7 +1280,7 @@ Allows the Administrator to access and review student records through a searchab
 ### 3.1 Basic Flow
 1. The Administrator selects **Student Data Administration**.
 2. The system displays the student search page.
-3. The Administrator performs **UC-18 – Search Student Records**.
+3. The Administrator performs **UC-13a – Search Student Records**.
 4. If one or more matching students are found:
 
    4.1. The system displays the matching student records.
@@ -1322,9 +1324,9 @@ Allows the Administrator to access and review student records through a searchab
 - None.
 
 ---
-# UC-18. Search Student Records
+# UC-13a. Search Student Records
 
-**Use-Case ID:** UC-18
+**Use-Case ID:** UC-13a
 
 **Actor(s):** Administrator
 
