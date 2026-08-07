@@ -1266,11 +1266,11 @@ Allows the Administrator to access and review student records through a searchab
 
    2.3. The system displays the student information permitted by the Administrator’s role.
 
-   ![](Prototype_Req/admin/data_admin/student_data_inf.jpg)
+   ![](Prototype_Req/admin/student_data_inf.jpg)
 
 3. Else: The system informs the Administrator that no matching student was found.
 
-   ![](Prototype_Req/admin/data_admin/student_data_search_nomatch.jpg)
+   ![](Prototype_Req/admin/student_data_search_nomatch.jpg)
 
 
 ### 3.2 Alternative Flows
@@ -1318,7 +1318,7 @@ Allows the Administrator to search for students by one or more criteria and sele
 
    5.1. The system displays the student ID, name, program, class, and status of each matching student.
 
-   ![](Prototype_Req/admin/data_admin/student_data_search_match.jpg)
+   ![](Prototype_Req/admin/student_data_search_match.jpg)
 
    5.2. The Administrator may sort or filter the results.
 
