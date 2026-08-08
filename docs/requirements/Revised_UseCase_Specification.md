@@ -8,25 +8,25 @@
 | UC-01 | Authenticate / Login | Student |
 | UC-02 | Update Profile | Student |
 | UC-03 | Register for Courses | Student |
-| UC-03a | Check Prerequisites | Student, System |
+| UC-03a | Check Prerequisites (include) | Student, System |
 | UC-04 | View Timetable | Student |
 | UC-05 | View Grades & GPA | Student |
 | UC-06 | Track Tuition Fee | Student |
 | UC-07 | Submit Grade Appeal | Student |
-| UC-07a | Upload Supporting Documents | Student |
+| UC-07a | Upload Supporting Documents (include) | Student |
 | UC-08 | Track Appeal Status | Student |
 | UC-09 | Submit Evaluation Surveys | Student |
 | UC-10 | Access Help & Support | Student |
-| UC-10a | Access FAQs | Student |
-| UC-10b | AI Learning Assistant (Chatbot) | Student, AI Engine |
+| UC-10a | Access FAQs (include) | Student |
+| UC-10b | AI Learning Assistant (Chatbot) (include) | Student, AI Engine |
 | UC-11 | Admin Bulk Data and Class Control | Administrator |
-| UC-11a | Import Student/Course Data | Administrator |
-| UC-11b | Validate Data Format | Administrator |
+| UC-11a | Import Student/Course Data (include) | Administrator |
+| UC-11b | Validate Data Format (include) | Administrator |
 | UC-12 | Appeal Processing Management | Administrator |
-| UC-12a | Set Fee Payment Deadline | Administrator |
-| UC-12b | Update Appeal Status | Administrator |
+| UC-12a | Set Fee Payment Deadline (include) | Administrator |
+| UC-12b | Update Appeal Status (include) | Administrator |
 | UC-13 | Student Data Administration | Administrator |
-| UC-13a | Search Student Records | Administrator |
+| UC-13a | Search Student Records (include) | Administrator |
 
 ---
 
@@ -218,7 +218,7 @@ Enables an authenticated student to search and browse course offerings (`GET /ap
 - My Registrations List Tab (`Prototype_Req/student/cart.jpg`)
 
 ---
-# UC-03a. Check Prerequisites
+# UC-03a. Check Prerequisites (include)
 
 **Use-Case ID:** UC-03a
 
@@ -446,7 +446,7 @@ Enables a student to submit a formal digital grade appeal (`POST /api/appeals`),
 - Duplicate Appeal Alert (`Prototype_Req/student/dup.jpg`)
 
 ---
-# UC-07a. Upload Supporting Documents
+# UC-07a. Upload Supporting Documents (include)
 
 **Use-Case ID:** UC-07a
 
@@ -648,7 +648,7 @@ Provides a central self-service Help & Support Hub (`/support`), serving as the 
 - Help & Support Hub Screen (`Prototype_Req/student/support_hub.jpg`)
 
 ---
-# UC-10a. Access FAQs
+# UC-10a. Access FAQs (include)
 
 **Use-Case ID:** UC-10a
 
@@ -695,7 +695,7 @@ Provides a searchable knowledge base and FAQ support library (`GET /api/faq`, `G
 - Bookmarked FAQ Entry View (`Prototype_Req/student/UC10-Bookmark.jpg`)
 
 ---
-# UC-10b. AI Learning Assistant (Chatbot)
+# UC-10b. AI Learning Assistant (Chatbot) (include)
 
 **Use-Case ID:** UC-10b
 
@@ -810,7 +810,7 @@ This use case allows the Administrator to manage student, course, and class data
 - None.
 
 ---
-# UC-11a. Import Student/Course Data
+# UC-11a. Import Student/Course Data (include)
 
 **Use-Case ID:** UC-11a
 
@@ -861,7 +861,7 @@ This use case allows the Administrator to import student, course, or class data 
 - None.
 
 ---
-# UC-11b. Validate Data Format
+# UC-11b. Validate Data Format (include)
 
 **Use-Case ID:** UC-11b
 
@@ -970,7 +970,7 @@ This use case allows the Administrator to review and process student appeals.
 - None.
 
 ---
-# UC-12a. Set Fee Payment Deadline
+# UC-12a. Set Fee Payment Deadline (include)
 
 **Use-Case ID:** UC-12a
 
@@ -1028,7 +1028,7 @@ This use case allows the Administrator to set or change the payment deadline for
 - None.
 
 ---
-# UC-12b. Update Appeal Status
+# UC-12b. Update Appeal Status (include)
 
 **Use-Case ID:** UC-12b
 
@@ -1134,7 +1134,7 @@ Allows the Administrator to access and review student records through a searchab
 - None.
 
 ---
-# UC-13a. Search Student Records
+# UC-13a. Search Student Records (include)
 
 **Use-Case ID:** UC-13a
 
