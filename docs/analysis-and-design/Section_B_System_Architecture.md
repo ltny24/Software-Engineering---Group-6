@@ -1,4 +1,4 @@
-# B - Software Architecture: System Context Diagram
+﻿# B - Software Architecture: System Context Diagram
 **Performed by:** Lê Thị Như Ý  | **Reviewed by:** Hồ Thị Như Ngọc  | **Edited by:** Lê Thị Như Ý
 
 ---
@@ -19,7 +19,7 @@ This architectural document encapsulates the complete end-to-end software system
 
 ### PA1 & PA2 (Requirements Elicitation & Formal Modeling)
 
-Established the foundational domain models, business rules, and actor hierarchies. During these phases, core user requirements were formalized into comprehensive use-case specifications, defining the operational boundaries between students and administrative staff across nine academic and administrative functional groups.
+Established the foundational domain models, business rules, and actor hierarchies. During these phases, core user requirements were formalized into comprehensive use-case specifications, defining the operational boundaries between students and administrative staff across twenty-one use cases (UC-01 through UC-13a).
 
 ### PA3 (Core Infrastructure & Architectural Foundation)
 
@@ -34,8 +34,8 @@ This phase established:
 
 Initial feature implementation focused on core student self-service capabilities, including:
 
-- **Functional Group 1:** User Profile Updates
-- **Functional Group 4:** Semester Grade Viewing & GPA Calculation
+- **Functional Group 1:** User Profile Updates (**UC-02**)
+- **Functional Group 4:** Semester Grade Viewing & GPA Calculation (**UC-05**)
 
 ### PA4 (Spec-Driven Implementation of Core Appeals, FAQ Support & AI Chatbot)
 
@@ -45,10 +45,9 @@ For this milestone, implementation focuses on three major modules.
 
 #### Functional Group 2 – Grade Appeal System
 
-End-to-end execution of the digital grade appeal workflow, including:
+End-to-end execution of the digital grade appeal workflow (**UC-07**, **UC-07a**, **UC-08**) and administrator appeal processing management (**UC-12**, **UC-12a**, **UC-12b**), including:
 
-- Digital appeal submission
-- Supporting evidence uploads (`.pdf`, `.jpg`, `.png`, maximum 5 MB)
+- Digital appeal submission with mandatory supporting evidence uploads (`.pdf`, `.jpg`, `.png`, maximum 5 MB per file)
 - Real-time appeal status tracking:
   - `Submitted`
   - `Under Review`
@@ -56,10 +55,11 @@ End-to-end execution of the digital grade appeal workflow, including:
   - `Denied`
   - `Withdrawn`
 - Dynamic fee payment deadline enforcement (+5 business days)
+- Administrator review queue with status update management and student notification
 
 #### Functional Group 6 – Support & FAQ
 
-Implementation of a centralized searchable self-service knowledge base.
+Implementation of a centralized searchable self-service knowledge base (**UC-10**, **UC-10a**).
 
 This module enables undergraduate students to independently find answers regarding:
 
@@ -67,20 +67,22 @@ This module enables undergraduate students to independently find answers regardi
 - Academic grading policies
 - IT troubleshooting
 
-without requiring manual helpdesk assistance.
+through category-filtered keyword search, FAQ feedback rating ("Helpful" / "Not Helpful"), and contact helpdesk options — without requiring manual helpdesk assistance.
 
-#### AI Learning Path Chatbot (Section 4 / FG3 AI Module)
+#### AI Learning Assistant Chatbot (UC-10b)
 
-Integration of a Large Language Model (LLM)-based recommendation engine that provides 24/7 academic advising.
+Integration of a Large Language Model (LLM)-based AI academic advisor (**UC-10b**) providing 24/7 personalized counseling via the Google Gemini API with real-time streaming responses.
 
 The chatbot supports:
 
-- Transcript retrieval
-- Degree audit analysis
+- Academic profile context personalization (student major, GPA, student type)
+- Transcript retrieval and degree audit analysis
 - Completed credit evaluation
 - Prerequisite and corequisite validation
-- Personalized next-semester course recommendations
-- Graduation timeline simulation
+- Personalized next-semester course recommendations (`GET /api/v1/chatbot/recommendations`)
+- Graduation timeline simulation (`GET /api/v1/chatbot/progress`)
+- Real-time streaming responses via `askGeminiStream` with structured offline fallback (`localChatbotService.ts`)
+- Academic scope guardrails that politely refuse non-university queries
 
 ---
 
@@ -120,7 +122,7 @@ The platform incorporates resilient architectural patterns including:
 - Circuit Breaker
 - Graceful Degradation
 
-If the external AI service becomes unavailable because of latency or service interruption, the platform automatically falls back to deterministic SQL-based recommendation algorithms to ensure uninterrupted academic support.
+If the external AI service becomes unavailable because of latency or service interruption, the platform automatically falls back to the `localChatbotService.ts` deterministic offline knowledge base to ensure uninterrupted academic support (**UC-10b AF2**).
 
 ---
 
@@ -141,9 +143,9 @@ This separation improves maintainability while allowing individual containers an
 
 Academic operations that modify institutional records—including:
 
-- Grade adjustments after appeals
-- Course wishlist updates
-- Tuition status updates
+- Grade adjustments after appeals (**UC-12b**)
+- Course registration seat reservations (**UC-03**)
+- Tuition status updates (**UC-06**)
 
 are executed inside atomic database transactions (`@Transactional`) to prevent:
 
@@ -202,6 +204,7 @@ Instead, the Level 1 diagram focuses on illustrating:
 
 # 2. Comprehensive Technology Stack & Architectural Justification
 **Performed by:** Lê Thị Như Ý  | **Reviewed by:** Hồ Thị Như Ngọc  | **Edited by:** Lê Thị Như Ý
+
 To satisfy the functional complexity of the defined use cases alongside stringent Non-Functional Requirements regarding security, responsiveness, and concurrent transaction safety, the **MyUS University Portal System** adopts a modern, decoupled Full-Stack architecture. Every technology and framework selected within this stack is justified by explicit domain constraints and operational requirements.
 
 ---
@@ -211,11 +214,13 @@ To satisfy the functional complexity of the defined use cases alongside stringen
 The client-side architecture is engineered as a **Single Page Application (SPA)** to ensure seamless, reload-free navigation across complex student self-service and administrative workflows.
 
 ### Core Framework — React 18
+
 Selected for its declarative, component-driven UI model.
 
 - **React Hooks** (`useState`, `useEffect`, `useMemo`, `useCallback`) manage localized state transitions efficiently, such as:
   - Dynamic calculations during **Course Registration (UC-03)**.
   - Term filtering and GPA computations in the **Grade Dashboard (UC-05)**.
+  - Real-time streaming AI responses in the **AI Learning Assistant (UC-10b)**.
   - Real-time step navigation in **Evaluation Surveys (UC-09)**.
 
 ### Programming Language — TypeScript (v5.x)
@@ -225,8 +230,8 @@ Enforces strict static typing and compile-time contract verification.
 TypeScript is critical for modeling intricate Data Transfer Objects (DTOs), including:
 
 - Multi-field Grade Appeal submissions (**UC-07**).
-- Structured AI Course Recommendation cards (**UC-03b**).
-- Bulk import validation previews (**UC-12**, **UC-13**).
+- Structured AI Course Recommendation cards (**UC-10b**).
+- Bulk import validation previews (**UC-11**, **UC-11a**, **UC-11b**).
 
 This prevents runtime type errors and ensures consistency between frontend and backend data contracts.
 
@@ -237,7 +242,8 @@ The frontend uses plain CSS files organized per component, following the **BEM (
 It enables:
 
 - Condensed daily-agenda layouts on mobile devices (**UC-04**).
-- Clean and expandable UI patterns for the centralized FAQ library (**UC-10**).
+- Clean and expandable UI patterns for the centralized FAQ library (**UC-10a**).
+- Full-width AI chat interface with message bubbles and streaming indicators (**UC-10b**).
 
 without requiring additional CSS framework dependencies.
 
@@ -252,10 +258,8 @@ These wrappers inspect:
 
 This ensures undergraduate students cannot access privileged administrative pages such as:
 
-- Bulk import management.
-- Student data administration.
-
-(**UC-11** through **UC-18**)
+- Bulk import management (**UC-11**, **UC-11a**, **UC-11b**).
+- Student data administration (**UC-13**, **UC-13a**).
 
 ### HTTP Client & Asynchronous Communication — Axios
 
@@ -291,7 +295,9 @@ It encapsulates mission-critical academic business logic, including:
 
 - Curriculum prerequisite/corequisite verification (**UC-03a**).
 - GPA calculation using both the 10-point and 4-point grading scales (**UC-05**).
-- Automated routing of grade appeal queues (**UC-07**).
+- Automated routing of grade appeal queues (**UC-07**, **UC-08**).
+- FAQ search and category filtering (**UC-10a**).
+- AI RAG prompt construction and streaming orchestration (**UC-10b**).
 
 ### Authentication & Security — Spring Security 6 + BCrypt + JWT
 
@@ -304,8 +310,9 @@ Implements a stateless authentication architecture (**UC-01**).
 
 #### Token-Based Session Control
 
-- Authenticated sessions rely on configurable JWT Access Tokens and Refresh Tokens (**NFR ID10**).
+- Authenticated sessions rely on configurable JWT Access Tokens (**NFR ID10**).
 - Unauthorized access attempts immediately receive **HTTP 401 Unauthorized** responses (**NFR ID06**).
+- Password reset workflow uses 6-digit verification codes stored as `PasswordResetToken` entities, valid for 15 minutes (**UC-01 AF2**).
 
 #### Authorization Enforcement
 
@@ -318,7 +325,7 @@ Spring Data JPA abstracts relational SQL operations through repository interface
 Transaction management using `@Transactional` guarantees data integrity during high-concurrency operations, including:
 
 - Course registration seat reservations (**UC-03**, **NFR ID24**).
-- Multi-step grade appeal status updates (**UC-16**).
+- Multi-step grade appeal status updates (**UC-12b**).
 
 ### Validation & Error Handling — Jakarta Bean Validation + `@ControllerAdvice`
 
@@ -328,18 +335,19 @@ Examples include:
 
 - Verifying appeal reason length constraints in **AppealSubmitRequest** (**UC-07**).
 - Validating username and password formats in **AuthRequest**.
+- Validating FAQ feedback boolean in **FaqFeedbackRequest** (**UC-10a**).
 
 A global `@ControllerAdvice` middleware intercepts exceptions and standardizes HTTP error responses into structured JSON payloads (**NFR ID14**).
 
-### AI Orchestration Adapter — Spring AI / LangChain4j
+### AI Orchestration Adapter — Gemini API Integration
 
-Acts as the communication bridge between enterprise Java services and external Large Language Models (LLMs).
+Acts as the communication bridge between enterprise Java services and the external Google Gemini Large Language Model (LLM).
 
 Responsibilities include:
 
-- Formatting student transcripts and curriculum rules into Retrieval-Augmented Generation (RAG) prompts.
-- Sending synchronous REST requests to AI services.
-- Gracefully degrading when AI services experience latency or downtime (**NFR ID18**).
+- Formatting student transcripts, major context, and curriculum rules into Retrieval-Augmented Generation (RAG) prompts (**UC-10b**).
+- Exposing backend AI endpoints: `POST /api/v1/chatbot/chat`, `GET /api/v1/chatbot/recommendations`, `GET /api/v1/chatbot/progress`.
+- Gracefully degrading to offline local knowledge base when AI services experience latency or downtime (**UC-10b AF2**, **NFR ID18**).
 
 ---
 
@@ -356,21 +364,24 @@ It stores structured schemas including:
 - `users`
 - `students`
 - `course_offerings`
-- `enrollments`
+- `course_registrations`
+- `grades`
 - `grade_appeals`
-- `tuition_invoices`
-- `class_transfer_requests`
-- `chatbot_sessions`
+- `appeal_attachments`
+- `tuition_accounts`
+- `tuition_payments`
 - `faq_articles`
-- `surveys`
+- `password_reset_tokens`
+- `exam_schedules`
 - System audit logs
 
-(**UC-11**, **UC-17**)
+(**UC-11**, **UC-13**)
 
 Database indexing strategies ensure that:
 
 - Historical grade queries.
 - Student record searches.
+- FAQ keyword searches.
 
 remain performant even with large datasets (**NFR ID05**).
 
@@ -397,14 +408,14 @@ To provide advanced capabilities without reinventing existing infrastructure, My
 
 ### AI Counseling Engine — Google Gemini / OpenAI LLM API
 
-Provides the intelligence behind the **AI Learning Path Chatbot (UC-03b)**.
+Provides the intelligence behind the **AI Learning Assistant Chatbot (UC-10b)**.
 
 The AI service:
 
-- Receives anonymized transcript summaries.
-- Receives curriculum rules.
-- Suggests next-semester courses.
-- Simulates graduation roadmaps.
+- Receives anonymized student academic context (major, GPA, enrolled courses).
+- Receives curriculum rules and course catalog data (RAG via `courses.json`).
+- Suggests next-semester courses with credit and prerequisite details.
+- Simulates graduation roadmaps and degree audit results.
 
 AI-generated recommendations are advisory only and **cannot bypass official prerequisite validation rules** (**NFR ID18**).
 
@@ -414,9 +425,10 @@ Responsible for sending automated emails and system notifications.
 
 Notifications are triggered during:
 
-- Security lockouts (**UC-01 AF1**).
-- Profile contact information updates (**UC-02 AF5**).
-- Grade appeal fee-payment deadline creation by administrators (**UC-15**, **UC-16**).
+- Security lockouts and 6-digit password reset verification codes (**UC-01 AF2**).
+- Profile contact information updates (**UC-02**).
+- Grade appeal fee-payment deadline creation by administrators (**UC-12a**).
+- Grade appeal status change notifications (**UC-12b**).
 
 ---
 
@@ -448,7 +460,8 @@ JUnit 5 and Mockito are used to build comprehensive backend unit tests covering 
 
 - Prerequisite validation algorithms (**UC-03a**, **NFR ID30**).
 - Official GPA calculation algorithms (**UC-05**, **NFR ID30**).
-- Grade appeal workflow state transitions (**UC-07**, **NFR ID30**).
+- Grade appeal workflow state transitions (**UC-07**, **UC-12b**, **NFR ID30**).
+- Enrollment service business rules including credit limit and seat capacity checks (**UC-03**).
 
 ## 3. C4 Model - Level 1: System Context Diagram
 **Performed by:** Lê Thị Như Ý  | **Reviewed by:** Hồ Thị Như Ngọc  | **Edited by:** Lê Thị Như Ý
@@ -456,74 +469,71 @@ JUnit 5 and Mockito are used to build comprehensive backend unit tests covering 
 
 ```mermaid
 flowchart TB
-    %% C4 Model Styling Definitions
     classDef person fill:#08427b,stroke:#052e56,stroke-width:2px,color:#ffffff,font-weight:bold
     classDef system fill:#1168bd,stroke:#0b4884,stroke-width:3px,color:#ffffff,font-weight:bold
     classDef external fill:#999999,stroke:#666666,stroke-width:2px,color:#ffffff,font-style:italic
 
-    %% Primary Actors (People)
-    Student["<<Person>><br/><b>Student</b><br/>Undergraduate learners executing academic self-service, course registration, grade tracking, digital appeals, and AI advising."]:::person
+    %% People — human users only (C4 Person stereotype)
+    Student["<<Person>><br/>Student<br/>Undergraduate learner performing self-service tasks:<br/>course registration, grade tracking, digital appeals,<br/>FAQ lookup, and AI academic advising."]:::person
 
-    Admin["<<Person>><br/><b>Administrator</b><br/>Academic Affairs officers managing bulk data imports, class controls, grade appeal workflows, and student records."]:::person
+    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing bulk data imports,<br/>class controls, appeal reviews, fee deadlines,<br/>and student records."]:::person
 
     %% Target Software System
-    MyUS["<<Software System>><br/><b>MyUS University Portal System</b><br/>Centralized academic platform digitalizing university operations, providing unified self-service workflows, automated grade appeal tracking, and intelligent curriculum counseling."]:::system
+    MyUS["<<Software System>><br/>MyUS University Portal System<br/>Centralized academic platform digitalizing university<br/>operations: self-service workflows, grade appeal tracking,<br/>AI curriculum counseling, and searchable FAQ support."]:::system
 
     %% External Software Systems
-    GeminiAI["<<External System>><br/><b>Google Gemini / OpenAI LLM API</b><br/>Cloud-based Large Language Model service providing natural language understanding and smart course recommendations."]:::external
+    GeminiAI["<<External System>><br/>Google Gemini LLM API<br/>Cloud-based Large Language Model powering<br/>AI course recommendations, academic advising,<br/>and graduation audit analysis (UC-10b)."]:::external
 
-    EmailGateway["<<External System>><br/><b>Campus SMTP Email Gateway</b><br/>University notification server for dispatching transactional emails and fee deadline alerts."]:::external
+    EmailGateway["<<External System>><br/>Campus SMTP Email Gateway<br/>University mail infrastructure dispatching<br/>transactional emails: password resets,<br/>appeal status updates, and fee deadline alerts."]:::external
 
-    FileStorage["<<External System>><br/><b>Local File System / Object Storage</b><br/>Binary file storage infrastructure for persisting grade appeal evidentiary documents."]:::external
+    FileStorage["<<External System>><br/>Local File System / Object Storage<br/>Binary storage infrastructure persisting<br/>grade appeal evidentiary documents<br/>(.pdf, .jpg, .png — up to 5 MB each)."]:::external
 
-    %% Human-to-System Interactions
-    Student -->|"Registers courses, views grades/timetables, submits digital appeals with evidence, and queries AI advisor"| MyUS
+    %% Relationships — users interact with the system
+    Student -->|"Registers courses, views grades and timetable, submits grade appeals, searches FAQ, and uses AI learning assistant"| MyUS
+    Admin -->|"Imports bulk data, manages class controls, processes grade appeals, sets fee deadlines, and inspects student records"| MyUS
 
-    Admin -->|"Executes bulk data imports, manages class controls, processes grade appeals, and inspects student records"| MyUS
-
-    %% System-to-External System Interactions
-    MyUS -->|"Requests degree audits and smart course recommendations"| GeminiAI
-
-    MyUS -->|"Dispatches transactional emails and security alerts"| EmailGateway
-
-    MyUS -->|"Persists and retrieves supporting appeal documents"| FileStorage
+    %% Relationships — system uses external services
+    MyUS -->|"Sends academic context and queries; receives AI course recommendations and graduation audit results"| GeminiAI
+    MyUS -->|"Dispatches transactional emails: password reset codes, appeal status updates, and fee payment deadline alerts"| EmailGateway
+    MyUS -->|"Stores and retrieves supporting documents for grade appeal cases"| FileStorage
 ```
 ## 3.2. Detailed Architectural Narrative & System Boundaries
 
 ### A. The Target System: MyUS University Portal System
 
-At the center of the architecture is the **MyUS University Portal System**, which encapsulates all business logic, data validation rules, security controls, and workflow orchestration required to execute the 18 defined Use Cases (UC-01 through UC-18).
+At the center of the architecture is the **MyUS University Portal System**, which encapsulates all business logic, data validation rules, security controls, and workflow orchestration required to execute the 21 defined Use Cases (UC-01 through UC-13a).
 
 The system bridges two distinct user domains:
 
-#### Student Self-Service Domain (UC-01 to UC-10)
+#### Student Self-Service Domain (UC-01 to UC-10b)
 
 This domain encompasses the core self-service capabilities available to undergraduate students, including:
 
-- Authentication (**UC-01**)
-- Profile management (**UC-02**)
+- Authentication with forgot/reset password workflow (**UC-01**)
+- Profile management (phone, address) (**UC-02**)
 - Course registration with prerequisite validation (**UC-03**, **UC-03a**)
-- AI-driven course recommendations (**UC-03b**)
-- Timetable tracking (**UC-04**)
-- Grade and GPA monitoring (**UC-05**)
-- Tuition fee tracking (**UC-06**)
+- Timetable tracking with weekly grid and agenda views (**UC-04**)
+- Grade and GPA monitoring with 10-point and 4-point scales (**UC-05**)
+- Tuition fee tracking with payment history (**UC-06**)
 - Digital grade appeal submissions with supporting document uploads (**UC-07**, **UC-07a**)
-- Appeal status tracking (**UC-08**)
+- Appeal status tracking with admin reviewer notes and fee deadline display (**UC-08**)
 - Evaluation survey submissions (**UC-09**)
-- Centralized FAQ support (**UC-10**)
+- Centralized Help & Support hub (**UC-10**)
+- Searchable FAQ knowledge base with category filtering and feedback (**UC-10a**)
+- AI Learning Assistant chatbot with streaming Gemini responses (**UC-10b**)
 
-#### Administrative Governance Domain (UC-11 to UC-18)
+#### Administrative Governance Domain (UC-11 to UC-13a)
 
 This domain supports administrative operations, including:
 
-- Bulk data and class control (**UC-11**)
-- Data file imports (**UC-12**)
-- Format validation reporting (**UC-13**)
-- Appeal processing management (**UC-14**)
-- Physical fee payment deadline configuration (**UC-15**)
-- Appeal status updates (**UC-16**)
-- Student data administration (**UC-17**)
-- Multi-criteria student record searching (**UC-18**)
+- Bulk data and class control management (**UC-11**)
+- Student/course/class data file imports with preview and confirmation (**UC-11a**)
+- Data format validation and error reporting (**UC-11b**)
+- Appeal processing management with document review (**UC-12**)
+- Physical fee payment deadline configuration with student notification (**UC-12a**)
+- Appeal status updates with processing notes (**UC-12b**)
+- Student data administration with role-based access control (**UC-13**)
+- Multi-criteria student record searching with pagination (**UC-13a**)
 
 ---
 
@@ -549,6 +559,10 @@ They use dedicated administrative interfaces to:
 - Configure physical office fee-payment deadlines.
 - Inspect and manage confidential student records.
 
+#### AI Engine (`<<Actor>>`)
+
+The Google Gemini LLM API acts as an automated AI actor within **UC-10b (AI Learning Assistant)**. It receives structured academic context (student major, cumulative GPA, course catalog, completed credits) formatted as Retrieval-Augmented Generation (RAG) prompts by the backend `ChatbotController`, then streams natural-language course recommendations and graduation advisories back to the student's chat interface via `askGeminiStream`. If the Gemini service is unavailable, the system transparently falls back to the `localChatbotService.ts` offline knowledge base.
+
 ---
 
 ### C. External Software Systems & Integration Mechanics
@@ -557,13 +571,13 @@ To provide advanced capabilities while avoiding duplication of core infrastructu
 
 #### Google Gemini / OpenAI LLM API (`<<External Software System>>`)
 
-This external AI service powers the **AI Learning Path Chatbot (UC-03b)**.
+This external AI service powers the **AI Learning Assistant (UC-10b)**.
 
 The platform securely communicates with the cloud-based Large Language Model (LLM) by transmitting curriculum context and user queries. The AI service analyzes prerequisite constraints and generates:
 
-- Intelligent course recommendations.
-- Personalized graduation pathway guidance.
-- Natural-language academic counseling responses.
+- Intelligent course recommendations via `GET /api/v1/chatbot/recommendations`.
+- Personalized graduation pathway guidance via `GET /api/v1/chatbot/progress`.
+- Natural-language academic counseling responses streamed in real-time via `askGeminiStream`.
 
 ---
 
@@ -573,10 +587,10 @@ The Campus SMTP Email Gateway serves as the university's centralized notificatio
 
 It automatically delivers transactional email notifications triggered by events such as:
 
-- Security incidents (e.g., account lockouts and password resets).
-- Student profile modifications.
-- Grade appeal status updates.
-- Administrative fee-payment reminders.
+- Security incidents: 6-digit password reset verification codes and account lockouts (**UC-01 AF2**).
+- Student profile modifications (**UC-02**).
+- Grade appeal fee-payment deadline creation by administrators (**UC-12a**).
+- Grade appeal status change notifications to students (**UC-12b**).
 
 ---
 
