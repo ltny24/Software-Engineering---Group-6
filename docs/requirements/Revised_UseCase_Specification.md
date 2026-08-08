@@ -1,6 +1,6 @@
 # MyUS Portal - Use-Case Specification
 
-Performed by: Hồ Thị Như Ngọc, Trần Tường Vi, Hoàng Trung Kiên | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc, Trần Tường Vi, Hoàng Trung Kiên
+*Performed by: Hồ Thị Như Ngọc, Trần Tường Vi, Hoàng Trung Kiên | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc, Trần Tường Vi, Hoàng Trung Kiên*
 
 ---
 
