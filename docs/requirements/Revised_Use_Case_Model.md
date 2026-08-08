@@ -1,4 +1,7 @@
 # MyUS Portal — Use-Case Model
+
+*Performed by: Hồ Thị Như Ngọc | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc*
+
 ---
 
 | # | Issue Found | Resolution |
