@@ -1117,7 +1117,7 @@ This use case allows the Administrator to review and process student appeals.
 ![](Prototype_Req/admin/appeal_close.jpg)
 
 ## 4. Postconditions
-- The appeal’s payment deadline and/or processing status are updated, and the student is notified, according to the outcomes of UC-15 – Set Fee Payment Deadline and UC-16 – Update Appeal Status.
+- The appeal’s payment deadline and/or processing status are updated, and the student is notified, according to the outcomes of UC-12a – Set Fee Payment Deadline and UC-12b – Update Appeal Status.
 
 ## 5. Special Requirements
 - Appeal documents must only be accessible to authorized users.
