@@ -9,21 +9,23 @@ import { useNavigate } from 'react-router-dom';
 import { FaRobot, FaPaperPlane, FaArrowLeft } from 'react-icons/fa6';
 import { useChatbot } from '../../components/chatbot/ChatbotContext';
 import { askGeminiStream } from '../../services/geminiService';
+import { useAuth } from '../../auth/useAuth';
+import { getMyProfile } from '../../services/profileService';
 import type { ChatMessage } from '../../types/chatbot.types';
 import ChatMessageBubble from '../../components/chatbot/ChatMessageBubble';
 import QuickActionChips from '../../components/chatbot/QuickActionChips';
 import { ROUTES } from '../../utils/constants';
 import './AIChatbotPage.css';
 
-const WELCOME_TEXT = `Xin chào! Tôi là trợ lý học tập AI của HCMUS. Tôi có thể giúp bạn:
+const WELCOME_TEXT = `Hello! I'm the HCMUS AI Learning Assistant. I can help you with:
 
-• Tư vấn môn học — gợi ý môn phù hợp cho học kỳ tới
-• Theo dõi tốt nghiệp — kiểm tra tiến độ học tập
-• Giải thích môn học — nội dung, điều kiện, ứng dụng
-• Học phí & điểm số — thông tin thanh toán, GPA
-• Chính sách học vụ — quy định, thủ tục
+• Course Advising — suggest suitable courses for the next semester
+• Graduation Tracking — check your academic progress
+• Course Explanations — content, prerequisites, and applications
+• Tuition & Grades — payment information, GPA
+• Academic Policies — rules and procedures
 
-Hãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!`;
+Feel free to ask me anything about studying at HCMUS!`;
 
 const useSafeNavigate = () => {
   try {
@@ -39,11 +41,49 @@ const useSafeNavigate = () => {
 
 export default function AIChatbotPage() {
   const navigate = useSafeNavigate();
+  const { user } = useAuth();
   const { messages, setMessages } = useChatbot();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [userContext, setUserContext] = useState<string>('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
+
+  // Fetch student profile to build AI context
+  useEffect(() => {
+    if (user?.role === 'STUDENT') {
+      getMyProfile()
+        .then(async (profile) => {
+          let ctx = `- Name: ${profile.firstName} ${profile.lastName}\n- Major: ${profile.major}\n- Student Type: ${profile.studentType}\n- Enrollment Status: ${profile.enrollmentStatus}`;
+
+          try {
+            const { default: api } = await import('../../services/api');
+            const data = await api.get<any[]>('/api/v1/grades/me');
+            if (data && Array.isArray(data)) {
+              const validGrades = data.filter((item: any) => Number(item.gradePoint) > 0);
+              const totalCredits = validGrades.reduce(
+                (sum: number, item: any) => sum + (Number(item.credits) || 0),
+                0
+              );
+              const weighted = validGrades.reduce(
+                (sum: number, item: any) =>
+                  sum + (Number(item.gradePoint) || 0) * (Number(item.credits) || 0),
+                0
+              );
+              const gpa = totalCredits > 0 ? weighted / totalCredits : 0;
+              ctx += `\n- Current GPA: ${gpa.toFixed(2)} / 10.0`;
+            }
+          } catch (err) {
+            console.warn('Could not fetch GPA for AI context', err);
+          }
+
+          setUserContext(ctx);
+        })
+        .catch((err) => {
+          console.warn('Could not fetch profile for AI context', err);
+        });
+    }
+  }, [user]);
 
   // Ref to keep stable reference to messages for history building.
   // Avoids stale closure issues when streaming updates trigger re-renders.
@@ -108,11 +148,16 @@ export default function AIChatbotPage() {
         }));
 
         // Stream response: onChunk receives full accumulated text
-        await askGeminiStream(text, history, (fullText) => {
-          setMessages((prev) =>
-            prev.map((m) => (m.id === assistantId ? { ...m, content: fullText } : m))
-          );
-        });
+        await askGeminiStream(
+          text,
+          history,
+          (fullText) => {
+            setMessages((prev) =>
+              prev.map((m) => (m.id === assistantId ? { ...m, content: fullText } : m))
+            );
+          },
+          userContext
+        );
       } catch (err) {
         // Show the specific error message from Gemini (already formatted in the service)
         const errorMsg =

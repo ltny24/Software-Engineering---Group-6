@@ -13,6 +13,7 @@
  */
 
 import React from 'react';
+jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import toast from 'react-hot-toast';

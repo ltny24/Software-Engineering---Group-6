@@ -146,10 +146,13 @@ function sanitizeHistory(history: ChatHistory[]): ChatHistory[] {
 /**
  * Build the full system instruction including RAG course context.
  */
-function buildSystemInstruction(message: string): string {
+function buildSystemInstruction(message: string, userContext?: string): string {
   const relevantCourses = searchCourseData(message);
   const courseContext = formatCoursesForPrompt(relevantCourses);
-  return SYSTEM_PROMPT + courseContext;
+  const contextStr = userContext
+    ? `\n\n--- USER CONTEXT ---\nYou are talking to the following student. Use this context to personalize your answers:\n${userContext}`
+    : '';
+  return SYSTEM_PROMPT + courseContext + contextStr;
 }
 
 /**
@@ -327,7 +330,8 @@ export async function askGemini(message: string, history: ChatHistory[] = []): P
 export async function askGeminiStream(
   message: string,
   history: ChatHistory[],
-  onChunk: (fullText: string) => void
+  onChunk: (fullText: string) => void,
+  userContext?: string
 ): Promise<string> {
   // 1. Check cache — if hit, deliver immediately
   const cacheKey = buildCacheKey(message, history);
@@ -338,7 +342,7 @@ export async function askGeminiStream(
   }
 
   const client = getGenAI();
-  const systemText = buildSystemInstruction(message);
+  const systemText = buildSystemInstruction(message, userContext);
   const validHistory = sanitizeHistory(history);
 
   // 2. Try direct Gemini streaming with retries

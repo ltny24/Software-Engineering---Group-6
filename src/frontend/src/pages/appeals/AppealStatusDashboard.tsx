@@ -308,11 +308,16 @@ export const AppealStatusDashboard: React.FC = () => {
                       <td style={{ padding: '16px' }}>
                         <span style={{ color: 'var(--color-text-secondary, #64748b)' }}>
                           Current: {item.currentGrade}
-                        </span>{' '}
-                        →{' '}
-                        <span style={{ fontWeight: '600', color: '#38BDF8' }}>
-                          Exp: {item.expectedGrade}
                         </span>
+                        {item.expectedGrade != null && item.expectedGrade !== item.currentGrade && (
+                          <>
+                            {' '}
+                            →{' '}
+                            <span style={{ fontWeight: '600', color: '#38BDF8' }}>
+                              Exp: {item.expectedGrade}
+                            </span>
+                          </>
+                        )}
                       </td>
                       <td style={{ padding: '16px' }}>
                         <AppealStatusBadge status={item.status} />

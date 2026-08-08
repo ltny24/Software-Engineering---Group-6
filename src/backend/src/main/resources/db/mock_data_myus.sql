@@ -1,3 +1,6 @@
+USE MyUS;
+GO
+
 SET QUOTED_IDENTIFIER ON;
 -- ==========================================================
 -- MOCK DATA FOR MYUS UNIVERSITY PORTAL SYSTEM (SQL SERVER)
@@ -2799,6 +2802,7 @@ INSERT INTO myus.Appeal (studentId, gradeId, submittedAt, status, appealReason, 
 (2, 8, '2026-02-20 09:30:00', 'Approved', N'Requesting re-evaluation of midterm assignment 2 question 4.', 'https://ktdbcl.hcmus.edu.vn/', N'Grade adjusted from 7.0 to 8.5 after verification.', '2026-03-01 17:00:00', '2026-02-25 11:00:00', 'GRADE_INCREASED', 2, 8.5),
 (3, 14, '2026-02-22 16:45:00', 'Denied', N'Discrepancy in attendance points for Operating Systems.', 'https://ktdbcl.hcmus.edu.vn/', N'Attendance records confirmed accurate by lecturer.', '2026-03-05 17:00:00', '2026-02-28 14:20:00', 'NO_CHANGE', 3, 9.0),
 (4, 20, '2026-02-24 11:10:00', 'Submitted', N'Requesting final exam paper review for AI introduction course.', 'https://ktdbcl.hcmus.edu.vn/', NULL, '2026-03-10 17:00:00', NULL, NULL, NULL, 8.5);
+
 
 -- 11. INSERT FAQ ARTICLES
 INSERT INTO myus.FAQArticle (question, answer, category, tags, updatedAt, published) VALUES

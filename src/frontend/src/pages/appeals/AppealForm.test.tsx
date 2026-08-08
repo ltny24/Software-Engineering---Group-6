@@ -1,4 +1,5 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 import React from 'react';
 import AppealForm from './AppealForm';
 import api from '../../services/api';

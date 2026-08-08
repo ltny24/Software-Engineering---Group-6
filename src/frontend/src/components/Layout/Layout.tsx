@@ -39,7 +39,7 @@ function ChatbotTopbarLeft() {
         id: `welcome-${Date.now()}`,
         role: 'assistant' as const,
         content:
-          'Xin chào! Tôi là trợ lý học tập AI của HCMUS. Tôi có thể giúp bạn:\n\n• Tư vấn môn học — gợi ý môn phù hợp cho học kỳ tới\n• Theo dõi tốt nghiệp — kiểm tra tiến độ học tập\n• Giải thích môn học — nội dung, điều kiện, ứng dụng\n• Học phí & điểm số — thông tin thanh toán, GPA\n• Chính sách học vụ — quy định, thủ tục\n\nHãy hỏi tôi bất cứ điều gì về việc học tập tại HCMUS nhé!',
+          "Hello! I'm the HCMUS AI Learning Assistant. I can help you with:\n\n• Course Advising — suggest suitable courses for the next semester\n• Graduation Tracking — check your academic progress\n• Course Explanations — content, prerequisites, and applications\n• Tuition & Grades — payment information, GPA\n• Academic Policies — rules and procedures\n\nFeel free to ask me anything about studying at HCMUS!",
         timestamp: new Date().toISOString(),
       },
     ]);

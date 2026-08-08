@@ -528,26 +528,59 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
           <label style={labelStyle} htmlFor="supporting-file">
             Supporting document
           </label>
-          <input
-            id="supporting-file"
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
+          <div
             style={{
-              display: 'block',
-              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
               border: '1px solid rgba(100,140,200,0.2)',
               borderRadius: 8,
-              padding: '10px 12px',
-              fontSize: 14,
-              color: '#E2E8F0',
+              padding: '6px 12px',
               backgroundColor: 'rgba(15,23,50,0.3)',
+              opacity: formDisabled ? 0.6 : 1,
             }}
-            onChange={(event) => {
-              setSubmitError(null);
-              setSelectedFile(event.target.files?.[0] ?? null);
-            }}
-            disabled={formDisabled}
-          />
+          >
+            <label
+              htmlFor="supporting-file"
+              style={{
+                display: 'inline-block',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: 4,
+                cursor: formDisabled ? 'not-allowed' : 'pointer',
+                marginRight: 12,
+                fontSize: 14,
+                color: '#E2E8F0',
+                transition: 'background-color 0.2s',
+              }}
+              onMouseOver={(e) => {
+                if (!formDisabled) {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.15)';
+                }
+              }}
+              onMouseOut={(e) => {
+                if (!formDisabled) {
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+                }
+              }}
+            >
+              Choose File
+            </label>
+            <span style={{ fontSize: 14, color: selectedFile ? '#E2E8F0' : '#94a3b8' }}>
+              {selectedFile ? selectedFile.name : 'No file chosen'}
+            </span>
+            <input
+              id="supporting-file"
+              type="file"
+              accept=".pdf,.jpg,.jpeg,.png"
+              style={{ display: 'none' }}
+              onChange={(event) => {
+                setSubmitError(null);
+                setSelectedFile(event.target.files?.[0] ?? null);
+              }}
+              disabled={formDisabled}
+            />
+          </div>
           <p style={helperTextStyle}>
             Optional. Accepted formats: PDF, JPG, PNG. Maximum size: 5MB.
           </p>
