@@ -33,7 +33,7 @@ flowchart TB
     %% Primary Actors (People)
     Student["<<Person>><br/>Student<br/>Undergraduate learner performing self-service academic actions: viewing grades, registering courses, submitting appeals, accessing FAQ, and interacting with AI advisor."]:::person
 
-    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing data imports, class controls, grade appeal reviews, fee deadlines, and student records."]:::person
+    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing data imports, class controls, class transfers, grade appeal reviews, fee deadlines, and student records."]:::person
 
     %% System Boundary
     subgraph SystemBoundary ["MyUS University Portal System (System Boundary)"]
@@ -209,7 +209,7 @@ flowchart TB
         direction TB
         AuthCtrl["AuthController | POST /api/auth/login<br/>POST /api/auth/forgot-password<br/>POST /api/auth/reset-password | Auth & password reset"]:::controller
         CourseCtrl["CourseController | GET /api/courses<br/>GET /api/courses/:id | Course catalog browsing"]:::controller
-        EnrollmentCtrl["EnrollmentController | POST+GET /api/registrations<br/>PUT /api/registrations/:id/drop | Enrollment lifecycle"]:::controller
+        EnrollmentCtrl["EnrollmentController | POST+GET /api/registrations<br/>PUT /api/registrations/:id/drop<br/>POST /api/admin/transfers | Enrollment & admin transfers"]:::controller
         GradeCtrl["GradeController | GET /api/v1/grades/me | Student grade retrieval"]:::controller
         FinanceCtrl["FinanceController | GET /api/v1/finance/tuition/balance | Tuition balance and payments"]:::controller
         ProfileCtrl["ProfileController | GET+PUT /api/v1/profile | Student profile view and update"]:::controller
@@ -222,7 +222,7 @@ flowchart TB
     subgraph ServiceLayer["SERVICE LAYER"]
         direction TB
         CourseSvc["CourseService | browseCourses(), getOfferingById() | Paginated catalog with filters"]:::service
-        EnrollmentSvc["EnrollmentService | registerCourse(), getMyRegistrations(), dropRegistration() | Enrollment lifecycle with credit & seat checks"]:::service
+        EnrollmentSvc["EnrollmentService | registerCourse(), getMyRegistrations(), dropRegistration(), transferStudents() | Enrollment lifecycle & admin class transfers"]:::service
         GradeSvc["GradeService | getMyGrades() | GPA 10-point and 4-point scale calculation"]:::service
         FinanceSvc["FinanceService | getTuitionBalance(), getPaymentHistory() | Financial aggregation"]:::service
         ProfileSvc["ProfileService | getProfile(), updateProfile() | Profile CRUD with partial update"]:::service
@@ -366,7 +366,7 @@ The Controller Layer is the entry point for all HTTP requests. Each controller i
 |-----------|-----------|------|----------------|------------|
 | **AuthController** | `/api/auth` | Authenticates users via Spring Security's `AuthenticationManager`, generates JWT tokens, returns `AuthResponse` with user info. Manages forgot-password (`POST /forgot-password`) and reset-password (`POST /reset-password`) workflows with 6-digit verification codes (**UC-01 AF2**). | Public (`POST /login`, `/forgot-password`, `/reset-password`) | `AuthenticationManager`, `JwtTokenProvider`, `PasswordResetTokenRepository` |
 | **CourseController** | `/api/courses` | Provides paginated course catalog browsing with optional search, department, and term filters (**UC-03**). | `@PreAuthorize("isAuthenticated()")` | `CourseService` |
-| **EnrollmentController** | `/api/registrations` | Manages the course registration lifecycle: register, list my enrollments, drop (**UC-03**, **UC-03a**). | `@IsStudent` | `EnrollmentService` |
+| **EnrollmentController** | `/api/registrations`, `/api/admin/transfers` | Manages the student course registration lifecycle (register, drop) and administrator-facing bulk class transfers (**UC-03**, **UC-03a**, **UC-14**). | `@IsStudent`, `@IsAdministrator` | `EnrollmentService` |
 | **GradeController** | `/api/v1/grades` | Retrieves the authenticated student's grades with GPA computation (10-point and 4-point scales) (**UC-05**). | `@IsStudent` | `GradeService` |
 | **FinanceController** | `/api/v1/finance` | Retrieves tuition balance summary and paginated payment history per term (**UC-06**). | `@PreAuthorize("hasRole('STUDENT')")` | `FinanceService` |
 | **ProfileController** | `/api/v1/profile` | Views and partially updates student profile fields (phone, address) while preserving locked academic fields (**UC-02**). | `@PreAuthorize("hasRole('STUDENT')")` | `ProfileService` |
@@ -388,7 +388,7 @@ The Service Layer encapsulates all business rules, domain logic, and transaction
 | Component | Key Methods | Business Responsibilities | Depends On |
 |-----------|-------------|---------------------------|------------|
 | **CourseService** | `browseCourses(page, size, search, department, term)`, `getOfferingById(id)` | Paginated catalog queries with dynamic filters; uses JOIN FETCH on `CourseOfferingRepository`; counts active enrollments via `CourseRegistrationRepository`. Maps `CourseOffering` entities to `CourseOfferingResponse` DTOs. | `CourseOfferingRepository`, `CourseRegistrationRepository` |
-| **EnrollmentService** | `registerCourse(username, request)`, `getMyRegistrations(username)`, `dropRegistration(username, id)` | Validates seat availability, prerequisite eligibility (**UC-03a**), credit limit (max 24 per term), and schedule conflict detection; prevents duplicate enrollment; manages `Enrolled` → `Dropped` transitions; updates available seat counts. | `CourseRegistrationRepository`, `CourseOfferingRepository`, `StudentRepository` |
+| **EnrollmentService** | `registerCourse(username, request)`, `getMyRegistrations(username)`, `dropRegistration(username, id)`, `transferStudents(sourceId, targetId, studentIds)` | Validates seat availability, prerequisite eligibility (**UC-03a**), credit limit (max 24 per term), and schedule conflict detection; manages `Enrolled` → `Dropped` transitions; updates available seat counts; processes transaction-safe admin class transfers (**UC-14**). | `CourseRegistrationRepository`, `CourseOfferingRepository`, `StudentRepository` |
 | **GradeService** | `getMyGrades(username)` | Retrieves all grade records for a student; computes cumulative GPA on both 10-point and 4-point scales; groups grades by academic term. | `GradeRepository`, `StudentRepository` |
 | **FinanceService** | `getTuitionBalance(username)`, `getPaymentHistory(username)` | Computes current tuition balance (charges − payments − scholarships); checks financial hold status; retrieves chronological payment transaction history. | `TuitionAccountRepository`, `TuitionPaymentRepository`, `StudentRepository` |
 | **ProfileService** | `getProfile(username)`, `updateProfile(username, request)` | Retrieves full student profile including personal info, major, enrollment status; performs partial updates on allowed fields (phone, address) while preserving immutable academic fields. | `StudentRepository` |
@@ -511,7 +511,7 @@ flowchart TB
         SupportPg["SupportPage | Help and Support hub with 2 service cards | Route: /support (Protected)"]:::page
         FaqPg["FaqPage | FAQ search + category filter + feedback + popular entries | Route: /support/faq (Protected)"]:::page
         AIChatbotPg["AIChatbotPage | Gemini streaming chat + quick actions + course/graduation cards | Route: /support/ai-chatbot (Protected)"]:::page
-        AdminPg["AdminPage | Admin dashboard placeholder | Route: /admin/* (Admin Only)"]:::page
+        AdminPg["AdminPage | Admin dashboard for class control and bulk transfers (UC-14) | Route: /admin/* (Admin Only)"]:::page
         NotFoundPg["NotFoundPage | 404 with link back to dashboard | Route: /404 (Public)"]:::page
     end
 
@@ -805,11 +805,11 @@ Per PA4 requirements, the architecture diagrams must accurately reflect the actu
 | Backend Repositories | All 12 repository interfaces documented | Verified: matches `backend/src/main/java/com/myus/repository/` |
 | Backend Security | All 7 security components documented | Verified: `SecurityConfig`, `JwtTokenProvider`, `JwtAuthenticationFilter`, `JwtAuthenticationEntryPoint`, `UserDetailsServiceImpl`, `@IsStudent`, `@IsAdministrator` |
 | Backend Exception Handling | `GlobalExceptionHandler` + `ApiError` documented | Verified: matches `backend/src/main/java/com/myus/exception/` |
-| Frontend Pages | All 14 page components documented (13 implemented, 1 placeholder) | Verified: matches `frontend/src/pages/` |
+| Frontend Pages | All 14 page components documented | Verified: matches `frontend/src/pages/` |
 | Frontend Auth | All 5 auth module components documented | Verified: `useAuth.tsx`, `ProtectedRoute.tsx`, `authService.ts`, `UnauthorizedScreen` |
 | Frontend Shared Components | All 7 shared components documented | Verified: `Layout`, `Sidebar`, `PlaceholderPage`, `ThemeContext`, `SkyBackground`, `AtomBackground`, `ClickEffect` |
 | Frontend Appeal Components | All 4 appeal UI components documented | Verified: `AppealDetailDrawer`, `AppealFilterToolbar`, `AppealStatusBadge`, `DeadlineCountdown` |
 | Frontend Chatbot Components | All 5 chatbot UI components documented | Verified: `ChatbotContext`, `ChatMessageBubble`, `CourseSuggestionCard`, `GraduationRoadmapCard`, `QuickActionChips` |
-| Frontend Services | All 8 service modules documented | Verified: `api.ts`, `courseService.ts`, `profileService.ts`, `appealService.ts`, `faqService.ts`, `chatbotService.ts`, `geminiService.ts`, `localChatbotService.ts` |
+| Frontend Services | All 9 service modules documented | Verified: `api.ts`, `courseService.ts`, `profileService.ts`, `appealService.ts`, `faqService.ts`, `chatbotService.ts`, `geminiService.ts`, `localChatbotService.ts`, `enrollmentService.ts` |
 | Frontend Utils | All 3 utility/type modules documented | Verified: `constants.ts`, `tokenUtils.ts`, `types/index.ts` |
 | Frontend Routes | All 14 application routes documented with guard and status | Verified: matches `App.tsx` route definitions |

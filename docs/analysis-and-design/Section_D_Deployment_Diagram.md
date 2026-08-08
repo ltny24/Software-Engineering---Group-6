@@ -1,4 +1,4 @@
-﻿# Section D: Deployment Diagram
+# Section D: Deployment Diagram
 **Performed by:** Trần Tường Vi | **Reviewed by:** Hoàng Trung Kiên | **Edited by:** Trần Tường Vi
 
 ---
@@ -81,7 +81,7 @@ flowchart TB
 * **Infrastructure:** End-user's personal computer or mobile browser (no dedicated hardware provisioned by the system; Chrome, Edge, Firefox, or Safari on desktop/mobile).
 * **Container(s) deployed:** **Frontend Web Application** — the compiled React 18 SPA bundle (static HTML/CSS/JS) is downloaded once and then executes entirely client-side.
 * **Outbound protocols:**
-  * Issues **HTTPS/REST** calls carrying JSON and multipart payloads, with a JWT Bearer token attached via the Axios interceptor, to the Application Server for all portal operations (UC-01 through UC-13a).
+  * Issues **HTTPS/REST** calls carrying JSON and multipart payloads, with a JWT Bearer token attached via the Axios interceptor, to the Application Server for all portal operations (UC-01 through UC-14).
   * Issues **HTTPS/SSE** streaming calls directly to the Google Gemini Cloud API via `geminiService.askGeminiStream()` for real-time AI chat responses (**UC-10b**). Falls back to `localChatbotService.ts` offline knowledge base if Gemini is unreachable (**UC-10b AF2**).
 
 ---

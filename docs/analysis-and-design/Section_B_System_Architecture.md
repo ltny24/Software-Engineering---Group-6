@@ -1,4 +1,4 @@
-﻿# B - Software Architecture: System Context Diagram
+# B - Software Architecture: System Context Diagram
 **Performed by:** Lê Thị Như Ý  | **Reviewed by:** Hồ Thị Như Ngọc  | **Edited by:** Lê Thị Như Ý
 
 ---
@@ -476,7 +476,7 @@ flowchart TB
     %% People — human users only (C4 Person stereotype)
     Student["<<Person>><br/>Student<br/>Undergraduate learner performing self-service tasks:<br/>course registration, grade tracking, digital appeals,<br/>FAQ lookup, and AI academic advising."]:::person
 
-    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing bulk data imports,<br/>class controls, appeal reviews, fee deadlines,<br/>and student records."]:::person
+    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing bulk data imports,<br/>class controls, class transfers, appeal reviews,<br/>fee deadlines, and student records."]:::person
 
     %% Target Software System
     MyUS["<<Software System>><br/>MyUS University Portal System<br/>Centralized academic platform digitalizing university<br/>operations: self-service workflows, grade appeal tracking,<br/>AI curriculum counseling, and searchable FAQ support."]:::system
@@ -489,8 +489,8 @@ flowchart TB
     FileStorage["<<External System>><br/>Local File System / Object Storage<br/>Binary storage infrastructure persisting<br/>grade appeal evidentiary documents<br/>(.pdf, .jpg, .png — up to 5 MB each)."]:::external
 
     %% Relationships — users interact with the system
-    Student -->|"Registers courses, views grades and timetable, submits grade appeals, searches FAQ, and uses AI learning assistant"| MyUS
-    Admin -->|"Imports bulk data, manages class controls, processes grade appeals, sets fee deadlines, and inspects student records"| MyUS
+    Student -->|"Registers courses, views grades and timetable,<br/>submits grade appeals, searches FAQ,<br/>and uses AI learning assistant"| MyUS
+    Admin -->|"Imports bulk data, manages class controls,<br/>processes class transfers, sets fee deadlines,<br/>reviews appeals, and inspects records"| MyUS
 
     %% Relationships — system uses external services
     MyUS -->|"Sends academic context and queries; receives AI course recommendations and graduation audit results"| GeminiAI
@@ -522,7 +522,7 @@ This domain encompasses the core self-service capabilities available to undergra
 - Searchable FAQ knowledge base with category filtering and feedback (**UC-10a**)
 - AI Learning Assistant chatbot with streaming Gemini responses (**UC-10b**)
 
-#### Administrative Governance Domain (UC-11 to UC-13a)
+#### Administrative Governance Domain (UC-11 to UC-14)
 
 This domain supports administrative operations, including:
 
@@ -534,6 +534,7 @@ This domain supports administrative operations, including:
 - Appeal status updates with processing notes (**UC-12b**)
 - Student data administration with role-based access control (**UC-13**)
 - Multi-criteria student record searching with pagination (**UC-13a**)
+- Class transfer management and student reassignment (**UC-14**)
 
 ---
 
@@ -555,6 +556,7 @@ They use dedicated administrative interfaces to:
 
 - Upload master schedules.
 - Perform bulk student and course data imports.
+- Execute student class transfers between sections (**UC-14**).
 - Review grade appeal submissions and supporting evidence.
 - Configure physical office fee-payment deadlines.
 - Inspect and manage confidential student records.
