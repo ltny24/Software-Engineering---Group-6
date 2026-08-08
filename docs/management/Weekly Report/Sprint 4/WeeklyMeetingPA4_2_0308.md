@@ -5,7 +5,7 @@
 **Group Name:** High5 (Group 6)  
 **Project Name:** MyUS  
 **Meeting Type:** Weekly Review & Planning Meeting  
-**Meeting Date:** 01/08/2026  
+**Meeting Date:** 03/08/2026  
 
 ## 1. Meeting Overview
 
@@ -75,14 +75,14 @@ The team reviewed the status of the two required functional groups developed end
 
 - **Track:**
   - Trần Tường Vi demonstrated the progress on the tracking functionality.
-  - The integration with the database is mostly complete and is on track for the 02/08 deadline.
+  - The integration with the database is mostly complete and is on track for the 04/08 deadline.
 
 #### FG3 & FG6: AI Chatbot & Support/FAQ
 
 - **AI Chatbot:**
   - Dương Minh Huỳnh Khôi showcased the initial chatbot integration.
   - The prompt handling and database context retrieval are functional.
-  - Minor UI styling fixes are needed by 02/08.
+  - Minor UI styling fixes are needed by 04/08.
 
 - **Support/FAQ:**
   - Hoàng Trung Kiên has drafted the FAQ static pages and support ticket schemas.
@@ -129,8 +129,8 @@ Based on the progress review, the team updated the remaining tasks, review respo
 | C | Fix and finalize Component Diagram (Mermaid) | Dương Minh Huỳnh Khôi | Hồ Thị Như Ngọc | 30/07/2026 |
 | D | Finalize Deployment Diagram | Hoàng Trung Kiên | Lê Thị Như Ý | 30/07/2026 |
 | E | Finish FG2: Grade Appeal - Submit | Hồ Thị Như Ngọc | Trần Tường Vi | 30/07/2026 |
-| E | Finish FG2: Grade Appeal - Track | Trần Tường Vi | Hồ Thị Như Ngọc | 02/08/2026 |
-| E | Finish FG3: AI Chatbot | Dương Minh Huỳnh Khôi | Hoàng Trung Kiên | 02/08/2026 |
+| E | Finish FG2: Grade Appeal - Track | Trần Tường Vi | Hồ Thị Như Ngọc | 04/08/2026 |
+| E | Finish FG3: AI Chatbot | Dương Minh Huỳnh Khôi | Hoàng Trung Kiên | 04/08/2026 |
 | E | Complete Spec Kit tasks (`tasks.md`) & generate tests | Lê Thị Như Ý | Trần Tường Vi | 04/08/2026 |
 | E | Finish FG6: FAQ/Support & Record Demo Video | Hoàng Trung Kiên | All members | 05/08/2026 |
 | F | Finalize AI Usage Report & Weekly Report (Planning + Daily1) | Trần Tường Vi | Lê Thị Như Ý | 07/08/2026 |
@@ -150,7 +150,7 @@ Based on the progress review, the team updated the remaining tasks, review respo
 
 ## 6. Next Steps
 
-- **By 02/08:** Khôi and Vi will finalize their respective implementations for the Chatbot and Appeal Tracking modules.
+- **By 04/08:** Khôi and Vi will finalize their respective implementations for the Chatbot and Appeal Tracking modules.
 - **By 04/08:** Ý will ensure all Spec Kit artifacts and generated tests are neatly organized in the repository.
 - **By 05/08:** Kiên will complete the Demo Video, upload it to YouTube as Unlisted, and share the link with the team.
 - **By 07/08:** Vi and Ý will consolidate all meeting reports, Jira evidence, and AI logs for the final PA4 submission package.
@@ -167,7 +167,7 @@ The team agreed on the final QA steps, the video recording schedule, and the PDF
 
 ## 8. Appendix - Evidence
 
-The following screenshot serves as proof of the weekly project alignment and review meeting held online on **01/08/2026**.
+The following screenshot serves as proof of the weekly project alignment and review meeting held online on **03/08/2026**.
 ![Weekly Meeting 2 PA4 Evidence](evidence/0308.png)
 
 ```markdown

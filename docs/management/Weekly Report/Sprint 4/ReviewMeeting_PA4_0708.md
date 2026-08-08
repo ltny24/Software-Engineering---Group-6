@@ -154,6 +154,6 @@ All members agreed to complete the final PDF conversions and jointly verify the 
 
 ## 8. Appendix - Evidence
 
-The following screenshot serves as evidence of the Sprint 4 Review meeting held online on **03/08/2026 at 23:40**.
+The following screenshot serves as evidence of the Sprint 4 Review meeting held online on **07/08/2026 at 23:40**.
 
 ![Sprint 4 Review Meeting Evidence](evidence/0708.png)
