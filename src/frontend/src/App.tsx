@@ -28,7 +28,9 @@ const TuitionPage = lazy(() => import('./pages/tuition/TuitionPage'));
 const AppealsPage = lazy(() => import('./pages/appeals/AppealsPage'));
 const SupportPage = lazy(() => import('./pages/support/SupportPage'));
 const FaqPage = lazy(() => import('./pages/support/FaqPage'));
-const AIChatbotPage = lazy(() => import('./pages/support/AIChatbotPage'));
+const AIChatbotPage = React.lazy(() => import('./pages/support/AIChatbotPage'));
+const EvaluationsPage = React.lazy(() => import('./pages/evaluations/EvaluationsPage'));
+const SurveyFormPage = React.lazy(() => import('./pages/evaluations/SurveyFormPage'));
 
 // Admin pages
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
@@ -198,6 +200,26 @@ export default function App() {
                     <ProtectedRoute>
                       <Layout>
                         <AIChatbotPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.EVALUATIONS}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <EvaluationsPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.EVALUATIONS_DETAIL}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <SurveyFormPage />
                       </Layout>
                     </ProtectedRoute>
                   }

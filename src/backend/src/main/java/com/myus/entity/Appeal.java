@@ -34,7 +34,7 @@ public class Appeal {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String appealReason;
 
-    @Column(length = 2048)
+    @Column(columnDefinition = "NVARCHAR(MAX)")
     private String supportingDocumentUrl;
 
     @Column(columnDefinition = "NVARCHAR(MAX)")

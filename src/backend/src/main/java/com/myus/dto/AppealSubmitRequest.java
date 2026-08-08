@@ -34,8 +34,8 @@ public class AppealSubmitRequest {
 
     /**
      * Optional URL to a supporting document (e.g., scanned exam paper, evidence).
+     * Accepts base64 Data URLs for uploaded files (no length limit).
      */
-    @Size(max = 2048, message = "Supporting document URL must not exceed 2048 characters.")
     private String supportingDocumentUrl;
 
     /**

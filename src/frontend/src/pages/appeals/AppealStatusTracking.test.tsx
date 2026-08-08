@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 import React from 'react';
 import AppealStatusTracking from './AppealStatusTracking';
 import api from '../../services/api';
+jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 
 jest.mock('../../services/api', () => ({
   __esModule: true,

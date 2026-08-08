@@ -225,11 +225,27 @@ const AppealForm: React.FC<AppealFormProps> = ({ onSubmitted }) => {
       return;
     }
 
+    // Convert file to base64 Data URL so admin can view the actual document
+    let documentUrl = 'https://ktdbcl.hcmus.edu.vn/';
+    if (selectedFile) {
+      try {
+        documentUrl = await new Promise<string>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result as string);
+          reader.onerror = reject;
+          reader.readAsDataURL(selectedFile);
+        });
+      } catch {
+        // Fallback to filename if conversion fails
+        documentUrl = selectedFile.name;
+      }
+    }
+
     const payload = {
       gradeId: Number(form.gradeId),
       appealReason: form.reason,
       expectedGrade: Number(form.expectedGrade),
-      supportingDocumentUrl: selectedFile ? selectedFile.name : 'https://ktdbcl.hcmus.edu.vn/',
+      supportingDocumentUrl: documentUrl,
     };
 
     try {

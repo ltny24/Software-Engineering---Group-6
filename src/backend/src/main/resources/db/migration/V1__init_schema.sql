@@ -148,7 +148,7 @@ BEGIN
         submittedAt DATETIME2 NOT NULL DEFAULT SYSUTCDATETIME(),
         status NVARCHAR(50) NOT NULL DEFAULT 'Submitted',
         appealReason NVARCHAR(MAX) NOT NULL,
-        supportingDocumentUrl NVARCHAR(2048),
+        supportingDocumentUrl NVARCHAR(MAX),
         reviewerComments NVARCHAR(MAX),
         deadline DATETIME2 NULL,
         resolvedAt DATETIME2 NULL,

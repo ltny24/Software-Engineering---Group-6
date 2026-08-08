@@ -22,6 +22,8 @@ public class AppealResponse {
 
     private Long studentId;
 
+    private String studentUsername;
+
     private String studentName;
 
     private Long gradeId;

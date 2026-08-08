@@ -277,6 +277,7 @@ public class AppealServiceImpl implements AppealService {
         AppealResponse response = new AppealResponse();
         response.setAppealId(appeal.getAppealId());
         response.setStudentId(appeal.getStudent().getStudentId());
+        response.setStudentUsername(appeal.getStudent().getUsername());
         response.setStudentName(
                 appeal.getStudent().getFirstName() + " " + appeal.getStudent().getLastName());
         response.setSubmittedAt(appeal.getSubmittedAt());

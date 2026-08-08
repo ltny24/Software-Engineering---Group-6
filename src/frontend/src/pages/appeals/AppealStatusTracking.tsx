@@ -160,24 +160,42 @@ const AppealStatusTracking: React.FC = () => {
               <tr
                 key={appeal.appealId ?? `${appeal.courseCode}-${appeal.gradeId}`}
                 style={{
-                  borderTop: index === 0 ? '1px solid var(--color-border, rgba(100,140,200,0.15))' : 'none',
-                  backgroundColor: index % 2 === 0 ? 'var(--color-surface-elevated, #F8FAFC)' : 'var(--color-surface, #fff)',
+                  borderTop:
+                    index === 0 ? '1px solid var(--color-border, rgba(100,140,200,0.15))' : 'none',
+                  backgroundColor:
+                    index % 2 === 0
+                      ? 'var(--color-surface-elevated, #F8FAFC)'
+                      : 'var(--color-surface, #fff)',
                 }}
               >
                 <td style={{ padding: '16px 16px', verticalAlign: 'top' }}>
                   <div style={{ fontWeight: 700, color: 'var(--color-text, #1e293b)' }}>
                     {appeal.courseCode || 'Course appeal'}
                   </div>
-                  <div style={{ marginTop: 4, color: 'var(--color-text-secondary, #64748b)', fontSize: 13 }}>
+                  <div
+                    style={{
+                      marginTop: 4,
+                      color: 'var(--color-text-secondary, #64748b)',
+                      fontSize: 13,
+                    }}
+                  >
                     {appeal.courseName || 'Grade review request'}
                   </div>
-                  <div style={{ marginTop: 6, color: 'var(--color-text-secondary, #64748b)', fontSize: 12 }}>
+                  <div
+                    style={{
+                      marginTop: 6,
+                      color: 'var(--color-text-secondary, #64748b)',
+                      fontSize: 12,
+                    }}
+                  >
                     Submitted {submittedAt}
                   </div>
                 </td>
                 <td style={{ padding: '16px 16px', verticalAlign: 'top' }}>
                   <div style={{ marginBottom: 8 }}>{renderStatusBadge(appeal.status)}</div>
-                  <div style={{ color: 'var(--color-text-secondary, #64748b)', fontSize: 13 }}>{statusLabel}</div>
+                  <div style={{ color: 'var(--color-text-secondary, #64748b)', fontSize: 13 }}>
+                    {statusLabel}
+                  </div>
                 </td>
                 <td
                   style={{
@@ -190,7 +208,13 @@ const AppealStatusTracking: React.FC = () => {
                 >
                   {appeal.gradeValue || 'Not provided'}
                 </td>
-                <td style={{ padding: '16px 16px', verticalAlign: 'top', color: 'var(--color-text, #1e293b)' }}>
+                <td
+                  style={{
+                    padding: '16px 16px',
+                    verticalAlign: 'top',
+                    color: 'var(--color-text, #1e293b)',
+                  }}
+                >
                   <div style={{ fontSize: 13, lineHeight: 1.5 }}>{noteText}</div>
                   {canWithdraw && (
                     <button

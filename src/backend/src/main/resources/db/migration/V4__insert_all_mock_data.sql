@@ -6,39 +6,6 @@ SET QUOTED_IDENTIFIER ON;
 -- ==========================================================
 SET NOCOUNT ON;
 
--- 0. CLEANUP EXISTING DATA & RESET IDENTITY COLUMNS (IDEMPOTENT)
-IF OBJECT_ID('myus.SurveyResponse', 'U') IS NOT NULL DELETE FROM myus.SurveyResponse;
-IF OBJECT_ID('myus.Survey', 'U') IS NOT NULL DELETE FROM myus.Survey;
-IF OBJECT_ID('myus.ClassTransferRequest', 'U') IS NOT NULL DELETE FROM myus.ClassTransferRequest;
-IF OBJECT_ID('myus.ChatbotSession', 'U') IS NOT NULL DELETE FROM myus.ChatbotSession;
-IF OBJECT_ID('myus.FAQArticle', 'U') IS NOT NULL DELETE FROM myus.FAQArticle;
-IF OBJECT_ID('myus.Appeal', 'U') IS NOT NULL DELETE FROM myus.Appeal;
-IF OBJECT_ID('myus.TuitionPayment', 'U') IS NOT NULL DELETE FROM myus.TuitionPayment;
-IF OBJECT_ID('myus.TuitionAccount', 'U') IS NOT NULL DELETE FROM myus.TuitionAccount;
-IF OBJECT_ID('myus.Grade', 'U') IS NOT NULL DELETE FROM myus.Grade;
-IF OBJECT_ID('myus.AcademicRecord', 'U') IS NOT NULL DELETE FROM myus.AcademicRecord;
-IF OBJECT_ID('myus.CourseRegistration', 'U') IS NOT NULL DELETE FROM myus.CourseRegistration;
-IF OBJECT_ID('myus.CourseOffering', 'U') IS NOT NULL DELETE FROM myus.CourseOffering;
-IF OBJECT_ID('myus.Course', 'U') IS NOT NULL DELETE FROM myus.Course;
-IF OBJECT_ID('myus.Student', 'U') IS NOT NULL DELETE FROM myus.Student;
-IF OBJECT_ID('myus.Administrator', 'U') IS NOT NULL DELETE FROM myus.Administrator;
-
-IF OBJECT_ID('myus.Student', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Student', RESEED, 0);
-IF OBJECT_ID('myus.Administrator', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Administrator', RESEED, 0);
-IF OBJECT_ID('myus.Course', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Course', RESEED, 0);
-IF OBJECT_ID('myus.CourseOffering', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.CourseOffering', RESEED, 0);
-IF OBJECT_ID('myus.CourseRegistration', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.CourseRegistration', RESEED, 0);
-IF OBJECT_ID('myus.Grade', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Grade', RESEED, 0);
-IF OBJECT_ID('myus.AcademicRecord', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.AcademicRecord', RESEED, 0);
-IF OBJECT_ID('myus.Appeal', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Appeal', RESEED, 0);
-IF OBJECT_ID('myus.TuitionAccount', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.TuitionAccount', RESEED, 0);
-IF OBJECT_ID('myus.TuitionPayment', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.TuitionPayment', RESEED, 0);
-IF OBJECT_ID('myus.Survey', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.Survey', RESEED, 0);
-IF OBJECT_ID('myus.SurveyResponse', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.SurveyResponse', RESEED, 0);
-IF OBJECT_ID('myus.FAQArticle', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.FAQArticle', RESEED, 0);
-IF OBJECT_ID('myus.ClassTransferRequest', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.ClassTransferRequest', RESEED, 0);
-IF OBJECT_ID('myus.ChatbotSession', 'U') IS NOT NULL DBCC CHECKIDENT ('myus.ChatbotSession', RESEED, 0);
-
 -- 1. INSERT ADMINISTRATORS (5 admins)
 INSERT INTO myus.Administrator (username, password, role, email, displayName, department) VALUES
 ('admin001', 'admin001', 'ADMINISTRATOR', 'admin001@myus.edu.vn', N'Tran Tuong Vi', N'Academic Affairs Office'),
@@ -167,7 +134,17 @@ INSERT INTO myus.Course (courseCode, courseName, description, credits, prerequis
 ('BAA00102', N'Political Economy of Marxism-Leninism', N'Economic theories of Marxism-Leninism and market dynamics', 2, N'Marxist-Leninist Philosophy', N'General Studies', 'HKIII 2025-2026', 120),
 ('CSC10006', N'Database Systems', N'Relational database design, SQL querying, indexing, and transactions', 4, N'Computer Systems', N'Computer Science', 'HKIII 2025-2026', 100),
 ('CSC13002', N'Introduction to Software Engineering', N'Software development lifecycle, agile methods, testing, and design patterns', 4, N'Computational Thinking', N'Computer Science', 'HKIII 2025-2026', 100),
-('MTH00057', N'Applied Mathematics & Statistics for IT', N'Discrete mathematics, linear algebra, and statistical applications for IT', 4, N'Probability and Statistics', N'Mathematics', 'HKIII 2025-2026', 120);
+('MTH00057', N'Applied Mathematics & Statistics for IT', N'Discrete mathematics, linear algebra, and statistical applications for IT', 4, N'Probability and Statistics', N'Mathematics', 'HKIII 2025-2026', 120),
+('DUMMY016', N'Dummy Course 16', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY017', N'Dummy Course 17', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY018', N'Dummy Course 18', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY019', N'Dummy Course 19', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY020', N'Dummy Course 20', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY021', N'Dummy Course 21', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY022', N'Dummy Course 22', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY023', N'Dummy Course 23', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY024', N'Dummy Course 24', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100),
+('DUMMY025', N'Dummy Course 25', N'Dummy Course Description', 3, N'None', N'General Studies', 'HKI 2025-2026', 100);
 
 -- 4. INSERT COURSE OFFERINGS
 INSERT INTO myus.CourseOffering (courseId, section, term, schedule, instructor, location, room) VALUES
@@ -2829,9 +2806,7 @@ INSERT INTO myus.TuitionPayment (accountId, amount, paymentDate, paymentMethod, 
 INSERT INTO myus.Appeal (studentId, gradeId, submittedAt, status, appealReason, supportingDocumentUrl, reviewerComments, deadline, resolvedAt, resolutionCode, reviewerAdminId, expectedGrade) VALUES
 (1, 3, DATEADD(hour, -12, GETDATE()), 'Under Review', N'I believe my final exam score in Computer Systems was miscalculated during grading.', 'https://ktdbcl.hcmus.edu.vn/', N'Assigned to department reviewer for regrading.', DATEADD(hour, 60, GETDATE()), NULL, NULL, 1, 9.0),
 (1, 1, DATEADD(hour, -5, GETDATE()), 'Submitted', N'Requesting re-evaluation of midterm assignment 2 question 4.', 'https://ktdbcl.hcmus.edu.vn/', N'Pending administrative review.', DATEADD(hour, 67, GETDATE()), NULL, NULL, NULL, 9.5),
-(2, 8, '2026-02-20 09:30:00', 'Approved', N'Requesting re-evaluation of midterm assignment 2 question 4.', 'https://ktdbcl.hcmus.edu.vn/', N'Grade adjusted from 7.0 to 8.5 after verification.', '2026-03-01 17:00:00', '2026-02-25 11:00:00', 'GRADE_INCREASED', 2, 8.5),
-(3, 14, '2026-02-22 16:45:00', 'Denied', N'Discrepancy in attendance points for Operating Systems.', 'https://ktdbcl.hcmus.edu.vn/', N'Attendance records confirmed accurate by lecturer.', '2026-03-05 17:00:00', '2026-02-28 14:20:00', 'NO_CHANGE', 3, 9.0),
-(4, 20, '2026-02-24 11:10:00', 'Submitted', N'Requesting final exam paper review for AI introduction course.', 'https://ktdbcl.hcmus.edu.vn/', NULL, '2026-03-10 17:00:00', NULL, NULL, NULL, 8.5);
+(4, 20, DATEADD(day, -3, GETDATE()), 'Submitted', N'Requesting final exam paper review for AI introduction course.', 'https://ktdbcl.hcmus.edu.vn/', NULL, DATEADD(hour, 48, GETDATE()), NULL, NULL, NULL, 8.5);
 
 -- 11. INSERT FAQ ARTICLES
 INSERT INTO myus.FAQArticle (question, answer, category, tags, updatedAt, published) VALUES
@@ -2843,11 +2818,8 @@ INSERT INTO myus.FAQArticle (question, answer, category, tags, updatedAt, publis
 
 -- 12. INSERT SURVEYS & RESPONSES
 INSERT INTO myus.Survey (title, description, openDate, closeDate, status, targetAudience) VALUES
-(N'Course Evaluation Survey - HKII 2025-2026', N'Please evaluate teaching quality and course content for HKII 2025-2026 courses.', '2026-04-01 00:00:00', '2026-05-01 23:59:59', 'Open', N'All Enrolled Students');
-
-INSERT INTO myus.SurveyResponse (surveyId, studentId, submittedAt, answers) VALUES
-(1, 1, '2026-04-05 10:30:00', N'{"q1": "Excellent", "q2": "Very satisfied", "comments": "Great course content."}'),
-(1, 2, '2026-04-06 14:15:00', N'{"q1": "Good", "q2": "Satisfied", "comments": "Well organized labs."}');
+(N'Course Evaluation Survey - HKII 2025-2026', N'Please evaluate teaching quality and course content for HKII 2025-2026 courses.', '2026-04-01 00:00:00', '2026-08-30 23:59:59', 'Open', N'All Enrolled Students'),
+(N'Campus Facilities Evaluation Survey - 2025-2026', N'Please evaluate campus facilities, library, and student support services.', '2026-04-01 00:00:00', '2026-08-30 23:59:59', 'Open', N'All Enrolled Students');
 
 -- 13. INSERT CLASS TRANSFER REQUESTS
 INSERT INTO myus.ClassTransferRequest (studentId, fromOfferingId, toOfferingId, requestDate, status, reviewerComments) VALUES

@@ -39,6 +39,8 @@ export const ROUTES = {
   SUPPORT: '/support',
   SUPPORT_FAQ: '/support/faq',
   SUPPORT_AI_CHATBOT: '/support/ai-chatbot',
+  EVALUATIONS: '/evaluations',
+  EVALUATIONS_DETAIL: '/evaluations/:id',
 
   // Admin
   ADMIN: '/admin',

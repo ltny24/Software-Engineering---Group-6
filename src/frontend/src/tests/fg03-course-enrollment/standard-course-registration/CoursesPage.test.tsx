@@ -1,11 +1,16 @@
 import React from 'react';
-jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import toast from 'react-hot-toast';
 import CoursesPage from '../../../pages/courses/CoursesPage';
-import { getCourses, getMyRegistrations, registerCourse, dropRegistration } from '../../../services/courseService';
+import {
+  getCourses,
+  getMyRegistrations,
+  registerCourse,
+  dropRegistration,
+} from '../../../services/courseService';
 import { useAuth } from '../../../auth/useAuth';
+jest.mock('react-icons/fa6', () => new Proxy({}, { get: () => () => null }), { virtual: true });
 
 jest.mock('react-hot-toast', () => ({ success: jest.fn(), error: jest.fn() }));
 
@@ -105,7 +110,9 @@ describe('CoursesPage - FG03 Standard Course Registration', () => {
       fireEvent.click(registerBtns[0]);
       await waitFor(() => {
         expect(registerCourse).toHaveBeenCalledWith('off-1');
-        expect(toast.success).toHaveBeenCalledWith(expect.stringContaining('Registered for CSC10001'));
+        expect(toast.success).toHaveBeenCalledWith(
+          expect.stringContaining('Registered for CSC10001')
+        );
       });
     }
   });
@@ -130,9 +137,9 @@ describe('CoursesPage - FG03 Standard Course Registration', () => {
 
   it('TC_REG_08: Registration fails due to API error (e.g., schedule conflict)', async () => {
     (registerCourse as jest.Mock).mockRejectedValue({
-      response: { data: { message: 'Schedule conflict detected' } }
+      response: { data: { message: 'Schedule conflict detected' } },
     });
-    
+
     render(<CoursesPage />);
     await waitFor(() => {
       expect(screen.getByText('Intro to Programming')).toBeInTheDocument();
@@ -152,7 +159,7 @@ describe('CoursesPage - FG03 Standard Course Registration', () => {
     (getMyRegistrations as jest.Mock).mockResolvedValue(mockRegistrations);
     (dropRegistration as jest.Mock).mockResolvedValue({});
     jest.spyOn(window, 'confirm').mockImplementation(() => true);
-    
+
     render(<CoursesPage />);
     await waitFor(() => {
       expect(screen.getByRole('button', { name: /My Registration/i })).toBeInTheDocument();

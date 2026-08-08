@@ -13,6 +13,7 @@ import {
   FaUpload,
   FaRightLeft,
   FaRightFromBracket,
+  FaClipboardList,
 } from 'react-icons/fa6';
 import { useAuth } from '../../auth';
 import { ROUTES, ROLES } from '../../utils/constants';
@@ -33,6 +34,7 @@ const studentNav: NavItem[] = [
   { label: 'Grades', to: ROUTES.GRADES, icon: <FaGraduationCap /> },
   { label: 'Tuition', to: ROUTES.TUITION, icon: <FaMoneyBillWave /> },
   { label: 'Appeals', to: ROUTES.APPEALS, icon: <FaFilePen /> },
+  { label: 'Evaluations', to: ROUTES.EVALUATIONS, icon: <FaClipboardList /> },
   { label: 'Support', to: ROUTES.SUPPORT, icon: <FaCircleQuestion /> },
 ];
 
