@@ -27,6 +27,7 @@
 | UC-12b | Update Appeal Status (include) | Administrator |
 | UC-13 | Student Data Administration | Administrator |
 | UC-13a | Search Student Records (include) | Administrator |
+| UC-14 | Class Transfer | Administrator |
 
 ---
 
@@ -1193,6 +1194,81 @@ Allows the Administrator to search for students by one or more criteria and sele
 - Large result sets must be paginated.
 
 ## 6. Extension Points
+- None.
+
+---
+
+# UC-14. Class Transfer
+
+**Use-Case ID:** UC-14
+**Actor(s):** Administrator
+
+## 1. Brief Description
+
+Allows an Administrator to move one or more students from their currently enrolled class section to a different section of the same course (or an equivalent section, if the original is being cancelled) — for example, when a section is over-capacity, cancelled, merged, or when a student needs a better-fitting schedule.
+
+## 2. Preconditions
+
+- Administrator is authenticated and has permission to access Class Control.
+- The source section (student's current class) and at least one valid target section for the same course and term exist.
+- The registration/add-drop period has not fully closed for administrative changes (administrative transfers may still be permitted after the student add/drop deadline, subject to policy).
+
+## 3. Flow of Events
+
+### 3.1 Basic Flow
+
+1. The Administrator selects **Class Control → Class Transfer** (or opens "Transfer Section" from a specific class roster).
+2. The system displays the source section's roster (enrolled students, seats used/available) and available target sections.
+
+![](Prototype_Req/admin/transfer_page.jpg)
+
+3. The Administrator selects one or more students to transfer and specifies the target section.
+
+![](Prototype_Req/admin/transfer_select.jpg)
+
+4. The system validates the transfer: target section is the same course, has an available seat, and the change does not create a schedule conflict with the student's other registered courses.
+5. The Administrator reviews the transfer summary and confirms.
+
+![](Prototype_Req/admin/transfer_overview.jpg)
+
+6. The system reassigns each selected student's enrollment record from the source to the target section, updates seat counts accordingly, and records the change in the audit log.
+7. The system updates each affected student's Timetable; flagging it as "Updated"; and, if applicable, the tuition invoice; it then notifies the affected student(s).
+8. The system displays a confirmation showing the number of students successfully transferred.
+
+![](Prototype_Req/admin/transfer_success.jpg)
+
+### 3.2 Alternative Flows
+
+- **3.2.1 AF1 – Transfer Blocked at Validation:** If the target section has no available seats, or the transfer would create a schedule conflict with another course, the system flags the issue and lets the Administrator either resolve it.
+
+![](Prototype_Req/admin/transfer_blocked.jpg)
+  
+- **3.2.2 AF2 – Bulk Transfer:** The Administrator selects an entire section and moves all enrolled students to one target section in a single operation; the system processes each student and reports which succeeded versus which need manual resolution.
+
+![](Prototype_Req/admin/transfer_bulk.jpg)
+
+- **3.2.3 AF3 – Source Section Cancelled:** If the transfer is initiated because the source section is being cancelled, the system marks it as **Cancelled** once all students have been moved and blocks any new enrollment into it.
+- **3.2.4 AF4 – Transfer After Add/Drop Deadline:** If requested after the student add/drop deadline, the system requires a justification note before proceeding and flags the record accordingly in the audit log.
+
+![](Prototype_Req/admin/transfer_override.jpg)
+
+- **3.2.5 AF5 – Cancelled or Unauthorized:** The Administrator may cancel at any point before confirming, leaving enrollment data unchanged; or, if the Administrator lacks sufficient permission, the system denies access and displays an authorization error, which is also recorded in the audit log.
+
+## 4. Postconditions
+
+- **Success:** the selected student(s) are enrolled in the target section and removed from the source section; seat counts, timetable, and (if applicable) tuition records are updated; the transfer is logged; affected students are notified.
+- **Failure:** no enrollment change is made; the student(s) remain in their original section.
+
+## 5. Special Requirements
+
+- Seat-count updates (releasing the old seat, reserving the new one) must be transaction-safe, so a failure partway through never leaves a student enrolled in neither or both sections (consistent with NFR ID24).
+- Every transfer, including any override of capacity or schedule-conflict checks, must be recorded in the audit log with Administrator, timestamp, and reason.
+- The student's Timetable must reflect the change without a full page reload, consistent with UC-04's real-time update requirement.
+- Only Administrators with the appropriate permission may override seat-capacity or schedule-conflict restrictions.
+- Affected students must be notified promptly after the transfer is confirmed.
+
+## 6. Extension Points
+
 - None.
 
 ---
