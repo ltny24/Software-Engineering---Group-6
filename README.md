@@ -1,156 +1,158 @@
-# MyUS — Hệ Thống Cổng Thông Tin Sinh Viên (University Portal)
+# MyUS — University Student Portal System
 
-MyUS là hệ thống cổng thông tin sinh viên được xây dựng cho Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM. Hệ thống cung cấp nền tảng tập trung để sinh viên đăng ký học phần, xem điểm, nộp đơn khiếu nại điểm, quản lý học phí, tham gia khảo sát, tra cứu FAQ và tương tác với chatbot AI hỗ trợ.
+MyUS is a university student portal system built for the University of Science, VNU-HCM. The system provides a centralized platform for students to register for courses, view grades, submit grade appeals, manage tuition fees, participate in surveys, look up FAQs, and interact with an AI assistant chatbot.
 
 ---
 
-## Mục Lục
+## Table of Contents
 
-- [Tính Năng](#tính-năng)
-- [Công Nghệ Sử Dụng](#công-nghệ-sử-dụng)
-- [Yêu Cầu Về UI & Styling](#yêu-cầu-về-ui--styling)
-- [Cấu Trúc Dự Án](#cấu-trúc-dự-án)
-- [Yêu Cầu Hệ Thống](#yêu-cầu-hệ-thống)
-- [Hướng Dẫn Cài Đặt & Chạy](#hướng-dẫn-cài-đặt--chạy)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [UI & Styling Requirements](#ui--styling-requirements)
+- [Project Structure](#project-structure)
+- [System Requirements](#system-requirements)
+- [Installation & Setup Guide](#installation--setup-guide)
   - [1. Clone Repository](#1-clone-repository)
-  - [2. Thiết Lập Database](#2-thiết-lập-database)
-  - [3. Cấu Hình Backend](#3-cấu-hình-backend)
-  - [4. Chạy Backend](#4-chạy-backend)
-  - [5. Chạy Frontend](#5-chạy-frontend)
-- [Hướng Dẫn Sử Dụng Database](#hướng-dẫn-sử-dụng-database)
-  - [Cấu Trúc Database](#cấu-trúc-database)
-  - [Sơ Đồ Quan Hệ (ERD)](#sơ-đồ-quan-hệ-erd)
-  - [Kết Nối Database](#kết-nối-database)
-  - [Các Thao Tác Database Thường Dùng](#các-thao-tác-database-thường-dùng)
-- [Tài Khoản Mẫu](#tài-khoản-mẫu)
+  - [2. Database Setup](#2-database-setup-docker-sql-server)
+  - [3. Backend Configuration](#3-backend-configuration)
+  - [4. Run Backend](#4-run-backend)
+  - [5. Run Frontend](#5-run-frontend)
+- [Database Usage Guide](#database-usage-guide)
+  - [Database Structure](#database-structure)
+  - [Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
+  - [Database Connection](#database-connection)
+  - [Common Database Operations](#common-database-operations)
+- [Sample Accounts](#sample-accounts)
 - [API Documentation](#api-documentation)
-- [Xử Lý Sự Cố](#xử-lý-sự-cố)
-- [Nhóm Phát Triển](#nhóm-phát-triển)
+- [Troubleshooting](#troubleshooting)
+- [Execution Order](#execution-order)
+- [Development Team](#development-team)
 
 ---
 
-## Tính Năng
+## Features
 
-| Module | Mô Tả |
-|--------|-------|
-| 🔐 **Xác Thực & Phân Quyền** | Đăng nhập JWT, vai trò Student / Administrator, BCrypt mã hóa mật khẩu |
-| 📚 **Quản Lý Khóa Học** | Xem danh sách môn học, học phần, đăng ký / hủy đăng ký |
-| 📊 **Xem Điểm & GPA** | Bảng điểm, điểm GPA tích lũy, hồ sơ học tập theo học kỳ |
-| ⚖️ **Khiếu Nại Điểm** | Nộp đơn khiếu nại điểm, theo dõi trạng thái xử lý |
-| 💰 **Học Phí** | Xem số dư học phí, lịch sử thanh toán, học bổng |
-| 📝 **Khảo Sát** | Tham gia khảo sát sinh viên, xem kết quả |
-| ❓ **FAQ** | Tra cứu câu hỏi thường gặp, đánh giá hữu ích |
-| 🔄 **Chuyển Lớp** | Yêu cầu chuyển lớp học phần |
-| 🤖 **Chatbot AI** | Trợ lý ảo Gemini AI hỗ trợ sinh viên |
+| Module | Description |
+|--------|-------------|
+| **Authentication & Authorization** | JWT login, Student / Administrator roles, BCrypt password hashing |
+| **Course Management** | View course list, course offerings, register / cancel registration |
+| **Grades & GPA** | Transcript, cumulative GPA, semester academic records |
+| **Grade Appeal** | Submit grade appeals, track processing status |
+| **Tuition Fees** | View tuition balance, payment history, scholarship details |
+| **Surveys** | Participate in student surveys, view results |
+| **FAQ** | Look up frequently asked questions, rate helpfulness |
+| **Class Transfer** | Request course section transfers |
+| **AI Chatbot** | Gemini AI virtual assistant supporting students |
 
 ---
 
-## Công Nghệ Sử Dụng
+## Tech Stack
 
 ### Backend
 - **Java** + **Spring Boot** (REST API)
-- **Spring Security** + **JWT** (Xác thực & phân quyền)
+- **Spring Security** + **JWT** (Authentication & Authorization)
 - **Spring Data JPA** + **Hibernate** (ORM)
 - **Flyway** (Database migration)
-- **Microsoft SQL Server** (Database chính)
+- **Microsoft SQL Server** (Primary Database)
 - **Gemini AI API** (Chatbot)
 
 ### Frontend
 - **React 18** + **TypeScript**
-- **React Router** (Điều hướng)
+- **React Router** (Navigation)
 - **Axios** (HTTP client)
-- **React Hook Form** + **Zod** (Form & validation)
+- **React Hook Form** + **Zod** (Form handling & validation)
 - **Zustand** (State management)
-- **Recharts** (Biểu đồ)
-- **React Hot Toast** (Thông báo)
+- **Recharts** (Data visualization & charts)
+- **React Hot Toast** (Notifications)
 - **Tailwind CSS** (Utility-first CSS framework)
 - **PostCSS** + **Autoprefixer** (CSS processing & vendor prefixes)
 
 ---
 
-## Yêu Cầu Về UI & Styling
+## UI & Styling Requirements
 
-Giao diện người dùng được xây dựng với **Tailwind CSS** và **PostCSS**, tuân thủ các yêu cầu sau:
+The user interface is built with **Tailwind CSS** and **PostCSS**, adhering to the following guidelines:
 
-### Công Cụ & Cấu Hình
+### Tools & Configuration
 
-| Công Cụ | Phiên Bản | Vai Trò |
-|---------|-----------|---------|
-| Tailwind CSS | ^3.4.19 | Utility-first CSS framework — cung cấp các lớp utility để xây dựng giao diện nhanh chóng và nhất quán |
-| PostCSS | ^8.5.25 | CSS post-processor — xử lý và biên dịch CSS hiện đại |
-| Autoprefixer | ^10.5.4 | Tự động thêm vendor prefixes cho CSS |
+| Tool | Version | Role |
+|------|---------|------|
+| Tailwind CSS | ^3.4.19 | Utility-first CSS framework — provides utility classes for rapid and consistent UI development |
+| PostCSS | ^8.5.25 | CSS post-processor — processes and compiles modern CSS |
+| Autoprefixer | ^10.5.4 | Automatically adds vendor prefixes to CSS |
 
-### Cấu Trúc File Cấu Hình
+### Configuration File Structure
 
 ```
 src/frontend/
-├── tailwind.config.js    # Cấu hình Tailwind (theme, colors, fonts, plugins...)
-├── postcss.config.js     # Cấu hình PostCSS (tailwindcss, autoprefixer plugins)
+├── tailwind.config.js    # Tailwind configuration (theme, colors, fonts, plugins...)
+├── postcss.config.js     # PostCSS configuration (tailwindcss, autoprefixer plugins)
 └── src/
-    └── index.css         # Entry point CSS với @tailwind directives
+    └── index.css         # CSS entry point with @tailwind directives
 ```
 
-### Yêu Cầu Khi Chỉnh Sửa UI
+### UI Modification Guidelines
 
-1. **Luôn sử dụng utility classes của Tailwind** thay vì CSS thuần hoặc inline styles — đảm bảo tính nhất quán trong toàn bộ dự án.
-2. **Màu sắc và theme** được định nghĩa tập trung trong `tailwind.config.js` — khi cần thêm màu mới, mở rộng trong file cấu hình thay vì hard-code.
-3. **Responsive Design** — sử dụng các breakpoint có sẵn của Tailwind (`sm`, `md`, `lg`, `xl`, `2xl`) để đảm bảo giao diện hoạt động trên mọi kích thước màn hình.
-4. **Dark Mode** (nếu có) — sử dụng variant `dark:` của Tailwind để hỗ trợ giao diện tối.
-5. **PostCSS** tự động xử lý:
-   - Biên dịch các `@tailwind` directives thành CSS thuần
-   - Thêm vendor prefixes qua Autoprefixer
-   - Xóa các CSS không sử dụng trong production build (tree-shaking)
-6. **Không ghi đè CSS framework** — hạn chế viết CSS thuần; nếu bắt buộc, sử dụng `@apply` trong file CSS để tận dụng các lớp Tailwind.
-7. **Production build** — khi build production (`npm run build`), PostCSS sẽ tự động purge các lớp Tailwind không sử dụng để tối ưu kích thước file CSS.
+1. **Always use Tailwind utility classes** instead of raw CSS or inline styles — ensuring consistency across the entire project.
+2. **Colors and Themes** are defined centrally in `tailwind.config.js` — when adding new colors, extend the configuration file rather than hardcoding values.
+3. **Responsive Design** — utilize Tailwind's built-in breakpoints (`sm`, `md`, `lg`, `xl`, `2xl`) to ensure responsiveness across all screen sizes.
+4. **Dark Mode** (if applicable) — use Tailwind's `dark:` variant to support dark themes.
+5. **PostCSS** handles automatic processing:
+   - Compiles `@tailwind` directives into vanilla CSS
+   - Adds vendor prefixes via Autoprefixer
+   - Purges unused CSS in production builds (tree-shaking)
+6. **Avoid overriding the CSS framework** — minimize raw CSS; if strictly necessary, use `@apply` in CSS files to leverage Tailwind classes.
+7. **Production Build** — during production builds (`npm run build`), PostCSS automatically purges unused Tailwind classes to optimize CSS file size.
 
-### Quy Trước Đặt Tên & Tổ Chức
+### Naming & Organization Conventions
 
-- Component styles: sử dụng `className` với Tailwind utility classes trực tiếp trong JSX
-- Custom styles (nếu cần): đặt trong `src/index.css` hoặc CSS module `.module.css`
-- Màu tùy chỉnh: khai báo trong `tailwind.config.js → theme.extend.colors`
+- Component styles: use `className` with Tailwind utility classes directly in JSX
+- Custom styles (if needed): place in `src/index.css` or CSS module (`.module.css`)
+- Custom colors: declare in `tailwind.config.js → theme.extend.colors`
 
 ---
 
-## Cấu Trúc Dự Án
+## Project Structure
 
 ```
 .
-├── docs/                           # Tài liệu dự án
-│   ├── analysis-and-design/        # Phân tích & thiết kế
-│   ├── management/                 # Quản lý dự án (hợp đồng, báo cáo, kế hoạch)
-│   ├── requirements/               # Đặc tả yêu cầu, vision, use case
-│   ├── survey/                     # Dữ liệu khảo sát người dùng
-│   └── test/                       # Test plan, scripts, reports
+├── docs/                           # Project documentation
+│   ├── PA/                         # Peer Assessment guidelines and documents
+│   ├── analysis-and-design/        # Analysis & design documents
+│   ├── management/                 # Project management (contract, reports, plans)
+│   ├── requirements/               # Requirement specifications, vision, use cases
+│   ├── survey/                     # User survey data
+│   └── test/                       # Test plans, scripts, reports
 ├── src/
 │   ├── backend/                    # Spring Boot backend
 │   │   └── src/main/resources/
 │   │       ├── db/
-│   │       │   ├── schema.sql      # Schema database
-│   │       │   ├── mock_data_myus.sql # Dữ liệu mẫu
+│   │       │   ├── schema.sql      # Database schema
+│   │       │   ├── mock_data_myus.sql # Mock data script
 │   │       │   └── migration/      # Flyway migration scripts
-│   │       └── application.properties # Cấu hình ứng dụng
+│   │       └── application.properties # Application configuration
 │   ├── frontend/                   # React frontend
-│   └── tests/                      # Kiểm thử tự động
-│   └── SpecKit/                    # Tài liệu SpecKit
+│   ├── tests/                      # Automated testing
+│   └── SpecKit/                    # SpecKit documentation & files
 └── README.md
 ```
 
 ---
 
-## Yêu Cầu Hệ Thống
+## System Requirements
 
-| Phần Mềm | Phiên Bản | Ghi Chú |
-|----------|-----------|---------|
-| Docker | 24+ | `docker --version` để kiểm tra |
-| Java JDK | 17 hoặc 21 | `java -version` để kiểm tra |
-| Node.js | ≥ 18.x | `node -v` để kiểm tra |
-| npm | ≥ 9.x | Đi kèm Node.js |
-| Maven | 3.8+ | Dự án đã có Maven Wrapper (`mvnw`) |
-| Git | — | Quản lý mã nguồn |
+| Software | Version | Notes |
+|----------|---------|-------|
+| Docker | 24+ | `docker --version` to check |
+| Java JDK | 17 or 21 | `java -version` to check |
+| Node.js | ≥ 18.x | `node -v` to check |
+| npm | ≥ 9.x | Bundled with Node.js |
+| Maven | 3.8+ | Project includes Maven Wrapper (`mvnw`) |
+| Git | — | Source control |
 
 ---
 
-## Hướng Dẫn Cài Đặt & Chạy
+## Installation & Setup Guide
 
 ### 1. Clone Repository
 
@@ -159,17 +161,17 @@ git clone <repository-url>
 cd Software-Engineering---Group-6
 ```
 
-### 2. Thiết Lập Database (Docker SQL Server)
+### 2. Database Setup (Docker SQL Server)
 
-Database được host trong Docker container `myus-sqlserver` (image `mcr.microsoft.com/mssql/server:2022-latest`).
+The database is hosted inside a Docker container named `myus-sqlserver` (image `mcr.microsoft.com/mssql/server:2022-latest`).
 
-#### Bước 2.1: Kéo Image & Tạo Container
+#### Step 2.1: Pull Image & Create Container
 
 ```bash
-# Kéo image SQL Server 2022
+# Pull SQL Server 2022 image
 docker pull mcr.microsoft.com/mssql/server:2022-latest
 
-# Tạo và chạy container
+# Create and run container
 docker run -d \
   --name myus-sqlserver \
   -e 'ACCEPT_EULA=Y' \
@@ -177,13 +179,13 @@ docker run -d \
   -p 1433:1433 \
   mcr.microsoft.com/mssql/server:2022-latest
 
-# Kiểm tra container đang chạy
+# Verify running container
 docker ps | grep myus-sqlserver
 ```
 
-#### Bước 2.2: Tạo Database
+#### Step 2.2: Create Database
 
-Dùng `docker exec` để tạo database bên trong container:
+Use `docker exec` to create the database inside the container:
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -191,9 +193,9 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   -Q "CREATE DATABASE MyUS;"
 ```
 
-#### Bước 2.3: Chạy Script Schema
+#### Step 2.3: Execute Schema Script
 
-Chạy file `schema.sql` từ máy host vào container:
+Execute the `schema.sql` script from host machine into the container:
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -202,11 +204,11 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   < src/backend/src/main/resources/db/schema.sql
 ```
 
-Script này sẽ tạo schema `myus` và tất cả các bảng cần thiết.
+This script will create the `myus` schema and all required tables.
 
-#### Bước 2.4: Chạy Script Dữ Liệu Mẫu
+#### Step 2.4: Execute Mock Data Script
 
-Import dữ liệu mẫu (tài khoản test, khóa học, điểm số...):
+Import mock data (test accounts, courses, grades, etc.):
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -215,7 +217,7 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   < src/backend/src/main/resources/db/mock_data_myus.sql
 ```
 
-#### Bước 2.5: Kiểm Tra Dữ Liệu Đã Import
+#### Step 2.5: Verify Imported Data
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -224,15 +226,15 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   -Q "SELECT COUNT(*) AS StudentCount FROM myus.Student;"
 ```
 
-> **Mẹo:** Để tiện dùng, bạn có thể tạo alias:
+> **Tip:** For convenience, you can create a shell alias:
 > ```bash
 > alias myus-sql="docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Khoidmh1106' -d MyUS"
 > ```
-> Sau đó dùng: `myus-sql -Q "SELECT * FROM myus.Student;"`
+> Then run: `myus-sql -Q "SELECT * FROM myus.Student;"`
 
-### 3. Cấu Hình Backend
+### 3. Backend Configuration
 
-Mở file `src/backend/src/main/resources/application.properties` và cập nhật thông tin kết nối database:
+Open `src/backend/src/main/resources/application.properties` and update the database connection properties:
 
 ```properties
 # SQL Server connection
@@ -241,11 +243,11 @@ spring.datasource.username=sa
 spring.datasource.password=YourPasswordHere
 ```
 
-> **Lưu ý:** Mật khẩu được lưu trong `application.properties` dưới dạng plain text. KHÔNG commit mật khẩu thật lên repository. Sử dụng biến môi trường (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) cho môi trường production.
+> **Note:** Passwords stored in `application.properties` as plain text should NOT be committed to production repositories. Use environment variables (`SPRING_DATASOURCE_URL`, `SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) for production environments.
 
-### 4. Chạy Backend
+### 4. Run Backend
 
-Mở terminal, điều hướng vào thư mục backend:
+Open a terminal and navigate to the backend directory:
 
 ```bash
 cd src/backend
@@ -259,53 +261,53 @@ mvnw.cmd clean install -DskipTests
 mvnw.cmd spring-boot:run -DskipTests
 ```
 
-Backend sẽ chạy tại: **http://localhost:8080**
+Backend will run at: **http://localhost:8080**
 
 API docs (Swagger UI): **http://localhost:8080/swagger-ui.html**
 
-### 5. Chạy Frontend
+### 5. Run Frontend
 
-Mở một terminal mới (giữ backend đang chạy):
+Open a new terminal (keep backend running):
 
 ```bash
 cd src/frontend
 
-# Cài đặt dependencies
+# Install dependencies
 npm install
 
-# Chạy development server
+# Run development server
 npm start
 ```
 
-Frontend sẽ chạy tại: **http://localhost:3000**
+Frontend will run at: **http://localhost:3000**
 
 ---
 
-## Hướng Dẫn Sử Dụng Database
+## Database Usage Guide
 
-### Cấu Trúc Database
+### Database Structure
 
-Database **MyUS** sử dụng schema `myus` để tổ chức tất cả các bảng. Dưới đây là danh sách đầy đủ các bảng và mô tả:
+The **MyUS** database uses the `myus` schema to organize all tables. Below is the full list of tables and descriptions:
 
-| Bảng | Mô Tả | Khóa Chính |
-|------|-------|------------|
-| `myus.Student` | Thông tin sinh viên, tài khoản đăng nhập | `studentId` |
-| `myus.Administrator` | Tài khoản quản trị viên | `adminId` |
-| `myus.Course` | Danh sách môn học | `courseId` |
-| `myus.CourseOffering` | Học phần được mở trong từng học kỳ | `offeringId` |
-| `myus.CourseRegistration` | Đăng ký học phần của sinh viên | `registrationId` |
-| `myus.Grade` | Điểm số của sinh viên theo môn học | `gradeId` |
-| `myus.AcademicRecord` | Hồ sơ học tập (GPA tích lũy, tín chỉ) | `recordId` |
-| `myus.Appeal` | Đơn khiếu nại điểm | `appealId` |
-| `myus.TuitionAccount` | Tài khoản học phí theo học kỳ | `accountId` |
-| `myus.TuitionPayment` | Lịch sử thanh toán học phí | `paymentId` |
-| `myus.Survey` | Khảo sát sinh viên | `surveyId` |
-| `myus.SurveyResponse` | Phản hồi khảo sát của sinh viên | `responseId` |
-| `myus.FAQArticle` | Bài viết FAQ | `faqId` |
-| `myus.ClassTransferRequest` | Yêu cầu chuyển lớp học phần | `transferId` |
-| `myus.ChatbotSession` | Phiên trò chuyện chatbot | `sessionId` |
+| Table | Description | Primary Key |
+|-------|-------------|-------------|
+| `myus.Student` | Student information and login account | `studentId` |
+| `myus.Administrator` | Administrator account | `adminId` |
+| `myus.Course` | Master course catalog | `courseId` |
+| `myus.CourseOffering` | Course sections offered per semester | `offeringId` |
+| `myus.CourseRegistration` | Student course registrations | `registrationId` |
+| `myus.Grade` | Student course grades | `gradeId` |
+| `myus.AcademicRecord` | Academic history (cumulative GPA, earned credits) | `recordId` |
+| `myus.Appeal` | Grade appeal requests | `appealId` |
+| `myus.TuitionAccount` | Semester tuition account | `accountId` |
+| `myus.TuitionPayment` | Tuition payment history | `paymentId` |
+| `myus.Survey` | Student surveys | `surveyId` |
+| `myus.SurveyResponse` | Student survey responses | `responseId` |
+| `myus.FAQArticle` | FAQ articles | `faqId` |
+| `myus.ClassTransferRequest` | Class section transfer requests | `transferId` |
+| `myus.ChatbotSession` | Chatbot conversation sessions | `sessionId` |
 
-### Sơ Đồ Quan Hệ (ERD)
+### Entity Relationship Diagram (ERD)
 
 ```
 ┌─────────────────────┐     ┌──────────────────────┐
@@ -363,26 +365,26 @@ Database **MyUS** sử dụng schema `myus` để tổ chức tất cả các b�
                         └──────────────────────┘
 ```
 
-### Kết Nối Database
+### Database Connection
 
-#### Qua `docker exec` (sqlcmd — Cách Chính)
+#### Via `docker exec` (`sqlcmd` — Primary Method)
 
-Đây là cách truy cập database **không cần cài thêm công cụ** vì dùng trực tiếp `sqlcmd` có sẵn trong container:
+Access the database directly without installing extra tools by using `sqlcmd` pre-packaged inside the container:
 
 ```bash
-# Mở phiên sqlcmd tương tác
+# Open interactive sqlcmd session
 docker exec -it myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P 'Khoidmh1106' -d MyUS
 ```
 
-Sau khi vào được dấu nhắc `1>`, bạn có thể chạy SQL trực tiếp. Gõ `GO` để thực thi và `QUIT` để thoát.
+Inside the interactive prompt (`1>`), enter SQL commands. Type `GO` to execute and `QUIT` to exit.
 
 ```sql
--- Ví dụ trong phiên tương tác
+-- Example inside interactive session
 SELECT COUNT(*) FROM myus.Student;
 GO
 ```
 
-#### Chạy Từng Câu Lệnh SQL Từ Máy Host
+#### Run Single SQL Commands from Host
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -391,7 +393,7 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   -Q "SELECT studentId, username, firstName, lastName FROM myus.Student;"
 ```
 
-#### Chạy File `.sql` Từ Máy Host
+#### Run `.sql` Files from Host
 
 ```bash
 docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
@@ -400,25 +402,25 @@ docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
   < path/to/script.sql
 ```
 
-#### Dùng Alias (Khuyến Nghị)
+#### Using Shell Alias (Recommended)
 
-Thêm dòng sau vào `~/.zshrc` để có lệnh tắt:
+Add the following to `~/.zshrc` or `~/.bashrc`:
 
 ```bash
 alias myus-db='docker exec -it myus-sqlserver /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Khoidmh1106 -d MyUS'
 ```
 
-Sau đó reload: `source ~/.zshrc`
+Then reload: `source ~/.zshrc`
 
-Giờ bạn có thể truy cập database chỉ bằng:
+Now you can access the database using:
 
 ```bash
 myus-db
 ```
 
-#### Qua Ứng Dụng (Spring Boot — `application.properties`)
+#### Via Application (Spring Boot — `application.properties`)
 
-Kết nối từ backend Spring Boot đến SQL Server trong Docker container:
+Connecting from the Spring Boot backend to SQL Server in Docker container:
 
 ```properties
 # SQL Server connection
@@ -433,82 +435,82 @@ spring.jpa.hibernate.ddl-auto=none
 spring.jpa.show-sql=false
 ```
 
-> **Lưu ý bảo mật:** Mật khẩu `Khoidmh1106` đang được lưu dạng plain text trong file cấu hình. Trong môi trường production, hãy sử dụng biến môi trường (`SPRING_DATASOURCE_PASSWORD`) và không commit mật khẩu lên repository.
+> **Security Note:** Password `Khoidmh1106` is stored in plain text in configuration files. For production environments, use environment variables (`SPRING_DATASOURCE_PASSWORD`) and avoid committing credentials to version control.
 
-### Các Thao Tác Database Thường Dùng
+### Common Database Operations
 
-> **Giả định:** Bạn đã tạo alias `myus-sql` như hướng dẫn ở trên. Nếu chưa, thay `myus-sql` bằng lệnh `docker exec` đầy đủ.
+> **Assumption:** You created the alias `myus-sql` as described above. If not, replace `myus-sql` with the full `docker exec` command.
 
-#### Xem danh sách sinh viên
+#### View student list
 
 ```bash
 myus-sql -Q "SELECT studentId, username, firstName, lastName, email, major, enrollmentStatus FROM myus.Student ORDER BY lastName;"
 ```
 
-#### Xem đăng ký học phần của một sinh viên
+#### View course registrations for a student
 
 ```bash
 myus-sql -Q "SELECT cr.registrationId, cr.status, co.section, co.term, co.instructor, c.courseCode, c.courseName, c.credits FROM myus.CourseRegistration cr JOIN myus.CourseOffering co ON cr.offeringId = co.offeringId JOIN myus.Course c ON co.courseId = c.courseId WHERE cr.studentId = 1 ORDER BY co.term DESC;"
 ```
 
-#### Xem bảng điểm sinh viên
+#### View student transcript
 
 ```bash
 myus-sql -Q "SELECT c.courseCode, c.courseName, g.gradeValue, g.gradePoint, g.term FROM myus.Grade g JOIN myus.Course c ON g.courseId = c.courseId WHERE g.studentId = 1 ORDER BY g.term DESC;"
 ```
 
-#### Xem GPA tích lũy
+#### View cumulative GPA
 
 ```bash
 myus-sql -Q "SELECT ar.term, ar.cumulativeGPA, ar.earnedCredits FROM myus.AcademicRecord ar WHERE ar.studentId = 1 ORDER BY ar.term;"
 ```
 
-#### Xem đơn khiếu nại đang chờ xử lý
+#### View pending grade appeals
 
 ```bash
 myus-sql -Q "SELECT a.appealId, s.firstName, s.lastName, a.appealReason, a.status, a.submittedAt, a.deadline FROM myus.Appeal a JOIN myus.Student s ON a.studentId = s.studentId WHERE a.status IN ('Submitted', 'Under Review') ORDER BY a.submittedAt;"
 ```
 
-#### Xem học phí còn nợ
+#### View unpaid tuition
 
 ```bash
 myus-sql -Q "SELECT s.studentId, s.firstName, s.lastName, ta.term, ta.totalCharges, ta.payments, ta.scholarshipAmount, ta.balance, ta.financialHold FROM myus.TuitionAccount ta JOIN myus.Student s ON ta.studentId = s.studentId WHERE ta.balance > 0 ORDER BY ta.term DESC;"
 ```
 
-#### Xem lịch sử thanh toán
+#### View payment history
 
 ```bash
 myus-sql -Q "SELECT tp.paymentId, s.firstName, s.lastName, tp.amount, tp.paymentDate, tp.paymentMethod, tp.status FROM myus.TuitionPayment tp JOIN myus.TuitionAccount ta ON tp.accountId = ta.accountId JOIN myus.Student s ON ta.studentId = s.studentId ORDER BY tp.paymentDate DESC;"
 ```
 
-#### Thống kê số lượng đăng ký theo môn học
+#### Registration statistics by course
 
 ```bash
 myus-sql -Q "SELECT c.courseCode, c.courseName, COUNT(cr.registrationId) AS totalRegistrations, SUM(CASE WHEN cr.status = 'Enrolled' THEN 1 ELSE 0 END) AS enrolled FROM myus.Course c JOIN myus.CourseOffering co ON c.courseId = co.courseId JOIN myus.CourseRegistration cr ON co.offeringId = cr.offeringId GROUP BY c.courseCode, c.courseName ORDER BY totalRegistrations DESC;"
 ```
 
-#### Xem các khảo sát đang mở
+#### View open surveys
 
 ```bash
 myus-sql -Q "SELECT surveyId, title, description, openDate, closeDate, status, targetAudience FROM myus.Survey WHERE status = 'Open' ORDER BY closeDate;"
 ```
 
-#### Xem FAQ phổ biến
+#### View popular FAQs
 
 ```bash
 myus-sql -Q "SELECT faqId, question, category, helpfulCount, notHelpfulCount FROM myus.FAQArticle WHERE published = 1 ORDER BY helpfulCount DESC;"
 ```
 
-#### Dùng sqlcmd tương tác để chạy SQL phức tạp
+#### Interactive sqlcmd session for complex queries
 
 ```bash
 myus-db
 ```
 
-Vào được dấu nhắc `1>` thì viết SQL như bình thường, kết thúc bằng `GO`:
+Once at prompt `1>`, type SQL and end with `GO`:
 
 ```sql
--- Truy vấn nhiều dòng trong phiên tương tác
+-- Multi-line query in interactive mode
 SELECT
     c.courseCode,
     c.courseName,
@@ -522,7 +524,7 @@ ORDER BY totalRegistrations DESC;
 GO
 ```
 
-#### Reset dữ liệu database
+#### Reset database data
 
 ```bash
 myus-sql -Q "
@@ -544,7 +546,7 @@ DELETE FROM myus.Student;
 "
 ```
 
-> **Sau khi reset**, import lại dữ liệu mẫu:
+> **After reset**, re-import mock data:
 > ```bash
 > docker exec -i myus-sqlserver /opt/mssql-tools/bin/sqlcmd \
 >   -S localhost -U sa -P 'Khoidmh1106' \
@@ -554,22 +556,22 @@ DELETE FROM myus.Student;
 
 ---
 
-## Tài Khoản Mẫu
+## Sample Accounts
 
-Tài khoản được tạo tự động khi chạy `mock_data_myus.sql`:
+Accounts created automatically when running `mock_data_myus.sql`:
 
-| Vai Trò | Username | Mật Khẩu | Mô Tả |
-|---------|----------|----------|-------|
-| Sinh viên | `24127002` | `24127002123` | Đăng ký học phần, xem điểm, xem TKB |
-| Quản trị viên | `admin001` | `admin001` | Quản lý khiếu nại, xem báo cáo |
+| Role | Username | Password | Description |
+|------|----------|----------|-------------|
+| Student | `24127002` | `24127002123` | Course registration, view grades, view timetable |
+| Administrator | `admin001` | `admin001` | Appeals management, view reports |
 
-> **Lưu ý bảo mật:** Mật khẩu trong database hiện đang được lưu dạng plain text (cấu hình `NoOpPasswordEncoder`). Trong môi trường production, cần nâng cấp lên **BCrypt** hoặc một cơ chế mã hóa mạnh hơn.
+> **Security Note:** Passwords in database are currently stored in plain text (`NoOpPasswordEncoder` config). In production, upgrade to **BCrypt** or a stronger password hashing algorithm.
 
 ---
 
 ## API Documentation
 
-API documentation (Swagger UI) có sẵn khi backend đang chạy:
+API documentation (Swagger UI) is accessible when the backend is running:
 
 ```
 http://localhost:8080/swagger-ui.html
@@ -583,66 +585,66 @@ http://localhost:8080/api-docs
 
 ---
 
-## Xử Lý Sự Cố
+## Troubleshooting
 
-### Port 8080 đã được sử dụng
+### Port 8080 is already in use
 
-Đổi port backend trong `application.properties`:
+Change backend port in `application.properties`:
 
 ```properties
 server.port=8081
 ```
 
-Sau đó cập nhật proxy trong `src/frontend/package.json`:
+Then update proxy in `src/frontend/package.json`:
 
 ```json
 "proxy": "http://localhost:8081"
 ```
 
-### Trang đăng nhập bị bỏ qua (vào thẳng Dashboard)
+### Login page bypassed (redirects straight to Dashboard)
 
-Nguyên nhân: JWT token cũ trong Local Storage.
+Cause: Outdated JWT token in Local Storage.
 
-**Cách khắc phục:** F12 → Application → Local Storage → `http://localhost:3000` → Clear All → Refresh.
+**Fix:** F12 → Application → Local Storage → `http://localhost:3000` → Clear All → Refresh.
 
-### Lỗi DataSource khi khởi động backend
+### DataSource error during backend startup
 
-Kiểm tra:
-- Container SQL Server đang chạy: `docker ps | grep myus-sqlserver`
-- Nếu container đã dừng, khởi động lại: `docker start myus-sqlserver`
-- Tên database trong connection string đúng (`databaseName=MyUS`)
-- Username (`sa`) và password (`Khoidmh1106`) đúng
-- Port 1433 không bị chiếm: `lsof -i :1433`
+Check:
+- Container SQL Server is running: `docker ps | grep myus-sqlserver`
+- If container stopped, restart it: `docker start myus-sqlserver`
+- Database name in connection string is correct (`databaseName=MyUS`)
+- Username (`sa`) and password (`Khoidmh1106`) are correct
+- Port 1433 is not occupied: `lsof -i :1433`
 
-### Container SQL Server không khởi động được
+### SQL Server Container fails to start
 
 ```bash
-# Xem logs
+# View logs
 docker logs myus-sqlserver
 
-# Nguyên nhân thường gặp: port 1433 đã bị chiếm (ví dụ bởi azuresqledge)
-# Giải pháp: dừng container đang chiếm port hoặc đổi port
+# Common cause: port 1433 occupied (e.g. by azuresqledge)
+# Fix: stop conflicting container or change port
 docker stop azuresqledge
 docker start myus-sqlserver
 ```
 
-### Không tìm thấy sqlcmd trong container
+### `sqlcmd` not found inside container
 
 ```bash
-# Kiểm tra đường dẫn sqlcmd
+# Check sqlcmd path
 docker exec myus-sqlserver ls /opt/mssql-tools/bin/sqlcmd
 
-# Nếu không có, dùng sqlcmd trong PATH
+# If missing, use sqlcmd in PATH
 docker exec -it myus-sqlserver sqlcmd -S localhost -U sa -P 'Khoidmh1106'
 ```
 
 ### `mvn` command not found
 
-Sử dụng Maven Wrapper đi kèm:
+Use the included Maven Wrapper:
 - **macOS/Linux:** `./mvnw`
 - **Windows:** `mvnw.cmd`
 
-### `node_modules` bị thiếu hoặc lỗi
+### `node_modules` missing or corrupted
 
 ```bash
 rm -rf node_modules package-lock.json
@@ -651,23 +653,23 @@ npm install
 
 ---
 
-## Thứ Tự Chạy Hệ Thống
+## Execution Order
 
-1. 🐳 Đảm bảo Docker container SQL Server đang chạy: `docker start myus-sqlserver`
-2. 🗄️ (Lần đầu) Chạy script `schema.sql` và `mock_data_myus.sql` qua `docker exec`
-3. 🔧 Cấu hình `application.properties` với thông tin database
-4. 🚀 Chạy backend: `cd src/backend && ./mvnw spring-boot:run -DskipTests`
-5. 🎨 Chạy frontend: `cd src/frontend && npm install && npm start`
-6. 🌐 Truy cập `http://localhost:3000` và đăng nhập
+1. Ensure Docker container SQL Server is running: `docker start myus-sqlserver`
+2. (First time) Execute `schema.sql` and `mock_data_myus.sql` via `docker exec`
+3. Configure `application.properties` with database connection info
+4. Start backend: `cd src/backend && ./mvnw spring-boot:run -DskipTests`
+5. Start frontend: `cd src/frontend && npm install && npm start`
+6. Access `http://localhost:3000` and log in
 
 ---
 
-## Nhóm Phát Triển
+## Development Team
 
 **MyUS Portal Development Team**
 
-Khoa Công Nghệ Thông Tin — Trường Đại học Khoa học Tự nhiên, ĐHQG-HCM
+Faculty of Information Technology — University of Science, VNU-HCM
 
 ---
 
-*Dự án được phát triển trong khuôn khổ môn học **Software Engineering**.*
+*Project developed for the **Software Engineering** course.*

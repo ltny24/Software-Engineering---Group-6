@@ -3,9 +3,9 @@
 
 ---
 
-# 1. Introduction, Architectural Scope & C4 Model Principles
+## 1. Introduction, Architectural Scope & C4 Model Principles
 
-## 1.1. Executive Summary & System Purpose
+### 1.1. Executive Summary & System Purpose
 
 The **MyUS University Portal System** is an enterprise-grade, integrated academic platform designed to digitalize and streamline university governance, administrative workflows, and student self-service operations. In a modern higher education environment, traditional paper-based administrative procedures—such as manual exam grade re-evaluations, physical course registration forms, and siloed academic advising—create severe operational bottlenecks and data inconsistencies.
 
@@ -13,15 +13,15 @@ MyUS addresses these challenges by establishing a unified, data-driven software 
 
 ---
 
-## 1.2. Evolutionary Project Scope (PA1 through PA4 Roadmap)
+### 1.2. Evolutionary Project Scope (PA1 through PA4 Roadmap)
 
 This architectural document encapsulates the complete end-to-end software system as evolved from **Project Assignment 1 (PA1)** through **Project Assignment 4 (PA4)**. The architecture comprehensively models the platform's domain boundaries and capabilities, implemented progressively across four iterative development milestones.
 
-### PA1 & PA2 (Requirements Elicitation & Formal Modeling)
+#### PA1 & PA2 (Requirements Elicitation & Formal Modeling)
 
 Established the foundational domain models, business rules, and actor hierarchies. During these phases, core user requirements were formalized into comprehensive use-case specifications, defining the operational boundaries between students and administrative staff across twenty-one use cases (UC-01 through UC-13a).
 
-### PA3 (Core Infrastructure & Architectural Foundation)
+#### PA3 (Core Infrastructure & Architectural Foundation)
 
 Centered on foundational scaffolding and MVP execution.
 
@@ -37,13 +37,13 @@ Initial feature implementation focused on core student self-service capabilities
 - **Functional Group 1:** User Profile Updates (**UC-02**)
 - **Functional Group 4:** Semester Grade Viewing & GPA Calculation (**UC-05**)
 
-### PA4 (Spec-Driven Implementation of Core Appeals, FAQ Support & AI Chatbot)
+#### PA4 (Spec-Driven Implementation of Core Appeals, FAQ Support & AI Chatbot)
 
 Represents the full-scale expansion of the platform using **Spec Kit** to drive end-to-end full-stack implementation (UI + API/Logic + Data Persistence).
 
 For this milestone, implementation focuses on three major modules.
 
-#### Functional Group 2 – Grade Appeal System
+##### Functional Group 2 – Grade Appeal System
 
 End-to-end execution of the digital grade appeal workflow (**UC-07**, **UC-07a**, **UC-08**) and administrator appeal processing management (**UC-12**, **UC-12a**, **UC-12b**), including:
 
@@ -57,7 +57,7 @@ End-to-end execution of the digital grade appeal workflow (**UC-07**, **UC-07a**
 - Dynamic fee payment deadline enforcement (+5 business days)
 - Administrator review queue with status update management and student notification
 
-#### Functional Group 6 – Support & FAQ
+##### Functional Group 6 – Support & FAQ
 
 Implementation of a centralized searchable self-service knowledge base (**UC-10**, **UC-10a**).
 
@@ -69,7 +69,7 @@ This module enables undergraduate students to independently find answers regardi
 
 through category-filtered keyword search, FAQ feedback rating ("Helpful" / "Not Helpful"), and contact helpdesk options — without requiring manual helpdesk assistance.
 
-#### AI Learning Assistant Chatbot (UC-10b)
+##### AI Learning Assistant Chatbot (UC-10b)
 
 Integration of a Large Language Model (LLM)-based AI academic advisor (**UC-10b**) providing 24/7 personalized counseling via the Google Gemini API with real-time streaming responses.
 
@@ -86,11 +86,11 @@ The chatbot supports:
 
 ---
 
-## 1.3. Key Architectural Quality Attributes & Non-Functional Requirements
+### 1.3. Key Architectural Quality Attributes & Non-Functional Requirements
 
 The software architecture of MyUS is explicitly designed to satisfy critical architectural quality attributes, ensuring long-term system stability, security, and scalability.
 
-### Security & Data Privacy (FERPA / Institutional Compliance)
+#### Security & Data Privacy (FERPA / Institutional Compliance)
 
 Academic records, transcripts, and personal identifiers represent highly sensitive institutional data.
 
@@ -109,7 +109,7 @@ These mechanisms ensure:
 
 ---
 
-### High Availability & Fault Tolerance
+#### High Availability & Fault Tolerance
 
 System availability is critical during peak academic periods such as:
 
@@ -126,7 +126,7 @@ If the external AI service becomes unavailable because of latency or service int
 
 ---
 
-### Modularity & Separation of Concerns
+#### Modularity & Separation of Concerns
 
 The platform adopts a decoupled Full-Stack architecture by separating responsibilities across independent layers:
 
@@ -139,7 +139,7 @@ This separation improves maintainability while allowing individual containers an
 
 ---
 
-### Transaction Atomicity & Consistency
+#### Transaction Atomicity & Consistency
 
 Academic operations that modify institutional records—including:
 
@@ -155,7 +155,7 @@ are executed inside atomic database transactions (`@Transactional`) to prevent:
 
 ---
 
-## 1.4. Theoretical Foundation of the C4 Model – Level 1 (System Context)
+### 1.4. Theoretical Foundation of the C4 Model – Level 1 (System Context)
 
 To communicate this architecture effectively without overwhelming stakeholders, this document adopts **Simon Brown's C4 Model**.
 
@@ -172,7 +172,7 @@ Each level progressively reveals additional implementation details while maintai
 
 ---
 
-### Purpose of the Level 1 System Context Diagram
+#### Purpose of the Level 1 System Context Diagram
 
 Section **B** focuses exclusively on **C4 Level 1 – System Context Diagram**.
 
@@ -202,18 +202,18 @@ Instead, the Level 1 diagram focuses on illustrating:
 - Bidirectional communication relationships
 - High-level information exchanges between MyUS and external entities
 
-# 2. Comprehensive Technology Stack & Architectural Justification
+## 2. Comprehensive Technology Stack & Architectural Justification
 **Performed by:** Lê Thị Như Ý  | **Reviewed by:** Hồ Thị Như Ngọc  | **Edited by:** Lê Thị Như Ý
 
 To satisfy the functional complexity of the defined use cases alongside stringent Non-Functional Requirements regarding security, responsiveness, and concurrent transaction safety, the **MyUS University Portal System** adopts a modern, decoupled Full-Stack architecture. Every technology and framework selected within this stack is justified by explicit domain constraints and operational requirements.
 
 ---
 
-## 2.1. Frontend Layer (Client Presentation & Reactive State)
+### 2.1. Frontend Layer (Client Presentation & Reactive State)
 
 The client-side architecture is engineered as a **Single Page Application (SPA)** to ensure seamless, reload-free navigation across complex student self-service and administrative workflows.
 
-### Core Framework — React 18
+#### Core Framework — React 18
 
 Selected for its declarative, component-driven UI model.
 
@@ -223,7 +223,7 @@ Selected for its declarative, component-driven UI model.
   - Real-time streaming AI responses in the **AI Learning Assistant (UC-10b)**.
   - Real-time step navigation in **Evaluation Surveys (UC-09)**.
 
-### Programming Language — TypeScript (v5.x)
+#### Programming Language — TypeScript (v5.x)
 
 Enforces strict static typing and compile-time contract verification.
 
@@ -235,7 +235,7 @@ TypeScript is critical for modeling intricate Data Transfer Objects (DTOs), incl
 
 This prevents runtime type errors and ensures consistency between frontend and backend data contracts.
 
-### Styling & Responsive UI — Plain CSS with BEM Convention
+#### Styling & Responsive UI — Plain CSS with BEM Convention
 
 The frontend uses plain CSS files organized per component, following the **BEM (Block Element Modifier)** naming convention to satisfy multi-device responsiveness requirements across desktop, laptop, tablet, and mobile breakpoints (**NFR ID13**).
 
@@ -247,7 +247,7 @@ It enables:
 
 without requiring additional CSS framework dependencies.
 
-### Routing & Security — React Router DOM
+#### Routing & Security — React Router DOM
 
 React Router DOM manages client-side SPA routing and implements custom **Protected Route** wrappers.
 
@@ -261,7 +261,7 @@ This ensures undergraduate students cannot access privileged administrative page
 - Bulk import management (**UC-11**, **UC-11a**, **UC-11b**).
 - Student data administration (**UC-13**, **UC-13a**).
 
-### HTTP Client & Asynchronous Communication — Axios
+#### HTTP Client & Asynchronous Communication — Axios
 
 Axios serves as the primary REST client and is configured with global request and response interceptors.
 
@@ -273,7 +273,7 @@ Its responsibilities include:
   - Standard JSON.
   - `multipart/form-data` when uploading supporting documents for grade appeals (**UC-07a**).
 
-### Build & Bundling Tooling — Create React App (react-scripts)
+#### Build & Bundling Tooling — Create React App (react-scripts)
 
 **Create React App (CRA)** with `react-scripts` is used as the build tool to provide:
 
@@ -283,11 +283,11 @@ Its responsibilities include:
 
 ---
 
-## 2.2. Backend Layer (API Gateway & Business Logic)
+### 2.2. Backend Layer (API Gateway & Business Logic)
 
 The backend operates as a stateless RESTful API server responsible for workflow orchestration, business rule enforcement, and transaction management.
 
-### Core Framework — Spring Boot 3.x (Java 17/21)
+#### Core Framework — Spring Boot 3.x (Java 17/21)
 
 Spring Boot provides an enterprise-grade **Model-View-Controller (MVC)** architecture.
 
@@ -299,26 +299,26 @@ It encapsulates mission-critical academic business logic, including:
 - FAQ search and category filtering (**UC-10a**).
 - AI RAG prompt construction and streaming orchestration (**UC-10b**).
 
-### Authentication & Security — Spring Security 6 + BCrypt + JWT
+#### Authentication & Security — Spring Security 6 + BCrypt + JWT
 
 Implements a stateless authentication architecture (**UC-01**).
 
-#### Password Hashing
+##### Password Hashing
 
 - User passwords are encrypted using the **BCrypt** hashing algorithm with a minimum work factor of **10 rounds**.
 - Plaintext passwords never appear in logs, database tables, or API payloads (**NFR ID09**).
 
-#### Token-Based Session Control
+##### Token-Based Session Control
 
 - Authenticated sessions rely on configurable JWT Access Tokens (**NFR ID10**).
 - Unauthorized access attempts immediately receive **HTTP 401 Unauthorized** responses (**NFR ID06**).
 - Password reset workflow uses 6-digit verification codes stored as `PasswordResetToken` entities, valid for 15 minutes (**UC-01 AF2**).
 
-#### Authorization Enforcement
+##### Authorization Enforcement
 
 Method-level security annotations (`@PreAuthorize`) enforce strict Role-Based Access Control (RBAC), ensuring students can only access or modify their own academic records and profiles (**NFR ID07**, **NFR ID08**).
 
-### Data Persistence & ORM — Spring Data JPA + Hibernate ORM
+#### Data Persistence & ORM — Spring Data JPA + Hibernate ORM
 
 Spring Data JPA abstracts relational SQL operations through repository interfaces while maintaining ACID compliance and efficient connection pooling.
 
@@ -327,7 +327,7 @@ Transaction management using `@Transactional` guarantees data integrity during h
 - Course registration seat reservations (**UC-03**, **NFR ID24**).
 - Multi-step grade appeal status updates (**UC-12b**).
 
-### Validation & Error Handling — Jakarta Bean Validation + `@ControllerAdvice`
+#### Validation & Error Handling — Jakarta Bean Validation + `@ControllerAdvice`
 
 Input validation is enforced at the controller layer.
 
@@ -339,7 +339,7 @@ Examples include:
 
 A global `@ControllerAdvice` middleware intercepts exceptions and standardizes HTTP error responses into structured JSON payloads (**NFR ID14**).
 
-### AI Orchestration Adapter — Gemini API Integration
+#### AI Orchestration Adapter — Gemini API Integration
 
 Acts as the communication bridge between enterprise Java services and the external Google Gemini Large Language Model (LLM).
 
@@ -351,11 +351,11 @@ Responsibilities include:
 
 ---
 
-## 2.3. Database & Storage Layer
+### 2.3. Database & Storage Layer
 
 The persistence layer separates structured relational data from binary file storage to optimize query performance and storage efficiency.
 
-### Relational Database — Microsoft SQL Server (2019/2022)
+#### Relational Database — Microsoft SQL Server (2019/2022)
 
 SQL Server serves as the primary system of record, ensuring referential integrity and relational consistency.
 
@@ -385,7 +385,7 @@ Database indexing strategies ensure that:
 
 remain performant even with large datasets (**NFR ID05**).
 
-### Binary Object Storage — Local File System / Object Storage
+#### Binary Object Storage — Local File System / Object Storage
 
 Managed through Spring Boot's **FileStorageService** for storing supporting documents submitted with grade appeals (**UC-07a**).
 
@@ -402,11 +402,11 @@ File access is restricted to the submitting student and authorized administrator
 
 ---
 
-## 2.4. External Integration Services & APIs
+### 2.4. External Integration Services & APIs
 
 To provide advanced capabilities without reinventing existing infrastructure, MyUS integrates with specialized external systems over encrypted **HTTPS/TLS 1.2+** connections (**NFR ID11**).
 
-### AI Counseling Engine — Google Gemini / OpenAI LLM API
+#### AI Counseling Engine — Google Gemini / OpenAI LLM API
 
 Provides the intelligence behind the **AI Learning Assistant Chatbot (UC-10b)**.
 
@@ -419,7 +419,7 @@ The AI service:
 
 AI-generated recommendations are advisory only and **cannot bypass official prerequisite validation rules** (**NFR ID18**).
 
-### Asynchronous Notification Gateway — Campus SMTP Email Gateway / JavaMailSender
+#### Asynchronous Notification Gateway — Campus SMTP Email Gateway / JavaMailSender
 
 Responsible for sending automated emails and system notifications.
 
@@ -432,9 +432,9 @@ Notifications are triggered during:
 
 ---
 
-## 2.5. DevOps, Quality Assurance & Spec-Driven Tooling
+### 2.5. DevOps, Quality Assurance & Spec-Driven Tooling
 
-### Database Migration Management — Flyway
+#### Database Migration Management — Flyway
 
 **Flyway** is integrated for version-controlled database schema migration. All schema changes are managed through SQL migration scripts located in `src/main/resources/db/migration/`, ensuring:
 
@@ -442,7 +442,7 @@ Notifications are triggered during:
 - Repeatable and auditable schema evolution history.
 - Baseline support for existing databases without data loss.
 
-### Spec-Driven Engineering — Spec Kit
+#### Spec-Driven Engineering — Spec Kit
 
 Spec Kit serves as the primary implementation driver during Phase 4 development.
 
@@ -454,7 +454,7 @@ It systematically transforms:
 
 into verified end-to-end full-stack implementations.
 
-### Automated Testing Suite — JUnit 5 & Mockito
+#### Automated Testing Suite — JUnit 5 & Mockito
 
 JUnit 5 and Mockito are used to build comprehensive backend unit tests covering mission-critical business logic, including:
 
@@ -474,38 +474,38 @@ flowchart TB
     classDef external fill:#999999,stroke:#666666,stroke-width:2px,color:#ffffff,font-style:italic
 
     %% People — human users only (C4 Person stereotype)
-    Student["<<Person>><br/>Student<br/>Undergraduate learner performing self-service tasks:<br/>course registration, grade tracking, digital appeals,<br/>FAQ lookup, and AI academic advising."]:::person
+    Student["&lt;&lt;Person&gt;&gt;<br>Student<br>Undergraduate learner performing self-service tasks:<br>course registration, grade tracking, digital appeals,<br>FAQ lookup, and AI academic advising."]:::person
 
-    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing bulk data imports,<br/>class controls, class transfers, appeal reviews,<br/>fee deadlines, and student records."]:::person
+    Admin["&lt;&lt;Person&gt;&gt;<br>Administrator<br>Academic Affairs officer managing bulk data imports,<br>class controls, class transfers, appeal reviews,<br>fee deadlines, and student records."]:::person
 
     %% Target Software System
-    MyUS["<<Software System>><br/>MyUS University Portal System<br/>Centralized academic platform digitalizing university<br/>operations: self-service workflows, grade appeal tracking,<br/>AI curriculum counseling, and searchable FAQ support."]:::system
+    MyUS["&lt;&lt;Software System&gt;&gt;<br>MyUS University Portal System<br>Centralized academic platform digitalizing university<br>operations: self-service workflows, grade appeal tracking,<br>AI curriculum counseling, and searchable FAQ support."]:::system
 
     %% External Software Systems
-    GeminiAI["<<External System>><br/>Google Gemini LLM API<br/>Cloud-based Large Language Model powering<br/>AI course recommendations, academic advising,<br/>and graduation audit analysis (UC-10b)."]:::external
+    GeminiAI["&lt;&lt;External System&gt;&gt;<br>Google Gemini LLM API<br>Cloud-based Large Language Model powering<br>AI course recommendations, academic advising,<br>and graduation audit analysis (UC-10b)."]:::external
 
-    EmailGateway["<<External System>><br/>Campus SMTP Email Gateway<br/>University mail infrastructure dispatching<br/>transactional emails: password resets,<br/>appeal status updates, and fee deadline alerts."]:::external
+    EmailGateway["&lt;&lt;External System&gt;&gt;<br>Campus SMTP Email Gateway<br>University mail infrastructure dispatching<br>transactional emails: password resets,<br>appeal status updates, and fee deadline alerts."]:::external
 
-    FileStorage["<<External System>><br/>Local File System / Object Storage<br/>Binary storage infrastructure persisting<br/>grade appeal evidentiary documents<br/>(.pdf, .jpg, .png — up to 5 MB each)."]:::external
+    FileStorage["&lt;&lt;External System&gt;&gt;<br>Local File System / Object Storage<br>Binary storage infrastructure persisting<br>grade appeal evidentiary documents<br>(.pdf, .jpg, .png — up to 5 MB each)."]:::external
 
     %% Relationships — users interact with the system
-    Student -->|"Registers courses, views grades and timetable,<br/>submits grade appeals, searches FAQ,<br/>and uses AI learning assistant"| MyUS
-    Admin -->|"Imports bulk data, manages class controls,<br/>processes class transfers, sets fee deadlines,<br/>reviews appeals, and inspects records"| MyUS
+    Student -->|"Registers courses, views grades and timetable,<br>submits grade appeals, searches FAQ,<br>and uses AI learning assistant"| MyUS
+    Admin -->|"Imports bulk data, manages class controls,<br>processes class transfers, sets fee deadlines,<br>reviews appeals, and inspects records"| MyUS
 
     %% Relationships — system uses external services
     MyUS -->|"Sends academic context and queries; receives AI course recommendations and graduation audit results"| GeminiAI
     MyUS -->|"Dispatches transactional emails: password reset codes, appeal status updates, and fee payment deadline alerts"| EmailGateway
     MyUS -->|"Stores and retrieves supporting documents for grade appeal cases"| FileStorage
 ```
-## 3.2. Detailed Architectural Narrative & System Boundaries
+### 3.2. Detailed Architectural Narrative & System Boundaries
 
-### A. The Target System: MyUS University Portal System
+#### A. The Target System: MyUS University Portal System
 
 At the center of the architecture is the **MyUS University Portal System**, which encapsulates all business logic, data validation rules, security controls, and workflow orchestration required to execute the 21 defined Use Cases (UC-01 through UC-13a).
 
 The system bridges two distinct user domains:
 
-#### Student Self-Service Domain (UC-01 to UC-10b)
+##### Student Self-Service Domain (UC-01 to UC-10b)
 
 This domain encompasses the core self-service capabilities available to undergraduate students, including:
 
@@ -522,7 +522,7 @@ This domain encompasses the core self-service capabilities available to undergra
 - Searchable FAQ knowledge base with category filtering and feedback (**UC-10a**)
 - AI Learning Assistant chatbot with streaming Gemini responses (**UC-10b**)
 
-#### Administrative Governance Domain (UC-11 to UC-14)
+##### Administrative Governance Domain (UC-11 to UC-14)
 
 This domain supports administrative operations, including:
 
@@ -538,9 +538,9 @@ This domain supports administrative operations, including:
 
 ---
 
-### B. Primary Actors (Human Users)
+#### B. Primary Actors (Human Users)
 
-#### Student (`<<Person>>`)
+##### Student (`<<Person>>`)
 
 Students access the platform through modern web browsers. Following secure authentication, they use MyUS to:
 
@@ -548,7 +548,7 @@ Students access the platform through modern web browsers. Following secure authe
 - Complete digital academic workflows without relying on physical paperwork.
 - Interact with the AI academic assistant for personalized learning guidance and course recommendations.
 
-#### Administrator (`<<Person>>`)
+##### Administrator (`<<Person>>`)
 
 Administrators are Academic Affairs officers operating under elevated authorization privileges.
 
@@ -561,17 +561,17 @@ They use dedicated administrative interfaces to:
 - Configure physical office fee-payment deadlines.
 - Inspect and manage confidential student records.
 
-#### AI Engine (`<<Actor>>`)
+##### AI Engine (`<<Actor>>`)
 
 The Google Gemini LLM API acts as an automated AI actor within **UC-10b (AI Learning Assistant)**. It receives structured academic context (student major, cumulative GPA, course catalog, completed credits) formatted as Retrieval-Augmented Generation (RAG) prompts by the backend `ChatbotController`, then streams natural-language course recommendations and graduation advisories back to the student's chat interface via `askGeminiStream`. If the Gemini service is unavailable, the system transparently falls back to the `localChatbotService.ts` offline knowledge base.
 
 ---
 
-### C. External Software Systems & Integration Mechanics
+#### C. External Software Systems & Integration Mechanics
 
 To provide advanced capabilities while avoiding duplication of core infrastructure, **MyUS** integrates with three external software systems.
 
-#### Google Gemini / OpenAI LLM API (`<<External Software System>>`)
+##### Google Gemini / OpenAI LLM API (`<<External Software System>>`)
 
 This external AI service powers the **AI Learning Assistant (UC-10b)**.
 
@@ -583,7 +583,7 @@ The platform securely communicates with the cloud-based Large Language Model (LL
 
 ---
 
-#### Campus SMTP Email Gateway (`<<External Software System>>`)
+##### Campus SMTP Email Gateway (`<<External Software System>>`)
 
 The Campus SMTP Email Gateway serves as the university's centralized notification infrastructure.
 
@@ -596,7 +596,7 @@ It automatically delivers transactional email notifications triggered by events 
 
 ---
 
-#### Local File System / Object Storage (`<<External Software System>>`)
+##### Local File System / Object Storage (`<<External Software System>>`)
 
 The Local File System / Object Storage provides dedicated infrastructure for storing supporting evidence uploaded during **Grade Appeal submissions (UC-07a)**.
 

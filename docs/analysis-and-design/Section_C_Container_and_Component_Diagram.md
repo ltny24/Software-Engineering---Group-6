@@ -31,27 +31,27 @@ flowchart TB
     classDef external fill:#999999,stroke:#666666,stroke-width:2px,color:#ffffff,font-style:italic
 
     %% Primary Actors (People)
-    Student["<<Person>><br/>Student<br/>Undergraduate learner performing self-service academic actions: viewing grades, registering courses, submitting appeals, accessing FAQ, and interacting with AI advisor."]:::person
+    Student["&lt;&lt;Person&gt;&gt;<br>Student<br>Undergraduate learner performing self-service academic actions: viewing grades, registering courses, submitting appeals, accessing FAQ, and interacting with AI advisor."]:::person
 
-    Admin["<<Person>><br/>Administrator<br/>Academic Affairs officer managing data imports, class controls, class transfers, grade appeal reviews, fee deadlines, and student records."]:::person
+    Admin["&lt;&lt;Person&gt;&gt;<br>Administrator<br>Academic Affairs officer managing data imports, class controls, class transfers, grade appeal reviews, fee deadlines, and student records."]:::person
 
     %% System Boundary
     subgraph SystemBoundary ["MyUS University Portal System (System Boundary)"]
         direction TB
 
-        Frontend["<<Container: Single Page Application>><br/>Frontend Web Application<br/>[React 18, TypeScript, Axios, React Router DOM]<br/>Provides responsive UI, client-side routing, form validation, reactive state management, AI chat streaming interface, and FAQ search."]:::container
+        Frontend["&lt;&lt;Container: Single Page Application&gt;&gt;<br>Frontend Web Application<br>[React 18, TypeScript, Axios, React Router DOM]<br>Provides responsive UI, client-side routing, form validation, reactive state management, AI chat streaming interface, and FAQ search."]:::container
 
-        Backend["<<Container: Web API Application>><br/>Backend API Server<br/>[Spring Boot 3.x, Spring Security, JPA, Java 17]<br/>Executes RESTful API services, security rules, transaction management, AI orchestration, FAQ logic, and file operations."]:::container
+        Backend["&lt;&lt;Container: Web API Application&gt;&gt;<br>Backend API Server<br>[Spring Boot 3.x, Spring Security, JPA, Java 17]<br>Executes RESTful API services, security rules, transaction management, AI orchestration, FAQ logic, and file operations."]:::container
 
-        Database[("<<Container: Relational Database>><br/>SQL Server Database<br/>[Microsoft SQL Server 2019/2022]<br/>Stores structured domain data: users, students, courses, enrollments, appeals, FAQ articles, tuition records, password reset tokens, and Flyway migration logs.")]:::database
+        Database[("&lt;&lt;Container: Relational Database&gt;&gt;<br>SQL Server Database<br>[Microsoft SQL Server 2019/2022]<br>Stores structured domain data: users, students, courses, enrollments, appeals, FAQ articles, tuition records, password reset tokens, and Flyway migration logs.")]:::database
 
-        FileStorage[("<<Container: File System / Binary Storage>><br/>Local File Storage<br/>[OS File System / Storage Volume]<br/>Stores binary evidence attachments (.pdf, .jpg, .png) for grade appeal cases (UC-07a).")]:::database
+        FileStorage[("&lt;&lt;Container: File System / Binary Storage&gt;&gt;<br>Local File Storage<br>[OS File System / Storage Volume]<br>Stores binary evidence attachments (.pdf, .jpg, .png) for grade appeal cases (UC-07a).")]:::database
     end
 
     %% External Systems
-    GeminiAI["<<External System>><br/>Google Gemini / OpenAI LLM API<br/>Cloud-based Large Language Model powering AI advising, course recommendations, and graduation audit (UC-10b)."]:::external
+    GeminiAI["&lt;&lt;External System&gt;&gt;<br>Google Gemini / OpenAI LLM API<br>Cloud-based Large Language Model powering AI advising, course recommendations, and graduation audit (UC-10b)."]:::external
 
-    EmailGateway["<<External System>><br/>Campus SMTP Email Gateway<br/>University mail infrastructure for sending notification emails: password resets, appeal updates, and fee deadline alerts."]:::external
+    EmailGateway["&lt;&lt;External System&gt;&gt;<br>Campus SMTP Email Gateway<br>University mail infrastructure for sending notification emails: password resets, appeal updates, and fee deadline alerts."]:::external
 
     %% Communication Flows
     Student -->|"Accesses portal, submits requests, views content [HTTPS / HTML5 / React SPA]"| Frontend
@@ -207,16 +207,16 @@ flowchart TB
 
     subgraph ControllerLayer["REST CONTROLLER LAYER"]
         direction TB
-        AuthCtrl["AuthController | POST /api/auth/login<br/>POST /api/auth/forgot-password<br/>POST /api/auth/reset-password | Auth & password reset"]:::controller
-        CourseCtrl["CourseController | GET /api/courses<br/>GET /api/courses/:id | Course catalog browsing"]:::controller
-        EnrollmentCtrl["EnrollmentController | POST+GET /api/registrations<br/>PUT /api/registrations/:id/drop<br/>POST /api/admin/transfers | Enrollment & admin transfers"]:::controller
+        AuthCtrl["AuthController | POST /api/auth/login<br>POST /api/auth/forgot-password<br>POST /api/auth/reset-password | Auth & password reset"]:::controller
+        CourseCtrl["CourseController | GET /api/courses<br>GET /api/courses/:id | Course catalog browsing"]:::controller
+        EnrollmentCtrl["EnrollmentController | POST+GET /api/registrations<br>PUT /api/registrations/:id/drop<br>POST /api/admin/transfers | Enrollment & admin transfers"]:::controller
         GradeCtrl["GradeController | GET /api/v1/grades/me | Student grade retrieval"]:::controller
         FinanceCtrl["FinanceController | GET /api/v1/finance/tuition/balance | Tuition balance and payments"]:::controller
         ProfileCtrl["ProfileController | GET+PUT /api/v1/profile | Student profile view and update"]:::controller
-        AppealCtrl["AppealController | POST /api/appeals<br/>GET /api/appeals/me<br/>GET /api/appeals/me/:id<br/>PUT /api/appeals/:id/withdraw | Student appeal operations"]:::controller
-        AppealAdminCtrl["AppealAdminController | GET /api/admin/appeals<br/>GET /api/admin/appeals/:id<br/>PUT /api/admin/appeals/:id/review<br/>PUT /api/admin/appeals/:id/fee-deadline | Admin appeal processing"]:::controller
-        FaqCtrl["FaqController | GET /api/faq<br/>GET /api/faq/categories<br/>GET /api/faq/popular<br/>GET /api/faq/:id<br/>POST /api/faq/:id/feedback | FAQ library"]:::controller
-        ChatbotCtrl["ChatbotController | POST /api/v1/chatbot/chat<br/>GET /api/v1/chatbot/recommendations<br/>GET /api/v1/chatbot/progress | AI academic advisor"]:::controller
+        AppealCtrl["AppealController | POST /api/appeals<br>GET /api/appeals/me<br>GET /api/appeals/me/:id<br>PUT /api/appeals/:id/withdraw | Student appeal operations"]:::controller
+        AppealAdminCtrl["AppealAdminController | GET /api/admin/appeals<br>GET /api/admin/appeals/:id<br>PUT /api/admin/appeals/:id/review<br>PUT /api/admin/appeals/:id/fee-deadline | Admin appeal processing"]:::controller
+        FaqCtrl["FaqController | GET /api/faq<br>GET /api/faq/categories<br>GET /api/faq/popular<br>GET /api/faq/:id<br>POST /api/faq/:id/feedback | FAQ library"]:::controller
+        ChatbotCtrl["ChatbotController | POST /api/v1/chatbot/chat<br>GET /api/v1/chatbot/recommendations<br>GET /api/v1/chatbot/progress | AI academic advisor"]:::controller
     end
 
     subgraph ServiceLayer["SERVICE LAYER"]

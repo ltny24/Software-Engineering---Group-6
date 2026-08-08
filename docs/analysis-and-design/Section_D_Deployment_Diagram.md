@@ -31,32 +31,32 @@ flowchart TB
     classDef container fill:#ffffff,stroke:#666666,stroke-width:1px,color:#1a1a1a
 
     subgraph ClientNode["Client Workstation / Mobile Device"]
-        Browser["Frontend Web Application<br/>React 18 SPA<br/>Lazy-loaded routes, JWT auth, streaming AI chat"]:::container
+        Browser["Frontend Web Application<br>React 18 SPA<br>Lazy-loaded routes, JWT auth, streaming AI chat"]:::container
     end
     class ClientNode device
 
     subgraph AppServerNode["Application Server (Local Machine)"]
-        Backend["Backend API Server<br/>Spring Boot 3.x | Java 17<br/>Embedded Tomcat | Port 8080 dev / 443 prod<br/>10 REST Controllers | 8 Services | 4 AI Services<br/>Spring Security + JWT | Flyway Migrations"]:::container
+        Backend["Backend API Server<br>Spring Boot 3.x | Java 17<br>Embedded Tomcat | Port 8080 dev / 443 prod<br>10 REST Controllers | 8 Services | 4 AI Services<br>Spring Security + JWT | Flyway Migrations"]:::container
     end
     class AppServerNode node
 
     subgraph DBServerNode["Database Server"]
-        Database[("SQL Server Database<br/>Microsoft SQL Server 2019/2022<br/>TCP Port 1433<br/>15 tables | Flyway schema history")]:::container
+        Database[("SQL Server Database<br>Microsoft SQL Server 2019/2022<br>TCP Port 1433<br>15 tables | Flyway schema history")]:::container
     end
     class DBServerNode dbnode
 
     subgraph FileServerNode["File Storage Node"]
-        FileStorage[("Local File Storage<br/>OS File System<br/>/uploads/appeals/<br/>.pdf .jpg .png — max 5MB")]:::container
+        FileStorage[("Local File Storage<br>OS File System<br>/uploads/appeals/<br>.pdf .jpg .png — max 5MB")]:::container
     end
     class FileServerNode dbnode
 
     subgraph GeminiCloud["Google Cloud Platform"]
-        GeminiAI["Google Gemini / OpenAI<br/>LLM API<br/>Academic advising & course<br/>recommendations (UC-10b)"]:::container
+        GeminiAI["Google Gemini / OpenAI<br>LLM API<br>Academic advising & course<br>recommendations (UC-10b)"]:::container
     end
     class GeminiCloud external
 
     subgraph MailServerNode["University Mail Server"]
-        EmailGateway["Campus SMTP<br/>Email Gateway<br/>TCP Port 587<br/>Password resets, appeal alerts"]:::container
+        EmailGateway["Campus SMTP<br>Email Gateway<br>TCP Port 587<br>Password resets, appeal alerts"]:::container
     end
     class MailServerNode external
 
