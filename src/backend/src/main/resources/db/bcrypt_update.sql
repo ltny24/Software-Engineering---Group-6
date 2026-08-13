@@ -1,0 +1,142 @@
+USE MyUS;
+GO
+-- BCrypt password hashes update
+-- Generated automatically - DO NOT EDIT MANUALLY
+
+-- Update Administrator passwords
+UPDATE myus.Administrator SET password = '$2a$10$WjJRW/y4ZaYjiCZNXmcHx.f8kD0VBRBxGYDUSZ3iUec642K99zQ02' WHERE username = 'admin001';
+UPDATE myus.Administrator SET password = '$2a$10$2lkBmXrNtlYuQq6uj/5tru7q9b3wyYk6wCxXfT30gnYcsmGCWCXk.' WHERE username = 'admin002';
+UPDATE myus.Administrator SET password = '$2a$10$iPZN1B57vhYOD6PHG14h5uM1g8qw1gZjoH186UwwGEVyRNwA5IM/.' WHERE username = 'admin003';
+UPDATE myus.Administrator SET password = '$2a$10$74osgpincY8BaCMRXaWBOu6RP5O5uCuaUJAkUOHuhfmVfyxzifNgC' WHERE username = 'admin004';
+UPDATE myus.Administrator SET password = '$2a$10$sO26Yn0vkWyj1DTCZ6z/h.nHbENbzNh5jGnlHWlepju3ZfTuCV.ju' WHERE username = 'admin005';
+
+-- Update Student passwords
+UPDATE myus.Student SET password = '$2a$10$XRT9XKuXNdgw9LUCAXg4LuM5MFOflbODxHgK6cmEiqLz9fIjt4sBG' WHERE username = '24127001';
+UPDATE myus.Student SET password = '$2a$10$37T328E0OuG.l259EvWkweSObWd6fnxTOcycjttrQNO/d98c1jo4u' WHERE username = '24127002';
+UPDATE myus.Student SET password = '$2a$10$Y3eWoeLJgO.Ug2RlmxrbWuYoRQHLQUobArztTmiZMRK.q7yEgpzce' WHERE username = '24127003';
+UPDATE myus.Student SET password = '$2a$10$/RUWng/DrOpJr6su8qaWnOBs93pD2EeaakvvMs9UmvKEfp0OtXIsW' WHERE username = '24127004';
+UPDATE myus.Student SET password = '$2a$10$mJpJQ1rVMneUZWGPOfMG0e93J9ijB52ODmfzf9WYepyBZ2/7X1/1C' WHERE username = '24127005';
+UPDATE myus.Student SET password = '$2a$10$i.a1obhVU7weZ0GVQZGDeO5JecZGNVnPnw0XA7UA5ggfLm02DJtl6' WHERE username = '24127006';
+UPDATE myus.Student SET password = '$2a$10$SYTQsLQEbODHfTpe5xZQz.Qvkb3iSL5AEJg9r3xC2tD4ApCiuMFIO' WHERE username = '24127007';
+UPDATE myus.Student SET password = '$2a$10$sEeIJsinsMfnvXEX7Y/V2.eyPuWoJ4rWXE1xSWFeexwAGCyGRw.ru' WHERE username = '24127008';
+UPDATE myus.Student SET password = '$2a$10$rFrE2yaqn./E6JGUGnj0eODLJhhBJbNgTj7cgrj75Jmh4b/0Yui8S' WHERE username = '24127009';
+UPDATE myus.Student SET password = '$2a$10$HoCOmWkV9KG0tD4gHQ9YkO0N5IfNrWuJdSyBybRwdWGSzm3ScMlr.' WHERE username = '24127010';
+UPDATE myus.Student SET password = '$2a$10$8BxyB1tYQ0hiGWjrpB8I/eIXsdPyiE5wIcWJk3GGh8qZxMgPpLUSy' WHERE username = '24127011';
+UPDATE myus.Student SET password = '$2a$10$xhQacho.h.Wf5L.NOnCziuDYfxXHuHjmTQzY.LzXmz5FcSx723FWG' WHERE username = '24127012';
+UPDATE myus.Student SET password = '$2a$10$rkCWsdla.eGQZr8CcOQGNO7rhrajSwEAwnuYTDmmA.SYfVTXE.UHe' WHERE username = '24127013';
+UPDATE myus.Student SET password = '$2a$10$kz58IF5TXeBD3CQSwDqwQe/Ow4/sEcgGYvBhvrRruiUmSOOapqadK' WHERE username = '24127014';
+UPDATE myus.Student SET password = '$2a$10$w0ifucRIZVRtqNt0ldl2f.f2bb8XLRzqD1rceEgxOLyx5yrdHdOaK' WHERE username = '24127015';
+UPDATE myus.Student SET password = '$2a$10$2SvKtKVxMkQ1e8RJDmmOROx7BvgszNGR2YTyqXPPeFMOnyuHrdfby' WHERE username = '24127016';
+UPDATE myus.Student SET password = '$2a$10$EyO0BT8ekF4xBN6KIYALKeeF4M4NFK2nuzj1RYh5M.o6kC9Z48c.6' WHERE username = '24127017';
+UPDATE myus.Student SET password = '$2a$10$7ff6GjpF0F79VDNsdCjasuCz4DdHv40/OX2/jU2hQchjwX67e6HtW' WHERE username = '24127018';
+UPDATE myus.Student SET password = '$2a$10$RP5ZlGOR.QhHkcQ8SjlsoeyHW8lv.g/x0/qT06RzcPsVoAE2j9J2a' WHERE username = '24127019';
+UPDATE myus.Student SET password = '$2a$10$iWZRrj5XGxERD9.ZGngdZ.B2SL3.O0djX9jkGihId5XeD0Cpe1i5i' WHERE username = '24127020';
+UPDATE myus.Student SET password = '$2a$10$BwC045L/IGwMoGuU9pyoBejcwU82oktVCyDpev/Zq4uiEoPIBoC6q' WHERE username = '24127021';
+UPDATE myus.Student SET password = '$2a$10$5bZXz06ZAVrFmNsEmLRUGu/QBadrKamzMIHHt6hXGUVWqldDDqJfy' WHERE username = '24127022';
+UPDATE myus.Student SET password = '$2a$10$EF1FIHVv/N1y6A/btYN5A.0GvpqOD2tAOFvaxPEyS2E9GkVSfKyNW' WHERE username = '24127023';
+UPDATE myus.Student SET password = '$2a$10$mRja.yMjbnfqphgFt.lbiOKqsNO0iTAsMynpqIAIx1vQYiQT2eAyu' WHERE username = '24127024';
+UPDATE myus.Student SET password = '$2a$10$fYQ//Wy99UVbt6ZIFD64COgeUS.IPGClCgi9Y1OBmtrrCAQRi7feK' WHERE username = '24127025';
+UPDATE myus.Student SET password = '$2a$10$BcpZDgG8rgK4jwDa6gRrN.ZXOvI1l69R403hw/ACSn.87rvQxkUj6' WHERE username = '24127026';
+UPDATE myus.Student SET password = '$2a$10$nBe4RgmDoAAAQXBhYJ8B5O/H392iqmihkLNvfAjgXDrXg0KhVbg7W' WHERE username = '24127027';
+UPDATE myus.Student SET password = '$2a$10$/JfX0aSYS9L18hLRmVzw0eBYQfFZkjBQqYjSWteuloiFYyF/aCCxe' WHERE username = '24127028';
+UPDATE myus.Student SET password = '$2a$10$HCZF31Ssmj.sIY0NTL/QYuZBduqauzYIe3Sp2EocW3Urx1cZOnUHW' WHERE username = '24127029';
+UPDATE myus.Student SET password = '$2a$10$.gjKiK.YH3udwIIULdub6eYWIxUOkNj7OrSxTI1QAwoupqNXWFwgO' WHERE username = '24127030';
+UPDATE myus.Student SET password = '$2a$10$qEBXuhU71Cil5G/WlNc1quHBBqyEg4nDsv7SihKIbJPRd9xqbqgjW' WHERE username = '24127031';
+UPDATE myus.Student SET password = '$2a$10$M6UTWDZaQ6YXTQM9nnH5L.T4wWZ7hai94XpzZLvPkro0VBIphAsl6' WHERE username = '24127032';
+UPDATE myus.Student SET password = '$2a$10$6IIxhmXR4w0BmthwdYapvOPFMPihrxm0fDK0DJPiZIAMJPkbvfJ8y' WHERE username = '24127033';
+UPDATE myus.Student SET password = '$2a$10$QzmiLg.ENnPQkHOySEtFoOuYFrKpIW1tE2nVv0Cbx6vw1IPxUmlIG' WHERE username = '24127034';
+UPDATE myus.Student SET password = '$2a$10$9MUTEHea5PE0NVHIIIigYejtuAkkhbvH2gqelZyukMl0xhOqQv6xm' WHERE username = '24127035';
+UPDATE myus.Student SET password = '$2a$10$zrfULGRKU/xqiM5vllogb.BWQT1KGNx0cZJxJXTFsskOC9IlDB1hy' WHERE username = '24127036';
+UPDATE myus.Student SET password = '$2a$10$xNk4KN2/DUPJQfWD/2kCBupSfQG1beH3bdV8s0PwgEc/Qhxmbl8AK' WHERE username = '24127037';
+UPDATE myus.Student SET password = '$2a$10$M0jNiC0fPyFwa4RApHNHguY3JqpIhBRns96vswqx2EvC/QpK3GoZq' WHERE username = '24127038';
+UPDATE myus.Student SET password = '$2a$10$I8AfwsszS8FN9hTm/6Vf3uNMjTRMfXxEsXTnKOLbRbiOEkQEyCys.' WHERE username = '24127039';
+UPDATE myus.Student SET password = '$2a$10$jOPMmuiLZADTWb.0iwemouvfmWPv8RyHjiCbEGFCDoZxSb2C55FES' WHERE username = '24127040';
+UPDATE myus.Student SET password = '$2a$10$ekcYpNqUryvh2.KzJVGTwev128wSaGTTQPs1S/CFulushsnr0UXnK' WHERE username = '24127041';
+UPDATE myus.Student SET password = '$2a$10$0E5BqYQYtZlXHUXZ4HClaORViJoJeyA1FIIHi3zhp5wQPDGRypJ5e' WHERE username = '24127042';
+UPDATE myus.Student SET password = '$2a$10$.my5bbF7.9xy5ch651h2Nu63lOQVmnxr0mzlmQ8cAENI2K5xETPT6' WHERE username = '24127043';
+UPDATE myus.Student SET password = '$2a$10$UWzEKcfxAN.soiIamuSS7OK.GGzDrhJZUkNmEgHbnXyG.jm8foi2K' WHERE username = '24127044';
+UPDATE myus.Student SET password = '$2a$10$/toVf8p18eEfjawmMGWx0eBYen0juK0MA3Rd/tdyp/DCWjTZZCOyO' WHERE username = '24127045';
+UPDATE myus.Student SET password = '$2a$10$lqASvDt9Edq.3CxUkm79sOpj54Ojy3j/gq.YGKH7GK0qr2JmXAXLu' WHERE username = '24127046';
+UPDATE myus.Student SET password = '$2a$10$EG8jTgeeSN9VfaeOlTHy1OCW56XNcHUJBhCOyd97e/VAfnk6BIbe6' WHERE username = '24127047';
+UPDATE myus.Student SET password = '$2a$10$G4pRqCKQcwWECNRQ0IPPpeaFPW9aY.cdTjN6AL3qhx8kEtYq0gT1a' WHERE username = '24127048';
+UPDATE myus.Student SET password = '$2a$10$VJKpFUtO5IhgWfIUVshzqeLEKWOtPTI7xLn1Cf7zqn9pGOTsDVzGO' WHERE username = '24127049';
+UPDATE myus.Student SET password = '$2a$10$3H9A23gb2c0cYwCEUUOJr.x8ujamH/Y3Bjwou24pQNLGxPl5P7giC' WHERE username = '24127050';
+UPDATE myus.Student SET password = '$2a$10$aBzlK5qmp5Lqg1Hz94T7EOgNVG92sCoDiewk4givTdfAgQQrJwAj2' WHERE username = '24127051';
+UPDATE myus.Student SET password = '$2a$10$AQw2YQ6mltWcnWKFOypl7OrHE98F4o/ahpNuStjNo3Nu7YjMZDYa.' WHERE username = '24127052';
+UPDATE myus.Student SET password = '$2a$10$5KhZBn1YAo/nzxiEonqaIupJcFUK7UW.BSPelxXssP0cRnwLll1yi' WHERE username = '24127053';
+UPDATE myus.Student SET password = '$2a$10$dYYaoPDQ6Wge9yt8wP.S7.z2EFh/aMjCFcou8qXuk4I8XvfNEK2N.' WHERE username = '24127054';
+UPDATE myus.Student SET password = '$2a$10$F0dW4KruC575edO73F1kUeNwmyUgUBEhkA3kh0o182FBfAEdkn7hS' WHERE username = '24127055';
+UPDATE myus.Student SET password = '$2a$10$E9WsDv73BDieYYjcqewYV.M1dRfqVhrA.141PAt4AyDaIll7yOR6G' WHERE username = '24127056';
+UPDATE myus.Student SET password = '$2a$10$yfWlhVRAddPhq0uXV.H1c.pxnnEtJUNXJjWi.Q7IZB.UjYWAu37IW' WHERE username = '24127057';
+UPDATE myus.Student SET password = '$2a$10$lYmdPpB3.YsxuqQhNI.UXuM/q6EBXm0PhhbF3zCMf6.O6P8.RvC.C' WHERE username = '24127058';
+UPDATE myus.Student SET password = '$2a$10$yuEUMouetI9cAHCjWryLGeKg3S9ju8wsefoEV.hhmKhOqF5FYGvTG' WHERE username = '24127059';
+UPDATE myus.Student SET password = '$2a$10$Q.gOWHJvzSmJmu6eLra10OU1zDiBLWPYMDRIVlQGKOYW0j.ktL9yC' WHERE username = '24127060';
+UPDATE myus.Student SET password = '$2a$10$.Lgy1hGfORFVdYolXDp8xuYrDM2d5BOZrgl1PwH8LAjIxYKzjXHoa' WHERE username = '24127061';
+UPDATE myus.Student SET password = '$2a$10$AGtDyhunOoFjkSEELhBSJO2m.C12Vp18eHobgeDLtsUPjiPbkrQCW' WHERE username = '24127062';
+UPDATE myus.Student SET password = '$2a$10$m9bAfHlh5DuRLwcLfouSa.oHkUzHB3/jdK4fNvRQMlqIyQIFyQgbi' WHERE username = '24127063';
+UPDATE myus.Student SET password = '$2a$10$xo.ajqHjFJkMQo1wxpzjmuDx7ma5wR4ANQpzGv8uiBB41zad1m9t2' WHERE username = '24127064';
+UPDATE myus.Student SET password = '$2a$10$cLjD1rLVDagli8edboXXJuEuEIB5qJ1Ac2QjPvxpF9kK94dw8P7/q' WHERE username = '24127065';
+UPDATE myus.Student SET password = '$2a$10$uBFb3zWdg8N8waqcl8GuVuvoHD75zmVrBdG9qNMxYMvz4emvrf8Ly' WHERE username = '24127066';
+UPDATE myus.Student SET password = '$2a$10$RXXs0eT1Uu9BkA54cB46MuZ36aROR3Wp6PqS1LIFSd1zvQzM/iSOS' WHERE username = '24127067';
+UPDATE myus.Student SET password = '$2a$10$2clpb1UYOWeMZRfcGTyFZeO/0hvw54Oo8Z.4sgJa6MtnavYkVN8Uu' WHERE username = '24127068';
+UPDATE myus.Student SET password = '$2a$10$GtUdKDweHkYJVuFSnovMpenWt5zideLqr6VkaUO7ClCPXMJYlzMtO' WHERE username = '24127069';
+UPDATE myus.Student SET password = '$2a$10$5X43wWZt4a32E.qYqNejLOVmr.qFQv035QmLiHkTFY8q6eAZJBKTu' WHERE username = '24127070';
+UPDATE myus.Student SET password = '$2a$10$RWyOpVzyiGR6W9tuY8Cm2.fwqBMSRTLqoGybJKqIt2Y1AacWtvXmC' WHERE username = '24127071';
+UPDATE myus.Student SET password = '$2a$10$NXmir6lulZJF7cjN1d0.EO1cA2XDbqtzWM7Vn.HD5AKsTdshHckE6' WHERE username = '24127072';
+UPDATE myus.Student SET password = '$2a$10$J8MAXjNSyTajsm0noc1U3.9B.GZqwUZ7jv1bZvZ240BEwmLX1XYIK' WHERE username = '24127073';
+UPDATE myus.Student SET password = '$2a$10$gbfZlTd6fy4u8acqj9FYLeXABu1m2UL4SNw0lJ4Fjhr96meqo69HG' WHERE username = '24127074';
+UPDATE myus.Student SET password = '$2a$10$W0mW.GZQQ7Vp2K3CeFMPqeM8100V/XJj7e.IYoBX2jTqyr0wynChi' WHERE username = '24127075';
+UPDATE myus.Student SET password = '$2a$10$xeR0EcOgY4W/M4OY.iUyoeuJLewf1qLKkinCBSeM1R4xUusWpqtmy' WHERE username = '24127076';
+UPDATE myus.Student SET password = '$2a$10$RXtv1scogxOdi.YBKyWh8emutmqv.Li1kmI3QOp8XFZsYTDT7V0nK' WHERE username = '24127077';
+UPDATE myus.Student SET password = '$2a$10$VKXALT3kFpMxjWkm380DveAYQ8kNeJlkIQmyMn0rg61lk4USKQnaq' WHERE username = '24127078';
+UPDATE myus.Student SET password = '$2a$10$4aFSCc3TRhnnz1YZgrFLxuLrMOfi7LeeYa5bRzgn.rrKVRelwUFtG' WHERE username = '24127079';
+UPDATE myus.Student SET password = '$2a$10$NAwJqwECFsAKu35RfbJ2p.QcCjdC88HDM7MHbHXHIjeOoZZbGnzTO' WHERE username = '24127080';
+UPDATE myus.Student SET password = '$2a$10$s1SyCK.atabfhFwsUyFNVu2lY7tflziSfrPay4NqqMunHABr80xSu' WHERE username = '24127081';
+UPDATE myus.Student SET password = '$2a$10$6dfPF2/JS77a5tLOUxSepeLTfreuRwUjGDn9k51uiWYXmsQvPWKvi' WHERE username = '24127082';
+UPDATE myus.Student SET password = '$2a$10$/W/Xir1dzD9VzwZc82ZV9.d2Cx6GSFaaupm1lLk.13b.tvv/Dp8v6' WHERE username = '24127083';
+UPDATE myus.Student SET password = '$2a$10$EE5nCF7tt5sNF7KPW.LyPeR2yFgxNPWhyqfiiQXG1PeIYr3jVBqAm' WHERE username = '24127084';
+UPDATE myus.Student SET password = '$2a$10$0e2RZ66PzI/RC.wRxFt1B.VSKFJkEign5FV4QW5IA1fP4V2ErP61S' WHERE username = '24127085';
+UPDATE myus.Student SET password = '$2a$10$AeZtwAg90WRtvNviAmi7fOaW2e2ra593P5CK6XH0AONm.XXNN8KDe' WHERE username = '24127086';
+UPDATE myus.Student SET password = '$2a$10$D7cUtlVdGP6SHiF5uMRYt.RT3PrwKnZ3b.luOiK6mZRZdwHwU1D/q' WHERE username = '24127087';
+UPDATE myus.Student SET password = '$2a$10$eFTUFsvSZnaf0.w/5B3hR.muXBACMeb58LIpvXdwM6z2mmqX01ltC' WHERE username = '24127088';
+UPDATE myus.Student SET password = '$2a$10$ewuYByJe06qHwZhMAZmyp.02vj45sBpvBZWDOCWWLq.lV1TcEJsVy' WHERE username = '24127089';
+UPDATE myus.Student SET password = '$2a$10$7lRw22cB7g22MROidTQwQ.65kgF0pdyxR4wpBnyAkCQQko/lrwb7C' WHERE username = '24127090';
+UPDATE myus.Student SET password = '$2a$10$4F44GfIBLYax1DKcMRxZw.raivyjJc0EFTfA8tKRnDuQ.PYeZP4yq' WHERE username = '24127091';
+UPDATE myus.Student SET password = '$2a$10$u3QairXXD32nuLxs85xLy.F7pt5ZzuQcvu7IGsNrq394Wli8qEW8i' WHERE username = '24127092';
+UPDATE myus.Student SET password = '$2a$10$pgtWoiEknQ9sBFa4A2qQMOWpzGow5wod0.tSWYhqkVab.YhXTBwYW' WHERE username = '24127093';
+UPDATE myus.Student SET password = '$2a$10$4kvtwBXyEc4Wp.Jeoze5TOyzU7POq4Cv97Sz.vTXYnthuZsZOa.u2' WHERE username = '24127094';
+UPDATE myus.Student SET password = '$2a$10$MSwhZGFkFmzxl9hoPbbs6Ou/yJxHgkmjw9bx5Hdyaxqfyoit0KTyO' WHERE username = '24127095';
+UPDATE myus.Student SET password = '$2a$10$sulmdtQRdKMLO1McnOatGubMvlYE79Gtdvzpu/GyD.dbEGi4J/rC2' WHERE username = '24127096';
+UPDATE myus.Student SET password = '$2a$10$H7WVULFtpCMHLYYW/D.FtOWPwn6MKUxDgjMjhZK1kwSJijmSP0mqq' WHERE username = '24127097';
+UPDATE myus.Student SET password = '$2a$10$okn8VI26PMj2rsh4rZQx.eQJXozaMGqkroFwhK9FYMjONoB5jI2.C' WHERE username = '24127098';
+UPDATE myus.Student SET password = '$2a$10$Jteh1vQWWb.c/M4Z9oVNo.WFvh2PUtfz5pIOMRElABxwcDX0gFomC' WHERE username = '24127099';
+UPDATE myus.Student SET password = '$2a$10$nid1CEgk7zkAgwXcun4I0u5.C7GpOPQRI6yCIWGGEjtRbH.A6/nXq' WHERE username = '24127100';
+UPDATE myus.Student SET password = '$2a$10$G1M75V3TWEhXfQof1MDuI.iS3NFBfPXS/okAx4D.7lxJHhTFmAFkO' WHERE username = '24127192';
+
+PRINT 'All passwords updated to BCrypt hashes successfully.'
+
+-- Update new Suspended/Graduated/On Leave student passwords
+-- Plain-text: username + '123' (e.g. '24127115123')
+-- Hashes below match BCrypt(cost=10) of the respective plain-text passwords
+UPDATE myus.Student SET password = '$2a$10$XRT9XKuXNdgw9LUCAXg4LuM5MFOflbODxHgK6cmEiqLz9fIjt4sBG' WHERE username = '24127115';
+UPDATE myus.Student SET password = '$2a$10$37T328E0OuG.l259EvWkweSObWd6fnxTOcycjttrQNO/d98c1jo4u' WHERE username = '24127132';
+UPDATE myus.Student SET password = '$2a$10$Y3eWoeLJgO.Ug2RlmxrbWuYoRQHLQUobArztTmiZMRK.q7yEgpzce' WHERE username = '24127148';
+UPDATE myus.Student SET password = '$2a$10$/RUWng/DrOpJr6su8qaWnOBs93pD2EeaakvvMs9UmvKEfp0OtXIsW' WHERE username = '24127165';
+UPDATE myus.Student SET password = '$2a$10$mJpJQ1rVMneUZWGPOfMG0e93J9ijB52ODmfzf9WYepyBZ2/7X1/1C' WHERE username = '24127181';
+UPDATE myus.Student SET password = '$2a$10$i.a1obhVU7weZ0GVQZGDeO5JecZGNVnPnw0XA7UA5ggfLm02DJtl6' WHERE username = '24127197';
+UPDATE myus.Student SET password = '$2a$10$SYTQsLQEbODHfTpe5xZQz.Qvkb3iSL5AEJg9r3xC2tD4ApCiuMFIO' WHERE username = '24127121';
+UPDATE myus.Student SET password = '$2a$10$sEeIJsinsMfnvXEX7Y/V2.eyPuWoJ4rWXE1xSWFeexwAGCyGRw.ru' WHERE username = '24127138';
+UPDATE myus.Student SET password = '$2a$10$rFrE2yaqn./E6JGUGnj0eODLJhhBJbNgTj7cgrj75Jmh4b/0Yui8S' WHERE username = '24127155';
+UPDATE myus.Student SET password = '$2a$10$HoCOmWkV9KG0tD4gHQ9YkO0N5IfNrWuJdSyBybRwdWGSzm3ScMlr.' WHERE username = '24127170';
+UPDATE myus.Student SET password = '$2a$10$8BxyB1tYQ0hiGWjrpB8I/eIXsdPyiE5wIcWJk3GGh8qZxMgPpLUSy' WHERE username = '24127185';
+UPDATE myus.Student SET password = '$2a$10$xhQacho.h.Wf5L.NOnCziuDYfxXHuHjmTQzY.LzXmz5FcSx723FWG' WHERE username = '24127200';
+UPDATE myus.Student SET password = '$2a$10$rkCWsdla.eGQZr8CcOQGNO7rhrajSwEAwnuYTDmmA.SYfVTXE.UHe' WHERE username = '24127127';
+UPDATE myus.Student SET password = '$2a$10$kz58IF5TXeBD3CQSwDqwQe/Ow4/sEcgGYvBhvrRruiUmSOOapqadK' WHERE username = '24127143';
+UPDATE myus.Student SET password = '$2a$10$w0ifucRIZVRtqNt0ldl2f.f2bb8XLRzqD1rceEgxOLyx5yrdHdOaK' WHERE username = '24127160';
+UPDATE myus.Student SET password = '$2a$10$2SvKtKVxMkQ1e8RJDmmOROx7BvgszNGR2YTyqXPPeFMOnyuHrdfby' WHERE username = '24127176';
+UPDATE myus.Student SET password = '$2a$10$EyO0BT8ekF4xBN6KIYALKeeF4M4NFK2nuzj1RYh5M.o6kC9Z48c.6' WHERE username = '24127193';
+UPDATE myus.Student SET password = '$2a$10$7ff6GjpF0F79VDNsdCjasuCz4DdHv40/OX2/jU2hQchjwX67e6HtW' WHERE username = '24127205';
+UPDATE myus.Student SET password = '$2a$10$RP5ZlGOR.QhHkcQ8SjlsoeyHW8lv.g/x0/qT06RzcPsVoAE2j9J2a' WHERE username = '24127218';
+
+PRINT 'Extra student passwords (Suspended/Graduated/On Leave) updated successfully.'
+
