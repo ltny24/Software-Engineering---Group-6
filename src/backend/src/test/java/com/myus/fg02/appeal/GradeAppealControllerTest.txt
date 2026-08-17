@@ -1,0 +1,80 @@
+package com.myus.fg02.appeal;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.myus.controller.AppealController;
+import com.myus.dto.AppealResponse;
+import com.myus.exception.AppealException;
+import com.myus.exception.ResourceNotFoundException;
+import com.myus.service.AppealService;
+import myus.dto.appeal.AppealDetailResponse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(AppealController.class)
+@DisplayName("FG02 – Track Appeal Status: Controller Layer Tests")
+class GradeAppealControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private AppealService appealService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    private AppealResponse pendingAppeal;
+    private AppealDetailResponse detailResponse;
+
+    @BeforeEach
+    void setUp() {
+        pendingAppeal = new AppealResponse();
+        pendingAppeal.setAppealId(1L);
+        pendingAppeal.setCourseName("Toán rời rạc");
+        pendingAppeal.setStatus("Submitted");
+        pendingAppeal.setSubmittedAt(LocalDateTime.of(2025, 1, 10, 8, 0));
+        
+        detailResponse = new AppealDetailResponse();
+        detailResponse.setAppealId(1L);
+        detailResponse.setTrackingCode("1");
+        detailResponse.setStatus("Submitted");
+    }
+
+    @Test
+    @WithMockUser(username = "SV001", roles = "STUDENT")
+    @DisplayName("TC_APP_TRK_01: GET /api/appeals/me → 200")
+    void TC_APP_TRK_01_getMyAppeals_returnsListWith200() throws Exception {
+        when(appealService.getMyAppeals("SV001")).thenReturn(List.of(pendingAppeal));
+
+        mockMvc.perform(get("/api/appeals/me"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$[0].appealId").value(1L));
+    }
+
+    @Test
+    @WithMockUser(username = "SV001", roles = "STUDENT")
+    @DisplayName("TC_APP_TRK_02: GET /api/appeals/1 → 200 + status 'Submitted'")
+    void TC_APP_TRK_02_getAppealDetail_statusSubmitted_returns200() throws Exception {
+        when(appealService.getAppealDetailByCode("1", "SV001")).thenReturn(detailResponse);
+
+        mockMvc.perform(get("/api/appeals/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value("Submitted"));
+    }
+}

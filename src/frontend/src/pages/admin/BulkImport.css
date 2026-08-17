@@ -1,0 +1,26 @@
+/* BulkImport.css — Admin Bulk Import (FR-008 / UC-11a) */
+
+.bulk-import-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: var(--font-body, 'Inter', sans-serif);
+  min-height: 100vh;
+  color: #1e293b;
+}
+
+.import-type-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.update-existing {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0;
+  font-size: 0.9rem;
+  color: #334155;
+}

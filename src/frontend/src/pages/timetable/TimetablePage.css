@@ -1,0 +1,531 @@
+/* Timetable — Skylearn */
+.timetable-page {
+  font-family: var(--font-body);
+}
+.timetable-page__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: var(--space-5);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+.timetable-page__title {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin: 0 0 4px;
+}
+.timetable-page__subtitle {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+.timetable-page__term-select {
+  display: flex;
+  align-items: center;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 8px 16px;
+}
+.timetable-page__term-select label {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  margin-right: var(--space-2);
+}
+.timetable-page__term-select select {
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text);
+  outline: none;
+  cursor: pointer;
+}
+
+.timetable-stats {
+  display: flex;
+  gap: var(--space-6);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+.timetable-stat-card {
+  flex: 1;
+  min-width: 250px;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--color-primary);
+}
+.timetable-stat-card--blue {
+  border-top-color: #0ea5e9;
+}
+.timetable-stat-card--green {
+  border-top-color: var(--color-success);
+}
+.timetable-stat-card--warn {
+  border-top-color: #f59e0b;
+}
+.timetable-stat-badge--inline {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  margin-left: var(--space-2);
+  vertical-align: middle;
+}
+.timetable-stat-unit {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-muted);
+  font-weight: var(--font-regular);
+  margin-left: 4px;
+}
+.timetable-stat-value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+}
+.timetable-stat-badge--completed {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  color: var(--color-success-deep);
+  background-color: var(--color-success-soft);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+.timetable-stat-badge--pending {
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  color: #92400e;
+  background-color: #fef3c7;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+}
+.timetable-course-block__grade {
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+}
+.timetable-stat-label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+.timetable-stat-number {
+  font-family: var(--font-display);
+  font-size: 1.875rem;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+.timetable-weekly-table {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-bottom: var(--space-8);
+}
+.timetable-weekly-table__header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+.timetable-weekly-table__header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+.timetable-weekly-table__wrapper {
+  overflow-x: auto;
+}
+.timetable-weekly-table__grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+  table-layout: fixed;
+}
+.timetable-weekly-table__grid th {
+  background-color: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 14px 12px;
+  border-right: 1px solid var(--color-border);
+  width: calc(100% / 6);
+}
+.timetable-weekly-table__grid td {
+  padding: 12px;
+  border-right: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: top;
+}
+.timetable-weekly-table__grid td:last-child,
+.timetable-weekly-table__grid th:last-child {
+  border-right: none;
+}
+.timetable-cell--empty {
+  color: var(--color-text-muted);
+  font-size: var(--text-caption);
+  padding: 20px 0;
+  text-align: center;
+}
+.timetable-course-block {
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-soft);
+  border-left: 3px solid var(--color-primary);
+  margin-bottom: var(--space-2);
+}
+.timetable-course-block:last-child {
+  margin-bottom: 0;
+}
+.timetable-course-block__code {
+  font-family: var(--font-display);
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  color: var(--color-primary);
+  margin-bottom: 4px;
+}
+.timetable-course-block__name {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text);
+  margin-bottom: 2px;
+}
+.timetable-course-block__time {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 4px;
+}
+.timetable-course-block__detail {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+}
+
+/* Half-height block for practical / lab classes */
+.timetable-course-block--half {
+  padding: 4px 8px;
+  min-height: unset;
+}
+.timetable-course-block--half .timetable-course-block__name {
+  font-size: 10px;
+}
+.timetable-course-block--half .timetable-course-block__time {
+  font-size: 9px;
+}
+.timetable-course-block--half .timetable-course-block__detail {
+  font-size: 9px;
+}
+
+/* GREEN accent for Lab / Practical blocks (CSC, MTH, etc.) */
+.timetable-course-block--lab {
+  background-color: #d1fae5;
+  border-left-color: #059669;
+}
+.timetable-course-block--lab .timetable-course-block__code {
+  color: #065f46;
+}
+.timetable-course-block--lab .timetable-course-block__name,
+.timetable-course-block--lab .timetable-course-block__time,
+.timetable-course-block--lab .timetable-course-block__detail {
+  color: #064e3b;
+}
+
+/* Term info strip (replaces metric cards) */
+.timetable-term-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 10px 16px;
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+}
+.timetable-term-badge {
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.timetable-term-name {
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  font-size: var(--text-body);
+}
+.timetable-term-meta {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+
+.timetable-detailed-table {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  margin-top: var(--space-8);
+}
+.timetable-detailed-table__header {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+}
+.timetable-detailed-table__header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0;
+}
+.timetable-detailed-table__wrapper {
+  overflow-x: auto;
+}
+.timetable-detailed-table__grid {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+}
+.timetable-detailed-table__grid thead th {
+  background-color: var(--color-surface-elevated);
+  border-bottom: 2px solid var(--color-border);
+  color: var(--color-text-secondary);
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 14px 24px;
+}
+.timetable-detailed-table__grid tbody td {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+.timetable-detailed-table__grid tbody tr:nth-child(even) {
+  background-color: var(--color-surface);
+}
+.cell-day {
+  font-weight: var(--font-semibold);
+}
+.cell-mono {
+  font-family: var(--font-mono);
+  color: var(--color-text-secondary);
+}
+.cell-name {
+  font-weight: var(--font-semibold);
+}
+.timetable-type-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+}
+.timetable-empty {
+  text-align: center;
+  padding: var(--space-12);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+}
+.timetable-loading {
+  text-align: center;
+  padding: var(--space-12);
+  color: var(--color-text-secondary);
+  font-family: var(--font-body);
+}
+
+/* ── Subtitle link ── */
+.timetable-page__subtitle-link {
+  color: var(--color-primary);
+  cursor: pointer;
+  font-weight: var(--font-semibold);
+  text-decoration: underline;
+}
+.timetable-page__subtitle-link:hover {
+  color: var(--color-primary-hover);
+}
+
+/* ── Secondary stats row ── */
+.timetable-stats--secondary {
+  gap: var(--space-4);
+  margin-bottom: var(--space-6);
+}
+.timetable-stat-mini {
+  flex: 1;
+  min-width: 140px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  text-align: center;
+}
+.mini-label {
+  display: block;
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+.mini-value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+
+/* ── Credits warning inline ── */
+.credits-warning-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-caption);
+  color: #dc2626;
+  font-weight: var(--font-semibold);
+  margin-top: var(--space-1);
+}
+
+/* ── Lab type badge ── */
+.timetable-type-badge--lab {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+/* ── Grade badge in detailed table ── */
+.cell-grade {
+  font-weight: var(--font-semibold);
+}
+.grade-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  font-weight: var(--font-bold);
+  color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+}
+
+/* ── Status dot ── */
+.status-dot {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+}
+.status-dot--active {
+  color: var(--color-success-deep);
+  font-weight: var(--font-semibold);
+}
+
+/* ── Cross-reference all-term summary ── */
+.timetable-cross-ref {
+  margin-top: var(--space-8);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+}
+.timetable-cross-ref h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+  margin: 0 0 var(--space-4);
+}
+.timetable-cross-ref__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+.timetable-cross-ref__card {
+  background-color: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  cursor: pointer;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.timetable-cross-ref__card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+.timetable-cross-ref__card--active {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-soft);
+}
+.cross-ref__term {
+  font-family: var(--font-display);
+  font-size: var(--text-body);
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+.cross-ref__courses {
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  margin-bottom: 2px;
+}
+.cross-ref__credits {
+  font-size: var(--text-caption);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-2);
+}
+.cross-ref__status {
+  margin-top: var(--space-1);
+}
+.cross-ref__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-caption);
+  font-weight: var(--font-semibold);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+.cross-ref__badge--done {
+  background-color: var(--color-success-soft);
+  color: var(--color-success-deep);
+}
+.cross-ref__badge--pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+/* ── Cell center utility ── */
+.cell-center {
+  text-align: center;
+}
+.cell-right {
+  text-align: right;
+}
