@@ -38,4 +38,13 @@ public class ClassTransferRequest {
     @Column(columnDefinition = "NVARCHAR(MAX)")
     private String reviewerComments;
 
+    @Column(length = 150)
+    private String adminUsername;
+
+    @Column(nullable = false)
+    private boolean overrideCapacity = false;
+
+    @Column(nullable = false)
+    private boolean overrideConflict = false;
+
 }

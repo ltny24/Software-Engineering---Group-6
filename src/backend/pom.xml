@@ -93,6 +93,20 @@
             <version>${mapstruct.version}</version>
         </dependency>
 
+        <!-- ===== Apache Commons CSV (Master Schedule Upload, FG7) ===== -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.11.0</version>
+        </dependency>
+
+        <!-- ===== Apache POI (XLSX bulk import, UC-11a) ===== -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
         <!-- ===== Lombok ===== -->
         <dependency>
             <groupId>org.projectlombok</groupId>

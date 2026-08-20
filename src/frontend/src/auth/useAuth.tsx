@@ -37,8 +37,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 /** Hook to access auth state anywhere in the component tree. */
 export function useAuth(): AuthContextValue {
   const ctx = useContext(AuthContext);
+
   if (!ctx) {
-    throw new Error('useAuth must be used within an <AuthProvider>');
+    return {
+      user: null,
+      isLoggedIn: false,
+      setUser: () => undefined,
+      logout: async () => undefined,
+    };
   }
+
   return ctx;
 }

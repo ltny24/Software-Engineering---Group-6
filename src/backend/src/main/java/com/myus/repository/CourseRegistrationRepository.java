@@ -43,4 +43,29 @@ public interface CourseRegistrationRepository extends JpaRepository<CourseRegist
            "JOIN FETCH o.course c " +
            "WHERE r.student.studentId = :studentId")
     List<CourseRegistration> findByStudentIdWithOfferingAndCourse(@Param("studentId") Long studentId);
+
+    /**
+     * Find active (non-dropped) registrations for a course offering,
+     * eagerly fetching the enrolled student. Used for the admin class roster
+     * and seat-count checks (FG7 – Class Transfer).
+     */
+    @Query("SELECT r FROM CourseRegistration r " +
+           "JOIN FETCH r.student s " +
+           "JOIN FETCH r.offering o " +
+           "JOIN FETCH o.course c " +
+           "WHERE r.offering.offeringId = :offeringId " +
+           "AND r.status IN ('Requested', 'Enrolled', 'Waitlisted') " +
+           "ORDER BY s.lastName ASC, s.firstName ASC")
+    List<CourseRegistration> findActiveByOfferingIdWithStudent(@Param("offeringId") Long offeringId);
+
+    /**
+     * Find active (non-dropped) registrations for a student, eagerly fetching the
+     * offering and course. Used for schedule-conflict detection during transfer.
+     */
+    @Query("SELECT r FROM CourseRegistration r " +
+           "JOIN FETCH r.offering o " +
+           "JOIN FETCH o.course c " +
+           "WHERE r.student.studentId = :studentId " +
+           "AND r.status IN ('Requested', 'Enrolled', 'Waitlisted')")
+    List<CourseRegistration> findActiveByStudentIdWithOfferingAndCourse(@Param("studentId") Long studentId);
 }

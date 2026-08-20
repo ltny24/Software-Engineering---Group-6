@@ -41,11 +41,13 @@ export const ROUTES = {
   SUPPORT_AI_CHATBOT: '/support/ai-chatbot',
   EVALUATIONS: '/evaluations',
   EVALUATIONS_DETAIL: '/evaluations/:id',
+  NOTIFICATIONS: '/notifications',
 
   // Admin
   ADMIN: '/admin',
   ADMIN_STUDENTS: '/admin/students',
   ADMIN_IMPORT: '/admin/import',
+  ADMIN_SCHEDULE_UPLOAD: '/admin/schedule-upload',
   ADMIN_TRANSFERS: '/admin/transfers',
   ADMIN_APPEALS: '/admin/appeals',
 

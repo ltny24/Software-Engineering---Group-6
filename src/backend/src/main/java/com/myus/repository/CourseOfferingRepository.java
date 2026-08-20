@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * Repository for {@link CourseOffering} entity.
  *
@@ -64,4 +66,14 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
     Page<CourseOffering> searchByDepartmentWithCourse(@Param("search") String search,
                                                       @Param("department") String department,
                                                       Pageable pageable);
+
+    /**
+     * Find all offerings of a given course within a given term, ordered by section.
+     * Used to list candidate target sections for a class transfer (same course + term).
+     */
+    @Query("SELECT o FROM CourseOffering o JOIN FETCH o.course c " +
+           "WHERE c.courseId = :courseId AND o.term = :term " +
+           "ORDER BY o.section ASC")
+    List<CourseOffering> findByCourseIdAndTermWithCourse(@Param("courseId") Long courseId,
+                                                          @Param("term") String term);
 }

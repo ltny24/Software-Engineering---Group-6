@@ -48,10 +48,5 @@ export default function ProtectedRoute({
     }
   }
 
-  if (requiredRole && user?.role !== requiredRole) {
-    // Authenticated but wrong role – redirect to dashboard.
-    return <Navigate to={ROUTES.DASHBOARD} replace />;
-  }
-
   return children;
 }

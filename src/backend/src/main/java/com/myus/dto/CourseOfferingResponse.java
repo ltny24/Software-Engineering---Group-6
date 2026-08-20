@@ -17,6 +17,7 @@ public class CourseOfferingResponse {
     private String instructor;
     private String location;
     private String room;
+    private String status;
     private Integer enrolledCount;
     private Integer availableSeats;
     private CourseResponse course;
@@ -31,6 +32,7 @@ public class CourseOfferingResponse {
                                   String instructor,
                                   String location,
                                   String room,
+                                  String status,
                                   Integer enrolledCount,
                                   Integer availableSeats,
                                   CourseResponse course) {
@@ -41,6 +43,7 @@ public class CourseOfferingResponse {
         this.instructor = instructor;
         this.location = location;
         this.room = room;
+        this.status = status;
         this.enrolledCount = enrolledCount;
         this.availableSeats = availableSeats;
         this.course = course;
@@ -102,6 +105,14 @@ public class CourseOfferingResponse {
 
     public void setRoom(String room) {
         this.room = room;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Integer getEnrolledCount() {

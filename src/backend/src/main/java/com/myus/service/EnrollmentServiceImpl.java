@@ -66,7 +66,13 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Course offering not found with id: " + request.getOfferingId()));
 
-        // 3. Check for duplicate active registration
+        // 3. Block enrollment into a cancelled section (UC-14 AF3)
+        if ("Cancelled".equalsIgnoreCase(offering.getStatus())) {
+            throw new EnrollmentException(
+                    "This section has been cancelled and is not open for enrollment.");
+        }
+
+        // 4. Check for duplicate active registration
         registrationRepository.findActiveByStudentAndOffering(
                 student.getStudentId(), offering.getOfferingId()
         ).ifPresent(existing -> {
@@ -242,6 +248,7 @@ public class EnrollmentServiceImpl implements EnrollmentService {
                 offering.getInstructor(),
                 offering.getLocation(),
                 offering.getRoom(),
+                offering.getStatus(),
                 (int) enrolledCount,
                 availableSeats,
                 courseDto

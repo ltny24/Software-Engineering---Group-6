@@ -41,6 +41,9 @@ public class CourseOffering {
     @Column(length = 100)
     private String room;
 
+    @Column(nullable = false, length = 50)
+    private String status = "Active";
+
     @OneToMany(mappedBy = "offering", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CourseRegistration> registrations = new ArrayList<>();
 

@@ -108,6 +108,7 @@ public class CourseServiceImpl implements CourseService {
                 offering.getInstructor(),
                 offering.getLocation(),
                 offering.getRoom(),
+                offering.getStatus(),
                 (int) enrolledCount,
                 availableSeats,
                 courseDto

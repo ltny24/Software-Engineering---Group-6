@@ -31,6 +31,7 @@ const FaqPage = lazy(() => import('./pages/support/FaqPage'));
 const AIChatbotPage = React.lazy(() => import('./pages/support/AIChatbotPage'));
 const EvaluationsPage = React.lazy(() => import('./pages/evaluations/EvaluationsPage'));
 const SurveyFormPage = React.lazy(() => import('./pages/evaluations/SurveyFormPage'));
+const NotificationsPage = lazy(() => import('./pages/NotificationsPage'));
 
 // Admin pages
 const AdminPage = lazy(() => import('./pages/admin/AdminPage'));
@@ -220,6 +221,16 @@ export default function App() {
                     <ProtectedRoute>
                       <Layout>
                         <SurveyFormPage />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path={ROUTES.NOTIFICATIONS}
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <NotificationsPage />
                       </Layout>
                     </ProtectedRoute>
                   }

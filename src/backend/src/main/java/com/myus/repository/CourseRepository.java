@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 /**
  * Repository for {@link Course} entity.
  *
@@ -24,4 +26,10 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
      * Filter courses by department.
      */
     Page<Course> findByDepartmentIgnoreCase(String department, Pageable pageable);
+
+    /**
+     * Find a course by its exact code (used by master-schedule import to resolve
+     * a CSV {@code courseCode} to its database row).
+     */
+    Optional<Course> findByCourseCode(String courseCode);
 }

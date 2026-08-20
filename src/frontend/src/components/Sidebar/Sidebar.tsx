@@ -14,6 +14,7 @@ import {
   FaRightLeft,
   FaRightFromBracket,
   FaClipboardList,
+  FaBell,
 } from 'react-icons/fa6';
 import { useAuth } from '../../auth';
 import { ROUTES, ROLES } from '../../utils/constants';
@@ -36,6 +37,7 @@ const studentNav: NavItem[] = [
   { label: 'Appeals', to: ROUTES.APPEALS, icon: <FaFilePen /> },
   { label: 'Evaluations', to: ROUTES.EVALUATIONS, icon: <FaClipboardList /> },
   { label: 'Support', to: ROUTES.SUPPORT, icon: <FaCircleQuestion /> },
+  { label: 'Notifications', to: ROUTES.NOTIFICATIONS, icon: <FaBell /> },
 ];
 
 const adminNav: NavItem[] = [

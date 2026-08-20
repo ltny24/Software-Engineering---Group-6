@@ -66,6 +66,7 @@ export interface CourseOffering {
   instructor: string;
   location: string;
   room: string;
+  status?: string;
   enrolledCount: number;
   availableSeats: number;
   course: Course;
