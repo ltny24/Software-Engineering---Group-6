@@ -42,4 +42,11 @@ public class AppealReviewRequest {
      * when the appeal is approved or moved to processing.
      */
     private LocalDateTime deadline;
+
+    /**
+     * Optional new grade value to apply when the appeal is approved.
+     * If provided, the student's grade will be updated to this value.
+     * Example: "9.1", "A", "B+"
+     */
+    private String newGrade;
 }

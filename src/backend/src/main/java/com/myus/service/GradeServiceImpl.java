@@ -54,7 +54,8 @@ public class GradeServiceImpl implements GradeService {
                 grade.getGradePoint(),
                 grade.getGradePoint(),
                 grade.getMidtermGrade(),
-                grade.getFinalGrade()
+                grade.getFinalGrade(),
+                grade.getRemarks()
         );
     }
 }

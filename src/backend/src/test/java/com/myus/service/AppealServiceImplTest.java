@@ -267,7 +267,7 @@ class AppealServiceImplTest {
         void reviewAppealSubmittedToUnderReview() {
             Appeal appeal = createTestAppeal(201L, "Submitted");
             AppealReviewRequest request = new AppealReviewRequest(
-                    "Under Review", "We are investigating your case.", null);
+                    "Under Review", "We are investigating your case.", null, null);
 
             when(appealRepository.findById(201L)).thenReturn(Optional.of(appeal));
             when(administratorRepository.findByUsername("admin1")).thenReturn(Optional.of(testAdmin));
@@ -286,7 +286,7 @@ class AppealServiceImplTest {
             Appeal appeal = createTestAppeal(201L, "Under Review");
             LocalDateTime deadline = LocalDateTime.of(2026, 8, 1, 17, 0);
             AppealReviewRequest request = new AppealReviewRequest(
-                    "Approved", "Grade has been corrected.", deadline);
+                    "Approved", "Grade has been corrected.", deadline, null);
 
             when(appealRepository.findById(201L)).thenReturn(Optional.of(appeal));
             when(administratorRepository.findByUsername("admin1")).thenReturn(Optional.of(testAdmin));
@@ -305,7 +305,7 @@ class AppealServiceImplTest {
         void reviewAppealUnderReviewToDenied() {
             Appeal appeal = createTestAppeal(201L, "Under Review");
             AppealReviewRequest request = new AppealReviewRequest(
-                    "Denied", "The original grade is correct after review.", null);
+                    "Denied", "The original grade is correct after review.", null, null);
 
             when(appealRepository.findById(201L)).thenReturn(Optional.of(appeal));
             when(administratorRepository.findByUsername("admin1")).thenReturn(Optional.of(testAdmin));
@@ -323,7 +323,7 @@ class AppealServiceImplTest {
         void reviewAppealFailsInvalidTransition() {
             Appeal appeal = createTestAppeal(201L, "Submitted");
             AppealReviewRequest request = new AppealReviewRequest(
-                    "Approved", "Trying to skip Under Review.", null);
+                    "Approved", "Trying to skip Under Review.", null, null);
 
             when(appealRepository.findById(201L)).thenReturn(Optional.of(appeal));
             when(administratorRepository.findByUsername("admin1")).thenReturn(Optional.of(testAdmin));
@@ -340,7 +340,7 @@ class AppealServiceImplTest {
         void reviewAppealFailsFromTerminalState() {
             Appeal appeal = createTestAppeal(201L, "Denied");
             AppealReviewRequest request = new AppealReviewRequest(
-                    "Under Review", "Trying to reopen denied appeal.", null);
+                    "Under Review", "Trying to reopen denied appeal.", null, null);
 
             when(appealRepository.findById(201L)).thenReturn(Optional.of(appeal));
             when(administratorRepository.findByUsername("admin1")).thenReturn(Optional.of(testAdmin));

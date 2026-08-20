@@ -21,4 +21,5 @@ public class AppealSummaryResponse {
     private String feeStatus;
     private LocalDateTime createdAt;
     private LocalDateTime feePaymentDeadline;
+    private String actualScore;
 }

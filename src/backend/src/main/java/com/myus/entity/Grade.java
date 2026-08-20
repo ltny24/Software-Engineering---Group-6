@@ -47,4 +47,6 @@ public class Grade {
     @Column(precision = 5, scale = 4)
     private BigDecimal gpaImpact;
 
+    @Column(length = 255)
+    private String remarks;
 }

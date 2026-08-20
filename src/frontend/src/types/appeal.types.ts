@@ -13,6 +13,7 @@ export interface AppealSummaryDTO {
   feeStatus: FeeStatus;
   feePaymentDeadline: string;
   createdAt: string;
+  actualScore?: string | number;
 }
 
 export interface AppealDetailDTO extends AppealSummaryDTO {

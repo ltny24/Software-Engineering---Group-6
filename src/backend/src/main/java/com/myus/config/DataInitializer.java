@@ -90,6 +90,6 @@ public class DataInitializer implements CommandLineRunner {
      * BCrypt hashes produced by Spring Security always start with {@code $2a$}.
      */
     private boolean needsEncoding(String storedPassword) {
-        return storedPassword != null && !storedPassword.startsWith("$2a$");
+        return storedPassword != null && !storedPassword.startsWith("$2a$") && !storedPassword.startsWith("$2b$");
     }
 }

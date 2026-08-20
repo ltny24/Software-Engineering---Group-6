@@ -155,7 +155,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
                 {appeal.expectedGrade}
               </div>
             </div>
-            {appeal.updatedGrade != null && (
+            {appeal.actualScore != null && (
               <div
                 style={{
                   flex: 1,
@@ -174,7 +174,7 @@ export const AppealDetailDrawer: React.FC<AppealDetailDrawerProps> = ({
                     marginTop: '4px',
                   }}
                 >
-                  {appeal.updatedGrade}
+                  {appeal.actualScore}
                 </div>
               </div>
             )}
