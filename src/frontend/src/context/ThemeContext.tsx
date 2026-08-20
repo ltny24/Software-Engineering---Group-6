@@ -1,16 +1,13 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 // ============================================================
-// ThemeContext — day/night auto-detect with manual override
-// Auto: 06:00–17:59 = day | 18:00–05:59 = night
+// ThemeContext — Always starts in Day Mode on page load / fresh start.
+// Theme state exists strictly in memory (React state context).
+// Manual toggle button toggles state between 'day' and 'night'.
 // ============================================================
 
 export type ThemeMode = 'day' | 'night';
-type ThemeSetting = ThemeMode | 'auto';
-
-const THEME_STORAGE_KEY = 'myus_theme';
-const DAY_START = 6;
-const DAY_END = 18;
+export type ThemeSetting = ThemeMode;
 
 interface ThemeContextValue {
   mode: ThemeMode;
@@ -25,7 +22,7 @@ interface ThemeContextValue {
 
 const ThemeContext = createContext<ThemeContextValue>({
   mode: 'day',
-  setting: 'auto',
+  setting: 'day',
   isDay: true,
   isNight: false,
   setSetting: () => {},
@@ -34,52 +31,17 @@ const ThemeContext = createContext<ThemeContextValue>({
   setBgDensity: () => {},
 });
 
-function detectTimeTheme(): ThemeMode {
-  const hour = new Date().getHours();
-  return hour >= DAY_START && hour < DAY_END ? 'day' : 'night';
-}
-
-function getStoredSetting(): ThemeSetting {
-  try {
-    const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    if (stored === 'day' || stored === 'night' || stored === 'auto') return stored;
-  } catch {
-    /* localStorage blocked */
-  }
-  return 'auto';
-}
-
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [setting, setSettingState] = useState<ThemeSetting>(getStoredSetting);
-  const [mode, setMode] = useState<ThemeMode>(() => {
-    const s = getStoredSetting();
-    return s === 'auto' ? detectTimeTheme() : s;
-  });
-
+  // Always initialize to 'day' (Light/Day Mode) on page load
+  const [mode, setMode] = useState<ThemeMode>('day');
   const [bgDensity, setBgDensity] = useState(60);
 
   const setSetting = useCallback((s: ThemeSetting) => {
-    setSettingState(s);
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, s);
-    } catch {
-      /* ignore */
-    }
-    const newMode = s === 'auto' ? detectTimeTheme() : s;
-    setMode(newMode);
+    setMode(s);
   }, []);
 
   const toggle = useCallback(() => {
-    setMode((prev) => {
-      const next = prev === 'day' ? 'night' : 'day';
-      setSettingState(next);
-      try {
-        localStorage.setItem(THEME_STORAGE_KEY, next);
-      } catch {
-        /* ignore */
-      }
-      return next;
-    });
+    setMode((prev) => (prev === 'day' ? 'night' : 'day'));
   }, []);
 
   useEffect(() => {
@@ -90,19 +52,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [mode]);
 
-  useEffect(() => {
-    if (setting !== 'auto') return;
-    const interval = setInterval(() => {
-      setMode(detectTimeTheme());
-    }, 60_000);
-    return () => clearInterval(interval);
-  }, [setting]);
-
   return (
     <ThemeContext.Provider
       value={{
         mode,
-        setting,
+        setting: mode,
         isDay: mode === 'day',
         isNight: mode === 'night',
         setSetting,
