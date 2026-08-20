@@ -27,4 +27,5 @@ public class AppealDetailResponse {
     private Double updatedGrade;
     private LocalDateTime resolvedAt;
     private List<String> attachments = new java.util.ArrayList<>();
+    private String actualScore;
 }

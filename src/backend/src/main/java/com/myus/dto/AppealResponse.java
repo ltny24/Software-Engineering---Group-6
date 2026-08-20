@@ -49,4 +49,8 @@ public class AppealResponse {
     private LocalDateTime resolvedAt;
 
     private String resolutionCode;
+
+    private Double expectedGrade;
+
+    private String actualScore;
 }

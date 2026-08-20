@@ -92,7 +92,9 @@ export const AppealStatusDashboard: React.FC = () => {
     (a) => a.status === 'PENDING' && a.feeStatus === 'UNPAID'
   ).length;
 
-  const resolvedCount = appeals.filter((a) => a.status === 'RESOLVED').length;
+  const resolvedCount = appeals.filter(
+    (a) => a.status === 'RESOLVED' || a.status === 'REJECTED'
+  ).length;
 
   return (
     <div style={{ padding: '32px 24px', minHeight: '100vh' }}>
@@ -315,6 +317,15 @@ export const AppealStatusDashboard: React.FC = () => {
                             →{' '}
                             <span style={{ fontWeight: '600', color: '#38BDF8' }}>
                               Exp: {item.expectedGrade}
+                            </span>
+                          </>
+                        )}
+                        {item.actualScore != null && (
+                          <>
+                            {' '}
+                            →{' '}
+                            <span style={{ fontWeight: '700', color: '#10B981' }}>
+                              Actual: {item.actualScore}
                             </span>
                           </>
                         )}
