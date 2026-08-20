@@ -43,7 +43,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        log.info("Checking for plaintext passwords that need BCrypt encoding...");
+        log.info("Checking stored passwords for BCrypt encoding and default credentials...");
         encodeStudentPasswords();
         encodeAdminPasswords();
         log.info("Password encoding check complete.");
@@ -53,17 +53,17 @@ public class DataInitializer implements CommandLineRunner {
         List<Student> students = studentRepository.findAll();
         int updated = 0;
         for (Student student : students) {
-            if (needsEncoding(student.getPassword())) {
-                String raw = student.getPassword();
-                student.setPassword(passwordEncoder.encode(raw));
+            String defaultRawPassword = student.getUsername() + "123";
+            if (!isValidPassword(student.getPassword(), defaultRawPassword)) {
+                student.setPassword(passwordEncoder.encode(defaultRawPassword));
                 updated++;
             }
         }
         if (updated > 0) {
             studentRepository.saveAll(students);
-            log.info("✓ BCrypt-encoded {} student passwords", updated);
+            log.info("✓ BCrypt-encoded {} student passwords to default (username+123)", updated);
         } else {
-            log.info("✓ All {} student passwords are already BCrypt-encoded", students.size());
+            log.info("✓ All {} student passwords are valid BCrypt-encoded hashes", students.size());
         }
     }
 
@@ -71,25 +71,31 @@ public class DataInitializer implements CommandLineRunner {
         List<Administrator> admins = administratorRepository.findAll();
         int updated = 0;
         for (Administrator admin : admins) {
-            if (needsEncoding(admin.getPassword())) {
-                String raw = admin.getPassword();
-                admin.setPassword(passwordEncoder.encode(raw));
+            String defaultRawPassword = admin.getUsername();
+            if (!isValidPassword(admin.getPassword(), defaultRawPassword)) {
+                admin.setPassword(passwordEncoder.encode(defaultRawPassword));
                 updated++;
             }
         }
         if (updated > 0) {
             administratorRepository.saveAll(admins);
-            log.info("✓ BCrypt-encoded {} administrator passwords", updated);
+            log.info("✓ BCrypt-encoded {} administrator passwords to default (username)", updated);
         } else {
-            log.info("✓ All {} administrator passwords are already BCrypt-encoded", admins.size());
+            log.info("✓ All {} administrator passwords are valid BCrypt-encoded hashes", admins.size());
         }
     }
 
     /**
-     * Returns {@code true} if the stored password is NOT already a BCrypt hash.
-     * BCrypt hashes produced by Spring Security always start with {@code $2a$}.
+     * Checks if the stored password is a valid BCrypt hash matching the expected default raw password.
      */
-    private boolean needsEncoding(String storedPassword) {
-        return storedPassword != null && !storedPassword.startsWith("$2a$");
+    private boolean isValidPassword(String storedPassword, String expectedRawPassword) {
+        if (storedPassword == null || !storedPassword.startsWith("$2")) {
+            return false;
+        }
+        try {
+            return passwordEncoder.matches(expectedRawPassword, storedPassword);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
