@@ -18,8 +18,9 @@ export async function getMyAppealHistory(): Promise<AppealSummaryDTO[]> {
         courseCode: item.courseCode || 'CSC10009',
         courseName: item.courseName || 'Computer Systems',
         examType: 'Final Exam',
-        currentGrade: 8.0,
-        expectedGrade: 9.0,
+        currentGrade: parseFloat(item.gradeValue) || item.gradeValue,
+        expectedGrade: item.expectedGrade || 0,
+        actualScore: item.actualScore,
         status:
           item.status === 'Submitted'
             ? 'PENDING'

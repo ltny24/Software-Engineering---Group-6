@@ -27,6 +27,9 @@ export default function AdminAppealDetailPage() {
   const [deadline, setDeadline] = useState('');
   const [changeReason, setChangeReason] = useState('');
 
+  // Form State - New Grade (on Approve)
+  const [newGrade, setNewGrade] = useState('');
+
   // Form State - Reopen
   const [reopenNote, setReopenNote] = useState('');
 
@@ -61,14 +64,20 @@ export default function AdminAppealDetailPage() {
     if (!appeal) return;
     try {
       setSubmitting(true);
-      const payload = {
+      const payload: any = {
         status: newStatus,
         reviewerComments: processingNote,
       };
+      if (newStatus === 'Approved' && newGrade.trim()) {
+        payload.newGrade = newGrade.trim();
+      }
       const updated = await adminAppealService.reviewAppeal(appeal.appealId, payload);
       setAppeal(updated);
       setShowStatusModal(false);
-      showToast(`Status updated to "${newStatus}". Student notified.`, 'success');
+      setNewGrade('');
+      const gradeMsg =
+        newStatus === 'Approved' && newGrade.trim() ? ` Grade updated to ${newGrade.trim()}.` : '';
+      showToast(`Status updated to "${newStatus}".${gradeMsg} Student notified.`, 'success');
     } catch (err: any) {
       showToast(
         err.response?.data?.message ||
@@ -84,8 +93,10 @@ export default function AdminAppealDetailPage() {
     if (!appeal) return;
     try {
       setSubmitting(true);
+      const validStatuses = ['Under Review', 'Approved', 'Denied'];
+      const safeStatus = validStatuses.includes(appeal.status) ? appeal.status : 'Under Review';
       const payload = {
-        status: appeal.status,
+        status: safeStatus,
         reviewerComments: appeal.reviewerComments || processingNote,
         deadline: deadline ? new Date(deadline).toISOString() : undefined,
       };
@@ -415,6 +426,28 @@ export default function AdminAppealDetailPage() {
                     rows={4}
                     placeholder="Add a note about this status change..."
                   />
+                </>
+              )}
+
+              {newStatus === 'Approved' && (
+                <>
+                  <label className="proto-label-required" style={{ marginTop: '1.25rem' }}>
+                    Actual Regraded Score
+                    <span className="proto-label-hint"> (leave blank to keep current grade)</span>
+                  </label>
+                  <input
+                    type="text"
+                    value={newGrade}
+                    onChange={(e) => setNewGrade(e.target.value)}
+                    className="proto-input"
+                    placeholder={`Current: ${appeal.gradeValue} · Expected: ${appeal.expectedGrade || 'N/A'} · Enter new score (e.g. 9.1)`}
+                  />
+                  {newGrade && newGrade.trim() !== String(appeal.expectedGrade) && (
+                    <p style={{ fontSize: '0.8rem', color: '#f59e0b', marginTop: '0.4rem' }}>
+                      ⚠ New score ({newGrade.trim()}) differs from the expected grade. The system
+                      will update it based on this actual regraded score.
+                    </p>
+                  )}
                 </>
               )}
             </div>
