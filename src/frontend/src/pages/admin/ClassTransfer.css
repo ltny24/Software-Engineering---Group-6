@@ -229,3 +229,80 @@
   font-size: 0.75rem;
   font-weight: 600;
 }
+
+/* ========================================================
+   NIGHT MODE (DARK THEME) OVERRIDES — CLASS TRANSFER
+   ======================================================== */
+[data-theme='night'] .class-transfer-page {
+  color: var(--color-text);
+}
+
+[data-theme='night'] .class-transfer-page .admin-header-proto .admin-title,
+[data-theme='night'] .class-transfer-page .admin-title {
+  color: #ffffff;
+}
+
+[data-theme='night'] .class-transfer-page .admin-header-proto .admin-subtitle,
+[data-theme='night'] .class-transfer-page .muted {
+  color: var(--color-text-muted);
+}
+
+[data-theme='night'] .transfer-panel {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  color: var(--color-text);
+}
+
+[data-theme='night'] .transfer-panel h3,
+[data-theme='night'] .transfer-panel h4 {
+  color: #ffffff;
+}
+
+[data-theme='night'] .search-input,
+[data-theme='night'] .justification-input {
+  background: var(--color-input-bg);
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+[data-theme='night'] .search-input:focus,
+[data-theme='night'] .justification-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+}
+
+[data-theme='night'] .offering-card,
+[data-theme='night'] .target-card {
+  background: rgba(30, 48, 80, 0.7);
+  border-color: rgba(100, 150, 210, 0.3);
+}
+
+[data-theme='night'] .offering-card:hover,
+[data-theme='night'] .target-card:hover {
+  border-color: #60a5fa;
+}
+
+[data-theme='night'] .offering-card.active,
+[data-theme='night'] .target-card.active {
+  border-color: #60a5fa;
+  background: rgba(59, 130, 246, 0.25);
+}
+
+[data-theme='night'] .oc-code {
+  color: #ffffff;
+}
+
+[data-theme='night'] .oc-name {
+  color: var(--color-text-secondary);
+}
+
+[data-theme='night'] .oc-meta {
+  color: var(--color-text-muted);
+}
+
+[data-theme='night'] .source-summary,
+[data-theme='night'] .select-all,
+[data-theme='night'] .override-row {
+  color: var(--color-text);
+}

@@ -17,6 +17,7 @@ import {
   FaBell,
 } from 'react-icons/fa6';
 import { useAuth } from '../../auth';
+import { useTheme } from '../../context/ThemeContext';
 import { ROUTES, ROLES } from '../../utils/constants';
 import './Sidebar.css';
 
@@ -53,6 +54,7 @@ const adminNav: NavItem[] = [
 
 export default function Sidebar() {
   const { user, logout } = useAuth();
+  const { isNight } = useTheme();
   const navigate = useNavigate();
   const navItems = user?.role === ROLES.ADMIN ? adminNav : studentNav;
 
@@ -70,7 +72,11 @@ export default function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="sidebar__brand">
-        <img src="/hcmus-logo.png" alt="HCMUS Logo" className="sidebar__logo-img" />
+        <img
+          src={isNight ? '/hcmus-logo-white.png' : '/hcmus-logo.png'}
+          alt="HCMUS Logo"
+          className="sidebar__logo-img"
+        />
         <span className="sidebar__app-name">MyUS Portal</span>
       </div>
       <nav className="sidebar__nav">

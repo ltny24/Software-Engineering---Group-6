@@ -6,6 +6,7 @@ import { z } from 'zod';
 import toast from 'react-hot-toast';
 import { FaRightToBracket } from 'react-icons/fa6';
 import { login, useAuth } from '../auth';
+import { useTheme } from '../context/ThemeContext';
 import { ROUTES } from '../utils/constants';
 import './LoginPage.css';
 
@@ -19,6 +20,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { setUser } = useAuth();
+  const { isNight } = useTheme();
   const [isLoading, setIsLoading] = useState(false);
 
   const from =
@@ -48,7 +50,11 @@ export default function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-card__header">
-          <img src="/hcmus-logo.png" alt="HCMUS Logo" className="login-card__logo" />
+          <img
+            src={isNight ? '/hcmus-logo-white.png' : '/hcmus-logo.png'}
+            alt="HCMUS Logo"
+            className="login-card__logo"
+          />
           <h1 className="login-card__title">MyUS University Portal</h1>
           <p className="login-card__subtitle">Sign in to access your academic workspace</p>
         </div>
