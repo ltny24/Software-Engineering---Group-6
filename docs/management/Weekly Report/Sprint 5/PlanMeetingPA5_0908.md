@@ -20,21 +20,11 @@
 
 | Student ID | Full Name | Email |
 | --- | --- | --- |
-| 24127089 | Hồ Thị Như Ngọc | htnngoc2418@clc.fitus.edu.vn
-
- |
-| 24127192 | Dương Minh Huỳnh Khôi | dmhkhoi2402@clc.fitus.edu.vn
-
- |
-| 24127194 | Hoàng Trung Kiên | htkien2415@clc.fitus.edu.vn
-
- |
-| 24127586 | Trần Tường Vi | ttvi2416@clc.fitus.edu.vn
-
- |
-| 24127595 | Lê Thị Như Ý | ltny2424@clc.fitus.edu.vn
-
- |
+| 24127089 | Hồ Thị Như Ngọc | htnngoc2418@clc.fitus.edu.vn |
+| 24127192 | Dương Minh Huỳnh Khôi | dmhkhoi2402@clc.fitus.edu.vn |
+| 24127194 | Hoàng Trung Kiên | htkien2415@clc.fitus.edu.vn |
+| 24127586 | Trần Tường Vi | ttvi2416@clc.fitus.edu.vn |
+| 24127595 | Lê Thị Như Ý | ltny2424@clc.fitus.edu.vn |
 
 This online meeting was held to allocate tasks for Phase 5 (Administrator Academic Operations) and Phase 6 (Polish & Cross-Cutting Concerns). The scope includes implementing functional groups (FG5, FG7, FG8, FG9), testing, and documentation. Khôi is assigned as the general backup for the entire project.
 
@@ -79,32 +69,27 @@ This online meeting was held to allocate tasks for Phase 5 (Administrator Academ
 
 | Phase/Section | Task ID / Description | Assignee | Target Deadline |
 | --- | --- | --- | --- |
-| Preparation | Generate UI | Khôi | 07/08 |
-| Preparation | Add missing functions per Use Case | Vi | 09/08 |
-| Phase 5 (FG7) | T042 - Master Schedule Upload endpoint | Khôi | 10/08 |
-| Phase 5 (FG8) | T045 - Admin Grade Appeal endpoint | Vi | 10/08 |
-| Phase 5 (FG9) | T047 - Student Records retrieval endpoint | Kiên | 10/08 |
-| Phase 5 (FG7) | T043 - Class Transfer Management service | Khôi | 11/08 |
-| Phase 5 (FG7) | T044 - Schedule & Transfer UI | Khôi | 11/08 |
-| Phase 5 (FG8) | T046 - Appeal Processing dashboard UI | Vi | 11/08 |
-| Phase 5 (FG9) | T048 - Student Records search UI | Kiên | 11/08 |
-| Phase 5 (Test) | T040, T041 - Unit & Integration tests Phase 4 | Ngọc | 13/08 |
-| Phase 5 (Test) | T049, T050 - Backend & Acceptance tests Phase 5 | Ngọc | 14/08 |
-| Phase 6 (FG5) | T051, T052 - Evaluation Survey endpoint & UI | Ý | 16/08 |
-| Section A | Test Plan, Test Cases, Execution, Bug Report | Ngọc | 18/08 |
-| Section C | Reflective reports (Individual compilation) | Ý | 18/08 |
-| Reports | Weekly Report: Planning (09/08) | Ngọc | 09/08 |
-| Reports | Weekly Report: Daily 1 (13/08) | Khôi | 13/08 |
-| Reports | Weekly Report: Daily 2 (18/08) | Kiên | 18/08 |
-| Reports | Compile final Weekly Report | Ngọc, Khôi, Kiên, VI | 20/08 |
-| Reports | Weekly Report: Review (21/08) | Vi | 21/08 |
+| Preparation | Generate UI | Khôi | 09/08 |
+| Preparation | Add missing functions per Use Case | Vi | 10/08 |
+| Phase 5 | FG7 - Administrative Class Control | Khôi | 11/08 |
+| Phase 5 | FG8 - Appeal Management | Ý | 11/08 |
+| Phase 5 | FG9 - Student Data Administration | Kiên | 11/08 |
+| Phase 6 | FG5 - Feedback & Evaluation | Ý | 16/08 |
+| Phase 4 | Test - Unit & Integration tests Phase 4 | Ngọc | 18/08 |
+| Phase 5 | Test - Backend & Acceptance tests Phase 5 | Ngọc | 18/08 |
+| Report | Section A - Test Plan, Test Cases, Execution, Bug Report | Ngọc | 18/08 |
+| Report | Section C - Reflective reports (Individual compilation) | Ý | 18/08 |
+| Reports | Weekly Report: Planning | Ngọc | 21/08 |
+| Reports | Weekly Report: Daily 1 | Khôi | 21/08 |
+| Reports | Weekly Report: Daily 2 | Kiên | 21/08 |
+| Reports | Weekly Report: Review | Vi | 21/08 |
 
 ---
 
 ## 5. Decisions Made
 
 1. Khôi acts as the general backup for the entire project to mitigate risks.
-2. All backend endpoints (T042, T045, T047) must be completed by 10/08 to ensure timely UI integration.
+2. All backend endpoints (T042, T045, T047) must be completed by 11/08 to ensure timely UI integration.
 3. Test Plan and Docs (Section A), along with the Reflective Report (Section C), will be submitted concurrently on 18/08.
 4. Each member must write 3-5 sentences of personal reflection for Ý to compile into Section C.
 5. Progress will be continuously monitored and updated through the Weekly Report milestones.
@@ -113,16 +98,15 @@ This online meeting was held to allocate tasks for Phase 5 (Administrator Academ
 
 ## 6. Next Steps
 
-* **07/08:** Khôi completes UI generation.
-* **09/08:** Vi completes missing legacy functions; Ngọc finishes the Planning Report.
-* **10/08:** Khôi, Vi, Kiên complete backend endpoints for FG7, FG8, FG9.
+* **09/08:** Khôi completes UI generation.
+* **10/08:** Vi completes missing legacy functions; Ngọc finishes the Planning Report.
+* **11/08:** Khôi, Vi, Kiên complete backend endpoints for FG7, FG8, FG9.
 * **11/08:** Khôi, Vi, Kiên complete the corresponding UIs.
-* **13/08:** Ngọc finishes Phase 4 testing; Khôi updates Daily 1 Report.
-* **14/08:** Ngọc finishes Phase 5 testing.
+* **18/08:** Ngọc finishes Phase 4 testing; Khôi updates Daily 1 Report.
+* **18/08:** Ngọc finishes Phase 5 testing.
 * **16/08:** Ý completes all FG5 tasks.
 * **18/08:** Ngọc submits Section A; Ý submits Section C; Kiên updates Daily 2 Report.
-* **20/08:** Finalization of the compiled Weekly Report documents.
-* **21/08:** Vi updates the Review Report.
+* **21/08:** Finalization of the compiled Weekly Report documents.
 
 ---
 
