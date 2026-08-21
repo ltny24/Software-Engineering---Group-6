@@ -1,0 +1,131 @@
+/* ============================================================
+   ClickEffect — Ripple (day) & Sparkle burst (night)
+   Uses Tailwind utilities + custom CSS keyframes
+   ============================================================ */
+
+.click-effect-layer {
+  @apply fixed inset-0 overflow-hidden;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* ── Day: Expanding blue ring ripple ── */
+.click-ripple {
+  @apply absolute rounded-full;
+  width: 0;
+  height: 0;
+  border: 2px solid rgba(59, 130, 246, 0.55);
+  box-shadow:
+    0 0 8px 2px rgba(59, 130, 246, 0.3),
+    inset 0 0 8px 2px rgba(59, 130, 246, 0.15);
+  transform: translate(-50%, -50%);
+  animation: rippleExpand 600ms ease-out forwards;
+}
+
+@keyframes rippleExpand {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.7;
+    border-width: 3px;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    border-width: 1px;
+  }
+}
+
+/* ── Night: 5-pointed star burst ── */
+.click-sparkle {
+  @apply absolute;
+  transform: translate(-50%, -50%);
+}
+
+.click-sparkle i {
+  @apply absolute block rounded-full;
+  left: 0;
+  top: 0;
+  width: 5px;
+  height: 5px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 1), rgba(200, 220, 255, 0.8), transparent);
+  box-shadow: 0 0 8px 3px rgba(180, 210, 255, 0.6);
+  animation: sparkleBurst 700ms ease-out forwards;
+}
+
+/* 5 particles at 72° apart */
+.click-sparkle i:nth-child(1) {
+  --a: 0deg;
+  --d: 38px;
+}
+.click-sparkle i:nth-child(2) {
+  --a: 72deg;
+  --d: 34px;
+}
+.click-sparkle i:nth-child(3) {
+  --a: 144deg;
+  --d: 42px;
+}
+.click-sparkle i:nth-child(4) {
+  --a: 216deg;
+  --d: 28px;
+}
+.click-sparkle i:nth-child(5) {
+  --a: 288deg;
+  --d: 36px;
+}
+
+@keyframes sparkleBurst {
+  0% {
+    transform: rotate(var(--a)) translateX(0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotate(var(--a)) translateX(var(--d)) scale(0.1);
+    opacity: 0;
+  }
+}
+
+/* ── Extra trail particle behind each sparkle ── */
+.click-sparkle i::after {
+  content: '';
+  @apply absolute block rounded-full;
+  left: 50%;
+  top: 50%;
+  width: 3px;
+  height: 3px;
+  background: rgba(200, 220, 255, 0.5);
+  transform: translate(-50%, -50%) scale(0);
+  animation: sparkleTrail 500ms ease-out forwards;
+  animation-delay: 80ms;
+}
+
+@keyframes sparkleTrail {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.6;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .click-ripple {
+    animation: none;
+    @apply hidden;
+  }
+  .click-sparkle i,
+  .click-sparkle i::after {
+    animation: none;
+  }
+}

@@ -1,0 +1,82 @@
+/* Graduation — Skylearn */
+.graduation-card {
+  background-color: var(--color-surface-elevated);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  padding: var(--space-5);
+  box-shadow: var(--shadow-sm);
+}
+.graduation-card__title {
+  margin: 0 0 16px 0;
+  font-family: var(--font-display);
+  font-size: var(--text-h4);
+  font-weight: var(--font-semibold);
+  color: var(--color-text);
+}
+.graduation-card__progress {
+  margin-bottom: 16px;
+}
+.graduation-card__progress-label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+.graduation-card__progress-bar {
+  height: 10px;
+  background-color: var(--color-bg);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.graduation-card__progress-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+}
+.graduation-card__progress-fill--high {
+  background-color: var(--color-success);
+}
+.graduation-card__progress-fill--mid {
+  background-color: var(--color-primary);
+}
+.graduation-card__progress-fill--low {
+  background-color: var(--color-sun);
+}
+.graduation-card__stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.graduation-card__stat {
+  text-align: center;
+}
+.graduation-card__stat-value {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: var(--font-bold);
+  color: var(--color-text);
+}
+.graduation-card__stat-label {
+  font-family: var(--font-body);
+  font-size: var(--text-caption);
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+.graduation-card__milestones-title {
+  margin: 0 0 8px 0;
+  font-family: var(--font-display);
+  font-size: var(--text-small);
+  font-weight: var(--font-semibold);
+  color: var(--color-sun-deep);
+}
+.graduation-card__milestones-list {
+  margin: 0;
+  padding-left: 18px;
+  font-family: var(--font-body);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}

@@ -1,0 +1,98 @@
+/* NotificationsPage.css — student in-app notifications (UC-14) */
+
+.notifications-page {
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--color-text, #1e293b);
+}
+
+.notifications-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.notifications-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.notif-mark-all {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #1e293b);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.notif-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.notif-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 12px;
+  border: 1px solid var(--color-border, #e2e8f0);
+  background: var(--color-surface, #fff);
+}
+
+.notif-item--unread {
+  border-left: 4px solid #2563eb;
+  background: var(--color-surface-elevated, #f8fafc);
+}
+
+.notif-title-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.notif-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted, #64748b);
+}
+
+.notif-message {
+  margin: 0.4rem 0 0;
+  font-size: 0.9rem;
+  color: var(--color-text, #1e293b);
+}
+
+.notif-read-btn {
+  flex-shrink: 0;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: transparent;
+  color: #334155;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.notif-empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted, #64748b);
+}
+
+.notif-muted {
+  color: var(--color-text-muted, #64748b);
+}
+
+.notif-error {
+  color: #b91c1c;
+}

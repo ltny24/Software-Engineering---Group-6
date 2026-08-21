@@ -1,0 +1,39 @@
+/* Dashboard — Tailwind-first with minimal CSS overrides */
+.dash {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Star density slider range styling */
+.dash input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  background: #e1f0fb;
+  border-radius: 999px;
+  outline: none;
+  cursor: pointer;
+}
+.dash input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2196f3;
+  box-shadow: 0 1px 4px rgba(33, 150, 243, 0.4);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.dash input[type='range']::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+.dash input[type='range']::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #2196f3;
+  border: none;
+  box-shadow: 0 1px 4px rgba(33, 150, 243, 0.4);
+  cursor: pointer;
+}
