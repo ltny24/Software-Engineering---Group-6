@@ -50,7 +50,7 @@ This online meeting was held to allocate tasks for Phase 5 (Administrator Academ
 ### 3.2. Phase 5 - Administrator Academic Operations
 
 * **FG7:** **Khôi** will build the master schedule upload endpoint (T042), class transfer service (T043), and the corresponding UI (T044).
-* **FG8:** **Vi** will handle the grade appeal processing endpoint (T045) and the dashboard UI (T046).
+* **FG8:** **Ý** will handle the grade appeal processing endpoint (T045) and the dashboard UI (T046).
 * **FG9:** **Kiên** will implement the student records retrieval endpoint (T047) and the detailed inspection UI (T048).
 
 ### 3.3. Phase 6 - Polish & Cross-Cutting Concerns
@@ -100,8 +100,8 @@ This online meeting was held to allocate tasks for Phase 5 (Administrator Academ
 
 * **09/08:** Khôi completes UI generation.
 * **10/08:** Vi completes missing legacy functions; Ngọc finishes the Planning Report.
-* **11/08:** Khôi, Vi, Kiên complete backend endpoints for FG7, FG8, FG9.
-* **11/08:** Khôi, Vi, Kiên complete the corresponding UIs.
+* **11/08:** Khôi, Ý, Kiên complete backend endpoints for FG7, FG8, FG9.
+* **11/08:** Khôi, Ý, Kiên complete the corresponding UIs.
 * **18/08:** Ngọc finishes Phase 4 testing; Khôi updates Daily 1 Report.
 * **18/08:** Ngọc finishes Phase 5 testing.
 * **16/08:** Ý completes all FG5 tasks.

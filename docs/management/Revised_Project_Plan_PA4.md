@@ -219,8 +219,8 @@ The project applies the Scrum framework, divided into 5 Sprints, with each Sprin
 
 | Task ID | Task Description | Assignee | Reviewer | Deadline | Prerequisites | Backup Member |
 | --- | --- | --- | --- | --- | --- | --- |
-| **T045** | Admin Grade Appeal Processing endpoint (status update + fee deadline input) | Vi | Kiên | 10/08 | T030 | Kiên |
-| **T046** | Frontend Appeal Processing dashboard UI | Vi | Kiên | 11/08 | T045 | Kiên |
+| **T045** | Admin Grade Appeal Processing endpoint (status update + fee deadline input) | Ý | Vi | 10/08 | T030 | Kiên |
+| **T046** | Frontend Appeal Processing dashboard UI | Ý | Vi | 11/08 | T045 | Kiên |
 
 **FG9 — Student Records Administration**
 
