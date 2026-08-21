@@ -17,6 +17,7 @@ export interface AdminAppealResponse {
   deadline?: string;
   resolvedAt?: string;
   resolutionCode?: string;
+  expectedGrade?: number;
 }
 
 export interface AppealReviewRequest {

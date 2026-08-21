@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaPaperPlane, FaKey, FaCircleCheck } from 'react-icons/fa6';
 import toast from 'react-hot-toast';
 import { forgotPassword, resetPassword } from '../auth';
+import { useTheme } from '../context/ThemeContext';
 import { ROUTES } from '../utils/constants';
 import './ForgotPasswordPage.css';
 
@@ -10,6 +11,7 @@ type Step = 'username' | 'reset' | 'success';
 
 export default function ForgotPasswordPage() {
   const navigate = useNavigate();
+  const { isNight } = useTheme();
 
   // Step tracking
   const [step, setStep] = useState<Step>('username');
@@ -89,7 +91,11 @@ export default function ForgotPasswordPage() {
       <div className="forgot-card">
         {/* Header */}
         <div className="forgot-card__header">
-          <img src="/hcmus-logo.png" alt="HCMUS Logo" className="forgot-card__logo" />
+          <img
+            src={isNight ? '/hcmus-logo-white.png' : '/hcmus-logo.png'}
+            alt="HCMUS Logo"
+            className="forgot-card__logo"
+          />
           <h1 className="forgot-card__title">Reset Your Password</h1>
           <p className="forgot-card__subtitle">
             {step === 'username' &&

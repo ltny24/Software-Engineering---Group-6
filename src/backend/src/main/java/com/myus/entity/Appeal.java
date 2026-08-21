@@ -52,4 +52,7 @@ public class Appeal {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reviewerAdminId")
     private Administrator reviewerAdmin;
+
+    @Column(length = 50)
+    private String actualScore;
 }

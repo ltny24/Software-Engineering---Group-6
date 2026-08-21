@@ -357,6 +357,7 @@ public class AppealServiceImpl implements AppealService {
 
         res.setFeeStatus("PENDING".equals(status) ? "UNPAID" : "PAID");
         res.setFeePaymentDeadline(appeal.getDeadline() != null ? appeal.getDeadline() : (appeal.getSubmittedAt() != null ? appeal.getSubmittedAt().plusHours(72) : LocalDateTime.now().plusHours(72)));
+        res.setActualScore(appeal.getActualScore());
         return res;
     }
 
@@ -381,6 +382,7 @@ public class AppealServiceImpl implements AppealService {
         detail.setUpdatedGrade("RESOLVED".equals(summary.getStatus()) ? summary.getExpectedGrade() : null);
         detail.setResolvedAt(appeal.getResolvedAt());
         detail.setAttachments(appeal.getSupportingDocumentUrl() != null ? java.util.List.of(appeal.getSupportingDocumentUrl()) : java.util.List.of());
+        detail.setActualScore(appeal.getActualScore());
 
         return detail;
     }

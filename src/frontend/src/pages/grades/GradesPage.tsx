@@ -14,6 +14,7 @@ interface GradeDTO {
   overallScore: number;
   midtermGrade?: number;
   finalGrade?: number;
+  remarks?: string;
 }
 
 function GradesPage() {
@@ -154,6 +155,18 @@ function GradesPage() {
                     </td>
                     <td className="cell-text cell-right">
                       {item.gradeValue || (item.overallScore ? item.overallScore.toFixed(1) : '—')}
+                      {item.remarks && (
+                        <div
+                          style={{
+                            fontSize: '11px',
+                            color: '#10B981',
+                            marginTop: '2px',
+                            fontWeight: 600,
+                          }}
+                        >
+                          (Post-appeal)
+                        </div>
+                      )}
                     </td>
                     <td className="cell-text cell-right">
                       {item.midtermGrade != null ? Number(item.midtermGrade).toFixed(1) : '—'}

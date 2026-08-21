@@ -162,3 +162,115 @@
 .deadline-date { font-size: 0.95rem; font-weight: 600; color: #334155; margin-top: 0.25rem; }
 .deadline-date.missed { color: #dc2626; }
 .deadline-left { font-size: 0.8rem; color: #94a3b8; margin-top: 0.15rem; }
+
+/* ========================================================
+   NIGHT MODE (DARK THEME) OVERRIDES — EVALUATIONS LIST
+   ======================================================== */
+[data-theme='night'] .evaluations-page {
+  color: var(--color-text);
+}
+
+[data-theme='night'] .evaluations-header h1 {
+  color: #ffffff;
+}
+
+[data-theme='night'] .evaluations-header p {
+  color: var(--color-text-muted);
+}
+
+[data-theme='night'] .eval-stats .stat-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='night'] .group-header {
+  color: var(--color-text-muted);
+}
+
+[data-theme='night'] .group-header .badge {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+[data-theme='night'] .group-header.missed-header {
+  color: #f87171;
+}
+
+[data-theme='night'] .group-header.missed-header .badge {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+[data-theme='night'] .missed-banner {
+  background: rgba(153, 27, 27, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+[data-theme='night'] .eval-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+}
+
+[data-theme='night'] .eval-card:hover {
+  border-color: #60a5fa;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='night'] .eval-card.missed {
+  background: rgba(30, 45, 75, 0.6);
+  border: 1px solid var(--color-border);
+}
+
+[data-theme='night'] .card-title {
+  color: #ffffff;
+}
+
+[data-theme='night'] .card-subtitle {
+  color: var(--color-text-secondary);
+}
+
+[data-theme='night'] .deadline-label {
+  color: var(--color-text-muted);
+}
+
+[data-theme='night'] .deadline-date {
+  color: var(--color-text);
+}
+
+[data-theme='night'] .tag.course {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+[data-theme='night'] .tag.status.pending {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+}
+
+[data-theme='night'] .tag.status.completed {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+}
+
+[data-theme='night'] .tag.status.missed {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+[data-theme='night'] .card-icon.pending {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+[data-theme='night'] .card-icon.completed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+[data-theme='night'] .card-icon.missed {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}

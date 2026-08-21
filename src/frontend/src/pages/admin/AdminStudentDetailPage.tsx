@@ -50,10 +50,7 @@ export default function AdminStudentDetailPage() {
 
   return (
     <div className="admin-student-detail-page">
-      <button 
-        className="back-button"
-        onClick={() => navigate(`${ROUTES.ADMIN}/students`)}
-      >
+      <button className="back-button" onClick={() => navigate(`${ROUTES.ADMIN}/students`)}>
         ← Back to Search
       </button>
 
@@ -61,19 +58,22 @@ export default function AdminStudentDetailPage() {
         <div className="profile-header">
           <div>
             <h1 className="profile-name">
-              {student.firstName} {student.middleName ? `${student.middleName} ` : ''}{student.lastName}
+              {student.firstName} {student.middleName ? `${student.middleName} ` : ''}
+              {student.lastName}
             </h1>
             <div className="profile-id">ID: {student.username}</div>
           </div>
-          <span className={`status-badge ${student.enrollmentStatus === 'Enrolled' ? 'active' : 'inactive'}`}>
+          <span
+            className={`status-badge ${student.enrollmentStatus === 'Enrolled' ? 'active' : 'inactive'}`}
+          >
             {student.enrollmentStatus || 'UNKNOWN'}
           </span>
         </div>
 
         {isRestricted && (
           <div className="restricted-warning">
-            <strong>Restricted Record:</strong> This student is currently marked as {student.enrollmentStatus}. 
-            Certain data fields may be hidden or archived.
+            <strong>Restricted Record:</strong> This student is currently marked as{' '}
+            {student.enrollmentStatus}. Certain data fields may be hidden or archived.
           </div>
         )}
 

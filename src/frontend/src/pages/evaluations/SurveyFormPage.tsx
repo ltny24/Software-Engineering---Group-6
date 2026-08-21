@@ -383,7 +383,7 @@ export default function SurveyFormPage() {
       <form onSubmit={handleSubmit} className="survey-form">
         {isFacilities ? (
           <div className="survey-section" style={{ marginBottom: '2rem' }}>
-            <h3 style={{ marginBottom: '1rem', color: '#1e293b' }}>Facilities Evaluation</h3>
+            <h3 className="survey-section-title">Facilities Evaluation</h3>
             {FACILITIES_QUESTIONS.map((q) => renderQuestion('facilities', q.id, q.title, q.text))}
           </div>
         ) : (
@@ -393,14 +393,7 @@ export default function SurveyFormPage() {
               className="survey-section"
               style={{ marginBottom: '2.5rem' }}
             >
-              <h3
-                style={{
-                  marginBottom: '1rem',
-                  color: '#1e293b',
-                  borderBottom: '2px solid #e2e8f0',
-                  paddingBottom: '0.5rem',
-                }}
-              >
+              <h3 className="survey-section-title">
                 {c.offering.course.courseCode} - {c.offering.course.courseName}
               </h3>
               {COURSE_QUESTIONS.map((q) =>
@@ -410,17 +403,7 @@ export default function SurveyFormPage() {
           ))
         )}
 
-        <div
-          className="question-card"
-          style={{
-            padding: '1.5rem',
-            marginBottom: '1rem',
-            background: 'white',
-            borderRadius: '12px',
-            border: 'none',
-            boxShadow: '0 4px 24px rgba(0,0,0,0.04)',
-          }}
-        >
+        <div className="question-card comment-card">
           <div className="question-title">ADDITIONAL COMMENTS</div>
           <textarea
             className="textarea-field"
