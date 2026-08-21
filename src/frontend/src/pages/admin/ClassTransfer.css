@@ -109,6 +109,38 @@
   color: #1e293b;
 }
 
+.source-summary-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0;
+  padding: 0.75rem 1rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.source-summary-text {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.roster-row {
+  cursor: pointer;
+}
+
+.roster-row:hover {
+  background: #f1f5f9;
+}
+
+.roster-row.selected {
+  background: #eff6ff;
+}
+
 .roster-table-wrap {
   overflow-x: auto;
 }

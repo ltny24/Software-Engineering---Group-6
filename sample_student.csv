@@ -1,0 +1,8 @@
+username,password,firstName,lastName,email,middleName,phone,address,dateOfBirth,studentType,major,enrollmentStatus,registrationStatus
+24128001,Student@123,An,Nguyen,24128001@student.myus.edu.vn,Van,0909000001,"12 Nguyen Van Cu, District 5, Ho Chi Minh City",2005-01-01,Regular,Software Engineering,Enrolled,Active
+24128002,Student@123,Binh,Tran,24128002@student.myus.edu.vn,Thi,0909000002,"45 Le Loi, District 1, Ho Chi Minh City",2005-02-02,High Quality,Information Technology,Enrolled,Active
+24128003,Student@123,Cuong,Le,24128003@student.myus.edu.vn,Hoang,0909000003,"78 Vo Van Ngan, Thu Duc, Ho Chi Minh City",2005-03-03,Regular,Data Science,Enrolled,Active
+24128004,Student@123,Dung,Pham,24128004@student.myus.edu.vn,Thanh,0909000004,"12 Cong Hoa, Tan Binh, Ho Chi Minh City",2005-04-04,Regular,Artificial Intelligence,Enrolled,Active
+24128005,Student@123,Em,Hoang,24128005@student.myus.edu.vn,Quang,0909000005,"34 Cach Mang Thang 8, District 3, Ho Chi Minh City",2005-05-05,Regular,Computer Science,Enrolled,Active
+24128006,Student@123,Giang,Huynh,invalid-email,Duc,0909000006,"56 Nguyen Thi Minh Khai, District 3, Ho Chi Minh City",2005-06-06,Regular,Information Security,Enrolled,Active
+24128007,abc,Khanh,Vu,24128007@student.myus.edu.vn,Huu,0909000007,"90 Dien Bien Phu, Binh Thanh, Ho Chi Minh City",2005-07-07,Regular,Software Engineering,Enrolled,Active
