@@ -97,14 +97,15 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         String targetTerm = offering.getTerm();
 
         int currentCredits = activeRegistrations.stream()
-                .filter(r -> !"Dropped".equals(r.getStatus()))
-                .filter(r -> targetTerm != null && targetTerm.equals(r.getOffering().getTerm()))
+                .filter(r -> r != null && !"Dropped".equalsIgnoreCase(r.getStatus()))
+                .filter(r -> r.getOffering() != null && r.getOffering().getCourse() != null)
+                .filter(r -> targetTerm != null && targetTerm.equalsIgnoreCase(r.getOffering().getTerm()))
                 .mapToInt(r -> {
                     Integer credits = r.getOffering().getCourse().getCredits();
                     return credits != null ? credits : 0;
                 })
                 .sum();
-        int newCourseCredits = offering.getCourse().getCredits() != null
+        int newCourseCredits = (offering.getCourse() != null && offering.getCourse().getCredits() != null)
                 ? offering.getCourse().getCredits() : 0;
 
         if (currentCredits + newCourseCredits > MAX_CREDITS_PER_TERM) {
@@ -121,7 +122,9 @@ public class EnrollmentServiceImpl implements EnrollmentService {
 
         if (newSchedule != null && !newSchedule.isBlank()) {
             for (CourseRegistration activeReg : activeRegistrations) {
-                if (!"Dropped".equals(activeReg.getStatus())) {
+                if (activeReg != null && activeReg.getOffering() != null
+                        && activeReg.getOffering().getCourse() != null
+                        && !"Dropped".equalsIgnoreCase(activeReg.getStatus())) {
                     String existingTerm = activeReg.getOffering().getTerm();
                     if (targetTerm != null && targetTerm.equalsIgnoreCase(existingTerm)) {
                         String existingSchedule = activeReg.getOffering().getSchedule();
@@ -145,12 +148,18 @@ public class EnrollmentServiceImpl implements EnrollmentService {
         registration.setStatus("Enrolled");
         registration.setRegisteredAt(LocalDateTime.now());
 
-        CourseRegistration saved = registrationRepository.save(registration);
-        log.info("Registration created: id={}, student={}, offering={}, status={}, warnings={}",
-                saved.getRegistrationId(), username, offering.getOfferingId(),
-                saved.getStatus(), conflictWarnings.size());
+        try {
+            CourseRegistration saved = registrationRepository.saveAndFlush(registration);
+            log.info("Registration created: id={}, student={}, offering={}, status={}, warnings={}",
+                    saved.getRegistrationId(), username, offering.getOfferingId(),
+                    saved.getStatus(), conflictWarnings.size());
 
-        return mapToEnrollmentResponse(saved, conflictWarnings);
+            return mapToEnrollmentResponse(saved, conflictWarnings);
+        } catch (org.springframework.dao.DataIntegrityViolationException ex) {
+            log.warn("Duplicate registration caught by DB constraint for username={}, offeringId={}",
+                    username, offering.getOfferingId());
+            throw new EnrollmentException("Student is already registered for this course offering.");
+        }
     }
 
     @Override

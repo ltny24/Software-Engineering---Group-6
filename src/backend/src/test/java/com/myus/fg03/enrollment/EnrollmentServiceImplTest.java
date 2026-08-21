@@ -79,14 +79,14 @@ public class EnrollmentServiceImplTest {
         savedRegistration.setStudent(student);
         savedRegistration.setOffering(offering);
         savedRegistration.setStatus("Enrolled");
-        when(registrationRepository.save(any(CourseRegistration.class))).thenReturn(savedRegistration);
+        when(registrationRepository.saveAndFlush(any(CourseRegistration.class))).thenReturn(savedRegistration);
 
         EnrollmentResponse response = enrollmentService.registerCourse("teststudent", request);
 
         assertNotNull(response);
         assertEquals(500L, response.getRegistrationId());
         assertEquals("Enrolled", response.getStatus());
-        verify(registrationRepository, times(1)).save(any(CourseRegistration.class));
+        verify(registrationRepository, times(1)).saveAndFlush(any(CourseRegistration.class));
     }
 
     @Test

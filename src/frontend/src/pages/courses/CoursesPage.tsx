@@ -381,6 +381,7 @@ export default function CoursesPage() {
   };
 
   const handleRegister = async (offering: CourseOffering) => {
+    if (registeringId != null) return;
     try {
       setRegisteringId(offering.offeringId);
       const result = await registerCourse(offering.offeringId);
@@ -707,10 +708,10 @@ export default function CoursesPage() {
                             ) : (
                               <button
                                 className="btn-edit register-btn"
-                                disabled={full || registeringId === offering.offeringId}
+                                disabled={full || (registeringId != null && String(registeringId) === String(offering.offeringId))}
                                 onClick={() => handleRegister(offering)}
                               >
-                                {registeringId === offering.offeringId
+                                {registeringId != null && String(registeringId) === String(offering.offeringId)
                                   ? 'Registering...'
                                   : full
                                     ? 'Full'
