@@ -88,7 +88,6 @@ export default function ProfilePage() {
     <div className="profile-container">
       <div className="profile-header">
         <h2>
-<<<<<<< HEAD
           <FaUser /> {profile.studentType === 'ADMIN' ? 'Admin Profile' : 'Student Profile'}
         </h2>
         {!isEditing ? (
@@ -97,14 +96,6 @@ export default function ProfilePage() {
               <FaPenToSquare /> Edit Contact Info
             </button>
           )
-=======
-          <FaUser /> Student Profile
-        </h2>
-        {!isEditing ? (
-          <button className="btn-edit" onClick={() => setIsEditing(true)}>
-            <FaPenToSquare /> Edit Contact Info
-          </button>
->>>>>>> origin/test-final
         ) : (
           <div className="edit-actions">
             <button className="btn-cancel" onClick={() => setIsEditing(false)} disabled={isSaving}>
@@ -126,7 +117,6 @@ export default function ProfilePage() {
       <div className="profile-card">
         {/* Khối thông tin Học thuật (Chỉ xem) */}
         <div className="profile-section">
-<<<<<<< HEAD
           <h3>
             {profile.studentType === 'ADMIN'
               ? 'Administrative Information'
@@ -145,20 +135,6 @@ export default function ProfilePage() {
             </div>
             <div className="info-item">
               <label>{profile.studentType === 'ADMIN' ? 'Role' : 'Student Type'}</label>
-=======
-          <h3>Academic Information</h3>
-          <div className="info-grid">
-            <div className="info-item">
-              <label>Student ID (Username)</label>
-              <p>{profile.username}</p>
-            </div>
-            <div className="info-item">
-              <label>Major</label>
-              <p>{profile.major}</p>
-            </div>
-            <div className="info-item">
-              <label>Student Type</label>
->>>>>>> origin/test-final
               <p>{profile.studentType}</p>
             </div>
             <div className="info-item">
@@ -180,7 +156,6 @@ export default function ProfilePage() {
           <div className="info-grid">
             <div className="info-item">
               <label>Full Name</label>
-<<<<<<< HEAD
               <p>
                 {[profile.firstName, profile.middleName, profile.lastName]
                   .filter(Boolean)
@@ -190,13 +165,6 @@ export default function ProfilePage() {
             <div className="info-item">
               <label>Date of Birth</label>
               <p>{profile.dateOfBirth || 'N/A'}</p>
-=======
-              <p>{`${profile.firstName} ${profile.middleName ? profile.middleName + ' ' : ''}${profile.lastName}`}</p>
-            </div>
-            <div className="info-item">
-              <label>Date of Birth</label>
-              <p>{profile.dateOfBirth}</p>
->>>>>>> origin/test-final
             </div>
             <div className="info-item">
               <label>Email (University)</label>

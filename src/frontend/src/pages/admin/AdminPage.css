@@ -1,0 +1,110 @@
+/* AdminPage.css — Administrator dashboard module tiles */
+
+.admin-dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.admin-header {
+  margin-bottom: 2rem;
+}
+
+.admin-header-top {
+  margin-bottom: 0.75rem;
+}
+
+.admin-header .admin-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text, #1e293b);
+  margin: 0 0 0.4rem;
+}
+
+.admin-header .admin-subtitle {
+  font-size: 0.9rem;
+  color: var(--color-text-muted, #64748b);
+  margin: 0;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #f1f5f9);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-muted, #64748b);
+  white-space: nowrap;
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.theme-toggle:hover {
+  box-shadow: var(--shadow-card, 0 8px 20px rgba(0, 0, 0, 0.08));
+}
+
+.theme-toggle:active {
+  transform: scale(0.96);
+}
+
+.theme-toggle-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+  color: var(--color-primary, #2563eb);
+}
+
+.theme-toggle-icon--sun {
+  color: #f59e0b;
+}
+
+.admin-modules {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.admin-module-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  padding: 2rem 1.5rem;
+  background: var(--color-surface, #ffffff);
+  border: 1px solid var(--color-border, #f1f5f9);
+  border-radius: var(--radius-md, 12px);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0, 0, 0, 0.06));
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.admin-module-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary, #2563eb);
+  box-shadow: var(--shadow-card, 0 8px 20px rgba(0, 0, 0, 0.08));
+}
+
+.admin-module-card:focus-visible {
+  outline: 2px solid var(--color-primary, #2563eb);
+  outline-offset: 2px;
+}
+
+.module-icon {
+  font-size: 1.9rem;
+  line-height: 1;
+  color: var(--color-primary, #2563eb);
+}
+
+.module-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text, #1e293b);
+}

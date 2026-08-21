@@ -136,3 +136,59 @@
   background: rgba(59, 130, 246, 0.15);
   color: #93c5fd;
 }
+
+/* ========================================================
+   CHOOSE-FILE BUTTON (green) + SAMPLE DOWNLOAD LINK
+   ======================================================== */
+.btn-proto.btn-choose-file {
+  display: inline-block;
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+.btn-proto.btn-choose-file:hover:not(:disabled) {
+  background: #15803d;
+  border-color: #15803d;
+  color: #ffffff;
+}
+
+.file-input-hidden {
+  display: none;
+}
+
+.sample-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #2563eb;
+  font-weight: 500;
+  font-size: inherit;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.sample-link:hover {
+  color: #1d4ed8;
+}
+
+[data-theme='night'] .btn-proto.btn-choose-file {
+  background: #16a34a;
+  border-color: #16a34a;
+  color: #ffffff;
+}
+
+[data-theme='night'] .btn-proto.btn-choose-file:hover:not(:disabled) {
+  background: #15803d;
+  border-color: #15803d;
+  color: #ffffff;
+}
+
+[data-theme='night'] .sample-link {
+  color: #60a5fa;
+}
+
+[data-theme='night'] .sample-link:hover {
+  color: #93c5fd;
+}

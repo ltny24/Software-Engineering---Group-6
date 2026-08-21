@@ -53,8 +53,6 @@ export default function BulkImportPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const columns = importType === 'student' ? STUDENT_COLUMNS : COURSE_COLUMNS;
-  const required =
-    importType === 'student' ? STUDENT_COLUMNS.slice(0, 5) : COURSE_COLUMNS.slice(0, 2);
 
   const handleTypeChange = (type: ImportType) => {
     setImportType(type);
@@ -153,6 +151,44 @@ export default function BulkImportPage() {
     URL.revokeObjectURL(url);
   };
 
+  const downloadSample = () => {
+    const sampleRow =
+      importType === 'student'
+        ? [
+            'S10001',
+            'Passw0rd!',
+            'John',
+            'Doe',
+            'john.doe@example.com',
+            '',
+            '0123456789',
+            '123 Main Street',
+            '2002-01-15',
+            'Undergraduate',
+            'Software Engineering',
+            'Enrolled',
+            'Active',
+          ]
+        : [
+            'SE101',
+            'Introduction to Software Engineering',
+            'Fundamentals of software engineering',
+            '3',
+            '',
+            'Software Engineering',
+            'HKIII 2025-2026',
+            '50',
+          ];
+    const csv = [columns.join(','), sampleRow.join(',')].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'sample.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   const fullName = (row: { firstName?: string; lastName?: string }) =>
     [row.firstName, row.lastName].filter(Boolean).join(' ').trim() || '—';
 
@@ -187,20 +223,23 @@ export default function BulkImportPage() {
       <div className="upload-card">
         <h3>1. Choose file</h3>
         <p className="muted">
-          Expected columns: <code>{columns.join(', ')}</code>
-        </p>
-        <p className="muted">
-          Required: <code>{required.join(', ')}</code>. Supports <code>.csv</code> and{' '}
-          <code>.xlsx</code>.
+          Upload a <code>.csv</code> or <code>.xlsx</code> file.{' '}
+          <button type="button" className="sample-link" onClick={downloadSample}>
+            Download sample.csv
+          </button>
         </p>
         <div className="upload-row">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".csv,.xlsx,text/csv"
-            onChange={handleFileChange}
-            data-testid="bulk-import-file-input"
-          />
+          <label className="btn-proto btn-choose-file">
+            Choose File
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".csv,.xlsx,text/csv"
+              onChange={handleFileChange}
+              data-testid="bulk-import-file-input"
+              className="file-input-hidden"
+            />
+          </label>
           <button className="btn-proto" onClick={handlePreview} disabled={loading}>
             {loading ? 'Validating…' : 'Validate & Preview'}
           </button>

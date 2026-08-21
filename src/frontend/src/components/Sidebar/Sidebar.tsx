@@ -42,14 +42,13 @@ const studentNav: NavItem[] = [
 ];
 
 const adminNav: NavItem[] = [
-  { label: 'Dashboard', to: ROUTES.DASHBOARD, icon: <FaHouse /> },
+  { label: 'Dashboard', to: ROUTES.ADMIN, icon: <FaHouse /> },
   { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: <FaUsers /> },
   { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: <FaUpload /> },
   { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: <FaRightLeft /> },
   { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: <FaFilePen /> },
   { label: 'Courses', to: ROUTES.COURSES, icon: <FaBookOpen /> },
   { label: 'Timetable', to: ROUTES.TIMETABLE, icon: <FaCalendarDays /> },
-  { label: 'Support', to: ROUTES.SUPPORT, icon: <FaCircleQuestion /> },
 ];
 
 export default function Sidebar() {
@@ -92,7 +91,7 @@ export default function Sidebar() {
             <NavLink
               key={to}
               to={to}
-              end={to === ROUTES.DASHBOARD}
+              end={to === ROUTES.DASHBOARD || to === ROUTES.ADMIN}
               className={({ isActive }) =>
                 `sidebar__link${isActive ? ' sidebar__link--active' : ''}`
               }

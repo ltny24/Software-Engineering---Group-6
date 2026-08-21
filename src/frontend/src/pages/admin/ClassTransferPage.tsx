@@ -130,7 +130,8 @@ export default function ClassTransferPage() {
       if (res.transferredCount > 0) {
         toast.success(
           `Transferred ${res.transferredCount} student(s)` +
-            (res.failed.length > 0 ? `, ${res.failed.length} failed` : '') + '.'
+            (res.failed.length > 0 ? `, ${res.failed.length} failed` : '') +
+            '.'
         );
       } else {
         toast.error(`Transfer failed: ${res.failed.length} student(s) blocked.`);
@@ -208,7 +209,9 @@ export default function ClassTransferPage() {
                     <div className="oc-name">{o.course?.courseName}</div>
                     <div className="oc-meta">
                       {o.term} · {o.availableSeats} seats left
-                      {o.status === 'Cancelled' && <span className="cancelled-badge">Cancelled</span>}
+                      {o.status === 'Cancelled' && (
+                        <span className="cancelled-badge">Cancelled</span>
+                      )}
                     </div>
                   </button>
                 ))}
