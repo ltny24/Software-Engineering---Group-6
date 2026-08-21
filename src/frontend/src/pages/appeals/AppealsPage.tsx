@@ -26,7 +26,11 @@ const AppealsPage: React.FC = () => {
   const isSubmissionOpen = config?.allowSubmission ?? true;
   const deadlineText = config?.submissionDeadline
     ? new Date(config.submissionDeadline).toLocaleDateString()
+<<<<<<< HEAD
     : new Date().toLocaleDateString();
+=======
+    : '2026-08-15';
+>>>>>>> origin/test-final
 
   return (
     <div className="appeals-page">
