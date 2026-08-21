@@ -4,7 +4,9 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,7 +14,9 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PushbackInputStream;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -64,7 +68,7 @@ public final class ImportFileReader {
                 .setTrim(true)
                 .build();
 
-        try (Reader reader = new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8);
+        try (Reader reader = bomStrippingReader(file.getInputStream());
              CSVParser parser = format.parse(reader)) {
 
             Map<String, Integer> headerMap = parser.getHeaderMap();
@@ -122,9 +126,36 @@ public final class ImportFileReader {
         }
     }
 
+    /**
+     * Wraps the raw CSV stream in a reader that strips a leading UTF-8 BOM.
+     * Excel's "CSV UTF-8" export prepends {@code EF BB BF}; if it is left on the
+     * first header cell it becomes {@code ﻿username} and the required-column
+     * lookup fails even though the file is otherwise correct.
+     */
+    private static Reader bomStrippingReader(InputStream in) throws IOException {
+        PushbackInputStream pushback = new PushbackInputStream(in, 3);
+        byte[] bom = new byte[3];
+        int read = pushback.read(bom, 0, 3);
+        if (!(read == 3 && (bom[0] == (byte) 0xEF && bom[1] == (byte) 0xBB && bom[2] == (byte) 0xBF))) {
+            if (read > 0) {
+                pushback.unread(bom, 0, read);
+            }
+        }
+        return new InputStreamReader(pushback, StandardCharsets.UTF_8);
+    }
+
     private static String cellString(Cell cell) {
         if (cell == null) {
             return "";
+        }
+        // Excel stores dates as numbers; DataFormatter would render them using the
+        // cell's display format (e.g. "2/2/05"), which fails the yyyy-MM-dd check.
+        if (cell.getCellType() == CellType.NUMERIC && DateUtil.isCellDateFormatted(cell)) {
+            try {
+                return cell.getLocalDateTimeCellValue().toLocalDate().toString();
+            } catch (RuntimeException ignored) {
+                // fall through to DataFormatter for non-date numeric cells
+            }
         }
         return new DataFormatter().formatCellValue(cell);
     }

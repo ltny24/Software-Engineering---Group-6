@@ -20,8 +20,8 @@ import java.util.List;
  * re-encodes them with the configured {@link PasswordEncoder}.
  *
  * <p>This only runs when the {@code dev} profile is active, and is safe to
- * run repeatedly — already-encoded passwords (starting with {@code $2a$})
- * are skipped.</p>
+ * run repeatedly — already-encoded passwords (any BCrypt {@code $2a$}/{@code $2b$}/{@code $2y$}
+ * hash) are skipped.</p>
  */
 @Slf4j
 @Component
@@ -87,9 +87,16 @@ public class DataInitializer implements CommandLineRunner {
 
     /**
      * Returns {@code true} if the stored password is NOT already a BCrypt hash.
-     * BCrypt hashes produced by Spring Security always start with {@code $2a$}.
+     * Accepts every common BCrypt version prefix ({@code $2a$}, {@code $2b$}, {@code $2y$})
+     * so that hashes produced by Spring Security, Python/Node bcrypt, or htpasswd are
+     * never re-encoded — re-encoding an existing hash corrupts the password.
      */
     private boolean needsEncoding(String storedPassword) {
-        return storedPassword != null && !storedPassword.startsWith("$2a$") && !storedPassword.startsWith("$2b$");
+        if (storedPassword == null) {
+            return false;
+        }
+        return !(storedPassword.startsWith("$2a$")
+                || storedPassword.startsWith("$2b$")
+                || storedPassword.startsWith("$2y$"));
     }
 }

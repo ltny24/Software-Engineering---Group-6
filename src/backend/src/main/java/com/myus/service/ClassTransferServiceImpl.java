@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -204,6 +205,13 @@ public class ClassTransferServiceImpl implements ClassTransferService {
                     .findActiveByStudentIdWithOfferingAndCourse(studentId);
             for (CourseRegistration other : others) {
                 if (other.getRegistrationId().equals(registration.getRegistrationId())) {
+                    continue;
+                }
+                // Only enrollments in the SAME term can genuinely overlap in a
+                // timetable. The mock data reuses the same time slots across
+                // HKI/HKII/HKIII, so a cross-term course would otherwise be
+                // falsely flagged as a conflict.
+                if (!Objects.equals(to.getTerm(), other.getOffering().getTerm())) {
                     continue;
                 }
                 if (hasScheduleConflict(to.getSchedule(), other.getOffering().getSchedule())) {

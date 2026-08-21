@@ -1,0 +1,7 @@
+courseCode,courseName,description,credits,prerequisites,department,semester,capacity
+COM101,Introduction to Communication,Fundamentals of communication theory and practice,3,None,General Studies,HKI 2025-2026,60
+COM102,Business Communication,Written and oral communication for business,3,COM101,General Studies,HKI 2025-2026,60
+SE301,Advanced Software Engineering,Software architecture and design patterns,4,CSC10014,Software Engineering,HKI 2025-2026,50
+DS201,Data Analytics,Statistical and computational data analysis,3,MTH00006,Data Science,HKI 2025-2026,50
+MAT201,Linear Algebra II,Vector spaces and linear transformations,3,MTH00006,Mathematics,HKI 2025-2026,70
+SE302,Invalid Credits Course,This row has non-integer credits,abc,CSC10014,Software Engineering,HKI 2025-2026,50

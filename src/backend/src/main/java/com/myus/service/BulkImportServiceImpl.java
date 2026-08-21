@@ -248,7 +248,7 @@ public class BulkImportServiceImpl implements BulkImportService {
 
         Map<String, String> headerIndex = indexHeaders(parsed.headers());
         for (String col : required) {
-            if (!headerIndex.containsKey(col)) {
+            if (!headerIndex.containsKey(col.toLowerCase())) {
                 throw new BulkImportException(
                         "Missing required column: " + col + ". Expected columns: "
                                 + String.join(", ", required) + ", " + String.join(", ", optional));
@@ -268,7 +268,7 @@ public class BulkImportServiceImpl implements BulkImportService {
     }
 
     private String value(Map<String, String> row, Map<String, String> headerIndex, String name) {
-        String actual = headerIndex.get(name);
+        String actual = headerIndex.get(name.toLowerCase());
         return actual == null ? null : row.get(actual);
     }
 

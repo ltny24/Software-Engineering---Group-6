@@ -29,17 +29,20 @@ export default function ClassTransferPage() {
   const [result, setResult] = useState<ClassTransferResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  const loadOfferings = async () => {
+    try {
+      const res = await adminClassControlService.listOfferings({ page: 0, size: 500 });
+      setOfferings(res.content || []);
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to load course offerings.');
+    } finally {
+      setOfferingsLoading(false);
+    }
+  };
+
   useEffect(() => {
-    (async () => {
-      try {
-        const res = await adminClassControlService.listOfferings({ page: 0, size: 500 });
-        setOfferings(res.content || []);
-      } catch (err: any) {
-        setError(err.response?.data?.message || 'Failed to load course offerings.');
-      } finally {
-        setOfferingsLoading(false);
-      }
-    })();
+    loadOfferings();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filteredOfferings = useMemo(() => {
@@ -69,6 +72,24 @@ export default function ClassTransferPage() {
     } finally {
       setRosterLoading(false);
     }
+  };
+
+  const refreshRoster = async (offeringId: number) => {
+    try {
+      const res = await adminClassControlService.getRoster(offeringId);
+      setRoster(res);
+    } catch (err: any) {
+      // Keep the existing roster if a silent refresh fails.
+    }
+  };
+
+  const resetSource = () => {
+    setSourceId(null);
+    setRoster(null);
+    setResult(null);
+    setError(null);
+    setSelectedStudents(new Set());
+    setTargetId(null);
   };
 
   const toggleStudent = (id: number) => {
@@ -106,9 +127,17 @@ export default function ClassTransferPage() {
         overrideConflict,
       });
       setResult(res);
-      toast.success(`Transferred ${res.transferredCount} student(s).`);
-      // Refresh the roster to reflect the new seat counts.
-      await selectSource(sourceId);
+      if (res.transferredCount > 0) {
+        toast.success(
+          `Transferred ${res.transferredCount} student(s)` +
+            (res.failed.length > 0 ? `, ${res.failed.length} failed` : '') + '.'
+        );
+      } else {
+        toast.error(`Transfer failed: ${res.failed.length} student(s) blocked.`);
+      }
+      // Refresh both the offerings list (old + new section seat counts) and the
+      // source roster, without clearing the transfer result above.
+      await Promise.all([loadOfferings(), refreshRoster(sourceId)]);
     } catch (err: any) {
       setError(err.response?.data?.message || 'Transfer failed.');
       toast.error('Transfer failed.');
@@ -154,45 +183,41 @@ export default function ClassTransferPage() {
       {/* Step 1: choose source section */}
       <div className="transfer-panel">
         <h3>1. Select a source section</h3>
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search by course code, name, or section…"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {offeringsLoading ? (
-          <div className="loading-state">Loading offerings…</div>
+        {!roster ? (
+          <>
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Search by course code, name, or section…"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            {offeringsLoading ? (
+              <div className="loading-state">Loading offerings…</div>
+            ) : (
+              <div className="offering-grid">
+                {filteredOfferings.map((o) => (
+                  <button
+                    key={o.offeringId}
+                    className={`offering-card ${sourceId === Number(o.offeringId) ? 'active' : ''}`}
+                    onClick={() => selectSource(Number(o.offeringId))}
+                  >
+                    <div className="oc-code">
+                      {o.course?.courseCode} · {o.section}
+                    </div>
+                    <div className="oc-name">{o.course?.courseName}</div>
+                    <div className="oc-meta">
+                      {o.term} · {o.availableSeats} seats left
+                      {o.status === 'Cancelled' && <span className="cancelled-badge">Cancelled</span>}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+          </>
         ) : (
-          <div className="offering-grid">
-            {filteredOfferings.map((o) => (
-              <button
-                key={o.offeringId}
-                className={`offering-card ${sourceId === Number(o.offeringId) ? 'active' : ''}`}
-                onClick={() => selectSource(Number(o.offeringId))}
-              >
-                <div className="oc-code">
-                  {o.course?.courseCode} · {o.section}
-                </div>
-                <div className="oc-name">{o.course?.courseName}</div>
-                <div className="oc-meta">
-                  {o.term} · {o.availableSeats} seats left
-                  {o.status === 'Cancelled' && <span className="cancelled-badge">Cancelled</span>}
-                </div>
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Step 2: roster + target */}
-      {rosterLoading ? (
-        <div className="loading-state">Loading roster…</div>
-      ) : roster ? (
-        <>
-          <div className="transfer-panel">
-            <h3>2. Select students & target section</h3>
-            <div className="source-summary">
+          <div className="source-summary source-summary-bar">
+            <div className="source-summary-text">
               <strong>
                 {roster.offering.course?.courseCode} — {roster.offering.section}
               </strong>{' '}
@@ -204,6 +229,20 @@ export default function ClassTransferPage() {
                 <span className="cancelled-badge">Cancelled</span>
               )}
             </div>
+            <button className="btn-proto" onClick={resetSource}>
+              Change section
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Step 2: roster + target */}
+      {rosterLoading ? (
+        <div className="loading-state">Loading roster…</div>
+      ) : roster ? (
+        <>
+          <div className="transfer-panel">
+            <h3>2. Select students & target section</h3>
 
             <div className="action-row">
               <button
@@ -239,20 +278,27 @@ export default function ClassTransferPage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {roster.students.map((s) => (
-                      <tr key={s.studentId}>
-                        <td>
-                          <input
-                            type="checkbox"
-                            checked={selectedStudents.has(s.studentId)}
-                            onChange={() => toggleStudent(s.studentId)}
-                          />
-                        </td>
-                        <td>{s.studentId}</td>
-                        <td>{s.fullName}</td>
-                        <td>{s.username}</td>
-                      </tr>
-                    ))}
+                    {roster.students.map((s) => {
+                      const selected = selectedStudents.has(s.studentId);
+                      return (
+                        <tr
+                          key={s.studentId}
+                          className={`roster-row ${selected ? 'selected' : ''}`}
+                          onClick={() => toggleStudent(s.studentId)}
+                        >
+                          <td onClick={(e) => e.stopPropagation()}>
+                            <input
+                              type="checkbox"
+                              checked={selected}
+                              onChange={() => toggleStudent(s.studentId)}
+                            />
+                          </td>
+                          <td>{s.studentId}</td>
+                          <td>{s.fullName}</td>
+                          <td>{s.username}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
