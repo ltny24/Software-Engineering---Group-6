@@ -7,7 +7,6 @@ import {
   FaFilePen,
   FaBookOpen,
   FaCalendarDays,
-  FaDownload,
   FaMoon,
   FaSun,
 } from 'react-icons/fa6';
@@ -17,7 +16,6 @@ import AdminAppealsPage from './AdminAppealsPage';
 import AdminAppealDetailPage from './AdminAppealDetailPage';
 import AdminStudentsPage from './AdminStudentsPage';
 import AdminStudentDetailPage from './AdminStudentDetailPage';
-import ScheduleUploadPage from './ScheduleUploadPage';
 import ClassTransferPage from './ClassTransferPage';
 import BulkImportPage from './BulkImportPage';
 import PlaceholderPage from '../../components/PlaceholderPage/PlaceholderPage';
@@ -27,13 +25,42 @@ import './AdminStudents.css';
 import './AdminPage.css';
 
 const ADMIN_MODULES = [
-  { label: 'Students', to: ROUTES.ADMIN_STUDENTS, icon: <FaUsers /> },
-  { label: 'Bulk Import', to: ROUTES.ADMIN_IMPORT, icon: <FaUpload /> },
-  { label: 'Transfers', to: ROUTES.ADMIN_TRANSFERS, icon: <FaRightLeft /> },
-  { label: 'Appeals', to: ROUTES.ADMIN_APPEALS, icon: <FaFilePen /> },
-  { label: 'Schedule Upload', to: ROUTES.ADMIN_SCHEDULE_UPLOAD, icon: <FaDownload /> },
-  { label: 'Courses', to: ROUTES.COURSES, icon: <FaBookOpen /> },
-  { label: 'Timetable', to: ROUTES.TIMETABLE, icon: <FaCalendarDays /> },
+  {
+    label: 'Students',
+    to: ROUTES.ADMIN_STUDENTS,
+    icon: <FaUsers />,
+    description: 'View, search, and manage all student records in the system.',
+  },
+  {
+    label: 'Bulk Import',
+    to: ROUTES.ADMIN_IMPORT,
+    icon: <FaUpload />,
+    description: 'Import student or course data in bulk via CSV files.',
+  },
+  {
+    label: 'Transfers',
+    to: ROUTES.ADMIN_TRANSFERS,
+    icon: <FaRightLeft />,
+    description: 'Process and approve class transfer requests from students.',
+  },
+  {
+    label: 'Appeals',
+    to: ROUTES.ADMIN_APPEALS,
+    icon: <FaFilePen />,
+    description: 'Review and respond to grade appeal submissions.',
+  },
+  {
+    label: 'Courses',
+    to: ROUTES.COURSES,
+    icon: <FaBookOpen />,
+    description: 'Browse the full course catalog and manage offerings.',
+  },
+  {
+    label: 'Timetable',
+    to: ROUTES.TIMETABLE,
+    icon: <FaCalendarDays />,
+    description: 'View and manage the academic schedule and timetable.',
+  },
 ];
 
 function AdminDashboard() {
@@ -58,10 +85,11 @@ function AdminDashboard() {
       </div>
 
       <div className="admin-modules">
-        {ADMIN_MODULES.map(({ label, to, icon }) => (
+        {ADMIN_MODULES.map(({ label, to, icon, description }) => (
           <button key={to} type="button" className="admin-module-card" onClick={() => navigate(to)}>
             <span className="module-icon">{icon}</span>
             <span className="module-label">{label}</span>
+            <span className="module-description">{description}</span>
           </button>
         ))}
       </div>
@@ -77,7 +105,6 @@ export default function AdminPage() {
       <Route path="/appeals/:id" element={<AdminAppealDetailPage />} />
       <Route path="/students" element={<AdminStudentsPage />} />
       <Route path="/students/:id" element={<AdminStudentDetailPage />} />
-      <Route path="/schedule-upload" element={<ScheduleUploadPage />} />
       <Route path="/transfers" element={<ClassTransferPage />} />
       <Route path="/import" element={<BulkImportPage />} />
       <Route

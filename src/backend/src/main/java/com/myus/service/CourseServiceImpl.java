@@ -62,31 +62,16 @@ public class CourseServiceImpl implements CourseService {
     // ── Private helpers ────────────────────────────────────────
 
     /**
-     * Selects the appropriate repository query based on which filters are provided.
-     * Priority: search + term > search + department > search only > term > department > all.
+     * Fetches offerings using a single unified query that correctly handles
+     * any combination of the optional search, department, and term filters.
      */
     private Page<CourseOffering> fetchOfferings(String search, String department,
                                                  String term, Pageable pageable) {
-        boolean hasSearch = search != null && !search.isBlank();
-        boolean hasTerm = term != null && !term.isBlank();
-        boolean hasDepartment = department != null && !department.isBlank();
+        String searchParam = (search != null && !search.isBlank()) ? search : null;
+        String deptParam = (department != null && !department.isBlank()) ? department : null;
+        String termParam = (term != null && !term.isBlank()) ? term : null;
 
-        if (hasSearch && hasTerm) {
-            return offeringRepository.searchByTermWithCourse(search, term, pageable);
-        }
-        if (hasSearch && hasDepartment) {
-            return offeringRepository.searchByDepartmentWithCourse(search, department, pageable);
-        }
-        if (hasSearch) {
-            return offeringRepository.searchWithCourse(search, pageable);
-        }
-        if (hasTerm) {
-            return offeringRepository.findByTermWithCourse(term, pageable);
-        }
-        if (hasDepartment) {
-            return offeringRepository.findByDepartmentWithCourse(department, pageable);
-        }
-        return offeringRepository.findAllWithCourse(pageable);
+        return offeringRepository.searchWithFilters(searchParam, deptParam, termParam, pageable);
     }
 
     /**

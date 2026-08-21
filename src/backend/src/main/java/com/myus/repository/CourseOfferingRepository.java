@@ -76,4 +76,18 @@ public interface CourseOfferingRepository extends JpaRepository<CourseOffering, 
            "ORDER BY o.section ASC")
     List<CourseOffering> findByCourseIdAndTermWithCourse(@Param("courseId") Long courseId,
                                                           @Param("term") String term);
+
+    /**
+     * Unified search with all optional filters: search keyword, department, and term.
+     * Each filter is applied only when its parameter is non-null.
+     */
+    @Query("SELECT o FROM CourseOffering o JOIN FETCH o.course c " +
+           "WHERE (:search IS NULL OR LOWER(c.courseCode) LIKE LOWER(CONCAT('%', :search, '%')) " +
+           "       OR LOWER(c.courseName) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+           "AND (:department IS NULL OR c.department = :department) " +
+           "AND (:term IS NULL OR o.term = :term)")
+    Page<CourseOffering> searchWithFilters(@Param("search") String search,
+                                           @Param("department") String department,
+                                           @Param("term") String term,
+                                           Pageable pageable);
 }

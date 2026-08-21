@@ -38,7 +38,13 @@ export default function LoginPage() {
       const response = await login(data);
       setUser(response.user);
       toast.success(`Welcome back, ${response.user.displayName}!`);
-      navigate(from, { replace: true });
+
+      // Admin users should land on the admin dashboard by default,
+      // not the student dashboard.
+      const isAdmin = response.user.role === 'ADMIN';
+      const destination =
+        from !== ROUTES.DASHBOARD ? from : isAdmin ? ROUTES.ADMIN : ROUTES.DASHBOARD;
+      navigate(destination, { replace: true });
     } catch {
       toast.error('Invalid username or password. Please try again.');
     } finally {

@@ -343,9 +343,9 @@ export default function CoursesPage() {
   const handleResetFilters = () => {
     setSearchInput('');
     setDepartmentInput('');
-    setTermInput('');
+    setTermInput(CURRENT_TERM);
     setCurrentPage(0);
-    setAppliedFilters({ search: '', department: '', term: '' });
+    setAppliedFilters({ search: '', department: '', term: CURRENT_TERM });
   };
 
   const goToPage = (page: number) => {

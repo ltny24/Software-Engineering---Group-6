@@ -147,6 +147,15 @@ interface TodayClassItem {
 export default function DashboardPage() {
   const { user } = useAuth();
   const navigate = useSafeNavigate();
+  const routerNavigate = useNavigate();
+
+  // Admin users should never see the student dashboard — redirect to /admin
+  useEffect(() => {
+    if (user?.role === 'ADMIN') {
+      routerNavigate(ROUTES.ADMIN, { replace: true });
+    }
+  }, [user, routerNavigate]);
+
   const displayName = user?.displayName ?? 'Nguyen Anh Tuan';
   const [scheduleRows, setScheduleRows] = useState<ScheduleRow[]>([]);
   const [todayClasses, setTodayClasses] = useState<TodayClassItem[]>([]);
