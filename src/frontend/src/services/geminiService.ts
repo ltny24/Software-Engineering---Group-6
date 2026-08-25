@@ -10,19 +10,20 @@ import axiosInstance from '../api/axiosInstance';
 // ============================================================
 
 const API_KEY = process.env.REACT_APP_GEMINI_API_KEY || '';
+const MODEL = process.env.REACT_APP_GEMINI_MODEL || 'gemini-3.5-flash-lite';
 
 // ============================================================
 // Config
 // ============================================================
 
 /** Max retries for transient errors (429, 500, 503) */
-const MAX_RETRIES = 2;
+const MAX_RETRIES = 1;
 
-/** Base delay in ms for exponential backoff (1s → 3s → 9s) */
-const RETRY_BASE_DELAY_MS = 1000;
+/** Base delay in ms for exponential backoff (250ms → 500ms) */
+const RETRY_BASE_DELAY_MS = 250;
 
 /** Multiplier for each retry step */
-const RETRY_MULTIPLIER = 3;
+const RETRY_MULTIPLIER = 2;
 
 /** Cache entry TTL in ms (5 minutes) */
 const CACHE_TTL_MS = 5 * 60 * 1000;
@@ -31,7 +32,20 @@ const CACHE_TTL_MS = 5 * 60 * 1000;
 const MAX_CACHE_ENTRIES = 50;
 
 /** Timeout for backend proxy call in ms */
-const BACKEND_TIMEOUT_MS = 25_000;
+const BACKEND_TIMEOUT_MS = 6_000;
+
+/**
+ * Timeout for a single direct Gemini request (ms).
+ * The SDK aborts the underlying fetch when this is exceeded.
+ */
+const DIRECT_TIMEOUT_MS = 6_000;
+
+/**
+ * Hard deadline for the whole remote phase (direct Gemini + backend proxy).
+ * Past this, we abort in-flight requests and serve the instant offline answer,
+ * so the chatbot always responds within ~8 seconds.
+ */
+const RESPONSE_DEADLINE_MS = 8_000;
 
 // ============================================================
 // In-memory response cache
@@ -191,6 +205,30 @@ function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Race `task` against the hard response deadline. If the deadline fires first,
+ * the shared AbortController is aborted (cancelling in-flight Gemini/axios
+ * requests) and the promise rejects so callers fall back to offline mode.
+ */
+function raceDeadline<T>(task: Promise<T>, controller: AbortController): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => {
+      controller.abort();
+      reject(new Error('Response deadline exceeded'));
+    }, RESPONSE_DEADLINE_MS);
+    task.then(
+      (value) => {
+        clearTimeout(timer);
+        resolve(value);
+      },
+      (err) => {
+        clearTimeout(timer);
+        reject(err);
+      }
+    );
+  });
+}
+
 // ============================================================
 // Backend proxy fallback
 // ============================================================
@@ -233,14 +271,14 @@ function isGenericGreetingResponse(response: string): boolean {
  * The backend has its own Gemini API key (server-side, never exposed).
  * Returns the reply text if successful AND useful, throws otherwise.
  */
-async function tryBackendProxy(message: string): Promise<string> {
+async function tryBackendProxy(message: string, signal?: AbortSignal): Promise<string> {
   const { data } = await axiosInstance.post(
     '/api/v1/chatbot/chat',
     {
       message,
       contextType: 'GENERAL',
     },
-    { timeout: BACKEND_TIMEOUT_MS }
+    { timeout: BACKEND_TIMEOUT_MS, signal }
   );
   const replyText = data?.replyText || '';
 
@@ -275,46 +313,57 @@ export async function askGemini(message: string, history: ChatHistory[] = []): P
   const client = getGenAI();
   const systemText = buildSystemInstruction(message);
 
-  // 2. Try direct Gemini with retries
-  if (client) {
-    let lastError: unknown;
-    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        const model = client.getGenerativeModel({ model: 'gemini-flash-latest' });
-        const chat = model.startChat({
-          systemInstruction: { role: 'user', parts: [{ text: systemText }] },
-          history: sanitizeHistory(history),
-        });
+  // Hard deadline for the whole remote phase. Past this we abort in-flight
+  // requests and serve the instant offline answer.
+  const controller = new AbortController();
 
-        const result = await chat.sendMessage(message);
-        const response = result.response.text();
-        setCachedResponse(cacheKey, response);
-        return response;
-      } catch (err) {
-        lastError = err;
-        if (!isRetryableError(err) || attempt === MAX_RETRIES) break;
-        const delay = RETRY_BASE_DELAY_MS * Math.pow(RETRY_MULTIPLIER, attempt);
-        console.warn(`Gemini attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
-        await sleep(delay);
+  const remotePhase = async (): Promise<string> => {
+    // 2. Try direct Gemini with retries
+    if (client) {
+      let lastError: unknown;
+      for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          const model = client.getGenerativeModel({ model: MODEL });
+          const chat = model.startChat({
+            systemInstruction: { role: 'user', parts: [{ text: systemText }] },
+            history: sanitizeHistory(history),
+          });
+
+          const result = await chat.sendMessage(message, {
+            timeout: DIRECT_TIMEOUT_MS,
+            signal: controller.signal,
+          });
+          const response = result.response.text();
+          setCachedResponse(cacheKey, response);
+          return response;
+        } catch (err) {
+          lastError = err;
+          if (controller.signal.aborted || !isRetryableError(err) || attempt === MAX_RETRIES) {
+            break;
+          }
+          const delay = RETRY_BASE_DELAY_MS * Math.pow(RETRY_MULTIPLIER, attempt);
+          await sleep(delay);
+        }
       }
+      console.warn('Direct Gemini call failed:', lastError);
     }
-    console.warn('Direct Gemini call failed:', lastError);
-  }
 
-  // 3. Try backend proxy (server-side API key, different quota pool)
-  try {
-    console.log('Trying backend proxy for Gemini...');
-    const backendResponse = await tryBackendProxy(message);
+    // 3. Try backend proxy (server-side API key, different quota pool)
+    const backendResponse = await tryBackendProxy(message, controller.signal);
     if (backendResponse && backendResponse.length > 10) {
       setCachedResponse(cacheKey, backendResponse);
       return backendResponse;
     }
-  } catch (backendErr) {
-    console.warn('Backend proxy unavailable:', backendErr);
+    throw new Error('All remote options failed');
+  };
+
+  try {
+    return await raceDeadline(remotePhase(), controller);
+  } catch (err) {
+    console.warn('Remote phase failed or timed out, using offline response:', err);
   }
 
   // 4. Offline fallback — always works, uses local course data
-  console.log('Falling back to offline local response');
   const localResponse = generateLocalResponse(message);
   const fullText = `${formatFallbackMessage('offline')}\n\n${localResponse}`;
   return fullText;
@@ -345,81 +394,95 @@ export async function askGeminiStream(
   const systemText = buildSystemInstruction(message, userContext);
   const validHistory = sanitizeHistory(history);
 
-  // 2. Try direct Gemini streaming with retries
-  if (client) {
-    for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+  // Hard deadline for the whole remote phase. Past this we abort in-flight
+  // requests and serve the instant offline answer.
+  const controller = new AbortController();
+
+  const remotePhase = async (): Promise<string> => {
+    if (client) {
+      // 2. Direct streaming with a short retry for transient errors
+      for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          const model = client.getGenerativeModel({ model: MODEL });
+          const chat = model.startChat({
+            systemInstruction: { role: 'user', parts: [{ text: systemText }] },
+            history: validHistory,
+          });
+
+          const result = await chat.sendMessageStream(message, {
+            timeout: DIRECT_TIMEOUT_MS,
+            signal: controller.signal,
+          });
+
+          let fullText = '';
+          for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            if (!chunkText) continue;
+
+            if (chunkText.length > fullText.length && chunkText.startsWith(fullText)) {
+              fullText = chunkText;
+            } else {
+              fullText += chunkText;
+            }
+            onChunk(fullText);
+          }
+
+          if (fullText) {
+            setCachedResponse(cacheKey, fullText);
+            return fullText;
+          }
+          throw new Error('Empty Gemini stream response');
+        } catch (streamErr) {
+          // eslint-disable-next-line no-console
+          console.warn('Gemini streaming failed:', streamErr);
+
+          if (!controller.signal.aborted && isRetryableError(streamErr) && attempt < MAX_RETRIES) {
+            const delay = RETRY_BASE_DELAY_MS * Math.pow(RETRY_MULTIPLIER, attempt);
+            await sleep(delay);
+            continue;
+          }
+          break; // non-retryable, aborted, or exhausted — move to next fallback
+        }
+      }
+
+      // 2b. Direct non-streaming fallback (same client, simpler call)
       try {
-        const model = client.getGenerativeModel({ model: 'gemini-flash-latest' });
+        const model = client.getGenerativeModel({ model: MODEL });
         const chat = model.startChat({
           systemInstruction: { role: 'user', parts: [{ text: systemText }] },
           history: validHistory,
         });
 
-        const result = await chat.sendMessageStream(message);
-
-        let fullText = '';
-        for await (const chunk of result.stream) {
-          const chunkText = chunk.text();
-          if (!chunkText) continue;
-
-          if (chunkText.length > fullText.length && chunkText.startsWith(fullText)) {
-            fullText = chunkText;
-          } else {
-            fullText += chunkText;
-          }
-          onChunk(fullText);
-        }
-
+        const result = await chat.sendMessage(message, {
+          timeout: DIRECT_TIMEOUT_MS,
+          signal: controller.signal,
+        });
+        const fullText = result.response.text();
         setCachedResponse(cacheKey, fullText);
         return fullText;
-      } catch (streamErr) {
-        // eslint-disable-next-line no-console
-        console.warn('Gemini streaming failed:', streamErr);
-
-        if (isRetryableError(streamErr) && attempt < MAX_RETRIES) {
-          const delay = RETRY_BASE_DELAY_MS * Math.pow(RETRY_MULTIPLIER, attempt);
-          console.warn(`Gemini stream attempt ${attempt + 1} failed, retrying in ${delay}ms...`);
-          await sleep(delay);
-          continue;
-        }
-        break; // non-retryable or exhausted — move to next fallback
+      } catch (nonStreamErr) {
+        console.warn('Non-streaming Gemini also failed:', nonStreamErr);
       }
     }
 
-    // 2b. Try direct Gemini non-streaming (same client, simpler call)
-    try {
-      console.log('Falling back to non-streaming Gemini...');
-      const model = client.getGenerativeModel({ model: 'gemini-flash-latest' });
-      const chat = model.startChat({
-        systemInstruction: { role: 'user', parts: [{ text: systemText }] },
-        history: validHistory,
-      });
-
-      const result = await chat.sendMessage(message);
-      const fullText = result.response.text();
-      onChunk(fullText);
-      setCachedResponse(cacheKey, fullText);
-      return fullText;
-    } catch (nonStreamErr) {
-      console.warn('Non-streaming Gemini also failed:', nonStreamErr);
-    }
-  }
-
-  // 3. Try backend proxy (server-side API key, different quota)
-  try {
-    console.log('Trying backend proxy for Gemini...');
-    const backendResponse = await tryBackendProxy(message);
+    // 3. Backend proxy (server-side API key, different quota pool)
+    const backendResponse = await tryBackendProxy(message, controller.signal);
     if (backendResponse && backendResponse.length > 10) {
-      onChunk(backendResponse);
       setCachedResponse(cacheKey, backendResponse);
       return backendResponse;
     }
-  } catch (backendErr) {
-    console.warn('Backend proxy unavailable:', backendErr);
+    throw new Error('All remote options failed');
+  };
+
+  try {
+    const reply = await raceDeadline(remotePhase(), controller);
+    onChunk(reply);
+    return reply;
+  } catch (err) {
+    console.warn('Remote phase failed or timed out, using offline response:', err);
   }
 
   // 4. Ultimate fallback — offline local response (always works)
-  console.log('All remote options exhausted, using offline local response');
   const localResponse = generateLocalResponse(message);
   const fullText = `${formatFallbackMessage('offline')}\n\n${localResponse}`;
   onChunk(fullText);

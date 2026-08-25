@@ -30,8 +30,8 @@ public class AiConfig {
     @Data
     public static class GeminiProperties {
         private String apiKey;
-        private String model = "gemini-2.0-flash";
-        private String baseUrl = "https://generativelanguage.googleapis.com/v1beta";
+        private String model = "gemini-3.5-flash-lite";
+        private String baseUrl = "https://generativelanguage.googleapis.com/v1";
         private int timeoutSeconds = 30;
         private int maxTokens = 1024;
         private double temperature = 0.7;
