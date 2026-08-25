@@ -18,7 +18,9 @@
   margin-bottom: 2rem;
   padding: 0;
 }
-.survey-back-btn:hover { color: #1e293b; }
+.survey-back-btn:hover {
+  color: #1e293b;
+}
 
 .survey-header-card {
   background: white;
@@ -26,7 +28,7 @@
   border-radius: 16px;
   padding: 1.75rem;
   margin-bottom: 1.5rem;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 .survey-header-top {
@@ -95,7 +97,7 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
 }
 
 .scale-title {
@@ -111,7 +113,7 @@
 .question-card {
   background: white;
   border: none;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
   border-radius: 16px;
   padding: 1.75rem;
   margin-bottom: 1rem;
@@ -132,7 +134,9 @@
   margin-bottom: 1rem;
 }
 
-.question-title.error { color: #dc2626; }
+.question-title.error {
+  color: #dc2626;
+}
 
 .question-body {
   display: flex;
@@ -208,9 +212,13 @@
   color: #1e293b;
   resize: vertical;
   min-height: 100px;
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
 }
-.textarea-field:focus { outline: none; background: #f1f5f9; box-shadow: 0 0 0 2px #3b82f6; }
+.textarea-field:focus {
+  outline: none;
+  background: #f1f5f9;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
 
 .survey-form__actions {
   display: flex;
@@ -237,7 +245,10 @@
   color: white;
   cursor: pointer;
 }
-.btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+.btn-primary:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 
 .toast-message {
   position: fixed;
@@ -251,18 +262,32 @@
   align-items: center;
   gap: 0.75rem;
   font-weight: 500;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   animation: slideIn 0.3s ease;
   z-index: 1000;
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
-.survey-loading, .survey-error { text-align: center; padding: 4rem; color: #64748b; font-size: 1.1rem; }
-.survey-error { color: #dc2626; }
+.survey-loading,
+.survey-error {
+  text-align: center;
+  padding: 4rem;
+  color: #64748b;
+  font-size: 1.1rem;
+}
+.survey-error {
+  color: #dc2626;
+}
 
 /* Base styles for section titles and comment card in Light Mode */
 .survey-section-title {

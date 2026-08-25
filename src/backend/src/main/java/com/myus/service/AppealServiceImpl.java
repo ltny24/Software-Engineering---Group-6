@@ -45,8 +45,14 @@ public class AppealServiceImpl implements AppealService {
 
     /** Valid status transitions: key = current status, value = allowed next statuses. */
     private static final Map<String, Set<String>> VALID_TRANSITIONS = Map.of(
-            "Submitted", Set.of("Under Review", "Denied"),
-            "Under Review", Set.of("Approved", "Denied")
+            "Submitted", Set.of("Under Review", "Denied", "Pending Info", "Pending Payment", "Approved", "Rejected", "Closed"),
+            "Pending Info", Set.of("Under Review", "Denied", "Pending Payment", "Approved", "Rejected", "Closed"),
+            "Pending Payment", Set.of("Under Review", "Denied", "Approved", "Rejected", "Closed"),
+            "Under Review", Set.of("Approved", "Denied", "Pending Info", "Pending Payment", "Rejected", "Closed"),
+            "Approved", Set.of("Closed", "Under Review"),
+            "Denied", Set.of("Closed", "Under Review"),
+            "Rejected", Set.of("Closed", "Under Review"),
+            "Closed", Set.of("Under Review")
     );
 
     private final AppealRepository appealRepository;
@@ -248,10 +254,27 @@ public class AppealServiceImpl implements AppealService {
             appeal.setDeadline(request.getDeadline());
         }
 
-        // If the status is terminal (Approved/Denied), set resolution fields
-        if ("Approved".equals(newStatus) || "Denied".equals(newStatus)) {
+        // If the status is terminal (Approved/Denied/Rejected/Closed), set resolution fields
+        if ("Approved".equals(newStatus) || "Denied".equals(newStatus) || "Rejected".equals(newStatus) || "Closed".equals(newStatus)) {
             appeal.setResolvedAt(LocalDateTime.now());
-            appeal.setResolutionCode(newStatus.toUpperCase() + "_BY_ADMIN");
+            appeal.setResolutionCode(newStatus.toUpperCase().replace(" ", "_") + "_BY_ADMIN");
+        }
+
+        // Apply grade updates if Approved and newGrade is provided
+        if ("Approved".equals(newStatus) && request.getNewGrade() != null && !request.getNewGrade().isBlank()) {
+            Grade grade = appeal.getGrade();
+            if (grade != null) {
+                grade.setGradeValue(request.getNewGrade());
+                try {
+                    double val = Double.parseDouble(request.getNewGrade());
+                    grade.setGradePoint(java.math.BigDecimal.valueOf(val));
+                } catch (NumberFormatException e) {
+                    // Ignore non-numeric formats like A, B+
+                }
+                grade.setRemarks("Post-appeal");
+                gradeRepository.save(grade);
+            }
+            appeal.setActualScore(request.getNewGrade());
         }
 
         Appeal updated = appealRepository.save(appeal);
@@ -288,6 +311,7 @@ public class AppealServiceImpl implements AppealService {
         response.setDeadline(appeal.getDeadline());
         response.setResolvedAt(appeal.getResolvedAt());
         response.setResolutionCode(appeal.getResolutionCode());
+        response.setActualScore(appeal.getActualScore());
 
         // Include grade and course info if grade is available
         if (appeal.getGrade() != null) {

@@ -708,10 +708,15 @@ export default function CoursesPage() {
                             ) : (
                               <button
                                 className="btn-edit register-btn"
-                                disabled={full || (registeringId != null && String(registeringId) === String(offering.offeringId))}
+                                disabled={
+                                  full ||
+                                  (registeringId != null &&
+                                    String(registeringId) === String(offering.offeringId))
+                                }
                                 onClick={() => handleRegister(offering)}
                               >
-                                {registeringId != null && String(registeringId) === String(offering.offeringId)
+                                {registeringId != null &&
+                                String(registeringId) === String(offering.offeringId)
                                   ? 'Registering...'
                                   : full
                                     ? 'Full'

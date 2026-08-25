@@ -176,11 +176,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiError> handleDataIntegrityViolationException(
             org.springframework.dao.DataIntegrityViolationException ex,
             HttpServletRequest request) {
+        logger.error("DataIntegrityViolationException on " + request.getRequestURI(), ex);
+        String cause = ex.getMostSpecificCause() != null ? ex.getMostSpecificCause().getMessage() : ex.getMessage();
         ApiError apiError = new ApiError(
                 Instant.now(),
                 HttpStatus.CONFLICT.value(),
                 HttpStatus.CONFLICT.getReasonPhrase(),
-                "Student is already registered for this course offering or a database constraint conflict occurred.",
+                "A database constraint conflict occurred: " + cause,
                 request.getRequestURI(),
                 null
         );

@@ -206,7 +206,12 @@ const AppealStatusTracking: React.FC = () => {
                     fontWeight: 600,
                   }}
                 >
-                  {appeal.gradeValue || 'Not provided'}
+                  <div>{appeal.gradeValue || 'Not provided'}</div>
+                  {appeal.actualScore && (
+                    <div style={{ color: '#10B981', fontSize: 12, marginTop: 4, fontWeight: 700 }}>
+                      → actual: {appeal.actualScore}
+                    </div>
+                  )}
                 </td>
                 <td
                   style={{

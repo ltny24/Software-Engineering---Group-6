@@ -20,6 +20,7 @@ export interface AppealRecord {
   deadline?: string;
   resolvedAt?: string;
   supportingDocumentUrl?: string;
+  actualScore?: string;
 }
 
 export interface AppealFormValues {

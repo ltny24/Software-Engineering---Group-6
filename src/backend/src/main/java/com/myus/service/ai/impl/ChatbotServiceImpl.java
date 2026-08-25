@@ -76,8 +76,8 @@ public class ChatbotServiceImpl implements ChatbotService {
             throw new IllegalStateException("GEMINI_API_KEY is not configured");
         }
 
+
         String model = geminiProps.getModel();
-        String url = "/models/" + model + ":generateContent?key=" + apiKey;
 
         // Build the prompt with RAG context
         String systemContext = buildSystemContext(student, progress, recommendations);
@@ -103,10 +103,27 @@ public class ChatbotServiceImpl implements ChatbotService {
         generationConfig.put("maxOutputTokens", geminiProps.getMaxTokens());
         requestBody.put("generationConfig", generationConfig);
 
-        String response = geminiWebClient.post()
-                .uri(url)
-                .bodyValue(requestBody)
-                .retrieve()
+        // Determine auth method: OAuth token (AQ.*) uses Bearer header, API key uses ?key= param
+        boolean isOAuthToken = apiKey.startsWith("AQ.");
+        String url = isOAuthToken
+                ? "/models/" + model + ":generateContent"
+                : "/models/" + model + ":generateContent?key=" + apiKey;
+
+        org.springframework.web.reactive.function.client.WebClient.ResponseSpec responseSpec;
+        if (isOAuthToken) {
+            responseSpec = geminiWebClient.post()
+                    .uri(url)
+                    .header("Authorization", "Bearer " + apiKey)
+                    .bodyValue(requestBody)
+                    .retrieve();
+        } else {
+            responseSpec = geminiWebClient.post()
+                    .uri(url)
+                    .bodyValue(requestBody)
+                    .retrieve();
+        }
+
+        String response = responseSpec
                 .bodyToMono(String.class)
                 .timeout(Duration.ofSeconds(geminiProps.getTimeoutSeconds()))
                 .onErrorResume(e -> {

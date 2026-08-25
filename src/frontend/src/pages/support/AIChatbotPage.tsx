@@ -73,8 +73,24 @@ export default function AIChatbotPage() {
               const gpa = totalCredits > 0 ? weighted / totalCredits : 0;
               ctx += `\n- Current GPA: ${gpa.toFixed(2)} / 10.0`;
             }
+
+            // Fetch Tuition
+            const tuitionRes = await api.get<any>('/api/v1/finance/tuition/balance');
+            if (tuitionRes) {
+              ctx += `\n- Total Tuition Fee: ${tuitionRes.totalCharges?.toLocaleString() || 0} VND`;
+              ctx += `\n- Paid Amount: ${tuitionRes.payments?.toLocaleString() || 0} VND`;
+              ctx += `\n- Remaining Balance: ${tuitionRes.balance?.toLocaleString() || 0} VND`;
+            }
+
+            // Fetch Enrolled Courses
+            const { getMyRegistrations } = await import('../../services/courseService');
+            const registrations = await getMyRegistrations();
+            if (registrations && registrations.length > 0) {
+              const courses = registrations.map((r) => r.offering?.course?.courseName).join(', ');
+              ctx += `\n- Enrolled Courses: ${courses}`;
+            }
           } catch (err) {
-            console.warn('Could not fetch GPA for AI context', err);
+            console.warn('Could not fetch extra student info for AI context', err);
           }
 
           setUserContext(ctx);

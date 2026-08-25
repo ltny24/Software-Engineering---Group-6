@@ -26,8 +26,8 @@ public class AppealReviewRequest {
      */
     @NotBlank(message = "Status is required.")
     @Pattern(
-            regexp = "^(Under Review|Approved|Denied)$",
-            message = "Status must be one of: 'Under Review', 'Approved', 'Denied'."
+            regexp = "^(Under Review|Approved|Denied|Pending Info|Pending Payment|Closed|Rejected)$",
+            message = "Status must be a valid appeal state."
     )
     private String status;
 
