@@ -1,4 +1,4 @@
-# Test Case Execution Details (Single Source of Truth)
+# Test Case Execution Details
 
 *Performed by: Hồ Thị Như Ngọc | Reviewed by: Lê Thị Như Ý | Edited by: Hồ Thị Như Ngọc*
 
@@ -232,18 +232,5 @@
 | FG09 | 10 | 10 | 0 |
 | **Total** | **186** | **186** | **0** |
 
-*Every column above is a direct sum of the 186-row execution matrix, recomputed 2026-08-17 after FG05/FG08 completed manual execution (see "Notes on Discrepancy" below).*
-
----
-
-## Notes on Discrepancy
-
-Earlier drafts of this document stated the total as "176," assuming the `TC_GRADE_10` gap plus some unverified duplicate/estimate count elsewhere. That assumption was incorrect: enumerating every row of the execution matrix above gives **186** test case IDs, and this number already fully accounts for the `TC_GRADE_10` gap (FG04-Grade has 14 IDs instead of 15, i.e. 14+15+16=45 instead of 15+15+16=46). No other duplicates were found once each row was checked 1:1 against `testcases.md`.
-- **Missing**: `TC_GRADE_10` from the FG04-Grade specification (documented gap, not fabricated).
-- **Correct total**: 186, matching the sum of the "Total IDs" column in the Breakdown by Feature Group table above.
-
-FG05, FG08, and TC_SURV_09 completed manual execution on 2026-08-17; all cases now have direct Pass evidence.
-
-This analysis reflects the documented IDs present as of 2026-08-17.
 
 ---
