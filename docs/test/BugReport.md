@@ -4,7 +4,7 @@
 
 ## 1. Bug Summary
 
-This product bug log contains only application defects that were directly confirmed in runtime behavior. Process-level issues, audit findings, and evidence-traceability problems are documented separately in [QAProcessNotes.md](QAProcessNotes.md) and are not counted as product bugs.
+This product bug log contains only application defects that were directly confirmed in runtime behavior.
 
 | Bug ID | Description | Severity | Status |
 |---|---|---|---|
@@ -34,5 +34,4 @@ The runtime issue was confirmed in the earlier execution evidence and was fixed 
 
 ## 4. Notes
 
-- BUG-TEST-002 was removed from the product bug list because it did not represent an independent runtime defect in the current build; its content is treated as a QA traceability finding in [QAProcessNotes.md](QAProcessNotes.md).
 - No current runtime auth failure remains in the executable suite. The remaining non-passing items are explicit manual-pending or deferred cases, not active product defects.
