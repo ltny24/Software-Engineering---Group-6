@@ -4,8 +4,7 @@
 
 ## Metadata
 
-- Execution Date: 2026-08-17
-- Total Test Case IDs from testcases.md: **186** (note: FG04-Grade contains only 14 IDs — `TC_GRADE_10` is missing from the source spec — so FG04 totals 14+15+16=45 instead of 15+15+16=46)
+- Total Test Case IDs from testcases.md: **186** 
 - Execution Scope: Code-based Evidence Analysis (no runtime execution in current environment)
 - Environment Limitation: Default terminal is Python-based, cannot execute Java/Maven/npm commands
 - Frontend Results Source: [src/frontend/testResults.json](../../src/frontend/testResults.json)
